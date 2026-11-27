@@ -1,6 +1,6 @@
 # H01 · Funktionen
 
-6 min · zurück: [G06](G06_if_generate_rekursion.md) · weiter: [H02](H02_prozeduren.md)
+6 min · zurück: [L12](L12_klausur_schaltplan.md) · weiter: [H02](H02_prozeduren.md)
 
 ## Ziel
 Eine Funktion schreiben, die einen Wert berechnet.

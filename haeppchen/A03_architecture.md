@@ -30,7 +30,11 @@ Mehrere Bits auf einmal geht mit Slices:
 
 ## Aufgabe
 Entity `single_step`: Eingänge `q(4 downto 0)`, `s`;
-Ausgang `d(4 downto 0)`. Das Schaltbild sagt:
+Ausgang `d(4 downto 0)`. Das Schaltbild:
+
+![Schaltbild von single_step mit zwei XOR-Gattern](../diagrams/A03_single_step.svg)
+
+Daraus liest man ab:
 - d4 = q3, d3 = q2
 - d2 = q4 ⊕ s ⊕ q1
 - d1 = q0

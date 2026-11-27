@@ -1,6 +1,6 @@
 {
  "schema": 1,
- "version": "c027ea9c1029",
+ "version": "94ee0586c9da",
  "revision": 0,
  "courses": [
   {
@@ -36,6 +36,10 @@
     {
      "id": "G",
      "name": "Strukturbeschreibung"
+    },
+    {
+     "id": "L",
+     "name": "Vom Schaltplan zum Code"
     },
     {
      "id": "H",
@@ -241,7 +245,370 @@
      "aufgabe": [
       {
        "t": "p",
-       "s": "Entity `single_step`: Eingänge `q(4 downto 0)`, `s`; Ausgang `d(4 downto 0)`. Das Schaltbild sagt:"
+       "s": "Entity `single_step`: Eingänge `q(4 downto 0)`, `s`; Ausgang `d(4 downto 0)`. Das Schaltbild:"
+      },
+      {
+       "t": "diagram",
+       "id": "A03_single_step",
+       "alt": "Schaltbild von single_step mit zwei XOR-Gattern",
+       "w": 420,
+       "h": 202,
+       "prims": [
+        {
+         "k": "P",
+         "pts": [
+          125,
+          16,
+          165,
+          16,
+          165,
+          76,
+          125,
+          76
+         ],
+         "s": "ink",
+         "f": "surface",
+         "w": 1.6
+        },
+        {
+         "k": "T",
+         "x": 145.0,
+         "y": 35,
+         "s": "=1",
+         "a": "c",
+         "z": 15,
+         "c": "ink",
+         "m": false
+        },
+        {
+         "k": "L",
+         "pts": [
+          115,
+          36,
+          125,
+          36
+         ],
+         "s": "line",
+         "w": 1.4
+        },
+        {
+         "k": "L",
+         "pts": [
+          115,
+          56,
+          125,
+          56
+         ],
+         "s": "line",
+         "w": 1.4
+        },
+        {
+         "k": "L",
+         "pts": [
+          165,
+          46.0,
+          175,
+          46.0
+         ],
+         "s": "line",
+         "w": 1.4
+        },
+        {
+         "k": "P",
+         "pts": [
+          245,
+          56,
+          285,
+          56,
+          285,
+          116,
+          245,
+          116
+         ],
+         "s": "ink",
+         "f": "surface",
+         "w": 1.6
+        },
+        {
+         "k": "T",
+         "x": 265.0,
+         "y": 75,
+         "s": "=1",
+         "a": "c",
+         "z": 15,
+         "c": "ink",
+         "m": false
+        },
+        {
+         "k": "L",
+         "pts": [
+          235,
+          76,
+          245,
+          76
+         ],
+         "s": "line",
+         "w": 1.4
+        },
+        {
+         "k": "L",
+         "pts": [
+          235,
+          96,
+          245,
+          96
+         ],
+         "s": "line",
+         "w": 1.4
+        },
+        {
+         "k": "L",
+         "pts": [
+          285,
+          86.0,
+          295,
+          86.0
+         ],
+         "s": "line",
+         "w": 1.4
+        },
+        {
+         "k": "T",
+         "x": 60,
+         "y": 40,
+         "s": "q4",
+         "a": "r",
+         "z": 13,
+         "c": "ink",
+         "m": true
+        },
+        {
+         "k": "T",
+         "x": 60,
+         "y": 60,
+         "s": "s",
+         "a": "r",
+         "z": 13,
+         "c": "ink",
+         "m": true
+        },
+        {
+         "k": "T",
+         "x": 60,
+         "y": 100,
+         "s": "q1",
+         "a": "r",
+         "z": 13,
+         "c": "ink",
+         "m": true
+        },
+        {
+         "k": "T",
+         "x": 60,
+         "y": 150,
+         "s": "q3",
+         "a": "r",
+         "z": 13,
+         "c": "ink",
+         "m": true
+        },
+        {
+         "k": "T",
+         "x": 60,
+         "y": 170,
+         "s": "q2",
+         "a": "r",
+         "z": 13,
+         "c": "ink",
+         "m": true
+        },
+        {
+         "k": "T",
+         "x": 60,
+         "y": 190,
+         "s": "q0",
+         "a": "r",
+         "z": 13,
+         "c": "ink",
+         "m": true
+        },
+        {
+         "k": "T",
+         "x": 360,
+         "y": 50,
+         "s": "d0",
+         "a": "l",
+         "z": 13,
+         "c": "ink",
+         "m": true
+        },
+        {
+         "k": "T",
+         "x": 360,
+         "y": 90,
+         "s": "d2",
+         "a": "l",
+         "z": 13,
+         "c": "ink",
+         "m": true
+        },
+        {
+         "k": "T",
+         "x": 360,
+         "y": 150,
+         "s": "d4",
+         "a": "l",
+         "z": 13,
+         "c": "ink",
+         "m": true
+        },
+        {
+         "k": "T",
+         "x": 360,
+         "y": 170,
+         "s": "d3",
+         "a": "l",
+         "z": 13,
+         "c": "ink",
+         "m": true
+        },
+        {
+         "k": "T",
+         "x": 360,
+         "y": 190,
+         "s": "d1",
+         "a": "l",
+         "z": 13,
+         "c": "ink",
+         "m": true
+        },
+        {
+         "k": "L",
+         "pts": [
+          65,
+          36,
+          115,
+          36
+         ],
+         "s": "line",
+         "w": 1.4
+        },
+        {
+         "k": "L",
+         "pts": [
+          65,
+          56,
+          115,
+          56
+         ],
+         "s": "line",
+         "w": 1.4
+        },
+        {
+         "k": "L",
+         "pts": [
+          175,
+          46.0,
+          355,
+          46
+         ],
+         "s": "line",
+         "w": 1.4
+        },
+        {
+         "k": "T",
+         "x": 190,
+         "y": 41.0,
+         "s": "h",
+         "a": "c",
+         "z": 11,
+         "c": "line",
+         "m": true
+        },
+        {
+         "k": "L",
+         "pts": [
+          175,
+          46.0,
+          205,
+          46.0,
+          205,
+          76,
+          235,
+          76
+         ],
+         "s": "line",
+         "w": 1.4
+        },
+        {
+         "k": "E",
+         "x": 205,
+         "y": 46,
+         "rx": 3,
+         "ry": 3,
+         "s": "line",
+         "f": "line"
+        },
+        {
+         "k": "L",
+         "pts": [
+          65,
+          96,
+          235,
+          96
+         ],
+         "s": "line",
+         "w": 1.4
+        },
+        {
+         "k": "L",
+         "pts": [
+          295,
+          86.0,
+          355,
+          86
+         ],
+         "s": "line",
+         "w": 1.4
+        },
+        {
+         "k": "L",
+         "pts": [
+          65,
+          146,
+          355,
+          146
+         ],
+         "s": "line",
+         "w": 1.4
+        },
+        {
+         "k": "L",
+         "pts": [
+          65,
+          166,
+          355,
+          166
+         ],
+         "s": "line",
+         "w": 1.4
+        },
+        {
+         "k": "L",
+         "pts": [
+          65,
+          186,
+          355,
+          186
+         ],
+         "s": "line",
+         "w": 1.4
+        }
+       ]
+      },
+      {
+       "t": "p",
+       "s": "Daraus liest man ab:"
       },
       {
        "t": "ul",
@@ -257,7 +624,7 @@
        "s": "Schreibe `architecture behav` (d4/d3 in **einer** Zeile)."
       }
      ],
-     "aufgabeMd": "Entity `single_step`: Eingänge `q(4 downto 0)`, `s`;\nAusgang `d(4 downto 0)`. Das Schaltbild sagt:\n- d4 = q3, d3 = q2\n- d2 = q4 ⊕ s ⊕ q1\n- d1 = q0\n- d0 = q4 ⊕ s\n\nSchreibe `architecture behav` (d4/d3 in **einer** Zeile).",
+     "aufgabeMd": "Entity `single_step`: Eingänge `q(4 downto 0)`, `s`;\nAusgang `d(4 downto 0)`. Das Schaltbild:\n\n![Schaltbild von single_step mit zwei XOR-Gattern](../diagrams/A03_single_step.svg)\n\nDaraus liest man ab:\n- d4 = q3, d3 = q2\n- d2 = q4 ⊕ s ⊕ q1\n- d1 = q0\n- d0 = q4 ⊕ s\n\nSchreibe `architecture behav` (d4/d3 in **einer** Zeile).",
      "loesung": [
       {
        "t": "code",
@@ -8406,6 +8773,6772 @@
       {
        "t": "p",
        "s": "**H19 A1 F11** (25 Punkte!), **F23 A1 F8/F10** (rekursive `det_plru_element`, `update_tree`)."
+      }
+     ]
+    },
+    {
+     "id": "L01",
+     "block": "L",
+     "title": "Schaltpläne lesen: DIN-Symbole",
+     "min": 5,
+     "mode": "text",
+     "starter": "",
+     "solutionCode": "",
+     "ziel": [
+      {
+       "t": "p",
+       "s": "Jedes Gatter- und Flipflop-Symbol nach DIN EN 60617 sofort in VHDL übersetzen."
+      }
+     ],
+     "erklaerung": [
+      {
+       "t": "p",
+       "s": "Deutsche Schaltpläne (Skript, Klausur) nutzen **Rechtecksymbole**. Was das Gatter tut, steht **im** Kasten:"
+      },
+      {
+       "t": "diagram",
+       "id": "L01_symbole",
+       "alt": "DIN-Symbole für Gatter und D-Flipflop",
+       "w": 484,
+       "h": 252,
+       "prims": [
+        {
+         "k": "P",
+         "pts": [
+          70,
+          16,
+          110,
+          16,
+          110,
+          76,
+          70,
+          76
+         ],
+         "s": "ink",
+         "f": "surface",
+         "w": 1.6
+        },
+        {
+         "k": "T",
+         "x": 90.0,
+         "y": 35,
+         "s": "&",
+         "a": "c",
+         "z": 15,
+         "c": "ink",
+         "m": false
+        },
+        {
+         "k": "L",
+         "pts": [
+          60,
+          36,
+          70,
+          36
+         ],
+         "s": "line",
+         "w": 1.4
+        },
+        {
+         "k": "L",
+         "pts": [
+          60,
+          56,
+          70,
+          56
+         ],
+         "s": "line",
+         "w": 1.4
+        },
+        {
+         "k": "L",
+         "pts": [
+          110,
+          46.0,
+          120,
+          46.0
+         ],
+         "s": "line",
+         "w": 1.4
+        },
+        {
+         "k": "P",
+         "pts": [
+          170,
+          16,
+          210,
+          16,
+          210,
+          76,
+          170,
+          76
+         ],
+         "s": "ink",
+         "f": "surface",
+         "w": 1.6
+        },
+        {
+         "k": "T",
+         "x": 190.0,
+         "y": 35,
+         "s": "≥1",
+         "a": "c",
+         "z": 15,
+         "c": "ink",
+         "m": false
+        },
+        {
+         "k": "L",
+         "pts": [
+          160,
+          36,
+          170,
+          36
+         ],
+         "s": "line",
+         "w": 1.4
+        },
+        {
+         "k": "L",
+         "pts": [
+          160,
+          56,
+          170,
+          56
+         ],
+         "s": "line",
+         "w": 1.4
+        },
+        {
+         "k": "L",
+         "pts": [
+          210,
+          46.0,
+          220,
+          46.0
+         ],
+         "s": "line",
+         "w": 1.4
+        },
+        {
+         "k": "P",
+         "pts": [
+          270,
+          16,
+          310,
+          16,
+          310,
+          76,
+          270,
+          76
+         ],
+         "s": "ink",
+         "f": "surface",
+         "w": 1.6
+        },
+        {
+         "k": "T",
+         "x": 290.0,
+         "y": 35,
+         "s": "=1",
+         "a": "c",
+         "z": 15,
+         "c": "ink",
+         "m": false
+        },
+        {
+         "k": "L",
+         "pts": [
+          260,
+          36,
+          270,
+          36
+         ],
+         "s": "line",
+         "w": 1.4
+        },
+        {
+         "k": "L",
+         "pts": [
+          260,
+          56,
+          270,
+          56
+         ],
+         "s": "line",
+         "w": 1.4
+        },
+        {
+         "k": "L",
+         "pts": [
+          310,
+          46.0,
+          320,
+          46.0
+         ],
+         "s": "line",
+         "w": 1.4
+        },
+        {
+         "k": "P",
+         "pts": [
+          370,
+          26,
+          410,
+          26,
+          410,
+          66,
+          370,
+          66
+         ],
+         "s": "ink",
+         "f": "surface",
+         "w": 1.6
+        },
+        {
+         "k": "T",
+         "x": 390.0,
+         "y": 45,
+         "s": "1",
+         "a": "c",
+         "z": 15,
+         "c": "ink",
+         "m": false
+        },
+        {
+         "k": "L",
+         "pts": [
+          360,
+          46.0,
+          370,
+          46.0
+         ],
+         "s": "line",
+         "w": 1.4
+        },
+        {
+         "k": "E",
+         "x": 414,
+         "y": 46.0,
+         "rx": 4,
+         "ry": 4,
+         "s": "ink",
+         "f": "surface"
+        },
+        {
+         "k": "L",
+         "pts": [
+          418,
+          46.0,
+          424,
+          46.0
+         ],
+         "s": "line",
+         "w": 1.4
+        },
+        {
+         "k": "P",
+         "pts": [
+          70,
+          146,
+          110,
+          146,
+          110,
+          206,
+          70,
+          206
+         ],
+         "s": "ink",
+         "f": "surface",
+         "w": 1.6
+        },
+        {
+         "k": "T",
+         "x": 90.0,
+         "y": 165,
+         "s": "&",
+         "a": "c",
+         "z": 15,
+         "c": "ink",
+         "m": false
+        },
+        {
+         "k": "L",
+         "pts": [
+          60,
+          166,
+          70,
+          166
+         ],
+         "s": "line",
+         "w": 1.4
+        },
+        {
+         "k": "L",
+         "pts": [
+          60,
+          186,
+          70,
+          186
+         ],
+         "s": "line",
+         "w": 1.4
+        },
+        {
+         "k": "E",
+         "x": 114,
+         "y": 176.0,
+         "rx": 4,
+         "ry": 4,
+         "s": "ink",
+         "f": "surface"
+        },
+        {
+         "k": "L",
+         "pts": [
+          118,
+          176.0,
+          124,
+          176.0
+         ],
+         "s": "line",
+         "w": 1.4
+        },
+        {
+         "k": "P",
+         "pts": [
+          170,
+          146,
+          210,
+          146,
+          210,
+          206,
+          170,
+          206
+         ],
+         "s": "ink",
+         "f": "surface",
+         "w": 1.6
+        },
+        {
+         "k": "T",
+         "x": 190.0,
+         "y": 165,
+         "s": "≥1",
+         "a": "c",
+         "z": 15,
+         "c": "ink",
+         "m": false
+        },
+        {
+         "k": "L",
+         "pts": [
+          160,
+          166,
+          170,
+          166
+         ],
+         "s": "line",
+         "w": 1.4
+        },
+        {
+         "k": "L",
+         "pts": [
+          160,
+          186,
+          170,
+          186
+         ],
+         "s": "line",
+         "w": 1.4
+        },
+        {
+         "k": "E",
+         "x": 214,
+         "y": 176.0,
+         "rx": 4,
+         "ry": 4,
+         "s": "ink",
+         "f": "surface"
+        },
+        {
+         "k": "L",
+         "pts": [
+          218,
+          176.0,
+          224,
+          176.0
+         ],
+         "s": "line",
+         "w": 1.4
+        },
+        {
+         "k": "P",
+         "pts": [
+          290,
+          136,
+          340,
+          136,
+          340,
+          216,
+          290,
+          216
+         ],
+         "s": "ink",
+         "f": "surface",
+         "w": 1.6
+        },
+        {
+         "k": "T",
+         "x": 296,
+         "y": 160,
+         "s": "1D",
+         "a": "l",
+         "z": 12,
+         "c": "ink",
+         "m": false
+        },
+        {
+         "k": "L",
+         "pts": [
+          280,
+          156,
+          290,
+          156
+         ],
+         "s": "line",
+         "w": 1.4
+        },
+        {
+         "k": "T",
+         "x": 302,
+         "y": 180,
+         "s": "C1",
+         "a": "l",
+         "z": 12,
+         "c": "ink",
+         "m": false
+        },
+        {
+         "k": "L",
+         "pts": [
+          280,
+          176,
+          290,
+          176
+         ],
+         "s": "line",
+         "w": 1.4
+        },
+        {
+         "k": "T",
+         "x": 296,
+         "y": 200,
+         "s": "R",
+         "a": "l",
+         "z": 12,
+         "c": "ink",
+         "m": false
+        },
+        {
+         "k": "E",
+         "x": 286,
+         "y": 196,
+         "rx": 4,
+         "ry": 4,
+         "s": "ink",
+         "f": "surface"
+        },
+        {
+         "k": "L",
+         "pts": [
+          282,
+          196,
+          276,
+          196
+         ],
+         "s": "line",
+         "w": 1.4
+        },
+        {
+         "k": "L",
+         "pts": [
+          290,
+          170,
+          298,
+          176,
+          290,
+          182
+         ],
+         "s": "ink",
+         "w": 1.4
+        },
+        {
+         "k": "L",
+         "pts": [
+          340,
+          156,
+          350,
+          156
+         ],
+         "s": "line",
+         "w": 1.4
+        },
+        {
+         "k": "T",
+         "x": 64,
+         "y": 100,
+         "s": "UND: and",
+         "a": "l",
+         "z": 11,
+         "c": "line",
+         "m": false
+        },
+        {
+         "k": "T",
+         "x": 164,
+         "y": 100,
+         "s": "ODER: or",
+         "a": "l",
+         "z": 11,
+         "c": "line",
+         "m": false
+        },
+        {
+         "k": "T",
+         "x": 264,
+         "y": 100,
+         "s": "XOR: xor",
+         "a": "l",
+         "z": 11,
+         "c": "line",
+         "m": false
+        },
+        {
+         "k": "T",
+         "x": 364,
+         "y": 100,
+         "s": "NICHT: not",
+         "a": "l",
+         "z": 11,
+         "c": "line",
+         "m": false
+        },
+        {
+         "k": "T",
+         "x": 64,
+         "y": 230,
+         "s": "nand",
+         "a": "l",
+         "z": 11,
+         "c": "line",
+         "m": false
+        },
+        {
+         "k": "T",
+         "x": 164,
+         "y": 230,
+         "s": "nor",
+         "a": "l",
+         "z": 11,
+         "c": "line",
+         "m": false
+        },
+        {
+         "k": "T",
+         "x": 276,
+         "y": 240,
+         "s": "D-Flipflop",
+         "a": "l",
+         "z": 11,
+         "c": "line",
+         "m": false
+        }
+       ]
+      },
+      {
+       "t": "table",
+       "rows": [
+        [
+         "Symbol im Kasten",
+         "Funktion",
+         "VHDL"
+        ],
+        [
+         "`&`",
+         "UND",
+         "`and`"
+        ],
+        [
+         "`≥1`",
+         "ODER (mindestens ein Eingang 1)",
+         "`or`"
+        ],
+        [
+         "`=1`",
+         "XOR (genau ein Eingang 1)",
+         "`xor`"
+        ],
+        [
+         "`1`",
+         "Treiber / NICHT mit Kreis",
+         "`not`"
+        ],
+        [
+         "`&` mit Kreis",
+         "NAND",
+         "`nand`"
+        ],
+        [
+         "`≥1` mit Kreis",
+         "NOR",
+         "`nor`"
+        ]
+       ]
+      },
+      {
+       "t": "ul",
+       "items": [
+        "Der **Kreis** (Inversionspunkt) bedeutet `not` – am Ausgang oder an einem Eingang.",
+        "**Flipflop**: `1D` = Dateneingang, `C1` = Takt, das **Dreieck** heißt flankengesteuert (steigende Flanke), `R` = Reset. Ein Kreis vor `R` heißt **low-aktiv** → genau unser `res_n`.",
+        "**Punkt** auf einer Kreuzung = Verbindung. Kreuzung **ohne** Punkt = keine Verbindung."
+       ]
+      }
+     ],
+     "aufgabe": [
+      {
+       "t": "ol",
+       "items": [
+        "Welcher VHDL-Operator gehört zu `≥1` mit Kreis am Ausgang?",
+        "Ein Flipflop hat einen Kreis vor `R`. Mit welchem Wert von `res_n` wird es zurückgesetzt?",
+        "Zwei Leitungen kreuzen sich ohne Punkt. Sind sie verbunden?",
+        "Schreibe eine Zeile VHDL für ein `&`-Gatter mit drei Eingängen `a, b, c` und Kreis am Ausgang `y`."
+       ]
+      }
+     ],
+     "aufgabeMd": "1. Welcher VHDL-Operator gehört zu `≥1` mit Kreis am Ausgang?\n2. Ein Flipflop hat einen Kreis vor `R`. Mit welchem Wert von `res_n` wird es zurückgesetzt?\n3. Zwei Leitungen kreuzen sich ohne Punkt. Sind sie verbunden?\n4. Schreibe eine Zeile VHDL für ein `&`-Gatter mit drei Eingängen `a, b, c` und Kreis am Ausgang `y`.",
+     "loesung": [
+      {
+       "t": "ol",
+       "items": [
+        "`nor`",
+        "Mit `res_n = '0'` (low-aktiv).",
+        "**Nein.** Nur ein Punkt verbindet.",
+        "`y <= not (a and b and c);`"
+       ]
+      }
+     ],
+     "loesungMd": "1. `nor`\n2. Mit `res_n = '0'` (low-aktiv).\n3. **Nein.** Nur ein Punkt verbindet.\n4. `y <= not (a and b and c);`",
+     "klausur": [
+      {
+       "t": "p",
+       "s": "In fast jeder Klausur steht ein „Bild“ mit Schaltplan, aus dem du Code machst, z.B. **F24 A1 F1** (`single_step`, siehe A03), F20 A1 F9 (Schaltplan selbst zeichnen), Skript Kap. 2.3.4."
+      }
+     ]
+    },
+    {
+     "id": "L02",
+     "block": "L",
+     "title": "behav, struct, mixed: der Unterschied",
+     "min": 6,
+     "mode": "text",
+     "starter": "",
+     "solutionCode": "",
+     "ziel": [
+      {
+       "t": "p",
+       "s": "Wissen, was eine Verhaltens- und was eine Strukturbeschreibung ist und wann man welche schreibt."
+      }
+     ],
+     "erklaerung": [
+      {
+       "t": "p",
+       "s": "Zu **einer** Entity kann es mehrere Architectures geben. Die Namen sind Konvention, aber in Skript und Klausur festgelegt:"
+      },
+      {
+       "t": "table",
+       "rows": [
+        [
+         "Name",
+         "beschreibt",
+         "enthält"
+        ],
+        [
+         "`behav`",
+         "**was** die Schaltung tut",
+         "Zuweisungen, `when`, `with`, Prozesse"
+        ],
+        [
+         "`struct`",
+         "**woraus** sie gebaut ist",
+         "nur Instanzen, verbunden über Signale (eine Netzliste)"
+        ],
+        [
+         "`mixed`",
+         "beides",
+         "Instanzen **und** Zuweisungen/Prozesse"
+        ]
+       ]
+      },
+      {
+       "t": "p",
+       "s": "Derselbe Halbaddierer zweimal:"
+      },
+      {
+       "t": "diagram",
+       "id": "L02_halbaddierer",
+       "alt": "Halbaddierer als Schaltplan",
+       "w": 320,
+       "h": 173,
+       "prims": [
+        {
+         "k": "P",
+         "pts": [
+          145,
+          21,
+          185,
+          21,
+          185,
+          81,
+          145,
+          81
+         ],
+         "s": "ink",
+         "f": "surface",
+         "w": 1.6
+        },
+        {
+         "k": "T",
+         "x": 165.0,
+         "y": 40,
+         "s": "=1",
+         "a": "c",
+         "z": 15,
+         "c": "ink",
+         "m": false
+        },
+        {
+         "k": "L",
+         "pts": [
+          135,
+          41,
+          145,
+          41
+         ],
+         "s": "line",
+         "w": 1.4
+        },
+        {
+         "k": "L",
+         "pts": [
+          135,
+          61,
+          145,
+          61
+         ],
+         "s": "line",
+         "w": 1.4
+        },
+        {
+         "k": "L",
+         "pts": [
+          185,
+          51.0,
+          195,
+          51.0
+         ],
+         "s": "line",
+         "w": 1.4
+        },
+        {
+         "k": "T",
+         "x": 165.0,
+         "y": 16,
+         "s": "g1: xor_2",
+         "a": "c",
+         "z": 10,
+         "c": "line",
+         "m": false
+        },
+        {
+         "k": "P",
+         "pts": [
+          145,
+          101,
+          185,
+          101,
+          185,
+          161,
+          145,
+          161
+         ],
+         "s": "ink",
+         "f": "surface",
+         "w": 1.6
+        },
+        {
+         "k": "T",
+         "x": 165.0,
+         "y": 120,
+         "s": "&",
+         "a": "c",
+         "z": 15,
+         "c": "ink",
+         "m": false
+        },
+        {
+         "k": "L",
+         "pts": [
+          135,
+          121,
+          145,
+          121
+         ],
+         "s": "line",
+         "w": 1.4
+        },
+        {
+         "k": "L",
+         "pts": [
+          135,
+          141,
+          145,
+          141
+         ],
+         "s": "line",
+         "w": 1.4
+        },
+        {
+         "k": "L",
+         "pts": [
+          185,
+          131.0,
+          195,
+          131.0
+         ],
+         "s": "line",
+         "w": 1.4
+        },
+        {
+         "k": "T",
+         "x": 165.0,
+         "y": 96,
+         "s": "g2: and_2",
+         "a": "c",
+         "z": 10,
+         "c": "line",
+         "m": false
+        },
+        {
+         "k": "T",
+         "x": 60,
+         "y": 45,
+         "s": "a",
+         "a": "r",
+         "z": 13,
+         "c": "ink",
+         "m": true
+        },
+        {
+         "k": "T",
+         "x": 60,
+         "y": 65,
+         "s": "b",
+         "a": "r",
+         "z": 13,
+         "c": "ink",
+         "m": true
+        },
+        {
+         "k": "T",
+         "x": 260,
+         "y": 55,
+         "s": "s",
+         "a": "l",
+         "z": 13,
+         "c": "ink",
+         "m": true
+        },
+        {
+         "k": "T",
+         "x": 260,
+         "y": 135,
+         "s": "c",
+         "a": "l",
+         "z": 13,
+         "c": "ink",
+         "m": true
+        },
+        {
+         "k": "L",
+         "pts": [
+          65,
+          41,
+          135,
+          41
+         ],
+         "s": "line",
+         "w": 1.4
+        },
+        {
+         "k": "L",
+         "pts": [
+          65,
+          61,
+          135,
+          61
+         ],
+         "s": "line",
+         "w": 1.4
+        },
+        {
+         "k": "L",
+         "pts": [
+          65,
+          41,
+          105,
+          41,
+          105,
+          121,
+          135,
+          121
+         ],
+         "s": "line",
+         "w": 1.4
+        },
+        {
+         "k": "E",
+         "x": 105,
+         "y": 41,
+         "rx": 3,
+         "ry": 3,
+         "s": "line",
+         "f": "line"
+        },
+        {
+         "k": "L",
+         "pts": [
+          65,
+          61,
+          95,
+          61,
+          95,
+          141,
+          135,
+          141
+         ],
+         "s": "line",
+         "w": 1.4
+        },
+        {
+         "k": "E",
+         "x": 95,
+         "y": 61,
+         "rx": 3,
+         "ry": 3,
+         "s": "line",
+         "f": "line"
+        },
+        {
+         "k": "L",
+         "pts": [
+          195,
+          51.0,
+          255,
+          51
+         ],
+         "s": "line",
+         "w": 1.4
+        },
+        {
+         "k": "L",
+         "pts": [
+          195,
+          131.0,
+          255,
+          131
+         ],
+         "s": "line",
+         "w": 1.4
+        }
+       ]
+      },
+      {
+       "t": "code",
+       "lang": "vhdl",
+       "s": "architecture behav of halbaddierer is\nbegin\n  s <= a xor b;\n  c <= a and b;\nend architecture behav;\n\narchitecture struct of halbaddierer is\nbegin\n  g1: entity work.xor_2 port map(x0 => a, x1 => b, y => s);\n  g2: entity work.and_2 port map(x0 => a, x1 => b, y => c);\nend architecture struct;"
+      },
+      {
+       "t": "ul",
+       "items": [
+        "Die Synthese erzeugt aus beiden **dieselbe Schaltung** (Skript Kap. 2.3.8).",
+        "`struct` nimmst du, wenn ein Schaltplan oder Blockbild vorgegeben ist, und für Hierarchie (Module aus Modulen).",
+        "`behav` ist kürzer und nimmst du, wenn nur die Funktion zählt.",
+        "Auswahl beim Instanziieren: `entity work.halbaddierer(struct)`."
+       ]
+      }
+     ],
+     "aufgabe": [
+      {
+       "t": "p",
+       "s": "Welche Art von Architecture ist das jeweils?"
+      },
+      {
+       "t": "ol",
+       "items": [
+        "Nur `port map`-Instanzen und Signaldeklarationen.",
+        "Ein Prozess mit `case`.",
+        "Eine Instanz von `single_step` plus ein getakteter Prozess für das Register.",
+        "Was passiert bei `entity work.halbaddierer` **ohne** Klammer, wenn es zwei Architectures gibt?"
+       ]
+      }
+     ],
+     "aufgabeMd": "Welche Art von Architecture ist das jeweils?\n1. Nur `port map`-Instanzen und Signaldeklarationen.\n2. Ein Prozess mit `case`.\n3. Eine Instanz von `single_step` plus ein getakteter Prozess für das Register.\n4. Was passiert bei `entity work.halbaddierer` **ohne** Klammer, wenn es zwei Architectures gibt?",
+     "loesung": [
+      {
+       "t": "ol",
+       "items": [
+        "`struct`",
+        "`behav`",
+        "`mixed` (genau so heißt sie in **F24 A1 F3**)",
+        "Es wird die **zuletzt analysierte** Architecture genommen. Deshalb bei mehreren Architectures immer explizit angeben."
+       ]
+      }
+     ],
+     "loesungMd": "1. `struct`\n2. `behav`\n3. `mixed` (genau so heißt sie in **F24 A1 F3**)\n4. Es wird die **zuletzt analysierte** Architecture genommen. Deshalb bei mehreren Architectures immer explizit angeben.",
+     "klausur": [
+      {
+       "t": "p",
+       "s": "„Geben Sie eine Architecture struct … in Form einer Strukturbeschreibung an“ (F19 A1 F2, F20 A1 F1b), „Architecture mixed“ (F24 A1 F3/F9), „Verhaltensbeschreibung“ (F24 A1 F1b)."
+      },
+      {
+       "t": "p",
+       "s": "Am Rechner (Repo-Ordner): `am_rechner/L10/kombinatorik.vhd`"
+      }
+     ]
+    },
+    {
+     "id": "L03",
+     "block": "L",
+     "title": "Vom Schaltplan zur Verhaltensbeschreibung",
+     "min": 6,
+     "mode": "code",
+     "starter": "",
+     "solutionCode": "architecture behav of netz is\nbegin\n  y <= (a and b) or (not c);\n  z <= b nor c;\nend architecture behav;",
+     "ziel": [
+      {
+       "t": "p",
+       "s": "Aus einem Gatterplan die Gleichungen ablesen und als `behav` schreiben."
+      }
+     ],
+     "erklaerung": [
+      {
+       "t": "p",
+       "s": "Vorgehen: **Von jedem Ausgang rückwärts** zu den Eingängen gehen und dabei den Ausdruck von innen nach außen aufbauen."
+      },
+      {
+       "t": "diagram",
+       "id": "L03_netz",
+       "alt": "Kleines Gatternetz mit zwei Ausgängen",
+       "w": 410,
+       "h": 213,
+       "prims": [
+        {
+         "k": "P",
+         "pts": [
+          145,
+          21,
+          185,
+          21,
+          185,
+          81,
+          145,
+          81
+         ],
+         "s": "ink",
+         "f": "surface",
+         "w": 1.6
+        },
+        {
+         "k": "T",
+         "x": 165.0,
+         "y": 40,
+         "s": "&",
+         "a": "c",
+         "z": 15,
+         "c": "ink",
+         "m": false
+        },
+        {
+         "k": "L",
+         "pts": [
+          135,
+          41,
+          145,
+          41
+         ],
+         "s": "line",
+         "w": 1.4
+        },
+        {
+         "k": "L",
+         "pts": [
+          135,
+          61,
+          145,
+          61
+         ],
+         "s": "line",
+         "w": 1.4
+        },
+        {
+         "k": "L",
+         "pts": [
+          185,
+          51.0,
+          195,
+          51.0
+         ],
+         "s": "line",
+         "w": 1.4
+        },
+        {
+         "k": "T",
+         "x": 165.0,
+         "y": 16,
+         "s": "g1",
+         "a": "c",
+         "z": 10,
+         "c": "line",
+         "m": false
+        },
+        {
+         "k": "P",
+         "pts": [
+          145,
+          101,
+          185,
+          101,
+          185,
+          141,
+          145,
+          141
+         ],
+         "s": "ink",
+         "f": "surface",
+         "w": 1.6
+        },
+        {
+         "k": "T",
+         "x": 165.0,
+         "y": 120,
+         "s": "1",
+         "a": "c",
+         "z": 15,
+         "c": "ink",
+         "m": false
+        },
+        {
+         "k": "L",
+         "pts": [
+          135,
+          121.0,
+          145,
+          121.0
+         ],
+         "s": "line",
+         "w": 1.4
+        },
+        {
+         "k": "E",
+         "x": 189,
+         "y": 121.0,
+         "rx": 4,
+         "ry": 4,
+         "s": "ink",
+         "f": "surface"
+        },
+        {
+         "k": "L",
+         "pts": [
+          193,
+          121.0,
+          199,
+          121.0
+         ],
+         "s": "line",
+         "w": 1.4
+        },
+        {
+         "k": "T",
+         "x": 165.0,
+         "y": 96,
+         "s": "g2",
+         "a": "c",
+         "z": 10,
+         "c": "line",
+         "m": false
+        },
+        {
+         "k": "P",
+         "pts": [
+          255,
+          41,
+          295,
+          41,
+          295,
+          101,
+          255,
+          101
+         ],
+         "s": "ink",
+         "f": "surface",
+         "w": 1.6
+        },
+        {
+         "k": "T",
+         "x": 275.0,
+         "y": 60,
+         "s": "≥1",
+         "a": "c",
+         "z": 15,
+         "c": "ink",
+         "m": false
+        },
+        {
+         "k": "L",
+         "pts": [
+          245,
+          61,
+          255,
+          61
+         ],
+         "s": "line",
+         "w": 1.4
+        },
+        {
+         "k": "L",
+         "pts": [
+          245,
+          81,
+          255,
+          81
+         ],
+         "s": "line",
+         "w": 1.4
+        },
+        {
+         "k": "L",
+         "pts": [
+          295,
+          71.0,
+          305,
+          71.0
+         ],
+         "s": "line",
+         "w": 1.4
+        },
+        {
+         "k": "T",
+         "x": 275.0,
+         "y": 36,
+         "s": "g3",
+         "a": "c",
+         "z": 10,
+         "c": "line",
+         "m": false
+        },
+        {
+         "k": "P",
+         "pts": [
+          255,
+          141,
+          295,
+          141,
+          295,
+          201,
+          255,
+          201
+         ],
+         "s": "ink",
+         "f": "surface",
+         "w": 1.6
+        },
+        {
+         "k": "T",
+         "x": 275.0,
+         "y": 160,
+         "s": "≥1",
+         "a": "c",
+         "z": 15,
+         "c": "ink",
+         "m": false
+        },
+        {
+         "k": "L",
+         "pts": [
+          245,
+          161,
+          255,
+          161
+         ],
+         "s": "line",
+         "w": 1.4
+        },
+        {
+         "k": "L",
+         "pts": [
+          245,
+          181,
+          255,
+          181
+         ],
+         "s": "line",
+         "w": 1.4
+        },
+        {
+         "k": "E",
+         "x": 299,
+         "y": 171.0,
+         "rx": 4,
+         "ry": 4,
+         "s": "ink",
+         "f": "surface"
+        },
+        {
+         "k": "L",
+         "pts": [
+          303,
+          171.0,
+          309,
+          171.0
+         ],
+         "s": "line",
+         "w": 1.4
+        },
+        {
+         "k": "T",
+         "x": 275.0,
+         "y": 136,
+         "s": "g4",
+         "a": "c",
+         "z": 10,
+         "c": "line",
+         "m": false
+        },
+        {
+         "k": "T",
+         "x": 60,
+         "y": 45,
+         "s": "a",
+         "a": "r",
+         "z": 13,
+         "c": "ink",
+         "m": true
+        },
+        {
+         "k": "T",
+         "x": 60,
+         "y": 65,
+         "s": "b",
+         "a": "r",
+         "z": 13,
+         "c": "ink",
+         "m": true
+        },
+        {
+         "k": "T",
+         "x": 60,
+         "y": 125,
+         "s": "c",
+         "a": "r",
+         "z": 13,
+         "c": "ink",
+         "m": true
+        },
+        {
+         "k": "T",
+         "x": 350,
+         "y": 75,
+         "s": "y",
+         "a": "l",
+         "z": 13,
+         "c": "ink",
+         "m": true
+        },
+        {
+         "k": "T",
+         "x": 350,
+         "y": 175,
+         "s": "z",
+         "a": "l",
+         "z": 13,
+         "c": "ink",
+         "m": true
+        },
+        {
+         "k": "L",
+         "pts": [
+          65,
+          41,
+          135,
+          41
+         ],
+         "s": "line",
+         "w": 1.4
+        },
+        {
+         "k": "L",
+         "pts": [
+          65,
+          61,
+          135,
+          61
+         ],
+         "s": "line",
+         "w": 1.4
+        },
+        {
+         "k": "L",
+         "pts": [
+          65,
+          121,
+          135,
+          121.0
+         ],
+         "s": "line",
+         "w": 1.4
+        },
+        {
+         "k": "L",
+         "pts": [
+          195,
+          51.0,
+          220,
+          51.0,
+          220,
+          61,
+          245,
+          61
+         ],
+         "s": "line",
+         "w": 1.4
+        },
+        {
+         "k": "T",
+         "x": 207,
+         "y": 46.0,
+         "s": "h1",
+         "a": "c",
+         "z": 11,
+         "c": "line",
+         "m": true
+        },
+        {
+         "k": "L",
+         "pts": [
+          199,
+          121.0,
+          230,
+          121.0,
+          230,
+          81,
+          245,
+          81
+         ],
+         "s": "line",
+         "w": 1.4
+        },
+        {
+         "k": "T",
+         "x": 215,
+         "y": 116.0,
+         "s": "h2",
+         "a": "c",
+         "z": 11,
+         "c": "line",
+         "m": true
+        },
+        {
+         "k": "L",
+         "pts": [
+          65,
+          61,
+          115,
+          61,
+          115,
+          161,
+          245,
+          161
+         ],
+         "s": "line",
+         "w": 1.4
+        },
+        {
+         "k": "E",
+         "x": 115,
+         "y": 61,
+         "rx": 3,
+         "ry": 3,
+         "s": "line",
+         "f": "line"
+        },
+        {
+         "k": "L",
+         "pts": [
+          65,
+          121,
+          105,
+          121,
+          105,
+          181,
+          245,
+          181
+         ],
+         "s": "line",
+         "w": 1.4
+        },
+        {
+         "k": "E",
+         "x": 105,
+         "y": 121,
+         "rx": 3,
+         "ry": 3,
+         "s": "line",
+         "f": "line"
+        },
+        {
+         "k": "L",
+         "pts": [
+          305,
+          71.0,
+          345,
+          71
+         ],
+         "s": "line",
+         "w": 1.4
+        },
+        {
+         "k": "L",
+         "pts": [
+          309,
+          171.0,
+          345,
+          171
+         ],
+         "s": "line",
+         "w": 1.4
+        }
+       ]
+      },
+      {
+       "t": "p",
+       "s": "Für `y`: `g3` ist ein ODER aus `h1` und `h2`."
+      },
+      {
+       "t": "ul",
+       "items": [
+        "`h1` kommt aus `g1`: `a and b`",
+        "`h2` kommt aus `g2`: `not c`",
+        "also `y <= (a and b) or (not c);`"
+       ]
+      },
+      {
+       "t": "p",
+       "s": "Regeln:"
+      },
+      {
+       "t": "ul",
+       "items": [
+        "**Immer klammern**, `and` und `or` haben in VHDL denselben Rang.",
+        "Zwischenleitungen (`h1`, `h2`) brauchst du in `behav` **nicht** – du setzt ihre Ausdrücke direkt ein.",
+        "Ein Kreis am Ausgang wird zu `nand`/`nor` oder `not (…)`."
+       ]
+      }
+     ],
+     "aufgabe": [
+      {
+       "t": "p",
+       "s": "Entity `netz` mit Eingängen `a, b, c` und Ausgängen `y, z` (alle `std_logic`). Schreibe `architecture behav` für den Schaltplan oben (beide Ausgänge)."
+      }
+     ],
+     "aufgabeMd": "Entity `netz` mit Eingängen `a, b, c` und Ausgängen `y, z` (alle `std_logic`).\nSchreibe `architecture behav` für den Schaltplan oben (beide Ausgänge).",
+     "loesung": [
+      {
+       "t": "code",
+       "lang": "vhdl",
+       "s": "architecture behav of netz is\nbegin\n  y <= (a and b) or (not c);\n  z <= b nor c;\nend architecture behav;"
+      },
+      {
+       "t": "p",
+       "s": "`z <= not (b or c);` ist gleichwertig."
+      }
+     ],
+     "loesungMd": "```vhdl\narchitecture behav of netz is\nbegin\n  y <= (a and b) or (not c);\n  z <= b nor c;\nend architecture behav;\n```\n`z <= not (b or c);` ist gleichwertig.",
+     "klausur": [
+      {
+       "t": "p",
+       "s": "**F24 A1 F1b** (Architecture behav für das kombinatorische Netzwerk in Bild 1), H19 A1 F10."
+      }
+     ]
+    },
+    {
+     "id": "L04",
+     "block": "L",
+     "title": "Vom Schaltplan zur Strukturbeschreibung",
+     "min": 7,
+     "mode": "code",
+     "starter": "",
+     "solutionCode": "architecture struct of netz is\n  signal h1, h2 : std_logic;\nbegin\n  g1: entity work.and_2 port map(x0 => a, x1 => b, y => h1);\n  g2: entity work.not_1 port map(x => c, y => h2);\n  g3: entity work.or_2  port map(x0 => h1, x1 => h2, y => y);\n  g4: entity work.nor_2 port map(x0 => b, x1 => c, y => z);\nend architecture struct;",
+     "ziel": [
+      {
+       "t": "p",
+       "s": "Denselben Plan als Netzliste aus Gatter-Instanzen schreiben."
+      }
+     ],
+     "erklaerung": [
+      {
+       "t": "diagram",
+       "id": "L03_netz",
+       "alt": "Kleines Gatternetz mit zwei Ausgängen",
+       "w": 410,
+       "h": 213,
+       "prims": [
+        {
+         "k": "P",
+         "pts": [
+          145,
+          21,
+          185,
+          21,
+          185,
+          81,
+          145,
+          81
+         ],
+         "s": "ink",
+         "f": "surface",
+         "w": 1.6
+        },
+        {
+         "k": "T",
+         "x": 165.0,
+         "y": 40,
+         "s": "&",
+         "a": "c",
+         "z": 15,
+         "c": "ink",
+         "m": false
+        },
+        {
+         "k": "L",
+         "pts": [
+          135,
+          41,
+          145,
+          41
+         ],
+         "s": "line",
+         "w": 1.4
+        },
+        {
+         "k": "L",
+         "pts": [
+          135,
+          61,
+          145,
+          61
+         ],
+         "s": "line",
+         "w": 1.4
+        },
+        {
+         "k": "L",
+         "pts": [
+          185,
+          51.0,
+          195,
+          51.0
+         ],
+         "s": "line",
+         "w": 1.4
+        },
+        {
+         "k": "T",
+         "x": 165.0,
+         "y": 16,
+         "s": "g1",
+         "a": "c",
+         "z": 10,
+         "c": "line",
+         "m": false
+        },
+        {
+         "k": "P",
+         "pts": [
+          145,
+          101,
+          185,
+          101,
+          185,
+          141,
+          145,
+          141
+         ],
+         "s": "ink",
+         "f": "surface",
+         "w": 1.6
+        },
+        {
+         "k": "T",
+         "x": 165.0,
+         "y": 120,
+         "s": "1",
+         "a": "c",
+         "z": 15,
+         "c": "ink",
+         "m": false
+        },
+        {
+         "k": "L",
+         "pts": [
+          135,
+          121.0,
+          145,
+          121.0
+         ],
+         "s": "line",
+         "w": 1.4
+        },
+        {
+         "k": "E",
+         "x": 189,
+         "y": 121.0,
+         "rx": 4,
+         "ry": 4,
+         "s": "ink",
+         "f": "surface"
+        },
+        {
+         "k": "L",
+         "pts": [
+          193,
+          121.0,
+          199,
+          121.0
+         ],
+         "s": "line",
+         "w": 1.4
+        },
+        {
+         "k": "T",
+         "x": 165.0,
+         "y": 96,
+         "s": "g2",
+         "a": "c",
+         "z": 10,
+         "c": "line",
+         "m": false
+        },
+        {
+         "k": "P",
+         "pts": [
+          255,
+          41,
+          295,
+          41,
+          295,
+          101,
+          255,
+          101
+         ],
+         "s": "ink",
+         "f": "surface",
+         "w": 1.6
+        },
+        {
+         "k": "T",
+         "x": 275.0,
+         "y": 60,
+         "s": "≥1",
+         "a": "c",
+         "z": 15,
+         "c": "ink",
+         "m": false
+        },
+        {
+         "k": "L",
+         "pts": [
+          245,
+          61,
+          255,
+          61
+         ],
+         "s": "line",
+         "w": 1.4
+        },
+        {
+         "k": "L",
+         "pts": [
+          245,
+          81,
+          255,
+          81
+         ],
+         "s": "line",
+         "w": 1.4
+        },
+        {
+         "k": "L",
+         "pts": [
+          295,
+          71.0,
+          305,
+          71.0
+         ],
+         "s": "line",
+         "w": 1.4
+        },
+        {
+         "k": "T",
+         "x": 275.0,
+         "y": 36,
+         "s": "g3",
+         "a": "c",
+         "z": 10,
+         "c": "line",
+         "m": false
+        },
+        {
+         "k": "P",
+         "pts": [
+          255,
+          141,
+          295,
+          141,
+          295,
+          201,
+          255,
+          201
+         ],
+         "s": "ink",
+         "f": "surface",
+         "w": 1.6
+        },
+        {
+         "k": "T",
+         "x": 275.0,
+         "y": 160,
+         "s": "≥1",
+         "a": "c",
+         "z": 15,
+         "c": "ink",
+         "m": false
+        },
+        {
+         "k": "L",
+         "pts": [
+          245,
+          161,
+          255,
+          161
+         ],
+         "s": "line",
+         "w": 1.4
+        },
+        {
+         "k": "L",
+         "pts": [
+          245,
+          181,
+          255,
+          181
+         ],
+         "s": "line",
+         "w": 1.4
+        },
+        {
+         "k": "E",
+         "x": 299,
+         "y": 171.0,
+         "rx": 4,
+         "ry": 4,
+         "s": "ink",
+         "f": "surface"
+        },
+        {
+         "k": "L",
+         "pts": [
+          303,
+          171.0,
+          309,
+          171.0
+         ],
+         "s": "line",
+         "w": 1.4
+        },
+        {
+         "k": "T",
+         "x": 275.0,
+         "y": 136,
+         "s": "g4",
+         "a": "c",
+         "z": 10,
+         "c": "line",
+         "m": false
+        },
+        {
+         "k": "T",
+         "x": 60,
+         "y": 45,
+         "s": "a",
+         "a": "r",
+         "z": 13,
+         "c": "ink",
+         "m": true
+        },
+        {
+         "k": "T",
+         "x": 60,
+         "y": 65,
+         "s": "b",
+         "a": "r",
+         "z": 13,
+         "c": "ink",
+         "m": true
+        },
+        {
+         "k": "T",
+         "x": 60,
+         "y": 125,
+         "s": "c",
+         "a": "r",
+         "z": 13,
+         "c": "ink",
+         "m": true
+        },
+        {
+         "k": "T",
+         "x": 350,
+         "y": 75,
+         "s": "y",
+         "a": "l",
+         "z": 13,
+         "c": "ink",
+         "m": true
+        },
+        {
+         "k": "T",
+         "x": 350,
+         "y": 175,
+         "s": "z",
+         "a": "l",
+         "z": 13,
+         "c": "ink",
+         "m": true
+        },
+        {
+         "k": "L",
+         "pts": [
+          65,
+          41,
+          135,
+          41
+         ],
+         "s": "line",
+         "w": 1.4
+        },
+        {
+         "k": "L",
+         "pts": [
+          65,
+          61,
+          135,
+          61
+         ],
+         "s": "line",
+         "w": 1.4
+        },
+        {
+         "k": "L",
+         "pts": [
+          65,
+          121,
+          135,
+          121.0
+         ],
+         "s": "line",
+         "w": 1.4
+        },
+        {
+         "k": "L",
+         "pts": [
+          195,
+          51.0,
+          220,
+          51.0,
+          220,
+          61,
+          245,
+          61
+         ],
+         "s": "line",
+         "w": 1.4
+        },
+        {
+         "k": "T",
+         "x": 207,
+         "y": 46.0,
+         "s": "h1",
+         "a": "c",
+         "z": 11,
+         "c": "line",
+         "m": true
+        },
+        {
+         "k": "L",
+         "pts": [
+          199,
+          121.0,
+          230,
+          121.0,
+          230,
+          81,
+          245,
+          81
+         ],
+         "s": "line",
+         "w": 1.4
+        },
+        {
+         "k": "T",
+         "x": 215,
+         "y": 116.0,
+         "s": "h2",
+         "a": "c",
+         "z": 11,
+         "c": "line",
+         "m": true
+        },
+        {
+         "k": "L",
+         "pts": [
+          65,
+          61,
+          115,
+          61,
+          115,
+          161,
+          245,
+          161
+         ],
+         "s": "line",
+         "w": 1.4
+        },
+        {
+         "k": "E",
+         "x": 115,
+         "y": 61,
+         "rx": 3,
+         "ry": 3,
+         "s": "line",
+         "f": "line"
+        },
+        {
+         "k": "L",
+         "pts": [
+          65,
+          121,
+          105,
+          121,
+          105,
+          181,
+          245,
+          181
+         ],
+         "s": "line",
+         "w": 1.4
+        },
+        {
+         "k": "E",
+         "x": 105,
+         "y": 121,
+         "rx": 3,
+         "ry": 3,
+         "s": "line",
+         "f": "line"
+        },
+        {
+         "k": "L",
+         "pts": [
+          305,
+          71.0,
+          345,
+          71
+         ],
+         "s": "line",
+         "w": 1.4
+        },
+        {
+         "k": "L",
+         "pts": [
+          309,
+          171.0,
+          345,
+          171
+         ],
+         "s": "line",
+         "w": 1.4
+        }
+       ]
+      },
+      {
+       "t": "p",
+       "s": "Vorhandene Gatter (Bibliothek `work`, Ports wie im Skript): `not_1(x; y)`, `and_2(x0, x1; y)`, `or_2(x0, x1; y)`, `nor_2(x0, x1; y)`, `xor_2(x0, x1; y)`"
+      },
+      {
+       "t": "p",
+       "s": "Rezept in drei Schritten:"
+      },
+      {
+       "t": "ol",
+       "items": [
+        "**Jedes Gatter** wird eine Instanz, das Label aus dem Plan (`g1` …) übernehmen.",
+        "**Jede innere Leitung** (nicht Port) wird ein Signal: hier `h1`, `h2`.",
+        "**Port map mit Namen**: links der Gatter-Port, rechts deine Leitung."
+       ]
+      },
+      {
+       "t": "p",
+       "s": "Eingänge (`a`, `b`, `c`) und Ausgänge (`y`, `z`) sind Ports und schon da – sie werden nicht deklariert."
+      }
+     ],
+     "aufgabe": [
+      {
+       "t": "p",
+       "s": "Schreibe `architecture struct of netz` für den Plan."
+      }
+     ],
+     "aufgabeMd": "Schreibe `architecture struct of netz` für den Plan.",
+     "loesung": [
+      {
+       "t": "code",
+       "lang": "vhdl",
+       "s": "architecture struct of netz is\n  signal h1, h2 : std_logic;\nbegin\n  g1: entity work.and_2 port map(x0 => a, x1 => b, y => h1);\n  g2: entity work.not_1 port map(x => c, y => h2);\n  g3: entity work.or_2  port map(x0 => h1, x1 => h2, y => y);\n  g4: entity work.nor_2 port map(x0 => b, x1 => c, y => z);\nend architecture struct;"
+      },
+      {
+       "t": "p",
+       "s": "Check: 4 Gatter = 4 Instanzen? 2 innere Leitungen = 2 Signale? Jeder Ausgang genau einmal getrieben?"
+      }
+     ],
+     "loesungMd": "```vhdl\narchitecture struct of netz is\n  signal h1, h2 : std_logic;\nbegin\n  g1: entity work.and_2 port map(x0 => a, x1 => b, y => h1);\n  g2: entity work.not_1 port map(x => c, y => h2);\n  g3: entity work.or_2  port map(x0 => h1, x1 => h2, y => y);\n  g4: entity work.nor_2 port map(x0 => b, x1 => c, y => z);\nend architecture struct;\n```\nCheck: 4 Gatter = 4 Instanzen? 2 innere Leitungen = 2 Signale? Jeder Ausgang genau einmal getrieben?",
+     "klausur": [
+      {
+       "t": "p",
+       "s": "Skript Kap. 2.3.4 (Zähler aus `not_1`, `and_2`, `xor_2`, `d_ff`), **F24 A1 F3**, F20 A1 F9."
+      }
+     ]
+    },
+    {
+     "id": "L05",
+     "block": "L",
+     "title": "Signale sind Leitungen",
+     "min": 6,
+     "mode": "code",
+     "starter": "",
+     "solutionCode": "architecture struct of netz2 is\n  signal y_int : std_logic;\nbegin\n  g1: entity work.and_2 port map(x0 => a, x1 => b, y => y_int);\n  g2: entity work.or_2  port map(x0 => y_int, x1 => c, y => z);\n  y <= y_int;\nend architecture struct;",
+     "ziel": [
+      {
+       "t": "p",
+       "s": "Sicher entscheiden, welche Signale du brauchst und wie du sie verbindest."
+      }
+     ],
+     "erklaerung": [
+      {
+       "t": "ul",
+       "items": [
+        "Jede **innere Leitung** im Plan ist ein `signal`, deklariert zwischen `architecture … is` und `begin`, mit passendem Typ und passender Breite.",
+        "**Ports** sind bereits Signale – nicht nochmal deklarieren.",
+        "**Ein Treiber pro Leitung** (B04). Eine Leitung darf aber zu **vielen** Eingängen gehen (Fan-out, im Plan ein Punkt).",
+        "Ein `out`-Port darf in VHDL-93 **nicht gelesen** werden. Wird ein Ausgang auch intern gebraucht, treibt das Gatter ein **internes Signal**, das dann auf den Port geht:"
+       ]
+      },
+      {
+       "t": "diagram",
+       "id": "L05_ausgang",
+       "alt": "Ausgang y wird auch intern für z gebraucht",
+       "w": 430,
+       "h": 143,
+       "prims": [
+        {
+         "k": "P",
+         "pts": [
+          145,
+          21,
+          185,
+          21,
+          185,
+          81,
+          145,
+          81
+         ],
+         "s": "ink",
+         "f": "surface",
+         "w": 1.6
+        },
+        {
+         "k": "T",
+         "x": 165.0,
+         "y": 40,
+         "s": "&",
+         "a": "c",
+         "z": 15,
+         "c": "ink",
+         "m": false
+        },
+        {
+         "k": "L",
+         "pts": [
+          135,
+          41,
+          145,
+          41
+         ],
+         "s": "line",
+         "w": 1.4
+        },
+        {
+         "k": "L",
+         "pts": [
+          135,
+          61,
+          145,
+          61
+         ],
+         "s": "line",
+         "w": 1.4
+        },
+        {
+         "k": "L",
+         "pts": [
+          185,
+          51.0,
+          195,
+          51.0
+         ],
+         "s": "line",
+         "w": 1.4
+        },
+        {
+         "k": "T",
+         "x": 165.0,
+         "y": 16,
+         "s": "g1",
+         "a": "c",
+         "z": 10,
+         "c": "line",
+         "m": false
+        },
+        {
+         "k": "P",
+         "pts": [
+          265,
+          71,
+          305,
+          71,
+          305,
+          131,
+          265,
+          131
+         ],
+         "s": "ink",
+         "f": "surface",
+         "w": 1.6
+        },
+        {
+         "k": "T",
+         "x": 285.0,
+         "y": 90,
+         "s": "≥1",
+         "a": "c",
+         "z": 15,
+         "c": "ink",
+         "m": false
+        },
+        {
+         "k": "L",
+         "pts": [
+          255,
+          91,
+          265,
+          91
+         ],
+         "s": "line",
+         "w": 1.4
+        },
+        {
+         "k": "L",
+         "pts": [
+          255,
+          111,
+          265,
+          111
+         ],
+         "s": "line",
+         "w": 1.4
+        },
+        {
+         "k": "L",
+         "pts": [
+          305,
+          101.0,
+          315,
+          101.0
+         ],
+         "s": "line",
+         "w": 1.4
+        },
+        {
+         "k": "T",
+         "x": 285.0,
+         "y": 66,
+         "s": "g2",
+         "a": "c",
+         "z": 10,
+         "c": "line",
+         "m": false
+        },
+        {
+         "k": "T",
+         "x": 60,
+         "y": 45,
+         "s": "a",
+         "a": "r",
+         "z": 13,
+         "c": "ink",
+         "m": true
+        },
+        {
+         "k": "T",
+         "x": 60,
+         "y": 65,
+         "s": "b",
+         "a": "r",
+         "z": 13,
+         "c": "ink",
+         "m": true
+        },
+        {
+         "k": "T",
+         "x": 60,
+         "y": 115,
+         "s": "c",
+         "a": "r",
+         "z": 13,
+         "c": "ink",
+         "m": true
+        },
+        {
+         "k": "T",
+         "x": 370,
+         "y": 55,
+         "s": "y",
+         "a": "l",
+         "z": 13,
+         "c": "ink",
+         "m": true
+        },
+        {
+         "k": "T",
+         "x": 370,
+         "y": 105,
+         "s": "z",
+         "a": "l",
+         "z": 13,
+         "c": "ink",
+         "m": true
+        },
+        {
+         "k": "L",
+         "pts": [
+          65,
+          41,
+          135,
+          41
+         ],
+         "s": "line",
+         "w": 1.4
+        },
+        {
+         "k": "L",
+         "pts": [
+          65,
+          61,
+          135,
+          61
+         ],
+         "s": "line",
+         "w": 1.4
+        },
+        {
+         "k": "L",
+         "pts": [
+          195,
+          51.0,
+          365,
+          51
+         ],
+         "s": "accent",
+         "w": 2
+        },
+        {
+         "k": "T",
+         "x": 213,
+         "y": 46.0,
+         "s": "y_int",
+         "a": "c",
+         "z": 11,
+         "c": "accent",
+         "m": true
+        },
+        {
+         "k": "L",
+         "pts": [
+          195,
+          51.0,
+          230,
+          51.0,
+          230,
+          91,
+          255,
+          91
+         ],
+         "s": "accent",
+         "w": 2
+        },
+        {
+         "k": "E",
+         "x": 230,
+         "y": 51,
+         "rx": 3,
+         "ry": 3,
+         "s": "accent",
+         "f": "accent"
+        },
+        {
+         "k": "L",
+         "pts": [
+          65,
+          111,
+          255,
+          111
+         ],
+         "s": "line",
+         "w": 1.4
+        },
+        {
+         "k": "L",
+         "pts": [
+          315,
+          101.0,
+          365,
+          101
+         ],
+         "s": "line",
+         "w": 1.4
+        }
+       ]
+      },
+      {
+       "t": "ul",
+       "items": [
+        "Gute Namen: wie im Plan, sonst sprechend (`taste_sync`, `carry`, `q0_int`).",
+        "Ausgang einer Instanz bewusst unbenutzt: `y => open`. Eingänge **müssen** verbunden sein (notfalls mit `'0'`)."
+       ]
+      }
+     ],
+     "aufgabe": [
+      {
+       "t": "p",
+       "s": "Entity `netz2` (Eingänge `a, b, c`, Ausgänge `y, z`). Schreibe die Architecture für den Plan oben mit `and_2` und `or_2`. Warum kannst du `g2` nicht direkt mit dem Port `y` verbinden?"
+      }
+     ],
+     "aufgabeMd": "Entity `netz2` (Eingänge `a, b, c`, Ausgänge `y, z`). Schreibe die Architecture für den Plan oben mit `and_2` und `or_2`.\nWarum kannst du `g2` nicht direkt mit dem Port `y` verbinden?",
+     "loesung": [
+      {
+       "t": "code",
+       "lang": "vhdl",
+       "s": "architecture struct of netz2 is\n  signal y_int : std_logic;\nbegin\n  g1: entity work.and_2 port map(x0 => a, x1 => b, y => y_int);\n  g2: entity work.or_2  port map(x0 => y_int, x1 => c, y => z);\n  y <= y_int;\nend architecture struct;"
+      },
+      {
+       "t": "p",
+       "s": "`y` ist ein `out`-Port und darf nicht gelesen werden – `g2` müsste ihn aber als Eingang lesen. (Streng genommen ist das wegen `y <= y_int;` schon `mixed`; so macht es auch das Skript beim Zähler mit `q0 <= q0_int;`.)"
+      }
+     ],
+     "loesungMd": "```vhdl\narchitecture struct of netz2 is\n  signal y_int : std_logic;\nbegin\n  g1: entity work.and_2 port map(x0 => a, x1 => b, y => y_int);\n  g2: entity work.or_2  port map(x0 => y_int, x1 => c, y => z);\n  y <= y_int;\nend architecture struct;\n```\n`y` ist ein `out`-Port und darf nicht gelesen werden – `g2` müsste ihn aber als Eingang lesen. (Streng genommen ist das wegen `y <= y_int;` schon `mixed`; so macht es auch das Skript beim Zähler mit `q0 <= q0_int;`.)",
+     "klausur": [
+      {
+       "t": "p",
+       "s": "Genau dieses Muster: F24 A1 F3 (`crc <= q;`), Skript Kap. 2.3.4 (`q0_int`)."
+      }
+     ]
+    },
+    {
+     "id": "L06",
+     "block": "L",
+     "title": "Vom Text über den Plan zum Code",
+     "min": 7,
+     "mode": "code",
+     "starter": "",
+     "solutionCode": "architecture behav of mehrheit is\nbegin\n  y <= (a and b) or (a and c) or (b and c);\nend architecture behav;\n\narchitecture struct of mehrheit is\n  signal ab, ac, bc : std_logic;\nbegin\n  g1: entity work.and_2 port map(x0 => a, x1 => b, y => ab);\n  g2: entity work.and_2 port map(x0 => a, x1 => c, y => ac);\n  g3: entity work.and_2 port map(x0 => b, x1 => c, y => bc);\n  g4: entity work.or_3  port map(x0 => ab, x1 => ac, x2 => bc, y => y);\nend architecture struct;",
+     "ziel": [
+      {
+       "t": "p",
+       "s": "Aus einer Textbeschreibung selbst Gleichung, Schaltplan, `behav` und `struct` entwickeln."
+      }
+     ],
+     "erklaerung": [
+      {
+       "t": "p",
+       "s": "Vier Schritte:"
+      },
+      {
+       "t": "ol",
+       "items": [
+        "**Wahrheitstabelle** aus dem Text",
+        "**Gleichung** (Minterme, dann vereinfachen)",
+        "**Schaltplan** (ein Gatter pro Operator)",
+        "**Code**: `behav` aus der Gleichung, `struct` aus dem Plan"
+       ]
+      },
+      {
+       "t": "p",
+       "s": "Spezifikation: *Drei Schiedsrichter `a, b, c` stimmen ab. `y` ist 1, wenn **mindestens zwei** mit 1 stimmen.* (Mehrheitsentscheider)"
+      },
+      {
+       "t": "table",
+       "rows": [
+        [
+         "a b c",
+         "y"
+        ],
+        [
+         "0 0 0 / 0 0 1 / 0 1 0 / 1 0 0",
+         "0"
+        ],
+        [
+         "0 1 1 / 1 0 1 / 1 1 0 / 1 1 1",
+         "1"
+        ]
+       ]
+      }
+     ],
+     "aufgabe": [
+      {
+       "t": "ol",
+       "items": [
+        "Gib eine möglichst einfache Gleichung für `y` an.",
+        "Schreibe `architecture behav of mehrheit` (eine Zeile).",
+        "Schreibe `architecture struct of mehrheit` mit drei `and_2` und einem `or_3` (`x0, x1, x2; y`). Benenne die Leitungen `ab`, `ac`, `bc`."
+       ]
+      }
+     ],
+     "aufgabeMd": "1. Gib eine möglichst einfache Gleichung für `y` an.\n2. Schreibe `architecture behav of mehrheit` (eine Zeile).\n3. Schreibe `architecture struct of mehrheit` mit drei `and_2` und einem `or_3` (`x0, x1, x2; y`). Benenne die Leitungen `ab`, `ac`, `bc`.",
+     "loesung": [
+      {
+       "t": "ol",
+       "items": [
+        "`y = ab + ac + bc` (jedes Paar, das 1 ist, reicht)"
+       ]
+      },
+      {
+       "t": "diagram",
+       "id": "L06_mehrheit",
+       "alt": "Mehrheitsentscheider als Schaltplan",
+       "w": 440,
+       "h": 253,
+       "prims": [
+        {
+         "k": "P",
+         "pts": [
+          175,
+          21,
+          215,
+          21,
+          215,
+          81,
+          175,
+          81
+         ],
+         "s": "ink",
+         "f": "surface",
+         "w": 1.6
+        },
+        {
+         "k": "T",
+         "x": 195.0,
+         "y": 40,
+         "s": "&",
+         "a": "c",
+         "z": 15,
+         "c": "ink",
+         "m": false
+        },
+        {
+         "k": "L",
+         "pts": [
+          165,
+          41,
+          175,
+          41
+         ],
+         "s": "line",
+         "w": 1.4
+        },
+        {
+         "k": "L",
+         "pts": [
+          165,
+          61,
+          175,
+          61
+         ],
+         "s": "line",
+         "w": 1.4
+        },
+        {
+         "k": "L",
+         "pts": [
+          215,
+          51.0,
+          225,
+          51.0
+         ],
+         "s": "line",
+         "w": 1.4
+        },
+        {
+         "k": "T",
+         "x": 195.0,
+         "y": 16,
+         "s": "g1",
+         "a": "c",
+         "z": 10,
+         "c": "line",
+         "m": false
+        },
+        {
+         "k": "P",
+         "pts": [
+          175,
+          101,
+          215,
+          101,
+          215,
+          161,
+          175,
+          161
+         ],
+         "s": "ink",
+         "f": "surface",
+         "w": 1.6
+        },
+        {
+         "k": "T",
+         "x": 195.0,
+         "y": 120,
+         "s": "&",
+         "a": "c",
+         "z": 15,
+         "c": "ink",
+         "m": false
+        },
+        {
+         "k": "L",
+         "pts": [
+          165,
+          121,
+          175,
+          121
+         ],
+         "s": "line",
+         "w": 1.4
+        },
+        {
+         "k": "L",
+         "pts": [
+          165,
+          141,
+          175,
+          141
+         ],
+         "s": "line",
+         "w": 1.4
+        },
+        {
+         "k": "L",
+         "pts": [
+          215,
+          131.0,
+          225,
+          131.0
+         ],
+         "s": "line",
+         "w": 1.4
+        },
+        {
+         "k": "T",
+         "x": 195.0,
+         "y": 96,
+         "s": "g2",
+         "a": "c",
+         "z": 10,
+         "c": "line",
+         "m": false
+        },
+        {
+         "k": "P",
+         "pts": [
+          175,
+          181,
+          215,
+          181,
+          215,
+          241,
+          175,
+          241
+         ],
+         "s": "ink",
+         "f": "surface",
+         "w": 1.6
+        },
+        {
+         "k": "T",
+         "x": 195.0,
+         "y": 200,
+         "s": "&",
+         "a": "c",
+         "z": 15,
+         "c": "ink",
+         "m": false
+        },
+        {
+         "k": "L",
+         "pts": [
+          165,
+          201,
+          175,
+          201
+         ],
+         "s": "line",
+         "w": 1.4
+        },
+        {
+         "k": "L",
+         "pts": [
+          165,
+          221,
+          175,
+          221
+         ],
+         "s": "line",
+         "w": 1.4
+        },
+        {
+         "k": "L",
+         "pts": [
+          215,
+          211.0,
+          225,
+          211.0
+         ],
+         "s": "line",
+         "w": 1.4
+        },
+        {
+         "k": "T",
+         "x": 195.0,
+         "y": 176,
+         "s": "g3",
+         "a": "c",
+         "z": 10,
+         "c": "line",
+         "m": false
+        },
+        {
+         "k": "P",
+         "pts": [
+          295,
+          101,
+          335,
+          101,
+          335,
+          181,
+          295,
+          181
+         ],
+         "s": "ink",
+         "f": "surface",
+         "w": 1.6
+        },
+        {
+         "k": "T",
+         "x": 315.0,
+         "y": 120,
+         "s": "≥1",
+         "a": "c",
+         "z": 15,
+         "c": "ink",
+         "m": false
+        },
+        {
+         "k": "L",
+         "pts": [
+          285,
+          121,
+          295,
+          121
+         ],
+         "s": "line",
+         "w": 1.4
+        },
+        {
+         "k": "L",
+         "pts": [
+          285,
+          141,
+          295,
+          141
+         ],
+         "s": "line",
+         "w": 1.4
+        },
+        {
+         "k": "L",
+         "pts": [
+          285,
+          161,
+          295,
+          161
+         ],
+         "s": "line",
+         "w": 1.4
+        },
+        {
+         "k": "L",
+         "pts": [
+          335,
+          141.0,
+          345,
+          141.0
+         ],
+         "s": "line",
+         "w": 1.4
+        },
+        {
+         "k": "T",
+         "x": 315.0,
+         "y": 96,
+         "s": "g4",
+         "a": "c",
+         "z": 10,
+         "c": "line",
+         "m": false
+        },
+        {
+         "k": "T",
+         "x": 60,
+         "y": 45,
+         "s": "a",
+         "a": "r",
+         "z": 13,
+         "c": "ink",
+         "m": true
+        },
+        {
+         "k": "T",
+         "x": 60,
+         "y": 65,
+         "s": "b",
+         "a": "r",
+         "z": 13,
+         "c": "ink",
+         "m": true
+        },
+        {
+         "k": "T",
+         "x": 60,
+         "y": 85,
+         "s": "c",
+         "a": "r",
+         "z": 13,
+         "c": "ink",
+         "m": true
+        },
+        {
+         "k": "T",
+         "x": 380,
+         "y": 145,
+         "s": "y",
+         "a": "l",
+         "z": 13,
+         "c": "ink",
+         "m": true
+        },
+        {
+         "k": "L",
+         "pts": [
+          65,
+          41,
+          165,
+          41
+         ],
+         "s": "line",
+         "w": 1.4
+        },
+        {
+         "k": "L",
+         "pts": [
+          65,
+          61,
+          165,
+          61
+         ],
+         "s": "line",
+         "w": 1.4
+        },
+        {
+         "k": "L",
+         "pts": [
+          65,
+          41,
+          125,
+          41,
+          125,
+          121,
+          165,
+          121
+         ],
+         "s": "line",
+         "w": 1.4
+        },
+        {
+         "k": "E",
+         "x": 125,
+         "y": 41,
+         "rx": 3,
+         "ry": 3,
+         "s": "line",
+         "f": "line"
+        },
+        {
+         "k": "L",
+         "pts": [
+          65,
+          81,
+          105,
+          81,
+          105,
+          141,
+          165,
+          141
+         ],
+         "s": "line",
+         "w": 1.4
+        },
+        {
+         "k": "L",
+         "pts": [
+          65,
+          61,
+          115,
+          61,
+          115,
+          201,
+          165,
+          201
+         ],
+         "s": "line",
+         "w": 1.4
+        },
+        {
+         "k": "E",
+         "x": 115,
+         "y": 61,
+         "rx": 3,
+         "ry": 3,
+         "s": "line",
+         "f": "line"
+        },
+        {
+         "k": "L",
+         "pts": [
+          65,
+          81,
+          105,
+          81,
+          105,
+          221,
+          165,
+          221
+         ],
+         "s": "line",
+         "w": 1.4
+        },
+        {
+         "k": "E",
+         "x": 105,
+         "y": 141,
+         "rx": 3,
+         "ry": 3,
+         "s": "line",
+         "f": "line"
+        },
+        {
+         "k": "L",
+         "pts": [
+          225,
+          51.0,
+          255,
+          51.0,
+          255,
+          121,
+          285,
+          121
+         ],
+         "s": "line",
+         "w": 1.4
+        },
+        {
+         "k": "T",
+         "x": 241,
+         "y": 46.0,
+         "s": "ab",
+         "a": "c",
+         "z": 11,
+         "c": "line",
+         "m": true
+        },
+        {
+         "k": "L",
+         "pts": [
+          225,
+          131.0,
+          265,
+          131.0,
+          265,
+          141,
+          285,
+          141
+         ],
+         "s": "line",
+         "w": 1.4
+        },
+        {
+         "k": "T",
+         "x": 241,
+         "y": 126.0,
+         "s": "ac",
+         "a": "c",
+         "z": 11,
+         "c": "line",
+         "m": true
+        },
+        {
+         "k": "L",
+         "pts": [
+          225,
+          211.0,
+          255,
+          211.0,
+          255,
+          161,
+          285,
+          161
+         ],
+         "s": "line",
+         "w": 1.4
+        },
+        {
+         "k": "T",
+         "x": 241,
+         "y": 206.0,
+         "s": "bc",
+         "a": "c",
+         "z": 11,
+         "c": "line",
+         "m": true
+        },
+        {
+         "k": "L",
+         "pts": [
+          345,
+          141.0,
+          375,
+          141
+         ],
+         "s": "line",
+         "w": 1.4
+        }
+       ]
+      },
+      {
+       "t": "code",
+       "lang": "vhdl",
+       "s": "architecture behav of mehrheit is\nbegin\n  y <= (a and b) or (a and c) or (b and c);\nend architecture behav;\n\narchitecture struct of mehrheit is\n  signal ab, ac, bc : std_logic;\nbegin\n  g1: entity work.and_2 port map(x0 => a, x1 => b, y => ab);\n  g2: entity work.and_2 port map(x0 => a, x1 => c, y => ac);\n  g3: entity work.and_2 port map(x0 => b, x1 => c, y => bc);\n  g4: entity work.or_3  port map(x0 => ab, x1 => ac, x2 => bc, y => y);\nend architecture struct;"
+      }
+     ],
+     "loesungMd": "1. `y = ab + ac + bc` (jedes Paar, das 1 ist, reicht)\n\n![Mehrheitsentscheider als Schaltplan](../diagrams/L06_mehrheit.svg)\n\n```vhdl\narchitecture behav of mehrheit is\nbegin\n  y <= (a and b) or (a and c) or (b and c);\nend architecture behav;\n\narchitecture struct of mehrheit is\n  signal ab, ac, bc : std_logic;\nbegin\n  g1: entity work.and_2 port map(x0 => a, x1 => b, y => ab);\n  g2: entity work.and_2 port map(x0 => a, x1 => c, y => ac);\n  g3: entity work.and_2 port map(x0 => b, x1 => c, y => bc);\n  g4: entity work.or_3  port map(x0 => ab, x1 => ac, x2 => bc, y => y);\nend architecture struct;\n```",
+     "klausur": [
+      {
+       "t": "p",
+       "s": "Freie Entwurfsaufgaben wie H19 A1 (Prioritätsencoder aus der Funktionsbeschreibung), F20 A2 F1–F3 (Decoder, Multiplexer)."
+      }
+     ]
+    },
+    {
+     "id": "L07",
+     "block": "L",
+     "title": "Hierarchie: Module aus Modulen",
+     "min": 7,
+     "mode": "code",
+     "starter": "",
+     "solutionCode": "architecture struct of volladdierer is\n  signal s1, c1, c2 : std_logic;\nbegin\n  ha1: entity work.halbaddierer(struct)\n    port map(a => a, b => b, s => s1, c => c1);\n  ha2: entity work.halbaddierer(struct)\n    port map(a => s1, b => cin, s => s, c => c2);\n  g1: entity work.or_2 port map(x0 => c1, x1 => c2, y => cout);\nend architecture struct;\n\narchitecture struct of addierer_2bit is\n  signal c1 : std_logic;\nbegin\n  va0: entity work.volladdierer\n    port map(a => a(0), b => b(0), cin => '0', s => s(0), cout => c1);\n  va1: entity work.volladdierer\n    port map(a => a(1), b => b(1), cin => c1, s => s(1), cout => cout);\nend architecture struct;",
+     "ziel": [
+      {
+       "t": "p",
+       "s": "Eine Schaltung aus eigenen Modulen zusammensetzen, die selbst wieder aus Modulen bestehen."
+      }
+     ],
+     "erklaerung": [
+      {
+       "t": "p",
+       "s": "Ein Volladdierer aus zwei Halbaddierern und einem ODER:"
+      },
+      {
+       "t": "diagram",
+       "id": "L07_volladdierer",
+       "alt": "Volladdierer aus zwei Halbaddierern",
+       "w": 610,
+       "h": 223,
+       "prims": [
+        {
+         "k": "P",
+         "pts": [
+          145,
+          21,
+          255,
+          21,
+          255,
+          95,
+          145,
+          95
+         ],
+         "s": "ink",
+         "f": "surface",
+         "w": 1.6
+        },
+        {
+         "k": "T",
+         "x": 200.0,
+         "y": 37,
+         "s": "halbaddierer",
+         "a": "c",
+         "z": 12,
+         "c": "accent",
+         "m": true
+        },
+        {
+         "k": "T",
+         "x": 200.0,
+         "y": 16,
+         "s": "ha1",
+         "a": "c",
+         "z": 10,
+         "c": "line",
+         "m": true
+        },
+        {
+         "k": "L",
+         "pts": [
+          135,
+          55,
+          145,
+          55
+         ],
+         "s": "line",
+         "w": 1.4
+        },
+        {
+         "k": "T",
+         "x": 150,
+         "y": 59,
+         "s": "a",
+         "a": "l",
+         "z": 11,
+         "c": "ink",
+         "m": true
+        },
+        {
+         "k": "L",
+         "pts": [
+          135,
+          75,
+          145,
+          75
+         ],
+         "s": "line",
+         "w": 1.4
+        },
+        {
+         "k": "T",
+         "x": 150,
+         "y": 79,
+         "s": "b",
+         "a": "l",
+         "z": 11,
+         "c": "ink",
+         "m": true
+        },
+        {
+         "k": "L",
+         "pts": [
+          255,
+          55,
+          265,
+          55
+         ],
+         "s": "line",
+         "w": 1.4
+        },
+        {
+         "k": "T",
+         "x": 250,
+         "y": 59,
+         "s": "s",
+         "a": "r",
+         "z": 11,
+         "c": "ink",
+         "m": true
+        },
+        {
+         "k": "L",
+         "pts": [
+          255,
+          75,
+          265,
+          75
+         ],
+         "s": "line",
+         "w": 1.4
+        },
+        {
+         "k": "T",
+         "x": 250,
+         "y": 79,
+         "s": "c",
+         "a": "r",
+         "z": 11,
+         "c": "ink",
+         "m": true
+        },
+        {
+         "k": "P",
+         "pts": [
+          305,
+          81,
+          415,
+          81,
+          415,
+          155,
+          305,
+          155
+         ],
+         "s": "ink",
+         "f": "surface",
+         "w": 1.6
+        },
+        {
+         "k": "T",
+         "x": 360.0,
+         "y": 97,
+         "s": "halbaddierer",
+         "a": "c",
+         "z": 12,
+         "c": "accent",
+         "m": true
+        },
+        {
+         "k": "T",
+         "x": 360.0,
+         "y": 76,
+         "s": "ha2",
+         "a": "c",
+         "z": 10,
+         "c": "line",
+         "m": true
+        },
+        {
+         "k": "L",
+         "pts": [
+          295,
+          115,
+          305,
+          115
+         ],
+         "s": "line",
+         "w": 1.4
+        },
+        {
+         "k": "T",
+         "x": 310,
+         "y": 119,
+         "s": "a",
+         "a": "l",
+         "z": 11,
+         "c": "ink",
+         "m": true
+        },
+        {
+         "k": "L",
+         "pts": [
+          295,
+          135,
+          305,
+          135
+         ],
+         "s": "line",
+         "w": 1.4
+        },
+        {
+         "k": "T",
+         "x": 310,
+         "y": 139,
+         "s": "b",
+         "a": "l",
+         "z": 11,
+         "c": "ink",
+         "m": true
+        },
+        {
+         "k": "L",
+         "pts": [
+          415,
+          115,
+          425,
+          115
+         ],
+         "s": "line",
+         "w": 1.4
+        },
+        {
+         "k": "T",
+         "x": 410,
+         "y": 119,
+         "s": "s",
+         "a": "r",
+         "z": 11,
+         "c": "ink",
+         "m": true
+        },
+        {
+         "k": "L",
+         "pts": [
+          415,
+          135,
+          425,
+          135
+         ],
+         "s": "line",
+         "w": 1.4
+        },
+        {
+         "k": "T",
+         "x": 410,
+         "y": 139,
+         "s": "c",
+         "a": "r",
+         "z": 11,
+         "c": "ink",
+         "m": true
+        },
+        {
+         "k": "P",
+         "pts": [
+          455,
+          151,
+          495,
+          151,
+          495,
+          211,
+          455,
+          211
+         ],
+         "s": "ink",
+         "f": "surface",
+         "w": 1.6
+        },
+        {
+         "k": "T",
+         "x": 475.0,
+         "y": 170,
+         "s": "≥1",
+         "a": "c",
+         "z": 15,
+         "c": "ink",
+         "m": false
+        },
+        {
+         "k": "L",
+         "pts": [
+          445,
+          171,
+          455,
+          171
+         ],
+         "s": "line",
+         "w": 1.4
+        },
+        {
+         "k": "L",
+         "pts": [
+          445,
+          191,
+          455,
+          191
+         ],
+         "s": "line",
+         "w": 1.4
+        },
+        {
+         "k": "L",
+         "pts": [
+          495,
+          181.0,
+          505,
+          181.0
+         ],
+         "s": "line",
+         "w": 1.4
+        },
+        {
+         "k": "T",
+         "x": 475.0,
+         "y": 146,
+         "s": "g1: or_2",
+         "a": "c",
+         "z": 10,
+         "c": "line",
+         "m": false
+        },
+        {
+         "k": "T",
+         "x": 60,
+         "y": 59,
+         "s": "a",
+         "a": "r",
+         "z": 13,
+         "c": "ink",
+         "m": true
+        },
+        {
+         "k": "T",
+         "x": 60,
+         "y": 79,
+         "s": "b",
+         "a": "r",
+         "z": 13,
+         "c": "ink",
+         "m": true
+        },
+        {
+         "k": "T",
+         "x": 60,
+         "y": 139,
+         "s": "cin",
+         "a": "r",
+         "z": 13,
+         "c": "ink",
+         "m": true
+        },
+        {
+         "k": "T",
+         "x": 550,
+         "y": 119,
+         "s": "s",
+         "a": "l",
+         "z": 13,
+         "c": "ink",
+         "m": true
+        },
+        {
+         "k": "T",
+         "x": 550,
+         "y": 185,
+         "s": "cout",
+         "a": "l",
+         "z": 13,
+         "c": "ink",
+         "m": true
+        },
+        {
+         "k": "L",
+         "pts": [
+          65,
+          55,
+          135,
+          55
+         ],
+         "s": "line",
+         "w": 1.4
+        },
+        {
+         "k": "L",
+         "pts": [
+          65,
+          75,
+          135,
+          75
+         ],
+         "s": "line",
+         "w": 1.4
+        },
+        {
+         "k": "L",
+         "pts": [
+          265,
+          55,
+          280,
+          55,
+          280,
+          115,
+          295,
+          115
+         ],
+         "s": "accent",
+         "w": 2
+        },
+        {
+         "k": "T",
+         "x": 269,
+         "y": 50,
+         "s": "s1",
+         "a": "c",
+         "z": 11,
+         "c": "accent",
+         "m": true
+        },
+        {
+         "k": "L",
+         "pts": [
+          65,
+          135,
+          295,
+          135
+         ],
+         "s": "line",
+         "w": 1.4
+        },
+        {
+         "k": "L",
+         "pts": [
+          265,
+          75,
+          270,
+          75,
+          270,
+          171,
+          445,
+          171
+         ],
+         "s": "accent",
+         "w": 2
+        },
+        {
+         "k": "T",
+         "x": 261,
+         "y": 161,
+         "s": "c1",
+         "a": "c",
+         "z": 11,
+         "c": "accent",
+         "m": true
+        },
+        {
+         "k": "L",
+         "pts": [
+          425,
+          115,
+          545,
+          115
+         ],
+         "s": "line",
+         "w": 1.4
+        },
+        {
+         "k": "L",
+         "pts": [
+          425,
+          135,
+          435,
+          135,
+          435,
+          191,
+          445,
+          191
+         ],
+         "s": "accent",
+         "w": 2
+        },
+        {
+         "k": "T",
+         "x": 425,
+         "y": 130,
+         "s": "c2",
+         "a": "c",
+         "z": 11,
+         "c": "accent",
+         "m": true
+        },
+        {
+         "k": "L",
+         "pts": [
+          505,
+          181.0,
+          545,
+          181
+         ],
+         "s": "line",
+         "w": 1.4
+        }
+       ]
+      },
+      {
+       "t": "ul",
+       "items": [
+        "Über dem Block steht der **Instanzname** (`ha1`), im Block der **Modulname** (`halbaddierer`).",
+        "Die Leitungen zwischen den Blöcken (`s1`, `c1`, `c2`) werden Signale.",
+        "Hierarchie: `volladdierer` → `halbaddierer` → `xor_2`/`and_2`. Jede Ebene ist für sich testbar.",
+        "Welche Architecture des Untermoduls benutzt wird, legst du mit `(struct)` oder `(behav)` fest."
+       ]
+      }
+     ],
+     "aufgabe": [
+      {
+       "t": "ol",
+       "items": [
+        "Schreibe `architecture struct of volladdierer` (Ports `a, b, cin; s, cout`) nach dem Plan.",
+        "Szenario 2: Baue daraus `addierer_2bit` mit `a, b : std_logic_vector(1 downto 0)`, `s` (2 Bit) und `cout`. Der Übertrag der unteren Stufe heißt `c1`, der Eingangsübertrag ist `'0'`."
+       ]
+      }
+     ],
+     "aufgabeMd": "1. Schreibe `architecture struct of volladdierer` (Ports `a, b, cin; s, cout`) nach dem Plan.\n2. Szenario 2: Baue daraus `addierer_2bit` mit `a, b : std_logic_vector(1 downto 0)`, `s` (2 Bit) und `cout`. Der Übertrag der unteren Stufe heißt `c1`, der Eingangsübertrag ist `'0'`.",
+     "loesung": [
+      {
+       "t": "code",
+       "lang": "vhdl",
+       "s": "architecture struct of volladdierer is\n  signal s1, c1, c2 : std_logic;\nbegin\n  ha1: entity work.halbaddierer(struct)\n    port map(a => a, b => b, s => s1, c => c1);\n  ha2: entity work.halbaddierer(struct)\n    port map(a => s1, b => cin, s => s, c => c2);\n  g1: entity work.or_2 port map(x0 => c1, x1 => c2, y => cout);\nend architecture struct;\n\narchitecture struct of addierer_2bit is\n  signal c1 : std_logic;\nbegin\n  va0: entity work.volladdierer\n    port map(a => a(0), b => b(0), cin => '0', s => s(0), cout => c1);\n  va1: entity work.volladdierer\n    port map(a => a(1), b => b(1), cin => c1, s => s(1), cout => cout);\nend architecture struct;"
+      },
+      {
+       "t": "p",
+       "s": "Einzelbits eines Vektors verbindest du mit `a(0)`, Konstanten direkt mit `'0'`."
+      }
+     ],
+     "loesungMd": "```vhdl\narchitecture struct of volladdierer is\n  signal s1, c1, c2 : std_logic;\nbegin\n  ha1: entity work.halbaddierer(struct)\n    port map(a => a, b => b, s => s1, c => c1);\n  ha2: entity work.halbaddierer(struct)\n    port map(a => s1, b => cin, s => s, c => c2);\n  g1: entity work.or_2 port map(x0 => c1, x1 => c2, y => cout);\nend architecture struct;\n\narchitecture struct of addierer_2bit is\n  signal c1 : std_logic;\nbegin\n  va0: entity work.volladdierer\n    port map(a => a(0), b => b(0), cin => '0', s => s(0), cout => c1);\n  va1: entity work.volladdierer\n    port map(a => a(1), b => b(1), cin => c1, s => s(1), cout => cout);\nend architecture struct;\n```\nEinzelbits eines Vektors verbindest du mit `a(0)`, Konstanten direkt mit `'0'`.",
+     "klausur": [
+      {
+       "t": "p",
+       "s": "F20 A1 Bild 4 (Multiplizierwerk aus Volladdierern), F23 A1 F7 (`det_plru_element` aus zwei Komponenten), G05 (dasselbe mit `generate`)."
+      }
+     ]
+    },
+    {
+     "id": "L08",
+     "block": "L",
+     "title": "Multiplexer: Gatter, Verhalten, Baustein",
+     "min": 8,
+     "mode": "code",
+     "starter": "",
+     "solutionCode": "architecture behav of mux2 is\nbegin\n  y <= a when sel = '0' else b;\nend architecture behav;\n\narchitecture struct of mux2 is\n  signal sel_n, ha, hb : std_logic;\nbegin\n  g1: entity work.not_1 port map(x => sel, y => sel_n);\n  g2: entity work.and_2 port map(x0 => a, x1 => sel_n, y => ha);\n  g3: entity work.and_2 port map(x0 => b, x1 => sel, y => hb);\n  g4: entity work.or_2  port map(x0 => ha, x1 => hb, y => y);\nend architecture struct;\n\narchitecture struct of mux4 is\n  signal y_lo, y_hi : std_logic;\nbegin\n  m_lo:  entity work.mux2 port map(a => d(0), b => d(1), sel => sel(0), y => y_lo);\n  m_hi:  entity work.mux2 port map(a => d(2), b => d(3), sel => sel(0), y => y_hi);\n  m_out: entity work.mux2 port map(a => y_lo, b => y_hi, sel => sel(1), y => y);\nend architecture struct;",
+     "ziel": [
+      {
+       "t": "p",
+       "s": "Dieselbe Funktion auf drei Ebenen beschreiben: Gatter, Verhalten, aus Bausteinen."
+      }
+     ],
+     "erklaerung": [
+      {
+       "t": "p",
+       "s": "Ein 2:1-Multiplexer `y = a` bei `sel = '0'`, sonst `y = b` besteht aus vier Gattern:"
+      },
+      {
+       "t": "diagram",
+       "id": "L08_mux2",
+       "alt": "2:1-Multiplexer aus Gattern",
+       "w": 460,
+       "h": 213,
+       "prims": [
+        {
+         "k": "P",
+         "pts": [
+          125,
+          81,
+          165,
+          81,
+          165,
+          121,
+          125,
+          121
+         ],
+         "s": "ink",
+         "f": "surface",
+         "w": 1.6
+        },
+        {
+         "k": "T",
+         "x": 145.0,
+         "y": 100,
+         "s": "1",
+         "a": "c",
+         "z": 15,
+         "c": "ink",
+         "m": false
+        },
+        {
+         "k": "L",
+         "pts": [
+          115,
+          101.0,
+          125,
+          101.0
+         ],
+         "s": "line",
+         "w": 1.4
+        },
+        {
+         "k": "E",
+         "x": 169,
+         "y": 101.0,
+         "rx": 4,
+         "ry": 4,
+         "s": "ink",
+         "f": "surface"
+        },
+        {
+         "k": "L",
+         "pts": [
+          173,
+          101.0,
+          179,
+          101.0
+         ],
+         "s": "line",
+         "w": 1.4
+        },
+        {
+         "k": "T",
+         "x": 145.0,
+         "y": 76,
+         "s": "g1",
+         "a": "c",
+         "z": 10,
+         "c": "line",
+         "m": false
+        },
+        {
+         "k": "P",
+         "pts": [
+          215,
+          21,
+          255,
+          21,
+          255,
+          81,
+          215,
+          81
+         ],
+         "s": "ink",
+         "f": "surface",
+         "w": 1.6
+        },
+        {
+         "k": "T",
+         "x": 235.0,
+         "y": 40,
+         "s": "&",
+         "a": "c",
+         "z": 15,
+         "c": "ink",
+         "m": false
+        },
+        {
+         "k": "L",
+         "pts": [
+          205,
+          41,
+          215,
+          41
+         ],
+         "s": "line",
+         "w": 1.4
+        },
+        {
+         "k": "L",
+         "pts": [
+          205,
+          61,
+          215,
+          61
+         ],
+         "s": "line",
+         "w": 1.4
+        },
+        {
+         "k": "L",
+         "pts": [
+          255,
+          51.0,
+          265,
+          51.0
+         ],
+         "s": "line",
+         "w": 1.4
+        },
+        {
+         "k": "T",
+         "x": 235.0,
+         "y": 16,
+         "s": "g2",
+         "a": "c",
+         "z": 10,
+         "c": "line",
+         "m": false
+        },
+        {
+         "k": "P",
+         "pts": [
+          215,
+          141,
+          255,
+          141,
+          255,
+          201,
+          215,
+          201
+         ],
+         "s": "ink",
+         "f": "surface",
+         "w": 1.6
+        },
+        {
+         "k": "T",
+         "x": 235.0,
+         "y": 160,
+         "s": "&",
+         "a": "c",
+         "z": 15,
+         "c": "ink",
+         "m": false
+        },
+        {
+         "k": "L",
+         "pts": [
+          205,
+          161,
+          215,
+          161
+         ],
+         "s": "line",
+         "w": 1.4
+        },
+        {
+         "k": "L",
+         "pts": [
+          205,
+          181,
+          215,
+          181
+         ],
+         "s": "line",
+         "w": 1.4
+        },
+        {
+         "k": "L",
+         "pts": [
+          255,
+          171.0,
+          265,
+          171.0
+         ],
+         "s": "line",
+         "w": 1.4
+        },
+        {
+         "k": "T",
+         "x": 235.0,
+         "y": 136,
+         "s": "g3",
+         "a": "c",
+         "z": 10,
+         "c": "line",
+         "m": false
+        },
+        {
+         "k": "P",
+         "pts": [
+          315,
+          71,
+          355,
+          71,
+          355,
+          131,
+          315,
+          131
+         ],
+         "s": "ink",
+         "f": "surface",
+         "w": 1.6
+        },
+        {
+         "k": "T",
+         "x": 335.0,
+         "y": 90,
+         "s": "≥1",
+         "a": "c",
+         "z": 15,
+         "c": "ink",
+         "m": false
+        },
+        {
+         "k": "L",
+         "pts": [
+          305,
+          91,
+          315,
+          91
+         ],
+         "s": "line",
+         "w": 1.4
+        },
+        {
+         "k": "L",
+         "pts": [
+          305,
+          111,
+          315,
+          111
+         ],
+         "s": "line",
+         "w": 1.4
+        },
+        {
+         "k": "L",
+         "pts": [
+          355,
+          101.0,
+          365,
+          101.0
+         ],
+         "s": "line",
+         "w": 1.4
+        },
+        {
+         "k": "T",
+         "x": 335.0,
+         "y": 66,
+         "s": "g4",
+         "a": "c",
+         "z": 10,
+         "c": "line",
+         "m": false
+        },
+        {
+         "k": "T",
+         "x": 60,
+         "y": 45,
+         "s": "a",
+         "a": "r",
+         "z": 13,
+         "c": "ink",
+         "m": true
+        },
+        {
+         "k": "T",
+         "x": 60,
+         "y": 105,
+         "s": "sel",
+         "a": "r",
+         "z": 13,
+         "c": "ink",
+         "m": true
+        },
+        {
+         "k": "T",
+         "x": 60,
+         "y": 165,
+         "s": "b",
+         "a": "r",
+         "z": 13,
+         "c": "ink",
+         "m": true
+        },
+        {
+         "k": "T",
+         "x": 400,
+         "y": 105,
+         "s": "y",
+         "a": "l",
+         "z": 13,
+         "c": "ink",
+         "m": true
+        },
+        {
+         "k": "L",
+         "pts": [
+          65,
+          41,
+          205,
+          41
+         ],
+         "s": "line",
+         "w": 1.4
+        },
+        {
+         "k": "L",
+         "pts": [
+          65,
+          101,
+          115,
+          101.0
+         ],
+         "s": "line",
+         "w": 1.4
+        },
+        {
+         "k": "L",
+         "pts": [
+          179,
+          101.0,
+          192,
+          101.0,
+          192,
+          61,
+          205,
+          61
+         ],
+         "s": "line",
+         "w": 1.4
+        },
+        {
+         "k": "T",
+         "x": 195,
+         "y": 96,
+         "s": "sel_n",
+         "a": "c",
+         "z": 11,
+         "c": "line",
+         "m": true
+        },
+        {
+         "k": "L",
+         "pts": [
+          65,
+          161,
+          205,
+          161
+         ],
+         "s": "line",
+         "w": 1.4
+        },
+        {
+         "k": "L",
+         "pts": [
+          65,
+          101,
+          100,
+          101,
+          100,
+          181,
+          205,
+          181
+         ],
+         "s": "line",
+         "w": 1.4
+        },
+        {
+         "k": "E",
+         "x": 100,
+         "y": 101,
+         "rx": 3,
+         "ry": 3,
+         "s": "line",
+         "f": "line"
+        },
+        {
+         "k": "L",
+         "pts": [
+          265,
+          51.0,
+          287,
+          51.0,
+          287,
+          91,
+          305,
+          91
+         ],
+         "s": "line",
+         "w": 1.4
+        },
+        {
+         "k": "T",
+         "x": 277,
+         "y": 46.0,
+         "s": "ha",
+         "a": "c",
+         "z": 11,
+         "c": "line",
+         "m": true
+        },
+        {
+         "k": "L",
+         "pts": [
+          265,
+          171.0,
+          287,
+          171.0,
+          287,
+          111,
+          305,
+          111
+         ],
+         "s": "line",
+         "w": 1.4
+        },
+        {
+         "k": "T",
+         "x": 277,
+         "y": 166,
+         "s": "hb",
+         "a": "c",
+         "z": 11,
+         "c": "line",
+         "m": true
+        },
+        {
+         "k": "L",
+         "pts": [
+          365,
+          101.0,
+          395,
+          101
+         ],
+         "s": "line",
+         "w": 1.4
+        }
+       ]
+      },
+      {
+       "t": "p",
+       "s": "Daraus baut man größere Multiplexer, ohne die Gatter neu zu zeichnen:"
+      },
+      {
+       "t": "diagram",
+       "id": "L08_mux4",
+       "alt": "4:1-Multiplexer aus drei 2:1-Multiplexern",
+       "w": 520,
+       "h": 297,
+       "prims": [
+        {
+         "k": "P",
+         "pts": [
+          165,
+          21,
+          255,
+          21,
+          255,
+          115,
+          165,
+          115
+         ],
+         "s": "ink",
+         "f": "surface",
+         "w": 1.6
+        },
+        {
+         "k": "T",
+         "x": 210.0,
+         "y": 37,
+         "s": "mux2",
+         "a": "c",
+         "z": 12,
+         "c": "accent",
+         "m": true
+        },
+        {
+         "k": "T",
+         "x": 210.0,
+         "y": 16,
+         "s": "m_lo",
+         "a": "c",
+         "z": 10,
+         "c": "line",
+         "m": true
+        },
+        {
+         "k": "L",
+         "pts": [
+          155,
+          55,
+          165,
+          55
+         ],
+         "s": "line",
+         "w": 1.4
+        },
+        {
+         "k": "T",
+         "x": 170,
+         "y": 59,
+         "s": "a",
+         "a": "l",
+         "z": 11,
+         "c": "ink",
+         "m": true
+        },
+        {
+         "k": "L",
+         "pts": [
+          155,
+          75,
+          165,
+          75
+         ],
+         "s": "line",
+         "w": 1.4
+        },
+        {
+         "k": "T",
+         "x": 170,
+         "y": 79,
+         "s": "b",
+         "a": "l",
+         "z": 11,
+         "c": "ink",
+         "m": true
+        },
+        {
+         "k": "L",
+         "pts": [
+          155,
+          95,
+          165,
+          95
+         ],
+         "s": "line",
+         "w": 1.4
+        },
+        {
+         "k": "T",
+         "x": 170,
+         "y": 99,
+         "s": "sel",
+         "a": "l",
+         "z": 11,
+         "c": "ink",
+         "m": true
+        },
+        {
+         "k": "L",
+         "pts": [
+          255,
+          55,
+          265,
+          55
+         ],
+         "s": "line",
+         "w": 1.4
+        },
+        {
+         "k": "T",
+         "x": 250,
+         "y": 59,
+         "s": "y",
+         "a": "r",
+         "z": 11,
+         "c": "ink",
+         "m": true
+        },
+        {
+         "k": "P",
+         "pts": [
+          165,
+          141,
+          255,
+          141,
+          255,
+          235,
+          165,
+          235
+         ],
+         "s": "ink",
+         "f": "surface",
+         "w": 1.6
+        },
+        {
+         "k": "T",
+         "x": 210.0,
+         "y": 157,
+         "s": "mux2",
+         "a": "c",
+         "z": 12,
+         "c": "accent",
+         "m": true
+        },
+        {
+         "k": "T",
+         "x": 210.0,
+         "y": 136,
+         "s": "m_hi",
+         "a": "c",
+         "z": 10,
+         "c": "line",
+         "m": true
+        },
+        {
+         "k": "L",
+         "pts": [
+          155,
+          175,
+          165,
+          175
+         ],
+         "s": "line",
+         "w": 1.4
+        },
+        {
+         "k": "T",
+         "x": 170,
+         "y": 179,
+         "s": "a",
+         "a": "l",
+         "z": 11,
+         "c": "ink",
+         "m": true
+        },
+        {
+         "k": "L",
+         "pts": [
+          155,
+          195,
+          165,
+          195
+         ],
+         "s": "line",
+         "w": 1.4
+        },
+        {
+         "k": "T",
+         "x": 170,
+         "y": 199,
+         "s": "b",
+         "a": "l",
+         "z": 11,
+         "c": "ink",
+         "m": true
+        },
+        {
+         "k": "L",
+         "pts": [
+          155,
+          215,
+          165,
+          215
+         ],
+         "s": "line",
+         "w": 1.4
+        },
+        {
+         "k": "T",
+         "x": 170,
+         "y": 219,
+         "s": "sel",
+         "a": "l",
+         "z": 11,
+         "c": "ink",
+         "m": true
+        },
+        {
+         "k": "L",
+         "pts": [
+          255,
+          175,
+          265,
+          175
+         ],
+         "s": "line",
+         "w": 1.4
+        },
+        {
+         "k": "T",
+         "x": 250,
+         "y": 179,
+         "s": "y",
+         "a": "r",
+         "z": 11,
+         "c": "ink",
+         "m": true
+        },
+        {
+         "k": "P",
+         "pts": [
+          335,
+          81,
+          425,
+          81,
+          425,
+          175,
+          335,
+          175
+         ],
+         "s": "ink",
+         "f": "surface",
+         "w": 1.6
+        },
+        {
+         "k": "T",
+         "x": 380.0,
+         "y": 97,
+         "s": "mux2",
+         "a": "c",
+         "z": 12,
+         "c": "accent",
+         "m": true
+        },
+        {
+         "k": "T",
+         "x": 380.0,
+         "y": 76,
+         "s": "m_out",
+         "a": "c",
+         "z": 10,
+         "c": "line",
+         "m": true
+        },
+        {
+         "k": "L",
+         "pts": [
+          325,
+          115,
+          335,
+          115
+         ],
+         "s": "line",
+         "w": 1.4
+        },
+        {
+         "k": "T",
+         "x": 340,
+         "y": 119,
+         "s": "a",
+         "a": "l",
+         "z": 11,
+         "c": "ink",
+         "m": true
+        },
+        {
+         "k": "L",
+         "pts": [
+          325,
+          135,
+          335,
+          135
+         ],
+         "s": "line",
+         "w": 1.4
+        },
+        {
+         "k": "T",
+         "x": 340,
+         "y": 139,
+         "s": "b",
+         "a": "l",
+         "z": 11,
+         "c": "ink",
+         "m": true
+        },
+        {
+         "k": "L",
+         "pts": [
+          325,
+          155,
+          335,
+          155
+         ],
+         "s": "line",
+         "w": 1.4
+        },
+        {
+         "k": "T",
+         "x": 340,
+         "y": 159,
+         "s": "sel",
+         "a": "l",
+         "z": 11,
+         "c": "ink",
+         "m": true
+        },
+        {
+         "k": "L",
+         "pts": [
+          425,
+          115,
+          435,
+          115
+         ],
+         "s": "line",
+         "w": 1.4
+        },
+        {
+         "k": "T",
+         "x": 420,
+         "y": 119,
+         "s": "y",
+         "a": "r",
+         "z": 11,
+         "c": "ink",
+         "m": true
+        },
+        {
+         "k": "T",
+         "x": 60,
+         "y": 59,
+         "s": "d(0)",
+         "a": "r",
+         "z": 13,
+         "c": "ink",
+         "m": true
+        },
+        {
+         "k": "T",
+         "x": 60,
+         "y": 79,
+         "s": "d(1)",
+         "a": "r",
+         "z": 13,
+         "c": "ink",
+         "m": true
+        },
+        {
+         "k": "T",
+         "x": 60,
+         "y": 179,
+         "s": "d(2)",
+         "a": "r",
+         "z": 13,
+         "c": "ink",
+         "m": true
+        },
+        {
+         "k": "T",
+         "x": 60,
+         "y": 199,
+         "s": "d(3)",
+         "a": "r",
+         "z": 13,
+         "c": "ink",
+         "m": true
+        },
+        {
+         "k": "T",
+         "x": 60,
+         "y": 255,
+         "s": "sel(0)",
+         "a": "r",
+         "z": 13,
+         "c": "ink",
+         "m": true
+        },
+        {
+         "k": "T",
+         "x": 60,
+         "y": 285,
+         "s": "sel(1)",
+         "a": "r",
+         "z": 13,
+         "c": "ink",
+         "m": true
+        },
+        {
+         "k": "T",
+         "x": 460,
+         "y": 119,
+         "s": "y",
+         "a": "l",
+         "z": 13,
+         "c": "ink",
+         "m": true
+        },
+        {
+         "k": "L",
+         "pts": [
+          65,
+          55,
+          155,
+          55
+         ],
+         "s": "line",
+         "w": 1.4
+        },
+        {
+         "k": "L",
+         "pts": [
+          65,
+          75,
+          155,
+          75
+         ],
+         "s": "line",
+         "w": 1.4
+        },
+        {
+         "k": "L",
+         "pts": [
+          65,
+          175,
+          155,
+          175
+         ],
+         "s": "line",
+         "w": 1.4
+        },
+        {
+         "k": "L",
+         "pts": [
+          65,
+          195,
+          155,
+          195
+         ],
+         "s": "line",
+         "w": 1.4
+        },
+        {
+         "k": "L",
+         "pts": [
+          65,
+          251,
+          125,
+          251,
+          125,
+          95,
+          155,
+          95
+         ],
+         "s": "line",
+         "w": 1.4
+        },
+        {
+         "k": "L",
+         "pts": [
+          65,
+          251,
+          125,
+          251,
+          125,
+          215,
+          155,
+          215
+         ],
+         "s": "line",
+         "w": 1.4
+        },
+        {
+         "k": "E",
+         "x": 125,
+         "y": 215,
+         "rx": 3,
+         "ry": 3,
+         "s": "line",
+         "f": "line"
+        },
+        {
+         "k": "L",
+         "pts": [
+          65,
+          281,
+          305,
+          281,
+          305,
+          155,
+          325,
+          155
+         ],
+         "s": "line",
+         "w": 1.4
+        },
+        {
+         "k": "L",
+         "pts": [
+          265,
+          55,
+          295,
+          55,
+          295,
+          115,
+          325,
+          115
+         ],
+         "s": "accent",
+         "w": 2
+        },
+        {
+         "k": "T",
+         "x": 277,
+         "y": 50,
+         "s": "y_lo",
+         "a": "c",
+         "z": 11,
+         "c": "accent",
+         "m": true
+        },
+        {
+         "k": "L",
+         "pts": [
+          265,
+          175,
+          285,
+          175,
+          285,
+          135,
+          325,
+          135
+         ],
+         "s": "accent",
+         "w": 2
+        },
+        {
+         "k": "T",
+         "x": 272,
+         "y": 170,
+         "s": "y_hi",
+         "a": "c",
+         "z": 11,
+         "c": "accent",
+         "m": true
+        },
+        {
+         "k": "L",
+         "pts": [
+          435,
+          115,
+          455,
+          115
+         ],
+         "s": "line",
+         "w": 1.4
+        }
+       ]
+      },
+      {
+       "t": "p",
+       "s": "`sel(0)` wählt in beiden ersten Stufen, `sel(1)` in der letzten."
+      }
+     ],
+     "aufgabe": [
+      {
+       "t": "p",
+       "s": "Entity `mux2` (Eingänge `a, b, sel`, Ausgang `y`), Entity `mux4` (`d : std_logic_vector(3 downto 0)`, `sel : std_logic_vector(1 downto 0)`, `y`)."
+      },
+      {
+       "t": "ol",
+       "items": [
+        "`architecture behav of mux2` mit `when … else`",
+        "`architecture struct of mux2` nach dem Gatterplan (Signale `sel_n`, `ha`, `hb`)",
+        "`architecture struct of mux4` aus drei `mux2`"
+       ]
+      }
+     ],
+     "aufgabeMd": "Entity `mux2` (Eingänge `a, b, sel`, Ausgang `y`), Entity `mux4` (`d : std_logic_vector(3 downto 0)`, `sel : std_logic_vector(1 downto 0)`, `y`).\n1. `architecture behav of mux2` mit `when … else`\n2. `architecture struct of mux2` nach dem Gatterplan (Signale `sel_n`, `ha`, `hb`)\n3. `architecture struct of mux4` aus drei `mux2`",
+     "loesung": [
+      {
+       "t": "code",
+       "lang": "vhdl",
+       "s": "architecture behav of mux2 is\nbegin\n  y <= a when sel = '0' else b;\nend architecture behav;\n\narchitecture struct of mux2 is\n  signal sel_n, ha, hb : std_logic;\nbegin\n  g1: entity work.not_1 port map(x => sel, y => sel_n);\n  g2: entity work.and_2 port map(x0 => a, x1 => sel_n, y => ha);\n  g3: entity work.and_2 port map(x0 => b, x1 => sel, y => hb);\n  g4: entity work.or_2  port map(x0 => ha, x1 => hb, y => y);\nend architecture struct;\n\narchitecture struct of mux4 is\n  signal y_lo, y_hi : std_logic;\nbegin\n  m_lo:  entity work.mux2 port map(a => d(0), b => d(1), sel => sel(0), y => y_lo);\n  m_hi:  entity work.mux2 port map(a => d(2), b => d(3), sel => sel(0), y => y_hi);\n  m_out: entity work.mux2 port map(a => y_lo, b => y_hi, sel => sel(1), y => y);\nend architecture struct;"
+      }
+     ],
+     "loesungMd": "```vhdl\narchitecture behav of mux2 is\nbegin\n  y <= a when sel = '0' else b;\nend architecture behav;\n\narchitecture struct of mux2 is\n  signal sel_n, ha, hb : std_logic;\nbegin\n  g1: entity work.not_1 port map(x => sel, y => sel_n);\n  g2: entity work.and_2 port map(x0 => a, x1 => sel_n, y => ha);\n  g3: entity work.and_2 port map(x0 => b, x1 => sel, y => hb);\n  g4: entity work.or_2  port map(x0 => ha, x1 => hb, y => y);\nend architecture struct;\n\narchitecture struct of mux4 is\n  signal y_lo, y_hi : std_logic;\nbegin\n  m_lo:  entity work.mux2 port map(a => d(0), b => d(1), sel => sel(0), y => y_lo);\n  m_hi:  entity work.mux2 port map(a => d(2), b => d(3), sel => sel(0), y => y_hi);\n  m_out: entity work.mux2 port map(a => y_lo, b => y_hi, sel => sel(1), y => y);\nend architecture struct;\n```",
+     "klausur": [
+      {
+       "t": "p",
+       "s": "**F20 A2 F3/F4** (4:1-Multiplexer, generische Variante), F19 A2 F7 (Lesemultiplexer), H19 A1 Bild 3."
+      }
+     ]
+    },
+    {
+     "id": "L09",
+     "block": "L",
+     "title": "Schaltpläne mit Flipflops",
+     "min": 8,
+     "mode": "code",
+     "starter": "",
+     "solutionCode": "architecture struct of zaehler2 is\n  signal d0, d1, q0_int, q1_int : std_logic;\nbegin\n  g0:  entity work.not_1 port map(x => q0_int, y => d0);\n  g1:  entity work.xor_2 port map(x0 => q0_int, x1 => q1_int, y => d1);\n  ff0: entity work.d_ff\n    port map(clk => clk, res_n => res_n, d => d0, q => q0_int);\n  ff1: entity work.d_ff\n    port map(clk => clk, res_n => res_n, d => d1, q => q1_int);\n  q0 <= q0_int;\n  q1 <= q1_int;\nend architecture struct;\n\narchitecture behav of zaehler2 is\n  signal q0_int, q1_int : std_logic;\nbegin\n  process(clk, res_n) is\n  begin\n    if res_n = '0' then\n      q0_int <= '0';\n      q1_int <= '0';\n    else\n      if clk'event and clk = '1' then\n        q0_int <= not q0_int;\n        q1_int <= q0_int xor q1_int;\n      end if;\n    end if;\n  end process;\n  q0 <= q0_int;\n  q1 <= q1_int;\nend architecture behav;",
+     "ziel": [
+      {
+       "t": "p",
+       "s": "Einen getakteten Schaltplan als `struct` mit `d_ff`-Instanzen und als `behav` mit Prozess schreiben."
+      }
+     ],
+     "erklaerung": [
+      {
+       "t": "p",
+       "s": "Ein 2-Bit-Zähler wie im Skript (dort mit 3 Bit):"
+      },
+      {
+       "t": "diagram",
+       "id": "L09_zaehler2",
+       "alt": "2-Bit-Zähler aus zwei D-Flipflops, NICHT und XOR",
+       "w": 460,
+       "h": 317,
+       "prims": [
+        {
+         "k": "P",
+         "pts": [
+          125,
+          31,
+          165,
+          31,
+          165,
+          71,
+          125,
+          71
+         ],
+         "s": "ink",
+         "f": "surface",
+         "w": 1.6
+        },
+        {
+         "k": "T",
+         "x": 145.0,
+         "y": 50,
+         "s": "1",
+         "a": "c",
+         "z": 15,
+         "c": "ink",
+         "m": false
+        },
+        {
+         "k": "L",
+         "pts": [
+          115,
+          51.0,
+          125,
+          51.0
+         ],
+         "s": "line",
+         "w": 1.4
+        },
+        {
+         "k": "E",
+         "x": 169,
+         "y": 51.0,
+         "rx": 4,
+         "ry": 4,
+         "s": "ink",
+         "f": "surface"
+        },
+        {
+         "k": "L",
+         "pts": [
+          173,
+          51.0,
+          179,
+          51.0
+         ],
+         "s": "line",
+         "w": 1.4
+        },
+        {
+         "k": "T",
+         "x": 145.0,
+         "y": 26,
+         "s": "g0",
+         "a": "c",
+         "z": 10,
+         "c": "line",
+         "m": false
+        },
+        {
+         "k": "P",
+         "pts": [
+          125,
+          151,
+          165,
+          151,
+          165,
+          211,
+          125,
+          211
+         ],
+         "s": "ink",
+         "f": "surface",
+         "w": 1.6
+        },
+        {
+         "k": "T",
+         "x": 145.0,
+         "y": 170,
+         "s": "=1",
+         "a": "c",
+         "z": 15,
+         "c": "ink",
+         "m": false
+        },
+        {
+         "k": "L",
+         "pts": [
+          115,
+          171,
+          125,
+          171
+         ],
+         "s": "line",
+         "w": 1.4
+        },
+        {
+         "k": "L",
+         "pts": [
+          115,
+          191,
+          125,
+          191
+         ],
+         "s": "line",
+         "w": 1.4
+        },
+        {
+         "k": "L",
+         "pts": [
+          165,
+          181.0,
+          175,
+          181.0
+         ],
+         "s": "line",
+         "w": 1.4
+        },
+        {
+         "k": "T",
+         "x": 145.0,
+         "y": 146,
+         "s": "g1",
+         "a": "c",
+         "z": 10,
+         "c": "line",
+         "m": false
+        },
+        {
+         "k": "P",
+         "pts": [
+          225,
+          31,
+          275,
+          31,
+          275,
+          111,
+          225,
+          111
+         ],
+         "s": "ink",
+         "f": "surface",
+         "w": 1.6
+        },
+        {
+         "k": "T",
+         "x": 231,
+         "y": 55,
+         "s": "1D",
+         "a": "l",
+         "z": 12,
+         "c": "ink",
+         "m": false
+        },
+        {
+         "k": "L",
+         "pts": [
+          215,
+          51,
+          225,
+          51
+         ],
+         "s": "line",
+         "w": 1.4
+        },
+        {
+         "k": "T",
+         "x": 237,
+         "y": 75,
+         "s": "C1",
+         "a": "l",
+         "z": 12,
+         "c": "ink",
+         "m": false
+        },
+        {
+         "k": "L",
+         "pts": [
+          215,
+          71,
+          225,
+          71
+         ],
+         "s": "line",
+         "w": 1.4
+        },
+        {
+         "k": "T",
+         "x": 231,
+         "y": 95,
+         "s": "R",
+         "a": "l",
+         "z": 12,
+         "c": "ink",
+         "m": false
+        },
+        {
+         "k": "E",
+         "x": 221,
+         "y": 91,
+         "rx": 4,
+         "ry": 4,
+         "s": "ink",
+         "f": "surface"
+        },
+        {
+         "k": "L",
+         "pts": [
+          217,
+          91,
+          211,
+          91
+         ],
+         "s": "line",
+         "w": 1.4
+        },
+        {
+         "k": "L",
+         "pts": [
+          225,
+          65,
+          233,
+          71,
+          225,
+          77
+         ],
+         "s": "ink",
+         "w": 1.4
+        },
+        {
+         "k": "L",
+         "pts": [
+          275,
+          51,
+          285,
+          51
+         ],
+         "s": "line",
+         "w": 1.4
+        },
+        {
+         "k": "T",
+         "x": 250.0,
+         "y": 26,
+         "s": "ff0",
+         "a": "c",
+         "z": 10,
+         "c": "line",
+         "m": true
+        },
+        {
+         "k": "P",
+         "pts": [
+          225,
+          151,
+          275,
+          151,
+          275,
+          231,
+          225,
+          231
+         ],
+         "s": "ink",
+         "f": "surface",
+         "w": 1.6
+        },
+        {
+         "k": "T",
+         "x": 231,
+         "y": 175,
+         "s": "1D",
+         "a": "l",
+         "z": 12,
+         "c": "ink",
+         "m": false
+        },
+        {
+         "k": "L",
+         "pts": [
+          215,
+          171,
+          225,
+          171
+         ],
+         "s": "line",
+         "w": 1.4
+        },
+        {
+         "k": "T",
+         "x": 237,
+         "y": 195,
+         "s": "C1",
+         "a": "l",
+         "z": 12,
+         "c": "ink",
+         "m": false
+        },
+        {
+         "k": "L",
+         "pts": [
+          215,
+          191,
+          225,
+          191
+         ],
+         "s": "line",
+         "w": 1.4
+        },
+        {
+         "k": "T",
+         "x": 231,
+         "y": 215,
+         "s": "R",
+         "a": "l",
+         "z": 12,
+         "c": "ink",
+         "m": false
+        },
+        {
+         "k": "E",
+         "x": 221,
+         "y": 211,
+         "rx": 4,
+         "ry": 4,
+         "s": "ink",
+         "f": "surface"
+        },
+        {
+         "k": "L",
+         "pts": [
+          217,
+          211,
+          211,
+          211
+         ],
+         "s": "line",
+         "w": 1.4
+        },
+        {
+         "k": "L",
+         "pts": [
+          225,
+          185,
+          233,
+          191,
+          225,
+          197
+         ],
+         "s": "ink",
+         "w": 1.4
+        },
+        {
+         "k": "L",
+         "pts": [
+          275,
+          171,
+          285,
+          171
+         ],
+         "s": "line",
+         "w": 1.4
+        },
+        {
+         "k": "T",
+         "x": 250.0,
+         "y": 146,
+         "s": "ff1",
+         "a": "c",
+         "z": 10,
+         "c": "line",
+         "m": true
+        },
+        {
+         "k": "T",
+         "x": 60,
+         "y": 285,
+         "s": "clk",
+         "a": "r",
+         "z": 13,
+         "c": "ink",
+         "m": true
+        },
+        {
+         "k": "T",
+         "x": 60,
+         "y": 305,
+         "s": "res_n",
+         "a": "r",
+         "z": 13,
+         "c": "ink",
+         "m": true
+        },
+        {
+         "k": "T",
+         "x": 400,
+         "y": 55,
+         "s": "q0",
+         "a": "l",
+         "z": 13,
+         "c": "ink",
+         "m": true
+        },
+        {
+         "k": "T",
+         "x": 400,
+         "y": 175,
+         "s": "q1",
+         "a": "l",
+         "z": 13,
+         "c": "ink",
+         "m": true
+        },
+        {
+         "k": "L",
+         "pts": [
+          179,
+          51.0,
+          215,
+          51
+         ],
+         "s": "line",
+         "w": 1.4
+        },
+        {
+         "k": "T",
+         "x": 197,
+         "y": 46.0,
+         "s": "d0",
+         "a": "c",
+         "z": 11,
+         "c": "line",
+         "m": true
+        },
+        {
+         "k": "L",
+         "pts": [
+          175,
+          181.0,
+          190,
+          181.0,
+          190,
+          171,
+          215,
+          171
+         ],
+         "s": "line",
+         "w": 1.4
+        },
+        {
+         "k": "T",
+         "x": 183,
+         "y": 176,
+         "s": "d1",
+         "a": "c",
+         "z": 11,
+         "c": "line",
+         "m": true
+        },
+        {
+         "k": "L",
+         "pts": [
+          285,
+          51,
+          395,
+          51
+         ],
+         "s": "accent",
+         "w": 2
+        },
+        {
+         "k": "T",
+         "x": 365,
+         "y": 46,
+         "s": "q0_int",
+         "a": "c",
+         "z": 11,
+         "c": "accent",
+         "m": true
+        },
+        {
+         "k": "L",
+         "pts": [
+          285,
+          51,
+          325,
+          51,
+          325,
+          16,
+          95,
+          16,
+          95,
+          51,
+          115,
+          51.0
+         ],
+         "s": "accent",
+         "w": 2
+        },
+        {
+         "k": "E",
+         "x": 325,
+         "y": 51,
+         "rx": 3,
+         "ry": 3,
+         "s": "accent",
+         "f": "accent"
+        },
+        {
+         "k": "L",
+         "pts": [
+          285,
+          51,
+          325,
+          51,
+          325,
+          131,
+          105,
+          131,
+          105,
+          171,
+          115,
+          171
+         ],
+         "s": "accent",
+         "w": 2
+        },
+        {
+         "k": "L",
+         "pts": [
+          285,
+          171,
+          395,
+          171
+         ],
+         "s": "accent",
+         "w": 2
+        },
+        {
+         "k": "T",
+         "x": 365,
+         "y": 166,
+         "s": "q1_int",
+         "a": "c",
+         "z": 11,
+         "c": "accent",
+         "m": true
+        },
+        {
+         "k": "L",
+         "pts": [
+          285,
+          171,
+          335,
+          171,
+          335,
+          246,
+          95,
+          246,
+          95,
+          191,
+          115,
+          191
+         ],
+         "s": "accent",
+         "w": 2
+        },
+        {
+         "k": "E",
+         "x": 335,
+         "y": 171,
+         "rx": 3,
+         "ry": 3,
+         "s": "accent",
+         "f": "accent"
+        },
+        {
+         "k": "L",
+         "pts": [
+          65,
+          281,
+          205,
+          281,
+          205,
+          71,
+          215,
+          71
+         ],
+         "s": "line",
+         "w": 1.4
+        },
+        {
+         "k": "L",
+         "pts": [
+          65,
+          281,
+          205,
+          281,
+          205,
+          191,
+          215,
+          191
+         ],
+         "s": "line",
+         "w": 1.4
+        },
+        {
+         "k": "E",
+         "x": 205,
+         "y": 191,
+         "rx": 3,
+         "ry": 3,
+         "s": "line",
+         "f": "line"
+        },
+        {
+         "k": "L",
+         "pts": [
+          65,
+          301,
+          197,
+          301,
+          197,
+          91,
+          211,
+          91
+         ],
+         "s": "line",
+         "w": 1.4
+        },
+        {
+         "k": "L",
+         "pts": [
+          65,
+          301,
+          197,
+          301,
+          197,
+          211,
+          211,
+          211
+         ],
+         "s": "line",
+         "w": 1.4
+        },
+        {
+         "k": "E",
+         "x": 197,
+         "y": 211,
+         "rx": 3,
+         "ry": 3,
+         "s": "line",
+         "f": "line"
+        }
+       ]
+      },
+      {
+       "t": "ul",
+       "items": [
+        "`d0 = not q0`, `d1 = q0 xor q1`, beide Flipflops am selben `clk` und `res_n`.",
+        "Die Ausgänge der Flipflops werden **zurückgeführt** → sie werden gelesen → internes Signal `q0_int`, `q1_int`, am Ende `q0 <= q0_int;`",
+        "`d_ff` hat die Ports `clk, res_n, d, q` (D01).",
+        "Für `behav` fasst du alle Flipflops in **einem** getakteten Prozess zusammen und schreibst die Gleichungen hinein."
+       ]
+      }
+     ],
+     "aufgabe": [
+      {
+       "t": "p",
+       "s": "Entity `zaehler2` mit `clk, res_n` (in) und `q0, q1` (out)."
+      },
+      {
+       "t": "ol",
+       "items": [
+        "`architecture struct` mit `not_1`, `xor_2` und zwei `d_ff`",
+        "`architecture behav` mit einem Prozess"
+       ]
+      }
+     ],
+     "aufgabeMd": "Entity `zaehler2` mit `clk, res_n` (in) und `q0, q1` (out).\n1. `architecture struct` mit `not_1`, `xor_2` und zwei `d_ff`\n2. `architecture behav` mit einem Prozess",
+     "loesung": [
+      {
+       "t": "code",
+       "lang": "vhdl",
+       "s": "architecture struct of zaehler2 is\n  signal d0, d1, q0_int, q1_int : std_logic;\nbegin\n  g0:  entity work.not_1 port map(x => q0_int, y => d0);\n  g1:  entity work.xor_2 port map(x0 => q0_int, x1 => q1_int, y => d1);\n  ff0: entity work.d_ff\n    port map(clk => clk, res_n => res_n, d => d0, q => q0_int);\n  ff1: entity work.d_ff\n    port map(clk => clk, res_n => res_n, d => d1, q => q1_int);\n  q0 <= q0_int;\n  q1 <= q1_int;\nend architecture struct;\n\narchitecture behav of zaehler2 is\n  signal q0_int, q1_int : std_logic;\nbegin\n  process(clk, res_n) is\n  begin\n    if res_n = '0' then\n      q0_int <= '0';\n      q1_int <= '0';\n    else\n      if clk'event and clk = '1' then\n        q0_int <= not q0_int;\n        q1_int <= q0_int xor q1_int;\n      end if;\n    end if;\n  end process;\n  q0 <= q0_int;\n  q1 <= q1_int;\nend architecture behav;"
+      },
+      {
+       "t": "p",
+       "s": "Beachte: Im Prozess liest `q1_int <= q0_int xor q1_int;` den **alten** Wert von `q0_int` – genau wie die Hardware (C02)."
+      }
+     ],
+     "loesungMd": "```vhdl\narchitecture struct of zaehler2 is\n  signal d0, d1, q0_int, q1_int : std_logic;\nbegin\n  g0:  entity work.not_1 port map(x => q0_int, y => d0);\n  g1:  entity work.xor_2 port map(x0 => q0_int, x1 => q1_int, y => d1);\n  ff0: entity work.d_ff\n    port map(clk => clk, res_n => res_n, d => d0, q => q0_int);\n  ff1: entity work.d_ff\n    port map(clk => clk, res_n => res_n, d => d1, q => q1_int);\n  q0 <= q0_int;\n  q1 <= q1_int;\nend architecture struct;\n\narchitecture behav of zaehler2 is\n  signal q0_int, q1_int : std_logic;\nbegin\n  process(clk, res_n) is\n  begin\n    if res_n = '0' then\n      q0_int <= '0';\n      q1_int <= '0';\n    else\n      if clk'event and clk = '1' then\n        q0_int <= not q0_int;\n        q1_int <= q0_int xor q1_int;\n      end if;\n    end if;\n  end process;\n  q0 <= q0_int;\n  q1 <= q1_int;\nend architecture behav;\n```\nBeachte: Im Prozess liest `q1_int <= q0_int xor q1_int;` den **alten** Wert von `q0_int` – genau wie die Hardware (C02).",
+     "klausur": [
+      {
+       "t": "p",
+       "s": "Skript Kap. 2.3.4–2.3.7 (`counter_3bit` als Struktur- und als Verhaltensbeschreibung), F21 A1 F2."
+      },
+      {
+       "t": "p",
+       "s": "Am Rechner (Repo-Ordner): `am_rechner/L10/getaktet.vhd`"
+      }
+     ]
+    },
+    {
+     "id": "L10",
+     "block": "L",
+     "title": "Modularisieren: ein System schneiden",
+     "min": 8,
+     "mode": "code",
+     "starter": "",
+     "solutionCode": "library ieee; use ieee.std_logic_1164.all;\n\nentity zaehler4 is\n  port(\n    clk, res_n : in  std_logic;\n    en         : in  std_logic;\n    q          : out std_logic_vector(3 downto 0)\n    );\nend entity zaehler4;\n\narchitecture struct of tasten_zaehler is\n  signal taste_sync, puls : std_logic;\nbegin\n  sync: entity work.synchronisierer\n    port map(clk => clk, res_n => res_n,\n             async_in => taste, sync_out => taste_sync);\n  edge: entity work.flanke_s\n    port map(clk => clk, res_n => res_n,\n             taste => taste_sync, puls => puls);\n  cnt:  entity work.zaehler4\n    port map(clk => clk, res_n => res_n, en => puls, q => anzahl);\nend architecture struct;",
+     "ziel": [
+      {
+       "t": "p",
+       "s": "Ein System sinnvoll in Module zerlegen und die Schnittstellen festlegen."
+      }
+     ],
+     "erklaerung": [
+      {
+       "t": "p",
+       "s": "Aufgabe: *Zähle, wie oft eine (prellfreie, aber asynchrone) Taste gedrückt wurde.*"
+      },
+      {
+       "t": "p",
+       "s": "So schneidest du:"
+      },
+      {
+       "t": "ol",
+       "items": [
+        "**Teilaufgaben finden**: einsynchronisieren (D05) → Flanke erkennen (D07) → zählen (D03)",
+        "**Ein Modul pro Teilaufgabe**, jedes einzeln test- und wiederverwendbar",
+        "**Schmale Schnittstellen**: nur die Ports, die wirklich nötig sind; Takt und Reset überall gleich benannt (`clk`, `res_n`)",
+        "**Top-Level nur verdrahten** (`struct`), keine Logik",
+        "Breiten und Grenzen als **Generic**, wenn das Modul mehrfach gebraucht wird (G04)"
+       ]
+      },
+      {
+       "t": "diagram",
+       "id": "L10_tasten_zaehler",
+       "alt": "Tastendruck-Zähler aus drei Modulen",
+       "w": 800,
+       "h": 197,
+       "prims": [
+        {
+         "k": "P",
+         "pts": [
+          135,
+          21,
+          275,
+          21,
+          275,
+          115,
+          135,
+          115
+         ],
+         "s": "ink",
+         "f": "surface",
+         "w": 1.6
+        },
+        {
+         "k": "T",
+         "x": 205.0,
+         "y": 37,
+         "s": "synchronisierer",
+         "a": "c",
+         "z": 12,
+         "c": "accent",
+         "m": true
+        },
+        {
+         "k": "T",
+         "x": 205.0,
+         "y": 16,
+         "s": "sync",
+         "a": "c",
+         "z": 10,
+         "c": "line",
+         "m": true
+        },
+        {
+         "k": "L",
+         "pts": [
+          125,
+          55,
+          135,
+          55
+         ],
+         "s": "line",
+         "w": 1.4
+        },
+        {
+         "k": "T",
+         "x": 140,
+         "y": 59,
+         "s": "clk",
+         "a": "l",
+         "z": 11,
+         "c": "ink",
+         "m": true
+        },
+        {
+         "k": "L",
+         "pts": [
+          125,
+          75,
+          135,
+          75
+         ],
+         "s": "line",
+         "w": 1.4
+        },
+        {
+         "k": "T",
+         "x": 140,
+         "y": 79,
+         "s": "res_n",
+         "a": "l",
+         "z": 11,
+         "c": "ink",
+         "m": true
+        },
+        {
+         "k": "L",
+         "pts": [
+          125,
+          95,
+          135,
+          95
+         ],
+         "s": "line",
+         "w": 1.4
+        },
+        {
+         "k": "T",
+         "x": 140,
+         "y": 99,
+         "s": "async_in",
+         "a": "l",
+         "z": 11,
+         "c": "ink",
+         "m": true
+        },
+        {
+         "k": "L",
+         "pts": [
+          275,
+          55,
+          285,
+          55
+         ],
+         "s": "line",
+         "w": 1.4
+        },
+        {
+         "k": "T",
+         "x": 270,
+         "y": 59,
+         "s": "sync_out",
+         "a": "r",
+         "z": 11,
+         "c": "ink",
+         "m": true
+        },
+        {
+         "k": "P",
+         "pts": [
+          365,
+          21,
+          475,
+          21,
+          475,
+          115,
+          365,
+          115
+         ],
+         "s": "ink",
+         "f": "surface",
+         "w": 1.6
+        },
+        {
+         "k": "T",
+         "x": 420.0,
+         "y": 37,
+         "s": "flanke_s",
+         "a": "c",
+         "z": 12,
+         "c": "accent",
+         "m": true
+        },
+        {
+         "k": "T",
+         "x": 420.0,
+         "y": 16,
+         "s": "edge",
+         "a": "c",
+         "z": 10,
+         "c": "line",
+         "m": true
+        },
+        {
+         "k": "L",
+         "pts": [
+          355,
+          55,
+          365,
+          55
+         ],
+         "s": "line",
+         "w": 1.4
+        },
+        {
+         "k": "T",
+         "x": 370,
+         "y": 59,
+         "s": "clk",
+         "a": "l",
+         "z": 11,
+         "c": "ink",
+         "m": true
+        },
+        {
+         "k": "L",
+         "pts": [
+          355,
+          75,
+          365,
+          75
+         ],
+         "s": "line",
+         "w": 1.4
+        },
+        {
+         "k": "T",
+         "x": 370,
+         "y": 79,
+         "s": "res_n",
+         "a": "l",
+         "z": 11,
+         "c": "ink",
+         "m": true
+        },
+        {
+         "k": "L",
+         "pts": [
+          355,
+          95,
+          365,
+          95
+         ],
+         "s": "line",
+         "w": 1.4
+        },
+        {
+         "k": "T",
+         "x": 370,
+         "y": 99,
+         "s": "taste",
+         "a": "l",
+         "z": 11,
+         "c": "ink",
+         "m": true
+        },
+        {
+         "k": "L",
+         "pts": [
+          475,
+          55,
+          485,
+          55
+         ],
+         "s": "line",
+         "w": 1.4
+        },
+        {
+         "k": "T",
+         "x": 470,
+         "y": 59,
+         "s": "puls",
+         "a": "r",
+         "z": 11,
+         "c": "ink",
+         "m": true
+        },
+        {
+         "k": "P",
+         "pts": [
+          585,
+          21,
+          695,
+          21,
+          695,
+          115,
+          585,
+          115
+         ],
+         "s": "ink",
+         "f": "surface",
+         "w": 1.6
+        },
+        {
+         "k": "T",
+         "x": 640.0,
+         "y": 37,
+         "s": "zaehler4",
+         "a": "c",
+         "z": 12,
+         "c": "accent",
+         "m": true
+        },
+        {
+         "k": "T",
+         "x": 640.0,
+         "y": 16,
+         "s": "cnt",
+         "a": "c",
+         "z": 10,
+         "c": "line",
+         "m": true
+        },
+        {
+         "k": "L",
+         "pts": [
+          575,
+          55,
+          585,
+          55
+         ],
+         "s": "line",
+         "w": 1.4
+        },
+        {
+         "k": "T",
+         "x": 590,
+         "y": 59,
+         "s": "clk",
+         "a": "l",
+         "z": 11,
+         "c": "ink",
+         "m": true
+        },
+        {
+         "k": "L",
+         "pts": [
+          575,
+          75,
+          585,
+          75
+         ],
+         "s": "line",
+         "w": 1.4
+        },
+        {
+         "k": "T",
+         "x": 590,
+         "y": 79,
+         "s": "res_n",
+         "a": "l",
+         "z": 11,
+         "c": "ink",
+         "m": true
+        },
+        {
+         "k": "L",
+         "pts": [
+          575,
+          95,
+          585,
+          95
+         ],
+         "s": "line",
+         "w": 1.4
+        },
+        {
+         "k": "T",
+         "x": 590,
+         "y": 99,
+         "s": "en",
+         "a": "l",
+         "z": 11,
+         "c": "ink",
+         "m": true
+        },
+        {
+         "k": "L",
+         "pts": [
+          695,
+          55,
+          705,
+          55
+         ],
+         "s": "line",
+         "w": 1.4
+        },
+        {
+         "k": "T",
+         "x": 690,
+         "y": 59,
+         "s": "q",
+         "a": "r",
+         "z": 11,
+         "c": "ink",
+         "m": true
+        },
+        {
+         "k": "T",
+         "x": 60,
+         "y": 99,
+         "s": "taste",
+         "a": "r",
+         "z": 13,
+         "c": "ink",
+         "m": true
+        },
+        {
+         "k": "T",
+         "x": 60,
+         "y": 165,
+         "s": "clk",
+         "a": "r",
+         "z": 13,
+         "c": "ink",
+         "m": true
+        },
+        {
+         "k": "T",
+         "x": 60,
+         "y": 185,
+         "s": "res_n",
+         "a": "r",
+         "z": 13,
+         "c": "ink",
+         "m": true
+        },
+        {
+         "k": "T",
+         "x": 740,
+         "y": 59,
+         "s": "anzahl",
+         "a": "l",
+         "z": 13,
+         "c": "ink",
+         "m": true
+        },
+        {
+         "k": "L",
+         "pts": [
+          65,
+          95,
+          125,
+          95
+         ],
+         "s": "line",
+         "w": 1.4
+        },
+        {
+         "k": "L",
+         "pts": [
+          285,
+          55,
+          320,
+          55,
+          320,
+          95,
+          355,
+          95
+         ],
+         "s": "accent",
+         "w": 2
+        },
+        {
+         "k": "T",
+         "x": 325,
+         "y": 111,
+         "s": "taste_sync",
+         "a": "c",
+         "z": 11,
+         "c": "accent",
+         "m": true
+        },
+        {
+         "k": "L",
+         "pts": [
+          485,
+          55,
+          535,
+          55,
+          535,
+          95,
+          575,
+          95
+         ],
+         "s": "accent",
+         "w": 2
+        },
+        {
+         "k": "T",
+         "x": 540,
+         "y": 111,
+         "s": "puls",
+         "a": "c",
+         "z": 11,
+         "c": "accent",
+         "m": true
+        },
+        {
+         "k": "L",
+         "pts": [
+          705,
+          55,
+          735,
+          55
+         ],
+         "s": "line",
+         "w": 1.4
+        },
+        {
+         "k": "L",
+         "pts": [
+          65,
+          161,
+          105,
+          161,
+          105,
+          55,
+          125,
+          55
+         ],
+         "s": "line",
+         "w": 1.4
+        },
+        {
+         "k": "L",
+         "pts": [
+          65,
+          161,
+          335,
+          161,
+          335,
+          55,
+          355,
+          55
+         ],
+         "s": "line",
+         "w": 1.4
+        },
+        {
+         "k": "E",
+         "x": 105,
+         "y": 161,
+         "rx": 3,
+         "ry": 3,
+         "s": "line",
+         "f": "line"
+        },
+        {
+         "k": "L",
+         "pts": [
+          65,
+          161,
+          555,
+          161,
+          555,
+          55,
+          575,
+          55
+         ],
+         "s": "line",
+         "w": 1.4
+        },
+        {
+         "k": "E",
+         "x": 335,
+         "y": 161,
+         "rx": 3,
+         "ry": 3,
+         "s": "line",
+         "f": "line"
+        },
+        {
+         "k": "L",
+         "pts": [
+          65,
+          181,
+          115,
+          181,
+          115,
+          75,
+          125,
+          75
+         ],
+         "s": "line",
+         "w": 1.4
+        },
+        {
+         "k": "L",
+         "pts": [
+          65,
+          181,
+          345,
+          181,
+          345,
+          75,
+          355,
+          75
+         ],
+         "s": "line",
+         "w": 1.4
+        },
+        {
+         "k": "E",
+         "x": 115,
+         "y": 181,
+         "rx": 3,
+         "ry": 3,
+         "s": "line",
+         "f": "line"
+        },
+        {
+         "k": "L",
+         "pts": [
+          65,
+          181,
+          565,
+          181,
+          565,
+          75,
+          575,
+          75
+         ],
+         "s": "line",
+         "w": 1.4
+        },
+        {
+         "k": "E",
+         "x": 345,
+         "y": 181,
+         "rx": 3,
+         "ry": 3,
+         "s": "line",
+         "f": "line"
+        }
+       ]
+      },
+      {
+       "t": "p",
+       "s": "Faustregeln: Ein Modul hat **eine** Aufgabe, die sich in einem Satz sagen lässt. Steuerwerk (Automat) und Rechenwerk (Register, Zähler) trennt man (F06)."
+      }
+     ],
+     "aufgabe": [
+      {
+       "t": "ol",
+       "items": [
+        "Gib die Entity `zaehler4` an (Ports wie im Bild, `q` 4 Bit).",
+        "Schreibe `architecture struct of tasten_zaehler` (Ports `clk, res_n, taste`; `anzahl` 4 Bit) mit den Signalen `taste_sync` und `puls`."
+       ]
+      }
+     ],
+     "aufgabeMd": "1. Gib die Entity `zaehler4` an (Ports wie im Bild, `q` 4 Bit).\n2. Schreibe `architecture struct of tasten_zaehler` (Ports `clk, res_n, taste`; `anzahl` 4 Bit) mit den Signalen `taste_sync` und `puls`.",
+     "loesung": [
+      {
+       "t": "code",
+       "lang": "vhdl",
+       "s": "library ieee; use ieee.std_logic_1164.all;\n\nentity zaehler4 is\n  port(\n    clk, res_n : in  std_logic;\n    en         : in  std_logic;\n    q          : out std_logic_vector(3 downto 0)\n    );\nend entity zaehler4;\n\narchitecture struct of tasten_zaehler is\n  signal taste_sync, puls : std_logic;\nbegin\n  sync: entity work.synchronisierer\n    port map(clk => clk, res_n => res_n,\n             async_in => taste, sync_out => taste_sync);\n  edge: entity work.flanke_s\n    port map(clk => clk, res_n => res_n,\n             taste => taste_sync, puls => puls);\n  cnt:  entity work.zaehler4\n    port map(clk => clk, res_n => res_n, en => puls, q => anzahl);\nend architecture struct;"
+      }
+     ],
+     "loesungMd": "```vhdl\nlibrary ieee; use ieee.std_logic_1164.all;\n\nentity zaehler4 is\n  port(\n    clk, res_n : in  std_logic;\n    en         : in  std_logic;\n    q          : out std_logic_vector(3 downto 0)\n    );\nend entity zaehler4;\n\narchitecture struct of tasten_zaehler is\n  signal taste_sync, puls : std_logic;\nbegin\n  sync: entity work.synchronisierer\n    port map(clk => clk, res_n => res_n,\n             async_in => taste, sync_out => taste_sync);\n  edge: entity work.flanke_s\n    port map(clk => clk, res_n => res_n,\n             taste => taste_sync, puls => puls);\n  cnt:  entity work.zaehler4\n    port map(clk => clk, res_n => res_n, en => puls, q => anzahl);\nend architecture struct;\n```",
+     "klausur": [
+      {
+       "t": "p",
+       "s": "F24 A1 F9 (Gesamtschaltung aus Steuerwerk, `m_step`-Instanzen und Register), F23 A2 F6 (`keyboard_interface`), F21 A1 F8–F10 (LAB aus Logic Elements)."
+      },
+      {
+       "t": "p",
+       "s": "Am Rechner (Repo-Ordner): `am_rechner/L10/modular.vhd`"
+      }
+     ]
+    },
+    {
+     "id": "L11",
+     "block": "L",
+     "title": "Verdrahtungsfehler finden",
+     "min": 6,
+     "mode": "text",
+     "starter": "",
+     "solutionCode": "",
+     "ziel": [
+      {
+       "t": "p",
+       "s": "Typische Fehler in Strukturbeschreibungen erkennen, bevor sie Punkte kosten."
+      }
+     ],
+     "erklaerung": [
+      {
+       "t": "p",
+       "s": "Checkliste für jede `struct`-Architecture:"
+      },
+      {
+       "t": "ul",
+       "items": [
+        "Ist jede innere Leitung **deklariert**?",
+        "Wird jede Leitung von **genau einem** Ausgang getrieben?",
+        "Ist jeder **Eingang** einer Instanz verbunden?",
+        "Stimmen bei positional association **Reihenfolge und Richtung** (Ausgang an Ausgang)?",
+        "Wird kein `out`-Port gelesen und kein `in`-Port getrieben?",
+        "Passen die **Breiten** (`std_logic` an `std_logic`, 4 Bit an 4 Bit)?"
+       ]
+      }
+     ],
+     "aufgabe": [
+      {
+       "t": "p",
+       "s": "Finde die **5 Fehler** in dieser Mehrheitsentscheider-Struktur (Plan wie in L06):"
+      },
+      {
+       "t": "code",
+       "lang": "vhdl",
+       "s": "architecture struct of mehrheit is\n  signal ab, ac : std_logic;\nbegin\n  g1: entity work.and_2 port map(a, ab, b);\n  g2: entity work.and_2 port map(x0 => a, x1 => c, y => ab);\n  g3: entity work.and_2 port map(x0 => b, x1 => c);\n  g4: entity work.or_3  port map(x0 => ab, x1 => ac,\n                                 x2 => bc, y => y);\n  y <= ab;\nend architecture struct;"
+      }
+     ],
+     "aufgabeMd": "Finde die **5 Fehler** in dieser Mehrheitsentscheider-Struktur (Plan wie in L06):\n```vhdl\narchitecture struct of mehrheit is\n  signal ab, ac : std_logic;\nbegin\n  g1: entity work.and_2 port map(a, ab, b);\n  g2: entity work.and_2 port map(x0 => a, x1 => c, y => ab);\n  g3: entity work.and_2 port map(x0 => b, x1 => c);\n  g4: entity work.or_3  port map(x0 => ab, x1 => ac,\n                                 x2 => bc, y => y);\n  y <= ab;\nend architecture struct;\n```",
+     "loesung": [
+      {
+       "t": "ol",
+       "items": [
+        "`g1` positional in falscher Reihenfolge: Die Ports sind `(x0, x1, y)`. So landet `ab` am Eingang `x1` und der Eingang `b` am **Ausgang** `y` → Fehler (ein `in`-Port wird getrieben). Richtig: `port map(a, b, ab)`.",
+        "`g2` treibt `ab` ein zweites Mal (zwei Treiber), richtig ist `y => ac`.",
+        "`g3` hat keinen Ausgang angeschlossen, `bc` wird nie getrieben – richtig: `y => bc`.",
+        "`bc` ist nicht deklariert.",
+        "`y` wird doppelt getrieben (`g4` und `y <= ab;`) – die Zeile `y <= ab;` muss weg."
+       ]
+      },
+      {
+       "t": "p",
+       "s": "Wichtig: Der **Compiler meldet nur 1 und 4**. Die Fehler 2, 3 und 5 übersetzen fehlerfrei und fallen erst in der Simulation auf (`'X'` durch zwei Treiber, `'U'` auf der nie getriebenen Leitung) – oder gar nicht, wenn man nicht testet."
+      }
+     ],
+     "loesungMd": "1. `g1` positional in falscher Reihenfolge: Die Ports sind `(x0, x1, y)`. So landet `ab` am Eingang `x1` und der Eingang `b` am **Ausgang** `y` → Fehler (ein `in`-Port wird getrieben). Richtig: `port map(a, b, ab)`.\n2. `g2` treibt `ab` ein zweites Mal (zwei Treiber), richtig ist `y => ac`.\n3. `g3` hat keinen Ausgang angeschlossen, `bc` wird nie getrieben – richtig: `y => bc`.\n4. `bc` ist nicht deklariert.\n5. `y` wird doppelt getrieben (`g4` und `y <= ab;`) – die Zeile `y <= ab;` muss weg.\n\nWichtig: Der **Compiler meldet nur 1 und 4**. Die Fehler 2, 3 und 5 übersetzen fehlerfrei und fallen erst in der Simulation auf (`'X'` durch zwei Treiber, `'U'` auf der nie getriebenen Leitung) – oder gar nicht, wenn man nicht testet.",
+     "klausur": [
+      {
+       "t": "p",
+       "s": "Hilft bei jeder Struktur-Aufgabe (F19 A1 F2, F20 A1 F1b, F24 A1 F9) – und beim Lesen fremder Codes in Fragen wie „Was ist hier falsch?“."
+      }
+     ]
+    },
+    {
+     "id": "L12",
+     "block": "L",
+     "title": "Klausurtraining: Plan komplett umsetzen",
+     "min": 9,
+     "mode": "code",
+     "starter": "",
+     "solutionCode": "library ieee; use ieee.std_logic_1164.all;\n\nentity flanke_s is\n  port(\n    clk, res_n, taste : in  std_logic;\n    puls              : out std_logic\n    );\nend entity flanke_s;\n\narchitecture struct of flanke_s is\n  signal taste_d, taste_d_n : std_logic;\nbegin\n  ff: entity work.d_ff\n    port map(clk => clk, res_n => res_n, d => taste, q => taste_d);\n  g1: entity work.not_1 port map(x => taste_d, y => taste_d_n);\n  g2: entity work.and_2 port map(x0 => taste, x1 => taste_d_n, y => puls);\nend architecture struct;\n\narchitecture behav of flanke_s is\n  signal taste_d : std_logic;\nbegin\n  process(clk, res_n) is\n  begin\n    if res_n = '0' then\n      taste_d <= '0';\n    else\n      if clk'event and clk = '1' then\n        taste_d <= taste;\n      end if;\n    end if;\n  end process;\n  puls <= taste and not taste_d;\nend architecture behav;",
+     "ziel": [
+      {
+       "t": "p",
+       "s": "Eine typische Klausuraufgabe am Stück lösen: Entity, Struktur, Verhalten und Einordnung."
+      }
+     ],
+     "erklaerung": [
+      {
+       "t": "p",
+       "s": "Gegeben ist dieser Plan einer Flankenerkennung (vgl. D07):"
+      },
+      {
+       "t": "diagram",
+       "id": "L12_flanke",
+       "alt": "Flankenerkennung aus D-Flipflop, NICHT und UND",
+       "w": 510,
+       "h": 173,
+       "prims": [
+        {
+         "k": "P",
+         "pts": [
+          145,
+          21,
+          195,
+          21,
+          195,
+          101,
+          145,
+          101
+         ],
+         "s": "ink",
+         "f": "surface",
+         "w": 1.6
+        },
+        {
+         "k": "T",
+         "x": 151,
+         "y": 45,
+         "s": "1D",
+         "a": "l",
+         "z": 12,
+         "c": "ink",
+         "m": false
+        },
+        {
+         "k": "L",
+         "pts": [
+          135,
+          41,
+          145,
+          41
+         ],
+         "s": "line",
+         "w": 1.4
+        },
+        {
+         "k": "T",
+         "x": 157,
+         "y": 65,
+         "s": "C1",
+         "a": "l",
+         "z": 12,
+         "c": "ink",
+         "m": false
+        },
+        {
+         "k": "L",
+         "pts": [
+          135,
+          61,
+          145,
+          61
+         ],
+         "s": "line",
+         "w": 1.4
+        },
+        {
+         "k": "T",
+         "x": 151,
+         "y": 85,
+         "s": "R",
+         "a": "l",
+         "z": 12,
+         "c": "ink",
+         "m": false
+        },
+        {
+         "k": "E",
+         "x": 141,
+         "y": 81,
+         "rx": 4,
+         "ry": 4,
+         "s": "ink",
+         "f": "surface"
+        },
+        {
+         "k": "L",
+         "pts": [
+          137,
+          81,
+          131,
+          81
+         ],
+         "s": "line",
+         "w": 1.4
+        },
+        {
+         "k": "L",
+         "pts": [
+          145,
+          55,
+          153,
+          61,
+          145,
+          67
+         ],
+         "s": "ink",
+         "w": 1.4
+        },
+        {
+         "k": "L",
+         "pts": [
+          195,
+          41,
+          205,
+          41
+         ],
+         "s": "line",
+         "w": 1.4
+        },
+        {
+         "k": "T",
+         "x": 170.0,
+         "y": 16,
+         "s": "ff: d_ff",
+         "a": "c",
+         "z": 10,
+         "c": "line",
+         "m": true
+        },
+        {
+         "k": "P",
+         "pts": [
+          265,
+          21,
+          305,
+          21,
+          305,
+          61,
+          265,
+          61
+         ],
+         "s": "ink",
+         "f": "surface",
+         "w": 1.6
+        },
+        {
+         "k": "T",
+         "x": 285.0,
+         "y": 40,
+         "s": "1",
+         "a": "c",
+         "z": 15,
+         "c": "ink",
+         "m": false
+        },
+        {
+         "k": "L",
+         "pts": [
+          255,
+          41.0,
+          265,
+          41.0
+         ],
+         "s": "line",
+         "w": 1.4
+        },
+        {
+         "k": "E",
+         "x": 309,
+         "y": 41.0,
+         "rx": 4,
+         "ry": 4,
+         "s": "ink",
+         "f": "surface"
+        },
+        {
+         "k": "L",
+         "pts": [
+          313,
+          41.0,
+          319,
+          41.0
+         ],
+         "s": "line",
+         "w": 1.4
+        },
+        {
+         "k": "T",
+         "x": 285.0,
+         "y": 16,
+         "s": "g1",
+         "a": "c",
+         "z": 10,
+         "c": "line",
+         "m": false
+        },
+        {
+         "k": "P",
+         "pts": [
+          355,
+          101,
+          395,
+          101,
+          395,
+          161,
+          355,
+          161
+         ],
+         "s": "ink",
+         "f": "surface",
+         "w": 1.6
+        },
+        {
+         "k": "T",
+         "x": 375.0,
+         "y": 120,
+         "s": "&",
+         "a": "c",
+         "z": 15,
+         "c": "ink",
+         "m": false
+        },
+        {
+         "k": "L",
+         "pts": [
+          345,
+          121,
+          355,
+          121
+         ],
+         "s": "line",
+         "w": 1.4
+        },
+        {
+         "k": "L",
+         "pts": [
+          345,
+          141,
+          355,
+          141
+         ],
+         "s": "line",
+         "w": 1.4
+        },
+        {
+         "k": "L",
+         "pts": [
+          395,
+          131.0,
+          405,
+          131.0
+         ],
+         "s": "line",
+         "w": 1.4
+        },
+        {
+         "k": "T",
+         "x": 375.0,
+         "y": 96,
+         "s": "g2",
+         "a": "c",
+         "z": 10,
+         "c": "line",
+         "m": false
+        },
+        {
+         "k": "T",
+         "x": 60,
+         "y": 45,
+         "s": "taste",
+         "a": "r",
+         "z": 13,
+         "c": "ink",
+         "m": true
+        },
+        {
+         "k": "T",
+         "x": 60,
+         "y": 65,
+         "s": "clk",
+         "a": "r",
+         "z": 13,
+         "c": "ink",
+         "m": true
+        },
+        {
+         "k": "T",
+         "x": 60,
+         "y": 85,
+         "s": "res_n",
+         "a": "r",
+         "z": 13,
+         "c": "ink",
+         "m": true
+        },
+        {
+         "k": "T",
+         "x": 450,
+         "y": 135,
+         "s": "puls",
+         "a": "l",
+         "z": 13,
+         "c": "ink",
+         "m": true
+        },
+        {
+         "k": "L",
+         "pts": [
+          65,
+          41,
+          135,
+          41
+         ],
+         "s": "line",
+         "w": 1.4
+        },
+        {
+         "k": "L",
+         "pts": [
+          65,
+          61,
+          135,
+          61
+         ],
+         "s": "line",
+         "w": 1.4
+        },
+        {
+         "k": "L",
+         "pts": [
+          65,
+          81,
+          131,
+          81
+         ],
+         "s": "line",
+         "w": 1.4
+        },
+        {
+         "k": "L",
+         "pts": [
+          205,
+          41,
+          255,
+          41.0
+         ],
+         "s": "accent",
+         "w": 2
+        },
+        {
+         "k": "T",
+         "x": 230,
+         "y": 35,
+         "s": "taste_d",
+         "a": "c",
+         "z": 11,
+         "c": "accent",
+         "m": true
+        },
+        {
+         "k": "L",
+         "pts": [
+          65,
+          41,
+          95,
+          41,
+          95,
+          121,
+          345,
+          121
+         ],
+         "s": "line",
+         "w": 1.4
+        },
+        {
+         "k": "E",
+         "x": 95,
+         "y": 41,
+         "rx": 3,
+         "ry": 3,
+         "s": "line",
+         "f": "line"
+        },
+        {
+         "k": "L",
+         "pts": [
+          319,
+          41.0,
+          330,
+          41.0,
+          330,
+          141,
+          345,
+          141
+         ],
+         "s": "accent",
+         "w": 2
+        },
+        {
+         "k": "T",
+         "x": 343,
+         "y": 99,
+         "s": "taste_d_n",
+         "a": "c",
+         "z": 11,
+         "c": "accent",
+         "m": true
+        },
+        {
+         "k": "L",
+         "pts": [
+          405,
+          131.0,
+          445,
+          131
+         ],
+         "s": "line",
+         "w": 1.4
+        }
+       ]
+      },
+      {
+       "t": "p",
+       "s": "Vorgehen wie in der Klausur:"
+      },
+      {
+       "t": "ol",
+       "items": [
+        "Entity aus den Ein- und Ausgängen des Plans",
+        "`struct`: Instanzen + Signale für jede innere Leitung",
+        "`behav`: Flipflop als Prozess, Gatter als Zuweisung",
+        "Fragen zum Verhalten beantworten"
+       ]
+      }
+     ],
+     "aufgabe": [
+      {
+       "t": "ol",
+       "items": [
+        "Gib die Entity `flanke_s` an.",
+        "Gib `architecture struct` an (`d_ff`, `not_1`, `and_2`).",
+        "Gib `architecture behav` an.",
+        "Welcher Automatentyp ist das? Begründe."
+       ]
+      }
+     ],
+     "aufgabeMd": "1. Gib die Entity `flanke_s` an.\n2. Gib `architecture struct` an (`d_ff`, `not_1`, `and_2`).\n3. Gib `architecture behav` an.\n4. Welcher Automatentyp ist das? Begründe.",
+     "loesung": [
+      {
+       "t": "code",
+       "lang": "vhdl",
+       "s": "library ieee; use ieee.std_logic_1164.all;\n\nentity flanke_s is\n  port(\n    clk, res_n, taste : in  std_logic;\n    puls              : out std_logic\n    );\nend entity flanke_s;\n\narchitecture struct of flanke_s is\n  signal taste_d, taste_d_n : std_logic;\nbegin\n  ff: entity work.d_ff\n    port map(clk => clk, res_n => res_n, d => taste, q => taste_d);\n  g1: entity work.not_1 port map(x => taste_d, y => taste_d_n);\n  g2: entity work.and_2 port map(x0 => taste, x1 => taste_d_n, y => puls);\nend architecture struct;\n\narchitecture behav of flanke_s is\n  signal taste_d : std_logic;\nbegin\n  process(clk, res_n) is\n  begin\n    if res_n = '0' then\n      taste_d <= '0';\n    else\n      if clk'event and clk = '1' then\n        taste_d <= taste;\n      end if;\n    end if;\n  end process;\n  puls <= taste and not taste_d;\nend architecture behav;"
+      },
+      {
+       "t": "ol",
+       "items": [
+        "**Mealy**: Der Ausgang `puls` hängt vom Zustand (`taste_d`) **und** direkt vom Eingang `taste` ab."
+       ]
+      }
+     ],
+     "loesungMd": "```vhdl\nlibrary ieee; use ieee.std_logic_1164.all;\n\nentity flanke_s is\n  port(\n    clk, res_n, taste : in  std_logic;\n    puls              : out std_logic\n    );\nend entity flanke_s;\n\narchitecture struct of flanke_s is\n  signal taste_d, taste_d_n : std_logic;\nbegin\n  ff: entity work.d_ff\n    port map(clk => clk, res_n => res_n, d => taste, q => taste_d);\n  g1: entity work.not_1 port map(x => taste_d, y => taste_d_n);\n  g2: entity work.and_2 port map(x0 => taste, x1 => taste_d_n, y => puls);\nend architecture struct;\n\narchitecture behav of flanke_s is\n  signal taste_d : std_logic;\nbegin\n  process(clk, res_n) is\n  begin\n    if res_n = '0' then\n      taste_d <= '0';\n    else\n      if clk'event and clk = '1' then\n        taste_d <= taste;\n      end if;\n    end if;\n  end process;\n  puls <= taste and not taste_d;\nend architecture behav;\n```\n4. **Mealy**: Der Ausgang `puls` hängt vom Zustand (`taste_d`) **und** direkt vom Eingang `taste` ab.",
+     "klausur": [
+      {
+       "t": "p",
+       "s": "Aufbau wie **F24 A1 F1–F3** (Entity, Architecture, Automatentyp), F23 A2 F1/F2."
+      },
+      {
+       "t": "p",
+       "s": "Am Rechner (Repo-Ordner): `am_rechner/L10/getaktet.vhd`"
       }
      ]
     },

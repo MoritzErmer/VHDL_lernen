@@ -1,0 +1,53 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 484 252" width="484" height="252" role="img" aria-label="L01_symbole">
+<style>.s-ink{stroke:#151A22}.f-ink{fill:#151A22}.s-line{stroke:#5A6474}.f-line{fill:#5A6474}.s-accent{stroke:#1F45C4}.f-accent{fill:#1F45C4}.s-soft{stroke:#E3E9FB}.f-soft{fill:#E3E9FB}.s-surface{stroke:#FFFFFF}.f-surface{fill:#FFFFFF}.s-grid{stroke:#D9DEE7}.f-grid{fill:#D9DEE7}@media (prefers-color-scheme: dark){.s-ink{stroke:#E5E9F0}.f-ink{fill:#E5E9F0}.s-line{stroke:#97A1B0}.f-line{fill:#97A1B0}.s-accent{stroke:#8CA6FF}.f-accent{fill:#8CA6FF}.s-soft{stroke:#1E2848}.f-soft{fill:#1E2848}.s-surface{stroke:#161A21}.f-surface{fill:#161A21}.s-grid{stroke:#283040}.f-grid{fill:#283040}}text{font-family:Helvetica,Arial,sans-serif}.m{font-family:Menlo,Consolas,monospace}</style>
+<rect width="100%" height="100%" class="f-surface"/>
+<polygon points="70,16 110,16 110,76 70,76" stroke-width="1.6" class="s-ink f-surface"/>
+<text x="90.0" y="35" font-size="15" text-anchor="middle" class="f-ink">&amp;</text>
+<polyline points="60,36 70,36" stroke-width="1.4" class="s-line" fill="none"/>
+<polyline points="60,56 70,56" stroke-width="1.4" class="s-line" fill="none"/>
+<polyline points="110,46.0 120,46.0" stroke-width="1.4" class="s-line" fill="none"/>
+<polygon points="170,16 210,16 210,76 170,76" stroke-width="1.6" class="s-ink f-surface"/>
+<text x="190.0" y="35" font-size="15" text-anchor="middle" class="f-ink">≥1</text>
+<polyline points="160,36 170,36" stroke-width="1.4" class="s-line" fill="none"/>
+<polyline points="160,56 170,56" stroke-width="1.4" class="s-line" fill="none"/>
+<polyline points="210,46.0 220,46.0" stroke-width="1.4" class="s-line" fill="none"/>
+<polygon points="270,16 310,16 310,76 270,76" stroke-width="1.6" class="s-ink f-surface"/>
+<text x="290.0" y="35" font-size="15" text-anchor="middle" class="f-ink">=1</text>
+<polyline points="260,36 270,36" stroke-width="1.4" class="s-line" fill="none"/>
+<polyline points="260,56 270,56" stroke-width="1.4" class="s-line" fill="none"/>
+<polyline points="310,46.0 320,46.0" stroke-width="1.4" class="s-line" fill="none"/>
+<polygon points="370,26 410,26 410,66 370,66" stroke-width="1.6" class="s-ink f-surface"/>
+<text x="390.0" y="45" font-size="15" text-anchor="middle" class="f-ink">1</text>
+<polyline points="360,46.0 370,46.0" stroke-width="1.4" class="s-line" fill="none"/>
+<ellipse cx="414" cy="46.0" rx="4" ry="4" stroke-width="1.4" class="s-ink f-surface"/>
+<polyline points="418,46.0 424,46.0" stroke-width="1.4" class="s-line" fill="none"/>
+<polygon points="70,146 110,146 110,206 70,206" stroke-width="1.6" class="s-ink f-surface"/>
+<text x="90.0" y="165" font-size="15" text-anchor="middle" class="f-ink">&amp;</text>
+<polyline points="60,166 70,166" stroke-width="1.4" class="s-line" fill="none"/>
+<polyline points="60,186 70,186" stroke-width="1.4" class="s-line" fill="none"/>
+<ellipse cx="114" cy="176.0" rx="4" ry="4" stroke-width="1.4" class="s-ink f-surface"/>
+<polyline points="118,176.0 124,176.0" stroke-width="1.4" class="s-line" fill="none"/>
+<polygon points="170,146 210,146 210,206 170,206" stroke-width="1.6" class="s-ink f-surface"/>
+<text x="190.0" y="165" font-size="15" text-anchor="middle" class="f-ink">≥1</text>
+<polyline points="160,166 170,166" stroke-width="1.4" class="s-line" fill="none"/>
+<polyline points="160,186 170,186" stroke-width="1.4" class="s-line" fill="none"/>
+<ellipse cx="214" cy="176.0" rx="4" ry="4" stroke-width="1.4" class="s-ink f-surface"/>
+<polyline points="218,176.0 224,176.0" stroke-width="1.4" class="s-line" fill="none"/>
+<polygon points="290,136 340,136 340,216 290,216" stroke-width="1.6" class="s-ink f-surface"/>
+<text x="296" y="160" font-size="12" text-anchor="start" class="f-ink">1D</text>
+<polyline points="280,156 290,156" stroke-width="1.4" class="s-line" fill="none"/>
+<text x="302" y="180" font-size="12" text-anchor="start" class="f-ink">C1</text>
+<polyline points="280,176 290,176" stroke-width="1.4" class="s-line" fill="none"/>
+<text x="296" y="200" font-size="12" text-anchor="start" class="f-ink">R</text>
+<ellipse cx="286" cy="196" rx="4" ry="4" stroke-width="1.4" class="s-ink f-surface"/>
+<polyline points="282,196 276,196" stroke-width="1.4" class="s-line" fill="none"/>
+<polyline points="290,170 298,176 290,182" stroke-width="1.4" class="s-ink" fill="none"/>
+<polyline points="340,156 350,156" stroke-width="1.4" class="s-line" fill="none"/>
+<text x="64" y="100" font-size="11" text-anchor="start" class="f-line">UND: and</text>
+<text x="164" y="100" font-size="11" text-anchor="start" class="f-line">ODER: or</text>
+<text x="264" y="100" font-size="11" text-anchor="start" class="f-line">XOR: xor</text>
+<text x="364" y="100" font-size="11" text-anchor="start" class="f-line">NICHT: not</text>
+<text x="64" y="230" font-size="11" text-anchor="start" class="f-line">nand</text>
+<text x="164" y="230" font-size="11" text-anchor="start" class="f-line">nor</text>
+<text x="276" y="240" font-size="11" text-anchor="start" class="f-line">D-Flipflop</text>
+</svg>

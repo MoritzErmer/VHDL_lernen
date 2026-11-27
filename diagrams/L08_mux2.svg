@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 460 213" width="460" height="213" role="img" aria-label="L08_mux2">
+<style>.s-ink{stroke:#151A22}.f-ink{fill:#151A22}.s-line{stroke:#5A6474}.f-line{fill:#5A6474}.s-accent{stroke:#1F45C4}.f-accent{fill:#1F45C4}.s-soft{stroke:#E3E9FB}.f-soft{fill:#E3E9FB}.s-surface{stroke:#FFFFFF}.f-surface{fill:#FFFFFF}.s-grid{stroke:#D9DEE7}.f-grid{fill:#D9DEE7}@media (prefers-color-scheme: dark){.s-ink{stroke:#E5E9F0}.f-ink{fill:#E5E9F0}.s-line{stroke:#97A1B0}.f-line{fill:#97A1B0}.s-accent{stroke:#8CA6FF}.f-accent{fill:#8CA6FF}.s-soft{stroke:#1E2848}.f-soft{fill:#1E2848}.s-surface{stroke:#161A21}.f-surface{fill:#161A21}.s-grid{stroke:#283040}.f-grid{fill:#283040}}text{font-family:Helvetica,Arial,sans-serif}.m{font-family:Menlo,Consolas,monospace}</style>
+<rect width="100%" height="100%" class="f-surface"/>
+<polygon points="125,81 165,81 165,121 125,121" stroke-width="1.6" class="s-ink f-surface"/>
+<text x="145.0" y="100" font-size="15" text-anchor="middle" class="f-ink">1</text>
+<polyline points="115,101.0 125,101.0" stroke-width="1.4" class="s-line" fill="none"/>
+<ellipse cx="169" cy="101.0" rx="4" ry="4" stroke-width="1.4" class="s-ink f-surface"/>
+<polyline points="173,101.0 179,101.0" stroke-width="1.4" class="s-line" fill="none"/>
+<text x="145.0" y="76" font-size="10" text-anchor="middle" class="f-line">g1</text>
+<polygon points="215,21 255,21 255,81 215,81" stroke-width="1.6" class="s-ink f-surface"/>
+<text x="235.0" y="40" font-size="15" text-anchor="middle" class="f-ink">&amp;</text>
+<polyline points="205,41 215,41" stroke-width="1.4" class="s-line" fill="none"/>
+<polyline points="205,61 215,61" stroke-width="1.4" class="s-line" fill="none"/>
+<polyline points="255,51.0 265,51.0" stroke-width="1.4" class="s-line" fill="none"/>
+<text x="235.0" y="16" font-size="10" text-anchor="middle" class="f-line">g2</text>
+<polygon points="215,141 255,141 255,201 215,201" stroke-width="1.6" class="s-ink f-surface"/>
+<text x="235.0" y="160" font-size="15" text-anchor="middle" class="f-ink">&amp;</text>
+<polyline points="205,161 215,161" stroke-width="1.4" class="s-line" fill="none"/>
+<polyline points="205,181 215,181" stroke-width="1.4" class="s-line" fill="none"/>
+<polyline points="255,171.0 265,171.0" stroke-width="1.4" class="s-line" fill="none"/>
+<text x="235.0" y="136" font-size="10" text-anchor="middle" class="f-line">g3</text>
+<polygon points="315,71 355,71 355,131 315,131" stroke-width="1.6" class="s-ink f-surface"/>
+<text x="335.0" y="90" font-size="15" text-anchor="middle" class="f-ink">≥1</text>
+<polyline points="305,91 315,91" stroke-width="1.4" class="s-line" fill="none"/>
+<polyline points="305,111 315,111" stroke-width="1.4" class="s-line" fill="none"/>
+<polyline points="355,101.0 365,101.0" stroke-width="1.4" class="s-line" fill="none"/>
+<text x="335.0" y="66" font-size="10" text-anchor="middle" class="f-line">g4</text>
+<text x="60" y="45" font-size="13" text-anchor="end" class="f-ink m">a</text>
+<text x="60" y="105" font-size="13" text-anchor="end" class="f-ink m">sel</text>
+<text x="60" y="165" font-size="13" text-anchor="end" class="f-ink m">b</text>
+<text x="400" y="105" font-size="13" text-anchor="start" class="f-ink m">y</text>
+<polyline points="65,41 205,41" stroke-width="1.4" class="s-line" fill="none"/>
+<polyline points="65,101 115,101.0" stroke-width="1.4" class="s-line" fill="none"/>
+<polyline points="179,101.0 192,101.0 192,61 205,61" stroke-width="1.4" class="s-line" fill="none"/>
+<text x="195" y="96" font-size="11" text-anchor="middle" class="f-line m">sel_n</text>
+<polyline points="65,161 205,161" stroke-width="1.4" class="s-line" fill="none"/>
+<polyline points="65,101 100,101 100,181 205,181" stroke-width="1.4" class="s-line" fill="none"/>
+<ellipse cx="100" cy="101" rx="3" ry="3" stroke-width="1.4" class="s-line f-line"/>
+<polyline points="265,51.0 287,51.0 287,91 305,91" stroke-width="1.4" class="s-line" fill="none"/>
+<text x="277" y="46.0" font-size="11" text-anchor="middle" class="f-line m">ha</text>
+<polyline points="265,171.0 287,171.0 287,111 305,111" stroke-width="1.4" class="s-line" fill="none"/>
+<text x="277" y="166" font-size="11" text-anchor="middle" class="f-line m">hb</text>
+<polyline points="365,101.0 395,101" stroke-width="1.4" class="s-line" fill="none"/>
+</svg>

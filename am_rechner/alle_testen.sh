@@ -20,6 +20,8 @@ r=am_rechner
 ./sim.sh tb_garagentor         $r/L07/garagentor.vhd    $r/L07/tb_garagentor.vhd
 ./sim.sh tb_struktur $r/L01/halbaddierer.vhd $r/L08/volladdierer_struct.vhd $r/L05/d_ff.vhd \
          $r/L08/adder_n.vhd $r/L08/schiebereg.vhd $r/L08/priorityencoder.vhd $r/L08/tb_struktur.vhd
+./sim.sh tb_block_l $r/L10/gatter.vhd $r/L05/d_ff.vhd $r/L10/kombinatorik.vhd $r/L10/getaktet.vhd \
+         $r/L10/modular.vhd $r/L10/tb_block_l.vhd
 ./sim.sh tb_klausur            $r/L09/crc.vhd $r/L09/mult.vhd $r/L09/tb_klausur.vhd
 mkdir -p build/extra && ghdl -a --std=08 --workdir=build/extra $r/L01/and_2.vhd $r/L05/d_ff.vhd
 echo "Alle Beispiele erfolgreich simuliert."

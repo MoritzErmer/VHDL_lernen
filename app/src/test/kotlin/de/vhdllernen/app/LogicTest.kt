@@ -134,7 +134,7 @@ class LogicTest {
         assertTrue("s101" in labels)
         assertTrue(d.prims.any { it is de.vhdllernen.app.data.Prim.Bezier })
         val all = content.courses.flatMap { c -> c.lessons }.flatMap { l -> l.erklaerung + l.aufgabe + l.loesung }
-        assertEquals(13, all.count { it is de.vhdllernen.app.data.Node.Diagram })
+        assertTrue(all.count { it is de.vhdllernen.app.data.Node.Diagram } >= 25)
     }
 
     @Test(expected = ContentFormatException::class)

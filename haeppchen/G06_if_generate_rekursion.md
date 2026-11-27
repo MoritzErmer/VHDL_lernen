@@ -1,6 +1,6 @@
 # G06 · if-generate & Rekursion
 
-7 min · zurück: [G05](G05_for_generate.md) · weiter: [H01](H01_funktionen.md)
+7 min · zurück: [G05](G05_for_generate.md) · weiter: [L01](L01_din_symbole.md)
 
 ## Ziel
 Eine Komponente sich selbst instanziieren lassen –

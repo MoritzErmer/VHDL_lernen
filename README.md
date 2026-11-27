@@ -108,6 +108,22 @@ Erklärung** – Wiederholung ist der eigentliche Lerneffekt.
 | G05 | [for-generate](haeppchen/G05_for_generate.md) | 6 min |
 | G06 | [if-generate & Rekursion](haeppchen/G06_if_generate_rekursion.md) | 7 min |
 
+## Block L – Vom Schaltplan zum Code
+| | Häppchen | Dauer |
+|---|---|---|
+| L01 | [Schaltpläne lesen: DIN-Symbole](haeppchen/L01_din_symbole.md) | 5 min |
+| L02 | [behav, struct, mixed: der Unterschied](haeppchen/L02_behav_struct.md) | 6 min |
+| L03 | [Vom Schaltplan zur Verhaltensbeschreibung](haeppchen/L03_plan_zu_behav.md) | 6 min |
+| L04 | [Vom Schaltplan zur Strukturbeschreibung](haeppchen/L04_plan_zu_struct.md) | 7 min |
+| L05 | [Signale sind Leitungen](haeppchen/L05_signale_leitungen.md) | 6 min |
+| L06 | [Vom Text über den Plan zum Code](haeppchen/L06_text_plan_code.md) | 7 min |
+| L07 | [Hierarchie: Module aus Modulen](haeppchen/L07_hierarchie.md) | 7 min |
+| L08 | [Multiplexer: Gatter, Verhalten, Baustein](haeppchen/L08_multiplexer.md) | 8 min |
+| L09 | [Schaltpläne mit Flipflops](haeppchen/L09_getaktete_plaene.md) | 8 min |
+| L10 | [Modularisieren: ein System schneiden](haeppchen/L10_modularisieren.md) | 8 min |
+| L11 | [Verdrahtungsfehler finden](haeppchen/L11_verdrahtungsfehler.md) | 6 min |
+| L12 | [Klausurtraining: Plan komplett umsetzen](haeppchen/L12_klausur_schaltplan.md) | 9 min |
+
 ## Block H – Funktionen, Prozeduren, Packages
 | | Häppchen | Dauer |
 |---|---|---|

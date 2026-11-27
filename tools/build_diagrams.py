@@ -19,6 +19,10 @@ import glob
 import json
 import os
 import subprocess
+import sys
+
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import schematic  # noqa: E402  (gate-level schematics, DIN EN 60617)
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SRC = os.path.join(ROOT, "diagrams", "src")
@@ -185,9 +189,17 @@ def esc(s):
 
 def main():
     names = []
-    for path in sorted(glob.glob(os.path.join(SRC, "*.dot")) + glob.glob(os.path.join(SRC, "*.wave"))):
+    for path in sorted(glob.glob(os.path.join(SRC, "*.dot")) + glob.glob(os.path.join(SRC, "*.wave"))
+                       + glob.glob(os.path.join(SRC, "*.sch"))):
         name = os.path.splitext(os.path.basename(path))[0]
-        d = from_dot(path) if path.endswith(".dot") else from_wave(path)
+        if path.endswith(".dot"):
+            d = from_dot(path)
+        elif path.endswith(".wave"):
+            d = from_wave(path)
+        else:
+            with open(path, encoding="utf-8") as fh:
+                d = schematic.build(json.load(fh))
+            d["prims"] = [clean(p) for p in d["prims"]]
         with open(os.path.join(OUT, name + ".json"), "w", encoding="utf-8") as fh:
             json.dump(d, fh, ensure_ascii=False, separators=(",", ":"))
         with open(os.path.join(OUT, name + ".svg"), "w", encoding="utf-8") as fh:
