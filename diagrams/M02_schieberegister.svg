@@ -1,0 +1,72 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 610 228" width="610" height="228" role="img" aria-label="M02_schieberegister">
+<style>.s-ink{stroke:#151A22}.f-ink{fill:#151A22}.s-line{stroke:#5A6474}.f-line{fill:#5A6474}.s-accent{stroke:#1F45C4}.f-accent{fill:#1F45C4}.s-soft{stroke:#E3E9FB}.f-soft{fill:#E3E9FB}.s-surface{stroke:#FFFFFF}.f-surface{fill:#FFFFFF}.s-grid{stroke:#D9DEE7}.f-grid{fill:#D9DEE7}@media (prefers-color-scheme: dark){.s-ink{stroke:#E5E9F0}.f-ink{fill:#E5E9F0}.s-line{stroke:#97A1B0}.f-line{fill:#97A1B0}.s-accent{stroke:#8CA6FF}.f-accent{fill:#8CA6FF}.s-soft{stroke:#1E2848}.f-soft{fill:#1E2848}.s-surface{stroke:#161A21}.f-surface{fill:#161A21}.s-grid{stroke:#283040}.f-grid{fill:#283040}}text{font-family:Helvetica,Arial,sans-serif}.m{font-family:Menlo,Consolas,monospace}</style>
+<rect width="100%" height="100%" class="f-surface"/>
+<polygon points="135,21 185,21 185,101 135,101" stroke-width="1.6" class="s-ink f-surface"/>
+<text x="141" y="45" font-size="12" text-anchor="start" class="f-ink">1D</text>
+<polyline points="125,41 135,41" stroke-width="1.4" class="s-line" fill="none"/>
+<text x="147" y="65" font-size="12" text-anchor="start" class="f-ink">C1</text>
+<polyline points="125,61 135,61" stroke-width="1.4" class="s-line" fill="none"/>
+<text x="141" y="85" font-size="12" text-anchor="start" class="f-ink">R</text>
+<ellipse cx="131" cy="81" rx="4" ry="4" stroke-width="1.4" class="s-ink f-surface"/>
+<polyline points="127,81 121,81" stroke-width="1.4" class="s-line" fill="none"/>
+<polyline points="135,55 143,61 135,67" stroke-width="1.4" class="s-ink" fill="none"/>
+<polyline points="185,41 195,41" stroke-width="1.4" class="s-line" fill="none"/>
+<text x="160.0" y="16" font-size="10" text-anchor="middle" class="f-line m">q(0)</text>
+<polygon points="235,21 285,21 285,101 235,101" stroke-width="1.6" class="s-ink f-surface"/>
+<text x="241" y="45" font-size="12" text-anchor="start" class="f-ink">1D</text>
+<polyline points="225,41 235,41" stroke-width="1.4" class="s-line" fill="none"/>
+<text x="247" y="65" font-size="12" text-anchor="start" class="f-ink">C1</text>
+<polyline points="225,61 235,61" stroke-width="1.4" class="s-line" fill="none"/>
+<text x="241" y="85" font-size="12" text-anchor="start" class="f-ink">R</text>
+<ellipse cx="231" cy="81" rx="4" ry="4" stroke-width="1.4" class="s-ink f-surface"/>
+<polyline points="227,81 221,81" stroke-width="1.4" class="s-line" fill="none"/>
+<polyline points="235,55 243,61 235,67" stroke-width="1.4" class="s-ink" fill="none"/>
+<polyline points="285,41 295,41" stroke-width="1.4" class="s-line" fill="none"/>
+<text x="260.0" y="16" font-size="10" text-anchor="middle" class="f-line m">q(1)</text>
+<polygon points="335,21 385,21 385,101 335,101" stroke-width="1.6" class="s-ink f-surface"/>
+<text x="341" y="45" font-size="12" text-anchor="start" class="f-ink">1D</text>
+<polyline points="325,41 335,41" stroke-width="1.4" class="s-line" fill="none"/>
+<text x="347" y="65" font-size="12" text-anchor="start" class="f-ink">C1</text>
+<polyline points="325,61 335,61" stroke-width="1.4" class="s-line" fill="none"/>
+<text x="341" y="85" font-size="12" text-anchor="start" class="f-ink">R</text>
+<ellipse cx="331" cy="81" rx="4" ry="4" stroke-width="1.4" class="s-ink f-surface"/>
+<polyline points="327,81 321,81" stroke-width="1.4" class="s-line" fill="none"/>
+<polyline points="335,55 343,61 335,67" stroke-width="1.4" class="s-ink" fill="none"/>
+<polyline points="385,41 395,41" stroke-width="1.4" class="s-line" fill="none"/>
+<text x="360.0" y="16" font-size="10" text-anchor="middle" class="f-line m">q(2)</text>
+<polygon points="435,21 485,21 485,101 435,101" stroke-width="1.6" class="s-ink f-surface"/>
+<text x="441" y="45" font-size="12" text-anchor="start" class="f-ink">1D</text>
+<polyline points="425,41 435,41" stroke-width="1.4" class="s-line" fill="none"/>
+<text x="447" y="65" font-size="12" text-anchor="start" class="f-ink">C1</text>
+<polyline points="425,61 435,61" stroke-width="1.4" class="s-line" fill="none"/>
+<text x="441" y="85" font-size="12" text-anchor="start" class="f-ink">R</text>
+<ellipse cx="431" cy="81" rx="4" ry="4" stroke-width="1.4" class="s-ink f-surface"/>
+<polyline points="427,81 421,81" stroke-width="1.4" class="s-line" fill="none"/>
+<polyline points="435,55 443,61 435,67" stroke-width="1.4" class="s-ink" fill="none"/>
+<polyline points="485,41 495,41" stroke-width="1.4" class="s-line" fill="none"/>
+<text x="460.0" y="16" font-size="10" text-anchor="middle" class="f-line m">q(3)</text>
+<text x="60" y="45" font-size="13" text-anchor="end" class="f-ink m">ser_in</text>
+<text x="60" y="165" font-size="13" text-anchor="end" class="f-ink m">clk</text>
+<text x="60" y="185" font-size="13" text-anchor="end" class="f-ink m">res_n</text>
+<text x="550" y="45" font-size="13" text-anchor="start" class="f-ink m">ser_out</text>
+<polyline points="65,41 125,41" stroke-width="1.4" class="s-line" fill="none"/>
+<polyline points="195,41 225,41" stroke-width="2" class="s-accent" fill="none"/>
+<polyline points="295,41 325,41" stroke-width="2" class="s-accent" fill="none"/>
+<polyline points="395,41 425,41" stroke-width="2" class="s-accent" fill="none"/>
+<polyline points="495,41 545,41" stroke-width="1.4" class="s-line" fill="none"/>
+<polyline points="65,161 110,161 110,61 125,61" stroke-width="1.4" class="s-line" fill="none"/>
+<polyline points="65,161 210,161 210,61 225,61" stroke-width="1.4" class="s-line" fill="none"/>
+<ellipse cx="110" cy="161" rx="3" ry="3" stroke-width="1.4" class="s-line f-line"/>
+<polyline points="65,161 310,161 310,61 325,61" stroke-width="1.4" class="s-line" fill="none"/>
+<ellipse cx="210" cy="161" rx="3" ry="3" stroke-width="1.4" class="s-line f-line"/>
+<polyline points="65,161 410,161 410,61 425,61" stroke-width="1.4" class="s-line" fill="none"/>
+<ellipse cx="310" cy="161" rx="3" ry="3" stroke-width="1.4" class="s-line f-line"/>
+<polyline points="65,181 103,181 103,81 121,81" stroke-width="1.4" class="s-line" fill="none"/>
+<polyline points="65,181 203,181 203,81 221,81" stroke-width="1.4" class="s-line" fill="none"/>
+<ellipse cx="103" cy="181" rx="3" ry="3" stroke-width="1.4" class="s-line f-line"/>
+<polyline points="65,181 303,181 303,81 321,81" stroke-width="1.4" class="s-line" fill="none"/>
+<ellipse cx="203" cy="181" rx="3" ry="3" stroke-width="1.4" class="s-line f-line"/>
+<polyline points="65,181 403,181 403,81 421,81" stroke-width="1.4" class="s-line" fill="none"/>
+<ellipse cx="303" cy="181" rx="3" ry="3" stroke-width="1.4" class="s-line f-line"/>
+<text x="65" y="216" font-size="11" text-anchor="start" class="f-line">jede steigende Flanke: jedes Bit eine Stufe weiter Richtung MSB, sr &lt;= sr(2 downto 0) &amp; ser_in</text>
+</svg>

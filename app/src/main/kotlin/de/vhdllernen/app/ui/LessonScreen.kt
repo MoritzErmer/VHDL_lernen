@@ -40,6 +40,8 @@ import de.vhdllernen.app.data.Progress
 import de.vhdllernen.app.data.Rating
 import de.vhdllernen.app.logic.Compare
 import de.vhdllernen.app.logic.Mark
+import de.vhdllernen.app.logic.CompareResult
+import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.foundation.layout.size
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.SpanStyle
@@ -190,6 +192,22 @@ private fun AnswerArea(state: AppState, course: Course, lesson: Lesson, key: Str
     }
 }
 
+/** The corrected copy of the answer: wrong tokens struck through (red), missing ones inserted (green). */
+private fun corrected(answer: String, r: CompareResult, p: Palette, lang: String): AnnotatedString {
+    val c = Compare.corrected(answer, r)
+    val alpha = if (p.dark) 0.30f else 0.18f
+    return buildAnnotatedString {
+        append(highlight(c.text, p, lang))
+        c.wrong.forEach {
+            addStyle(SpanStyle(color = p.bad, background = p.bad.copy(alpha = alpha), textDecoration = TextDecoration.LineThrough),
+                it.first, it.last + 1)
+        }
+        c.inserted.forEach {
+            addStyle(SpanStyle(color = p.ok, background = p.ok.copy(alpha = alpha), fontWeight = FontWeight.Bold), it.first, it.last + 1)
+        }
+    }
+}
+
 @Composable
 private fun CompareView(answer: String, solution: String, lang: String) {
     val p = LocalPalette.current
@@ -198,17 +216,11 @@ private fun CompareView(answer: String, solution: String, lang: String) {
         CodeBlock(solution, lang)
         return
     }
-    val r = remember(answer, solution) { Compare.run(answer, solution, lang) }
-    // Mark tokens on top of the syntax colours: wrong/extra in the answer, missing in the solution.
-    fun marked(code: String, marks: List<Mark>, color: Color) = buildAnnotatedString {
-        append(highlight(code, p, lang))
-        marks.filter { !it.ok }.forEach {
-            addStyle(SpanStyle(background = color.copy(alpha = if (p.dark) 0.35f else 0.22f), textDecoration = TextDecoration.Underline,
-                color = color), it.start, it.end)
-        }
-    }
+    val trimmed = answer.trimEnd()
+    val r = remember(trimmed, solution) { Compare.run(trimmed, solution, lang) }
     val missing = r.solution.count { !it.ok }
     val wrong = r.answerWrong
+    val view = remember(trimmed, r, p) { corrected(trimmed, r, p, lang) }
     Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
         Text(
             if (missing == 0 && wrong == 0) "Alles getroffen – deine Lösung stimmt mit der Musterlösung überein."
@@ -216,29 +228,33 @@ private fun CompareView(answer: String, solution: String, lang: String) {
             style = Type.body.copy(fontWeight = FontWeight.SemiBold), color = if (missing == 0 && wrong == 0) p.ok else p.ink,
         )
         if (missing > 0 || wrong > 0) {
-            Row(horizontalArrangement = Arrangement.spacedBy(16.dp)) {
-                Legend(p.warn, "$wrong ${if (wrong == 1) "Stelle" else "Stellen"} falsch oder zusätzlich")
-                Legend(p.bad, "$missing fehlen")
+            SectionLabel("Deine Lösung, korrigiert")
+            Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
+                if (wrong > 0) Legend(p.bad, "durchgestrichen: bei dir falsch oder zu viel ($wrong)", strike = true)
+                if (missing > 0) Legend(p.ok, "grün eingefügt: fehlt bei dir ($missing)")
             }
+            CodeBlock(view)
         }
-        SectionLabel("Deine Lösung")
-        CodeBlock(marked(answer.trimEnd(), r.answer, p.warn))
-        SectionLabel("Musterlösung")
-        CodeBlock(marked(solution, r.solution, p.bad))
         Text(
             "Verglichen werden Wörter und Zeichen, nicht Zeilen: Umbrüche, Leerzeichen, Groß-/Kleinschreibung und " +
                 "Kommentare spielen keine Rolle, ganze Anweisungen dürfen in anderer Reihenfolge stehen. " +
-                "Andere Namen können trotzdem richtig sein – im Zweifel Frage notieren und exportieren.",
+                "Andere Namen können trotzdem richtig sein – im Zweifel Frage notieren und exportieren. " +
+                "Die vollständige Musterlösung steht im zweiten Tab.",
             style = Type.small, color = p.muted,
         )
     }
 }
 
 @Composable
-private fun Legend(color: Color, text: String) {
+private fun Legend(color: Color, text: String, strike: Boolean = false) {
     val p = LocalPalette.current
-    Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(6.dp)) {
-        Box(Modifier.size(12.dp).background(color.copy(alpha = if (p.dark) 0.35f else 0.22f), Corner).border(1.dp, color, Corner))
+    Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+        Text(
+            "abc", style = Type.code.copy(textDecoration = if (strike) TextDecoration.LineThrough else TextDecoration.None,
+                fontWeight = if (strike) FontWeight.Normal else FontWeight.Bold),
+            color = color,
+            modifier = Modifier.background(color.copy(alpha = if (p.dark) 0.30f else 0.18f), Corner).padding(horizontal = 4.dp),
+        )
         Text(text, style = Type.small, color = p.ink)
     }
 }

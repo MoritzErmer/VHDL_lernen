@@ -1,6 +1,6 @@
 {
  "schema": 1,
- "version": "94ee0586c9da",
+ "version": "4268d402762d",
  "revision": 0,
  "courses": [
   {
@@ -40,6 +40,10 @@
     {
      "id": "L",
      "name": "Vom Schaltplan zum Code"
+    },
+    {
+     "id": "M",
+     "name": "Standardbausteine selbst bauen"
     },
     {
      "id": "H",
@@ -15539,6 +15543,2480 @@
       {
        "t": "p",
        "s": "Am Rechner (Repo-Ordner): `am_rechner/L10/getaktet.vhd`"
+      }
+     ]
+    },
+    {
+     "id": "M01",
+     "block": "M",
+     "title": "Register mit Enable und Löschen",
+     "min": 5,
+     "mode": "code",
+     "starter": "",
+     "solutionCode": "architecture behav of register_n is\nbegin\n  process(clk, res_n) is\n  begin\n    if res_n = '0' then\n      q <= (others => '0');\n    else\n      if clk'event and clk = '1' then\n        if clr = '1' then\n          q <= (others => '0');\n        elsif en = '1' then\n          q <= d;\n        end if;\n      end if;\n    end if;\n  end process;\nend architecture behav;",
+     "ziel": [
+      {
+       "t": "p",
+       "s": "Das häufigste Bauteil überhaupt aus dem Kopf schreiben: ein generisches Register."
+      }
+     ],
+     "erklaerung": [
+      {
+       "t": "p",
+       "s": "Ein Register speichert `N` Bit. Fast immer braucht es:"
+      },
+      {
+       "t": "ul",
+       "items": [
+        "**asynchronen Reset** `res_n` (außerhalb der Flankenabfrage)",
+        "**synchrones Löschen** `clr` (innerhalb, hat Vorrang)",
+        "**Enable** `en`: nur dann wird `d` übernommen, sonst **halten** (kein `else` nötig, D02)"
+       ]
+      },
+      {
+       "t": "code",
+       "lang": "vhdl",
+       "s": "library ieee; use ieee.std_logic_1164.all;\n\nentity register_n is\n  generic(N : positive := 8);\n  port(\n    clk, res_n : in  std_logic;\n    en, clr    : in  std_logic;\n    d          : in  std_logic_vector(N-1 downto 0);\n    q          : out std_logic_vector(N-1 downto 0)\n    );\nend entity register_n;"
+      }
+     ],
+     "aufgabe": [
+      {
+       "t": "p",
+       "s": "Schreibe `architecture behav of register_n`."
+      }
+     ],
+     "aufgabeMd": "Schreibe `architecture behav of register_n`.",
+     "loesung": [
+      {
+       "t": "code",
+       "lang": "vhdl",
+       "s": "architecture behav of register_n is\nbegin\n  process(clk, res_n) is\n  begin\n    if res_n = '0' then\n      q <= (others => '0');\n    else\n      if clk'event and clk = '1' then\n        if clr = '1' then\n          q <= (others => '0');\n        elsif en = '1' then\n          q <= d;\n        end if;\n      end if;\n    end if;\n  end process;\nend architecture behav;"
+      },
+      {
+       "t": "p",
+       "s": "Weiter üben: Ergänze einen Eingang `inc`, der den Inhalt um 1 erhöht (Tipp: `unsigned`, internes Signal, weil `q` gelesen werden müsste)."
+      }
+     ],
+     "loesungMd": "```vhdl\narchitecture behav of register_n is\nbegin\n  process(clk, res_n) is\n  begin\n    if res_n = '0' then\n      q <= (others => '0');\n    else\n      if clk'event and clk = '1' then\n        if clr = '1' then\n          q <= (others => '0');\n        elsif en = '1' then\n          q <= d;\n        end if;\n      end if;\n    end if;\n  end process;\nend architecture behav;\n```\nWeiter üben: Ergänze einen Eingang `inc`, der den Inhalt um 1 erhöht (Tipp: `unsigned`, internes Signal, weil `q` gelesen werden müsste).",
+     "klausur": [
+      {
+       "t": "p",
+       "s": "Register stecken in fast jeder Aufgabe: F24 A1 F3/F9 (mit `clr`), H19 A2 (FIFO), F23 A2 (`period_reg`)."
+      },
+      {
+       "t": "p",
+       "s": "Am Rechner (Repo-Ordner): `am_rechner/L11/bausteine.vhd`"
+      }
+     ]
+    },
+    {
+     "id": "M02",
+     "block": "M",
+     "title": "Schieberegister: seriell und parallel",
+     "min": 6,
+     "mode": "code",
+     "starter": "",
+     "solutionCode": "architecture behav of schiebe_reg is\n  signal sr : std_logic_vector(N-1 downto 0);\nbegin\n  process(clk, res_n) is\n  begin\n    if res_n = '0' then\n      sr <= (others => '0');\n    else\n      if clk'event and clk = '1' then\n        if load = '1' then\n          sr <= din;\n        elsif shift = '1' then\n          sr <= sr(N-2 downto 0) & ser_in;\n        end if;\n      end if;\n    end if;\n  end process;\n  q       <= sr;\n  ser_out <= sr(N-1);\nend architecture behav;",
+     "ziel": [
+      {
+       "t": "p",
+       "s": "Ein Universal-Schieberegister schreiben, das parallel lädt und seriell schiebt."
+      }
+     ],
+     "erklaerung": [
+      {
+       "t": "p",
+       "s": "Ein Schieberegister ist eine Kette von Flipflops:"
+      },
+      {
+       "t": "diagram",
+       "id": "M02_schieberegister",
+       "alt": "Schieberegister aus vier D-Flipflops",
+       "w": 610,
+       "h": 228,
+       "prims": [
+        {
+         "k": "P",
+         "pts": [
+          135,
+          21,
+          185,
+          21,
+          185,
+          101,
+          135,
+          101
+         ],
+         "s": "ink",
+         "f": "surface",
+         "w": 1.6
+        },
+        {
+         "k": "T",
+         "x": 141,
+         "y": 45,
+         "s": "1D",
+         "a": "l",
+         "z": 12,
+         "c": "ink",
+         "m": false
+        },
+        {
+         "k": "L",
+         "pts": [
+          125,
+          41,
+          135,
+          41
+         ],
+         "s": "line",
+         "w": 1.4
+        },
+        {
+         "k": "T",
+         "x": 147,
+         "y": 65,
+         "s": "C1",
+         "a": "l",
+         "z": 12,
+         "c": "ink",
+         "m": false
+        },
+        {
+         "k": "L",
+         "pts": [
+          125,
+          61,
+          135,
+          61
+         ],
+         "s": "line",
+         "w": 1.4
+        },
+        {
+         "k": "T",
+         "x": 141,
+         "y": 85,
+         "s": "R",
+         "a": "l",
+         "z": 12,
+         "c": "ink",
+         "m": false
+        },
+        {
+         "k": "E",
+         "x": 131,
+         "y": 81,
+         "rx": 4,
+         "ry": 4,
+         "s": "ink",
+         "f": "surface"
+        },
+        {
+         "k": "L",
+         "pts": [
+          127,
+          81,
+          121,
+          81
+         ],
+         "s": "line",
+         "w": 1.4
+        },
+        {
+         "k": "L",
+         "pts": [
+          135,
+          55,
+          143,
+          61,
+          135,
+          67
+         ],
+         "s": "ink",
+         "w": 1.4
+        },
+        {
+         "k": "L",
+         "pts": [
+          185,
+          41,
+          195,
+          41
+         ],
+         "s": "line",
+         "w": 1.4
+        },
+        {
+         "k": "T",
+         "x": 160.0,
+         "y": 16,
+         "s": "q(0)",
+         "a": "c",
+         "z": 10,
+         "c": "line",
+         "m": true
+        },
+        {
+         "k": "P",
+         "pts": [
+          235,
+          21,
+          285,
+          21,
+          285,
+          101,
+          235,
+          101
+         ],
+         "s": "ink",
+         "f": "surface",
+         "w": 1.6
+        },
+        {
+         "k": "T",
+         "x": 241,
+         "y": 45,
+         "s": "1D",
+         "a": "l",
+         "z": 12,
+         "c": "ink",
+         "m": false
+        },
+        {
+         "k": "L",
+         "pts": [
+          225,
+          41,
+          235,
+          41
+         ],
+         "s": "line",
+         "w": 1.4
+        },
+        {
+         "k": "T",
+         "x": 247,
+         "y": 65,
+         "s": "C1",
+         "a": "l",
+         "z": 12,
+         "c": "ink",
+         "m": false
+        },
+        {
+         "k": "L",
+         "pts": [
+          225,
+          61,
+          235,
+          61
+         ],
+         "s": "line",
+         "w": 1.4
+        },
+        {
+         "k": "T",
+         "x": 241,
+         "y": 85,
+         "s": "R",
+         "a": "l",
+         "z": 12,
+         "c": "ink",
+         "m": false
+        },
+        {
+         "k": "E",
+         "x": 231,
+         "y": 81,
+         "rx": 4,
+         "ry": 4,
+         "s": "ink",
+         "f": "surface"
+        },
+        {
+         "k": "L",
+         "pts": [
+          227,
+          81,
+          221,
+          81
+         ],
+         "s": "line",
+         "w": 1.4
+        },
+        {
+         "k": "L",
+         "pts": [
+          235,
+          55,
+          243,
+          61,
+          235,
+          67
+         ],
+         "s": "ink",
+         "w": 1.4
+        },
+        {
+         "k": "L",
+         "pts": [
+          285,
+          41,
+          295,
+          41
+         ],
+         "s": "line",
+         "w": 1.4
+        },
+        {
+         "k": "T",
+         "x": 260.0,
+         "y": 16,
+         "s": "q(1)",
+         "a": "c",
+         "z": 10,
+         "c": "line",
+         "m": true
+        },
+        {
+         "k": "P",
+         "pts": [
+          335,
+          21,
+          385,
+          21,
+          385,
+          101,
+          335,
+          101
+         ],
+         "s": "ink",
+         "f": "surface",
+         "w": 1.6
+        },
+        {
+         "k": "T",
+         "x": 341,
+         "y": 45,
+         "s": "1D",
+         "a": "l",
+         "z": 12,
+         "c": "ink",
+         "m": false
+        },
+        {
+         "k": "L",
+         "pts": [
+          325,
+          41,
+          335,
+          41
+         ],
+         "s": "line",
+         "w": 1.4
+        },
+        {
+         "k": "T",
+         "x": 347,
+         "y": 65,
+         "s": "C1",
+         "a": "l",
+         "z": 12,
+         "c": "ink",
+         "m": false
+        },
+        {
+         "k": "L",
+         "pts": [
+          325,
+          61,
+          335,
+          61
+         ],
+         "s": "line",
+         "w": 1.4
+        },
+        {
+         "k": "T",
+         "x": 341,
+         "y": 85,
+         "s": "R",
+         "a": "l",
+         "z": 12,
+         "c": "ink",
+         "m": false
+        },
+        {
+         "k": "E",
+         "x": 331,
+         "y": 81,
+         "rx": 4,
+         "ry": 4,
+         "s": "ink",
+         "f": "surface"
+        },
+        {
+         "k": "L",
+         "pts": [
+          327,
+          81,
+          321,
+          81
+         ],
+         "s": "line",
+         "w": 1.4
+        },
+        {
+         "k": "L",
+         "pts": [
+          335,
+          55,
+          343,
+          61,
+          335,
+          67
+         ],
+         "s": "ink",
+         "w": 1.4
+        },
+        {
+         "k": "L",
+         "pts": [
+          385,
+          41,
+          395,
+          41
+         ],
+         "s": "line",
+         "w": 1.4
+        },
+        {
+         "k": "T",
+         "x": 360.0,
+         "y": 16,
+         "s": "q(2)",
+         "a": "c",
+         "z": 10,
+         "c": "line",
+         "m": true
+        },
+        {
+         "k": "P",
+         "pts": [
+          435,
+          21,
+          485,
+          21,
+          485,
+          101,
+          435,
+          101
+         ],
+         "s": "ink",
+         "f": "surface",
+         "w": 1.6
+        },
+        {
+         "k": "T",
+         "x": 441,
+         "y": 45,
+         "s": "1D",
+         "a": "l",
+         "z": 12,
+         "c": "ink",
+         "m": false
+        },
+        {
+         "k": "L",
+         "pts": [
+          425,
+          41,
+          435,
+          41
+         ],
+         "s": "line",
+         "w": 1.4
+        },
+        {
+         "k": "T",
+         "x": 447,
+         "y": 65,
+         "s": "C1",
+         "a": "l",
+         "z": 12,
+         "c": "ink",
+         "m": false
+        },
+        {
+         "k": "L",
+         "pts": [
+          425,
+          61,
+          435,
+          61
+         ],
+         "s": "line",
+         "w": 1.4
+        },
+        {
+         "k": "T",
+         "x": 441,
+         "y": 85,
+         "s": "R",
+         "a": "l",
+         "z": 12,
+         "c": "ink",
+         "m": false
+        },
+        {
+         "k": "E",
+         "x": 431,
+         "y": 81,
+         "rx": 4,
+         "ry": 4,
+         "s": "ink",
+         "f": "surface"
+        },
+        {
+         "k": "L",
+         "pts": [
+          427,
+          81,
+          421,
+          81
+         ],
+         "s": "line",
+         "w": 1.4
+        },
+        {
+         "k": "L",
+         "pts": [
+          435,
+          55,
+          443,
+          61,
+          435,
+          67
+         ],
+         "s": "ink",
+         "w": 1.4
+        },
+        {
+         "k": "L",
+         "pts": [
+          485,
+          41,
+          495,
+          41
+         ],
+         "s": "line",
+         "w": 1.4
+        },
+        {
+         "k": "T",
+         "x": 460.0,
+         "y": 16,
+         "s": "q(3)",
+         "a": "c",
+         "z": 10,
+         "c": "line",
+         "m": true
+        },
+        {
+         "k": "T",
+         "x": 60,
+         "y": 45,
+         "s": "ser_in",
+         "a": "r",
+         "z": 13,
+         "c": "ink",
+         "m": true
+        },
+        {
+         "k": "T",
+         "x": 60,
+         "y": 165,
+         "s": "clk",
+         "a": "r",
+         "z": 13,
+         "c": "ink",
+         "m": true
+        },
+        {
+         "k": "T",
+         "x": 60,
+         "y": 185,
+         "s": "res_n",
+         "a": "r",
+         "z": 13,
+         "c": "ink",
+         "m": true
+        },
+        {
+         "k": "T",
+         "x": 550,
+         "y": 45,
+         "s": "ser_out",
+         "a": "l",
+         "z": 13,
+         "c": "ink",
+         "m": true
+        },
+        {
+         "k": "L",
+         "pts": [
+          65,
+          41,
+          125,
+          41
+         ],
+         "s": "line",
+         "w": 1.4
+        },
+        {
+         "k": "L",
+         "pts": [
+          195,
+          41,
+          225,
+          41
+         ],
+         "s": "accent",
+         "w": 2
+        },
+        {
+         "k": "L",
+         "pts": [
+          295,
+          41,
+          325,
+          41
+         ],
+         "s": "accent",
+         "w": 2
+        },
+        {
+         "k": "L",
+         "pts": [
+          395,
+          41,
+          425,
+          41
+         ],
+         "s": "accent",
+         "w": 2
+        },
+        {
+         "k": "L",
+         "pts": [
+          495,
+          41,
+          545,
+          41
+         ],
+         "s": "line",
+         "w": 1.4
+        },
+        {
+         "k": "L",
+         "pts": [
+          65,
+          161,
+          110,
+          161,
+          110,
+          61,
+          125,
+          61
+         ],
+         "s": "line",
+         "w": 1.4
+        },
+        {
+         "k": "L",
+         "pts": [
+          65,
+          161,
+          210,
+          161,
+          210,
+          61,
+          225,
+          61
+         ],
+         "s": "line",
+         "w": 1.4
+        },
+        {
+         "k": "E",
+         "x": 110,
+         "y": 161,
+         "rx": 3,
+         "ry": 3,
+         "s": "line",
+         "f": "line"
+        },
+        {
+         "k": "L",
+         "pts": [
+          65,
+          161,
+          310,
+          161,
+          310,
+          61,
+          325,
+          61
+         ],
+         "s": "line",
+         "w": 1.4
+        },
+        {
+         "k": "E",
+         "x": 210,
+         "y": 161,
+         "rx": 3,
+         "ry": 3,
+         "s": "line",
+         "f": "line"
+        },
+        {
+         "k": "L",
+         "pts": [
+          65,
+          161,
+          410,
+          161,
+          410,
+          61,
+          425,
+          61
+         ],
+         "s": "line",
+         "w": 1.4
+        },
+        {
+         "k": "E",
+         "x": 310,
+         "y": 161,
+         "rx": 3,
+         "ry": 3,
+         "s": "line",
+         "f": "line"
+        },
+        {
+         "k": "L",
+         "pts": [
+          65,
+          181,
+          103,
+          181,
+          103,
+          81,
+          121,
+          81
+         ],
+         "s": "line",
+         "w": 1.4
+        },
+        {
+         "k": "L",
+         "pts": [
+          65,
+          181,
+          203,
+          181,
+          203,
+          81,
+          221,
+          81
+         ],
+         "s": "line",
+         "w": 1.4
+        },
+        {
+         "k": "E",
+         "x": 103,
+         "y": 181,
+         "rx": 3,
+         "ry": 3,
+         "s": "line",
+         "f": "line"
+        },
+        {
+         "k": "L",
+         "pts": [
+          65,
+          181,
+          303,
+          181,
+          303,
+          81,
+          321,
+          81
+         ],
+         "s": "line",
+         "w": 1.4
+        },
+        {
+         "k": "E",
+         "x": 203,
+         "y": 181,
+         "rx": 3,
+         "ry": 3,
+         "s": "line",
+         "f": "line"
+        },
+        {
+         "k": "L",
+         "pts": [
+          65,
+          181,
+          403,
+          181,
+          403,
+          81,
+          421,
+          81
+         ],
+         "s": "line",
+         "w": 1.4
+        },
+        {
+         "k": "E",
+         "x": 303,
+         "y": 181,
+         "rx": 3,
+         "ry": 3,
+         "s": "line",
+         "f": "line"
+        },
+        {
+         "k": "T",
+         "x": 65,
+         "y": 216,
+         "s": "jede steigende Flanke: jedes Bit eine Stufe weiter Richtung MSB, sr <= sr(2 downto 0) & ser_in",
+         "a": "l",
+         "z": 11,
+         "c": "line",
+         "m": false
+        }
+       ]
+      },
+      {
+       "t": "p",
+       "s": "In VHDL schreibt man nicht vier Flipflops, sondern **eine Zuweisung mit Konkatenation**:"
+      },
+      {
+       "t": "code",
+       "lang": "vhdl",
+       "s": "sr <= sr(N-2 downto 0) & ser_in;   -- Richtung MSB\nsr <= ser_in & sr(N-1 downto 1);   -- Richtung LSB"
+      },
+      {
+       "t": "p",
+       "s": "Mit `load` hat man ein **Universal-Schieberegister**: parallel laden (Parallel-Seriell-Wandler, z.B. Sender) oder seriell einschieben (Seriell-Parallel-Wandler, z.B. Empfänger)."
+      },
+      {
+       "t": "code",
+       "lang": "vhdl",
+       "s": "entity schiebe_reg is\n  generic(N : positive := 8);\n  port(\n    clk, res_n  : in  std_logic;\n    load, shift : in  std_logic;\n    din         : in  std_logic_vector(N-1 downto 0);\n    ser_in      : in  std_logic;\n    q           : out std_logic_vector(N-1 downto 0);\n    ser_out     : out std_logic\n    );\nend entity schiebe_reg;"
+      }
+     ],
+     "aufgabe": [
+      {
+       "t": "p",
+       "s": "Schreibe `architecture behav`: `load` hat Vorrang vor `shift`, geschoben wird Richtung MSB, `ser_out` ist das MSB."
+      }
+     ],
+     "aufgabeMd": "Schreibe `architecture behav`: `load` hat Vorrang vor `shift`, geschoben wird Richtung MSB, `ser_out` ist das MSB.",
+     "loesung": [
+      {
+       "t": "code",
+       "lang": "vhdl",
+       "s": "architecture behav of schiebe_reg is\n  signal sr : std_logic_vector(N-1 downto 0);\nbegin\n  process(clk, res_n) is\n  begin\n    if res_n = '0' then\n      sr <= (others => '0');\n    else\n      if clk'event and clk = '1' then\n        if load = '1' then\n          sr <= din;\n        elsif shift = '1' then\n          sr <= sr(N-2 downto 0) & ser_in;\n        end if;\n      end if;\n    end if;\n  end process;\n  q       <= sr;\n  ser_out <= sr(N-1);\nend architecture behav;"
+      },
+      {
+       "t": "p",
+       "s": "Das interne Signal `sr` ist nötig, weil das Register sich selbst lesen muss. Weiter üben: Eingang `rechts` für die Schieberichtung; Lauflicht (rotieren: `sr(N-2 downto 0) & sr(N-1)`)."
+      }
+     ],
+     "loesungMd": "```vhdl\narchitecture behav of schiebe_reg is\n  signal sr : std_logic_vector(N-1 downto 0);\nbegin\n  process(clk, res_n) is\n  begin\n    if res_n = '0' then\n      sr <= (others => '0');\n    else\n      if clk'event and clk = '1' then\n        if load = '1' then\n          sr <= din;\n        elsif shift = '1' then\n          sr <= sr(N-2 downto 0) & ser_in;\n        end if;\n      end if;\n    end if;\n  end process;\n  q       <= sr;\n  ser_out <= sr(N-1);\nend architecture behav;\n```\nDas interne Signal `sr` ist nötig, weil das Register sich selbst lesen muss.\nWeiter üben: Eingang `rechts` für die Schieberichtung; Lauflicht (rotieren: `sr(N-2 downto 0) & sr(N-1)`).",
+     "klausur": [
+      {
+       "t": "p",
+       "s": "F19 A1 (serieller Empfänger mit Schieberegister), D05 (Synchronisierer = Schieberegister der Länge 2), F24 A1 (CRC-Register mit Rückkopplung)."
+      }
+     ]
+    },
+    {
+     "id": "M03",
+     "block": "M",
+     "title": "Modulo-Zähler mit Übertrag",
+     "min": 5,
+     "mode": "code",
+     "starter": "",
+     "solutionCode": "architecture behav of zaehler_mod is\n  signal cnt : integer range 0 to MAX;\nbegin\n  process(clk, res_n) is\n  begin\n    if res_n = '0' then\n      cnt <= 0;\n    else\n      if clk'event and clk = '1' then\n        if en = '1' then\n          if cnt = MAX then\n            cnt <= 0;\n          else\n            cnt <= cnt + 1;\n          end if;\n        end if;\n      end if;\n    end if;\n  end process;\n  q <= cnt;\n  ueberlauf <= '1' when en = '1' and cnt = MAX else '0';\nend architecture behav;",
+     "ziel": [
+      {
+       "t": "p",
+       "s": "Einen Zähler schreiben, der sich zu größeren Zählern verketten lässt."
+      }
+     ],
+     "erklaerung": [
+      {
+       "t": "p",
+       "s": "Ein Modulo-Zähler zählt `0 … MAX` und beginnt dann wieder bei 0. Der Ausgang `ueberlauf` ist `'1'`, wenn **im nächsten Takt** übergelaufen wird – damit kann er die nächste Stufe weiterschalten (Sekunden → Minuten)."
+      },
+      {
+       "t": "code",
+       "lang": "vhdl",
+       "s": "entity zaehler_mod is\n  generic(MAX : positive := 9);\n  port(\n    clk, res_n : in  std_logic;\n    en         : in  std_logic;\n    q          : out integer range 0 to MAX;\n    ueberlauf  : out std_logic\n    );\nend entity zaehler_mod;"
+      },
+      {
+       "t": "p",
+       "s": "`ueberlauf` ist **kombinatorisch** (nebenläufig), damit er im selben Takt wie der Zählerstand `MAX` anliegt."
+      }
+     ],
+     "aufgabe": [
+      {
+       "t": "p",
+       "s": "Schreibe `architecture behav` mit einem internen Signal `cnt`."
+      }
+     ],
+     "aufgabeMd": "Schreibe `architecture behav` mit einem internen Signal `cnt`.",
+     "loesung": [
+      {
+       "t": "code",
+       "lang": "vhdl",
+       "s": "architecture behav of zaehler_mod is\n  signal cnt : integer range 0 to MAX;\nbegin\n  process(clk, res_n) is\n  begin\n    if res_n = '0' then\n      cnt <= 0;\n    else\n      if clk'event and clk = '1' then\n        if en = '1' then\n          if cnt = MAX then\n            cnt <= 0;\n          else\n            cnt <= cnt + 1;\n          end if;\n        end if;\n      end if;\n    end if;\n  end process;\n  q <= cnt;\n  ueberlauf <= '1' when en = '1' and cnt = MAX else '0';\nend architecture behav;"
+      },
+      {
+       "t": "p",
+       "s": "Kaskade: `en` der Zehnerstufe = `ueberlauf` der Einerstufe. Weiter üben: Eingang `auf` (auf-/abwärts), Eingang `load` mit Startwert."
+      }
+     ],
+     "loesungMd": "```vhdl\narchitecture behav of zaehler_mod is\n  signal cnt : integer range 0 to MAX;\nbegin\n  process(clk, res_n) is\n  begin\n    if res_n = '0' then\n      cnt <= 0;\n    else\n      if clk'event and clk = '1' then\n        if en = '1' then\n          if cnt = MAX then\n            cnt <= 0;\n          else\n            cnt <= cnt + 1;\n          end if;\n        end if;\n      end if;\n    end if;\n  end process;\n  q <= cnt;\n  ueberlauf <= '1' when en = '1' and cnt = MAX else '0';\nend architecture behav;\n```\nKaskade: `en` der Zehnerstufe = `ueberlauf` der Einerstufe.\nWeiter üben: Eingang `auf` (auf-/abwärts), Eingang `load` mit Startwert.",
+     "klausur": [
+      {
+       "t": "p",
+       "s": "F20 A2 F5 (generischer Binärzähler), F23 A2 (Oszillator mit Zähler), Skript Kap. 2.3.9."
+      }
+     ]
+    },
+    {
+     "id": "M04",
+     "block": "M",
+     "title": "Taktteiler als Enable-Puls",
+     "min": 5,
+     "mode": "code",
+     "starter": "",
+     "solutionCode": "architecture behav of taktteiler is\n  signal cnt : integer range 0 to N-1;\nbegin\n  process(clk, res_n) is\n  begin\n    if res_n = '0' then\n      cnt <= 0;\n    else\n      if clk'event and clk = '1' then\n        if cnt = N-1 then\n          cnt <= 0;\n        else\n          cnt <= cnt + 1;\n        end if;\n      end if;\n    end if;\n  end process;\n  tick <= '1' when cnt = N-1 else '0';\nend architecture behav;",
+     "ziel": [
+      {
+       "t": "p",
+       "s": "Langsamere Abläufe erzeugen, ohne einen zweiten Takt zu bauen."
+      }
+     ],
+     "erklaerung": [
+      {
+       "t": "p",
+       "s": "Falsch (aber verlockend): einen langsamen Takt `clk_langsam` erzeugen und Flipflops damit takten. Das ergibt mehrere Taktdomänen, Laufzeitprobleme und Glitches (Skript Kap. 6)."
+      },
+      {
+       "t": "p",
+       "s": "Richtig: **ein** Takt für alles, und ein Taktteiler liefert einen **Enable-Puls** `tick`, der jeden N-ten Takt für genau einen Takt `'1'` ist:"
+      },
+      {
+       "t": "diagram",
+       "id": "M04_taktteiler",
+       "alt": "Taktteiler mit N = 4",
+       "w": 436,
+       "h": 88,
+       "prims": [
+        {
+         "k": "L",
+         "pts": [
+          78,
+          4,
+          78,
+          80
+         ],
+         "s": "grid"
+        },
+        {
+         "k": "L",
+         "pts": [
+          100,
+          4,
+          100,
+          80
+         ],
+         "s": "grid"
+        },
+        {
+         "k": "L",
+         "pts": [
+          122,
+          4,
+          122,
+          80
+         ],
+         "s": "grid"
+        },
+        {
+         "k": "L",
+         "pts": [
+          144,
+          4,
+          144,
+          80
+         ],
+         "s": "grid"
+        },
+        {
+         "k": "L",
+         "pts": [
+          166,
+          4,
+          166,
+          80
+         ],
+         "s": "grid"
+        },
+        {
+         "k": "L",
+         "pts": [
+          188,
+          4,
+          188,
+          80
+         ],
+         "s": "grid"
+        },
+        {
+         "k": "L",
+         "pts": [
+          210,
+          4,
+          210,
+          80
+         ],
+         "s": "grid"
+        },
+        {
+         "k": "L",
+         "pts": [
+          232,
+          4,
+          232,
+          80
+         ],
+         "s": "grid"
+        },
+        {
+         "k": "L",
+         "pts": [
+          254,
+          4,
+          254,
+          80
+         ],
+         "s": "grid"
+        },
+        {
+         "k": "L",
+         "pts": [
+          276,
+          4,
+          276,
+          80
+         ],
+         "s": "grid"
+        },
+        {
+         "k": "L",
+         "pts": [
+          298,
+          4,
+          298,
+          80
+         ],
+         "s": "grid"
+        },
+        {
+         "k": "L",
+         "pts": [
+          320,
+          4,
+          320,
+          80
+         ],
+         "s": "grid"
+        },
+        {
+         "k": "L",
+         "pts": [
+          342,
+          4,
+          342,
+          80
+         ],
+         "s": "grid"
+        },
+        {
+         "k": "L",
+         "pts": [
+          364,
+          4,
+          364,
+          80
+         ],
+         "s": "grid"
+        },
+        {
+         "k": "L",
+         "pts": [
+          386,
+          4,
+          386,
+          80
+         ],
+         "s": "grid"
+        },
+        {
+         "k": "L",
+         "pts": [
+          408,
+          4,
+          408,
+          80
+         ],
+         "s": "grid"
+        },
+        {
+         "k": "L",
+         "pts": [
+          430,
+          4,
+          430,
+          80
+         ],
+         "s": "grid"
+        },
+        {
+         "k": "T",
+         "x": 4,
+         "y": 27,
+         "s": "clk",
+         "a": "l",
+         "z": 13,
+         "c": "ink",
+         "m": true
+        },
+        {
+         "k": "L",
+         "pts": [
+          78,
+          34,
+          100,
+          34,
+          100,
+          12,
+          122,
+          12,
+          122,
+          34,
+          144,
+          34,
+          144,
+          12,
+          166,
+          12,
+          166,
+          34,
+          188,
+          34,
+          188,
+          12,
+          210,
+          12,
+          210,
+          34,
+          232,
+          34,
+          232,
+          12,
+          254,
+          12,
+          254,
+          34,
+          276,
+          34,
+          276,
+          12,
+          298,
+          12,
+          298,
+          34,
+          320,
+          34,
+          320,
+          12,
+          342,
+          12,
+          342,
+          34,
+          364,
+          34,
+          364,
+          12,
+          386,
+          12,
+          386,
+          34,
+          408,
+          34,
+          408,
+          12,
+          430,
+          12
+         ],
+         "s": "accent",
+         "w": 2
+        },
+        {
+         "k": "T",
+         "x": 4,
+         "y": 67,
+         "s": "tick",
+         "a": "l",
+         "z": 13,
+         "c": "ink",
+         "m": true
+        },
+        {
+         "k": "L",
+         "pts": [
+          78,
+          74,
+          100,
+          74,
+          122,
+          74,
+          144,
+          74,
+          166,
+          74,
+          188,
+          74,
+          210,
+          74,
+          210,
+          52,
+          232,
+          52,
+          254,
+          52,
+          254,
+          74,
+          276,
+          74,
+          298,
+          74,
+          320,
+          74,
+          342,
+          74,
+          364,
+          74,
+          386,
+          74,
+          386,
+          52,
+          408,
+          52,
+          430,
+          52
+         ],
+         "s": "accent",
+         "w": 2
+        }
+       ]
+      },
+      {
+       "t": "p",
+       "s": "Andere Bausteine machen nur dann etwas, wenn `tick = '1'` ist (wie `en` in M01/M03)."
+      },
+      {
+       "t": "code",
+       "lang": "vhdl",
+       "s": "entity taktteiler is\n  generic(N : positive := 4);\n  port(\n    clk, res_n : in  std_logic;\n    tick       : out std_logic\n    );\nend entity taktteiler;"
+      }
+     ],
+     "aufgabe": [
+      {
+       "t": "ol",
+       "items": [
+        "Schreibe `architecture behav` mit einem Zähler `0 … N-1`.",
+        "Wie groß muss `N` sein, um aus 50 MHz einen Puls pro Millisekunde zu machen?"
+       ]
+      }
+     ],
+     "aufgabeMd": "1. Schreibe `architecture behav` mit einem Zähler `0 … N-1`.\n2. Wie groß muss `N` sein, um aus 50 MHz einen Puls pro Millisekunde zu machen?",
+     "loesung": [
+      {
+       "t": "code",
+       "lang": "vhdl",
+       "s": "architecture behav of taktteiler is\n  signal cnt : integer range 0 to N-1;\nbegin\n  process(clk, res_n) is\n  begin\n    if res_n = '0' then\n      cnt <= 0;\n    else\n      if clk'event and clk = '1' then\n        if cnt = N-1 then\n          cnt <= 0;\n        else\n          cnt <= cnt + 1;\n        end if;\n      end if;\n    end if;\n  end process;\n  tick <= '1' when cnt = N-1 else '0';\nend architecture behav;"
+      },
+      {
+       "t": "ol",
+       "items": [
+        "50 MHz · 1 ms = **50 000** Takte → `N = 50000`."
+       ]
+      }
+     ],
+     "loesungMd": "```vhdl\narchitecture behav of taktteiler is\n  signal cnt : integer range 0 to N-1;\nbegin\n  process(clk, res_n) is\n  begin\n    if res_n = '0' then\n      cnt <= 0;\n    else\n      if clk'event and clk = '1' then\n        if cnt = N-1 then\n          cnt <= 0;\n        else\n          cnt <= cnt + 1;\n        end if;\n      end if;\n    end if;\n  end process;\n  tick <= '1' when cnt = N-1 else '0';\nend architecture behav;\n```\n2. 50 MHz · 1 ms = **50 000** Takte → `N = 50000`.",
+     "klausur": [
+      {
+       "t": "p",
+       "s": "F23 A2 F4 (Frequenz eines Oszillators bei 50 MHz berechnen), F19 A1 F4 (Bitzeit aus Baudrate)."
+      }
+     ]
+    },
+    {
+     "id": "M05",
+     "block": "M",
+     "title": "Entpreller",
+     "min": 6,
+     "mode": "code",
+     "starter": "",
+     "solutionCode": "architecture behav of entpreller is\n  signal zustand : std_logic;\n  signal cnt     : integer range 0 to N;\nbegin\n  process(clk, res_n) is\n  begin\n    if res_n = '0' then\n      zustand <= '0';\n      cnt     <= 0;\n    else\n      if clk'event and clk = '1' then\n        if roh = zustand then\n          cnt <= 0;\n        elsif cnt = N-1 then\n          zustand <= roh;\n          cnt     <= 0;\n        else\n          cnt <= cnt + 1;\n        end if;\n      end if;\n    end if;\n  end process;\n  sauber <= zustand;\nend architecture behav;",
+     "ziel": [
+      {
+       "t": "p",
+       "s": "Einen mechanischen Taster zuverlässig auswerten."
+      }
+     ],
+     "erklaerung": [
+      {
+       "t": "p",
+       "s": "Ein Taster **prellt**: beim Drücken springt das Signal einige Millisekunden zwischen 0 und 1. Die Eingangsstufe für Taster hat deshalb drei Teile:"
+      },
+      {
+       "t": "ol",
+       "items": [
+        "**Synchronisierer** (D05) gegen Metastabilität",
+        "**Entpreller**: der Ausgang ändert sich erst, wenn der Eingang `N` Takte lang **stabil anders** war",
+        "**Flankenerkennung** (D07), wenn ein einzelner Puls gebraucht wird"
+       ]
+      },
+      {
+       "t": "code",
+       "lang": "vhdl",
+       "s": "entity entpreller is\n  generic(N : positive := 4);\n  port(\n    clk, res_n : in  std_logic;\n    roh        : in  std_logic;   -- schon synchronisiert\n    sauber     : out std_logic\n    );\nend entity entpreller;"
+      },
+      {
+       "t": "p",
+       "s": "Idee: Ein Zähler läuft, solange `roh` vom gespeicherten Zustand abweicht. Ist `roh` wieder gleich, fängt er von vorn an."
+      }
+     ],
+     "aufgabe": [
+      {
+       "t": "p",
+       "s": "Schreibe `architecture behav` mit den Signalen `zustand` und `cnt`."
+      }
+     ],
+     "aufgabeMd": "Schreibe `architecture behav` mit den Signalen `zustand` und `cnt`.",
+     "loesung": [
+      {
+       "t": "code",
+       "lang": "vhdl",
+       "s": "architecture behav of entpreller is\n  signal zustand : std_logic;\n  signal cnt     : integer range 0 to N;\nbegin\n  process(clk, res_n) is\n  begin\n    if res_n = '0' then\n      zustand <= '0';\n      cnt     <= 0;\n    else\n      if clk'event and clk = '1' then\n        if roh = zustand then\n          cnt <= 0;\n        elsif cnt = N-1 then\n          zustand <= roh;\n          cnt     <= 0;\n        else\n          cnt <= cnt + 1;\n        end if;\n      end if;\n    end if;\n  end process;\n  sauber <= zustand;\nend architecture behav;"
+      },
+      {
+       "t": "p",
+       "s": "Praxis: bei 50 MHz und 10 ms Prellzeit ist `N = 500 000`."
+      }
+     ],
+     "loesungMd": "```vhdl\narchitecture behav of entpreller is\n  signal zustand : std_logic;\n  signal cnt     : integer range 0 to N;\nbegin\n  process(clk, res_n) is\n  begin\n    if res_n = '0' then\n      zustand <= '0';\n      cnt     <= 0;\n    else\n      if clk'event and clk = '1' then\n        if roh = zustand then\n          cnt <= 0;\n        elsif cnt = N-1 then\n          zustand <= roh;\n          cnt     <= 0;\n        else\n          cnt <= cnt + 1;\n        end if;\n      end if;\n    end if;\n  end process;\n  sauber <= zustand;\nend architecture behav;\n```\nPraxis: bei 50 MHz und 10 ms Prellzeit ist `N = 500 000`.",
+     "klausur": [
+      {
+       "t": "p",
+       "s": "F20 A2 F9 (asynchrone Tastatureingänge), Skript Kap. 6.1 (Metastabilität)."
+      }
+     ]
+    },
+    {
+     "id": "M06",
+     "block": "M",
+     "title": "PWM-Generator",
+     "min": 4,
+     "mode": "code",
+     "starter": "",
+     "solutionCode": "architecture behav of pwm is\n  signal cnt : unsigned(N-1 downto 0);\nbegin\n  process(clk, res_n) is\n  begin\n    if res_n = '0' then\n      cnt <= (others => '0');\n    else\n      if clk'event and clk = '1' then\n        cnt <= cnt + 1;\n      end if;\n    end if;\n  end process;\n  pwm_out <= '1' when cnt < unsigned(duty) else '0';\nend architecture behav;",
+     "ziel": [
+      {
+       "t": "p",
+       "s": "Ein Signal mit einstellbarem Tastgrad erzeugen (LED dimmen, Motor steuern)."
+      }
+     ],
+     "erklaerung": [
+      {
+       "t": "p",
+       "s": "Ein freilaufender N-Bit-Zähler zählt `0 … 2^N-1`. Der Ausgang ist `'1'`, solange der Zähler **kleiner** als der Sollwert `duty` ist. Bei `duty = 4` und N = 4 ist das Signal 4 von 16 Takten an (25 %)."
+      },
+      {
+       "t": "code",
+       "lang": "vhdl",
+       "s": "entity pwm is\n  generic(N : positive := 4);\n  port(\n    clk, res_n : in  std_logic;\n    duty       : in  std_logic_vector(N-1 downto 0);\n    pwm_out    : out std_logic\n    );\nend entity pwm;"
+      }
+     ],
+     "aufgabe": [
+      {
+       "t": "ol",
+       "items": [
+        "Schreibe `architecture behav` (Zähler als `unsigned`, Vergleich nebenläufig).",
+        "Welcher Tastgrad ergibt sich bei `duty = \"1100\"`?"
+       ]
+      }
+     ],
+     "aufgabeMd": "1. Schreibe `architecture behav` (Zähler als `unsigned`, Vergleich nebenläufig).\n2. Welcher Tastgrad ergibt sich bei `duty = \"1100\"`?",
+     "loesung": [
+      {
+       "t": "code",
+       "lang": "vhdl",
+       "s": "architecture behav of pwm is\n  signal cnt : unsigned(N-1 downto 0);\nbegin\n  process(clk, res_n) is\n  begin\n    if res_n = '0' then\n      cnt <= (others => '0');\n    else\n      if clk'event and clk = '1' then\n        cnt <= cnt + 1;\n      end if;\n    end if;\n  end process;\n  pwm_out <= '1' when cnt < unsigned(duty) else '0';\nend architecture behav;"
+      },
+      {
+       "t": "ol",
+       "items": [
+        "12 von 16 Takten = **75 %**."
+       ]
+      }
+     ],
+     "loesungMd": "```vhdl\narchitecture behav of pwm is\n  signal cnt : unsigned(N-1 downto 0);\nbegin\n  process(clk, res_n) is\n  begin\n    if res_n = '0' then\n      cnt <= (others => '0');\n    else\n      if clk'event and clk = '1' then\n        cnt <= cnt + 1;\n      end if;\n    end if;\n  end process;\n  pwm_out <= '1' when cnt < unsigned(duty) else '0';\nend architecture behav;\n```\n2. 12 von 16 Takten = **75 %**.",
+     "klausur": [
+      {
+       "t": "p",
+       "s": "Zähler + Vergleicher: F23 A2 (Oszillator `osc` mit `period`), F21 A2 (Zählerbasierte Steuerung)."
+      }
+     ]
+    },
+    {
+     "id": "M07",
+     "block": "M",
+     "title": "Synchroner FIFO",
+     "min": 9,
+     "mode": "code",
+     "starter": "",
+     "solutionCode": "architecture behav of fifo is\n  type memory_type is array (0 to DEPTH-1)\n    of std_logic_vector(W-1 downto 0);\n  signal memory : memory_type;\n  signal windex, rindex : integer range 0 to DEPTH-1;\n  signal count : integer range 0 to DEPTH;\nbegin\n  process(clk, res_n) is\n    variable do_wr, do_rd : boolean;\n  begin\n    if res_n = '0' then\n      windex <= 0;\n      rindex <= 0;\n      count  <= 0;\n    else\n      if clk'event and clk = '1' then\n        do_wr := wr_en = '1' and count < DEPTH;\n        do_rd := rd_en = '1' and count > 0;\n        if do_wr then\n          memory(windex) <= din;\n          windex <= (windex + 1) mod DEPTH;\n        end if;\n        if do_rd then\n          rindex <= (rindex + 1) mod DEPTH;\n        end if;\n        if do_wr and not do_rd then\n          count <= count + 1;\n        elsif do_rd and not do_wr then\n          count <= count - 1;\n        end if;\n      end if;\n    end if;\n  end process;\n  dout  <= memory(rindex);\n  empty <= '1' when count = 0 else '0';\n  full  <= '1' when count = DEPTH else '0';\nend architecture behav;",
+     "ziel": [
+      {
+       "t": "p",
+       "s": "Einen Ringpuffer mit Schreib- und Lesezeiger bauen – eine ganze Klausuraufgabe."
+      }
+     ],
+     "erklaerung": [
+      {
+       "t": "p",
+       "s": "Ein FIFO (first in, first out) speichert Werte in einem Array. Zwei Zeiger laufen im Kreis:"
+      },
+      {
+       "t": "ul",
+       "items": [
+        "`windex`: hier wird als Nächstes **geschrieben**",
+        "`rindex`: hier steht das **vorderste** Element",
+        "`count`: Füllstand, daraus `empty` und `full`"
+       ]
+      },
+      {
+       "t": "p",
+       "s": "Regeln: Nicht schreiben, wenn voll; nicht lesen, wenn leer. Gleichzeitiges Schreiben und Lesen ändert den Füllstand nicht."
+      },
+      {
+       "t": "code",
+       "lang": "vhdl",
+       "s": "entity fifo is\n  generic(DEPTH : positive := 4; W : positive := 8);\n  port(\n    clk, res_n   : in  std_logic;\n    wr_en, rd_en : in  std_logic;\n    din          : in  std_logic_vector(W-1 downto 0);\n    dout         : out std_logic_vector(W-1 downto 0);\n    empty, full  : out std_logic\n    );\nend entity fifo;"
+      }
+     ],
+     "aufgabe": [
+      {
+       "t": "p",
+       "s": "Schreibe `architecture behav`. Deklariere `memory_type`, die Zeiger und `count`. `dout` zeigt immer das vorderste Element."
+      }
+     ],
+     "aufgabeMd": "Schreibe `architecture behav`. Deklariere `memory_type`, die Zeiger und `count`. `dout` zeigt immer das vorderste Element.",
+     "loesung": [
+      {
+       "t": "code",
+       "lang": "vhdl",
+       "s": "architecture behav of fifo is\n  type memory_type is array (0 to DEPTH-1)\n    of std_logic_vector(W-1 downto 0);\n  signal memory : memory_type;\n  signal windex, rindex : integer range 0 to DEPTH-1;\n  signal count : integer range 0 to DEPTH;\nbegin\n  process(clk, res_n) is\n    variable do_wr, do_rd : boolean;\n  begin\n    if res_n = '0' then\n      windex <= 0;\n      rindex <= 0;\n      count  <= 0;\n    else\n      if clk'event and clk = '1' then\n        do_wr := wr_en = '1' and count < DEPTH;\n        do_rd := rd_en = '1' and count > 0;\n        if do_wr then\n          memory(windex) <= din;\n          windex <= (windex + 1) mod DEPTH;\n        end if;\n        if do_rd then\n          rindex <= (rindex + 1) mod DEPTH;\n        end if;\n        if do_wr and not do_rd then\n          count <= count + 1;\n        elsif do_rd and not do_wr then\n          count <= count - 1;\n        end if;\n      end if;\n    end if;\n  end process;\n  dout  <= memory(rindex);\n  empty <= '1' when count = 0 else '0';\n  full  <= '1' when count = DEPTH else '0';\nend architecture behav;"
+      },
+      {
+       "t": "p",
+       "s": "Die Variablen `do_wr`/`do_rd` werden zuerst geschrieben, dann gelesen → **keine** Flipflops (D04)."
+      }
+     ],
+     "loesungMd": "```vhdl\narchitecture behav of fifo is\n  type memory_type is array (0 to DEPTH-1)\n    of std_logic_vector(W-1 downto 0);\n  signal memory : memory_type;\n  signal windex, rindex : integer range 0 to DEPTH-1;\n  signal count : integer range 0 to DEPTH;\nbegin\n  process(clk, res_n) is\n    variable do_wr, do_rd : boolean;\n  begin\n    if res_n = '0' then\n      windex <= 0;\n      rindex <= 0;\n      count  <= 0;\n    else\n      if clk'event and clk = '1' then\n        do_wr := wr_en = '1' and count < DEPTH;\n        do_rd := rd_en = '1' and count > 0;\n        if do_wr then\n          memory(windex) <= din;\n          windex <= (windex + 1) mod DEPTH;\n        end if;\n        if do_rd then\n          rindex <= (rindex + 1) mod DEPTH;\n        end if;\n        if do_wr and not do_rd then\n          count <= count + 1;\n        elsif do_rd and not do_wr then\n          count <= count - 1;\n        end if;\n      end if;\n    end if;\n  end process;\n  dout  <= memory(rindex);\n  empty <= '1' when count = 0 else '0';\n  full  <= '1' when count = DEPTH else '0';\nend architecture behav;\n```\nDie Variablen `do_wr`/`do_rd` werden zuerst geschrieben, dann gelesen → **keine** Flipflops (D04).",
+     "klausur": [
+      {
+       "t": "p",
+       "s": "**Herbst 2019, Aufgabe 2** (synchroner FIFO: Entity, `memory_type`, `windex`/`rindex` nach jeder Flanke)."
+      }
+     ]
+    },
+    {
+     "id": "M08",
+     "block": "M",
+     "title": "RAM und Registerbank",
+     "min": 5,
+     "mode": "code",
+     "starter": "",
+     "solutionCode": "architecture behav of ram is\n  type memory_type is array (0 to 2**ADDR_WIDTH - 1)\n    of std_logic_vector(DATA_WIDTH-1 downto 0);\n  signal memory : memory_type;\nbegin\n  process(clk) is\n  begin\n    if clk'event and clk = '1' then\n      if we = '1' then\n        memory(to_integer(unsigned(addr))) <= din;\n      end if;\n    end if;\n  end process;\n  dout <= memory(to_integer(unsigned(addr)));\nend architecture behav;",
+     "ziel": [
+      {
+       "t": "p",
+       "s": "Einen beschreibbaren Speicher modellieren und seine Kapazität berechnen."
+      }
+     ],
+     "erklaerung": [
+      {
+       "t": "p",
+       "s": "Ein RAM ist ein Array (E04), das **synchron geschrieben** und hier **asynchron gelesen** wird:"
+      },
+      {
+       "t": "ul",
+       "items": [
+        "Schreiben nur bei steigender Flanke und `we = '1'`",
+        "Lesen kombinatorisch: `dout <= memory(addr)`",
+        "Kapazität: 2^ADDR_WIDTH Wörter · DATA_WIDTH Bit (E05)"
+       ]
+      },
+      {
+       "t": "p",
+       "s": "Eine **Registerbank** im Prozessor ist dasselbe, nur mit mehreren Leseports."
+      },
+      {
+       "t": "code",
+       "lang": "vhdl",
+       "s": "entity ram is\n  generic(ADDR_WIDTH : natural := 3; DATA_WIDTH : positive := 8);\n  port(\n    clk  : in  std_logic;\n    we   : in  std_logic;\n    addr : in  std_logic_vector(ADDR_WIDTH-1 downto 0);\n    din  : in  std_logic_vector(DATA_WIDTH-1 downto 0);\n    dout : out std_logic_vector(DATA_WIDTH-1 downto 0)\n    );\nend entity ram;"
+      }
+     ],
+     "aufgabe": [
+      {
+       "t": "ol",
+       "items": [
+        "Schreibe `architecture behav` (braucht `numeric_std`).",
+        "Kapazität für `ADDR_WIDTH = 10`, `DATA_WIDTH = 16`?"
+       ]
+      }
+     ],
+     "aufgabeMd": "1. Schreibe `architecture behav` (braucht `numeric_std`).\n2. Kapazität für `ADDR_WIDTH = 10`, `DATA_WIDTH = 16`?",
+     "loesung": [
+      {
+       "t": "code",
+       "lang": "vhdl",
+       "s": "architecture behav of ram is\n  type memory_type is array (0 to 2**ADDR_WIDTH - 1)\n    of std_logic_vector(DATA_WIDTH-1 downto 0);\n  signal memory : memory_type;\nbegin\n  process(clk) is\n  begin\n    if clk'event and clk = '1' then\n      if we = '1' then\n        memory(to_integer(unsigned(addr))) <= din;\n      end if;\n    end if;\n  end process;\n  dout <= memory(to_integer(unsigned(addr)));\nend architecture behav;"
+      },
+      {
+       "t": "ol",
+       "items": [
+        "2^10 · 16 = **16 384 Bit** (2 KiB)."
+       ]
+      },
+      {
+       "t": "p",
+       "s": "Kein Reset: Speicher werden in Hardware nicht gelöscht (zu teuer)."
+      }
+     ],
+     "loesungMd": "```vhdl\narchitecture behav of ram is\n  type memory_type is array (0 to 2**ADDR_WIDTH - 1)\n    of std_logic_vector(DATA_WIDTH-1 downto 0);\n  signal memory : memory_type;\nbegin\n  process(clk) is\n  begin\n    if clk'event and clk = '1' then\n      if we = '1' then\n        memory(to_integer(unsigned(addr))) <= din;\n      end if;\n    end if;\n  end process;\n  dout <= memory(to_integer(unsigned(addr)));\nend architecture behav;\n```\n2. 2^10 · 16 = **16 384 Bit** (2 KiB).\nKein Reset: Speicher werden in Hardware nicht gelöscht (zu teuer).",
+     "klausur": [
+      {
+       "t": "p",
+       "s": "**F19 A2 F5–F7** (`ram` mit `ADDR_WIDTH`, `DATA_WIDTH`, Lesemultiplexer), F24 A2 F10 (Stack)."
+      }
+     ]
+    },
+    {
+     "id": "M09",
+     "block": "M",
+     "title": "Automat mit Timer: Ampel",
+     "min": 8,
+     "mode": "code",
+     "starter": "",
+     "solutionCode": "architecture behav of ampel is\n  type state_type is (s_rot, s_rotgelb, s_gruen, s_gelb);\n  signal current_state, next_state : state_type;\n  signal zeit : integer range 0 to 31;\nbegin\n  transition_function: process(current_state, zeit) is\n  begin\n    next_state <= current_state;\n    case current_state is\n      when s_rot =>\n        if zeit = T_ROT - 1 then next_state <= s_rotgelb; end if;\n      when s_rotgelb =>\n        if zeit = T_ROTGELB - 1 then next_state <= s_gruen; end if;\n      when s_gruen =>\n        if zeit = T_GRUEN - 1 then next_state <= s_gelb; end if;\n      when s_gelb =>\n        if zeit = T_GELB - 1 then next_state <= s_rot; end if;\n    end case;\n  end process transition_function;\n\n  state: process(clk, res_n) is\n  begin\n    if res_n = '0' then\n      current_state <= s_rot;\n      zeit <= 0;\n    else\n      if clk'event and clk = '1' then\n        current_state <= next_state;\n        if next_state /= current_state then\n          zeit <= 0;\n        else\n          zeit <= zeit + 1;\n        end if;\n      end if;\n    end if;\n  end process state;\n\n  output_function: process(current_state) is\n  begin\n    rot <= '0'; gelb <= '0'; gruen <= '0';\n    case current_state is\n      when s_rot     => rot <= '1';\n      when s_rotgelb => rot <= '1'; gelb <= '1';\n      when s_gruen   => gruen <= '1';\n      when s_gelb    => gelb <= '1';\n    end case;\n  end process output_function;\nend architecture behav;",
+     "ziel": [
+      {
+       "t": "p",
+       "s": "Das häufigste Muster in der Praxis: ein Automat, der in jedem Zustand eine bestimmte Zeit wartet."
+      }
+     ],
+     "erklaerung": [
+      {
+       "t": "diagram",
+       "id": "M09_ampel",
+       "alt": "Ampel als Moore-Automat mit Zeitbedingungen",
+       "w": 841.8,
+       "h": 74.2,
+       "prims": [
+        {
+         "k": "E",
+         "x": 8.9,
+         "y": 24.0,
+         "rx": 2.9,
+         "ry": 2.9,
+         "s": "line",
+         "f": "line"
+        },
+        {
+         "k": "B",
+         "pts": [
+          150.8,
+          6.0,
+          150.8,
+          6.0,
+          95.8,
+          6.0,
+          95.8,
+          6.0,
+          89.8,
+          6.0,
+          83.8,
+          12.0,
+          83.8,
+          18.0,
+          83.8,
+          18.0,
+          83.8,
+          30.0,
+          83.8,
+          30.0,
+          83.8,
+          36.0,
+          89.8,
+          42.0,
+          95.8,
+          42.0,
+          95.8,
+          42.0,
+          150.8,
+          42.0,
+          150.8,
+          42.0,
+          156.8,
+          42.0,
+          162.8,
+          36.0,
+          162.8,
+          30.0,
+          162.8,
+          30.0,
+          162.8,
+          18.0,
+          162.8,
+          18.0,
+          162.8,
+          12.0,
+          156.8,
+          6.0,
+          150.8,
+          6.0
+         ],
+         "s": "ink"
+        },
+        {
+         "k": "T",
+         "x": 123.3,
+         "y": 20.4,
+         "s": "s_rot",
+         "a": "c",
+         "z": 13.0,
+         "c": "ink"
+        },
+        {
+         "k": "T",
+         "x": 123.3,
+         "y": 34.4,
+         "s": "rot",
+         "a": "c",
+         "z": 13.0,
+         "c": "ink"
+        },
+        {
+         "k": "B",
+         "pts": [
+          357.8,
+          6.0,
+          357.8,
+          6.0,
+          302.8,
+          6.0,
+          302.8,
+          6.0,
+          296.8,
+          6.0,
+          290.8,
+          12.0,
+          290.8,
+          18.0,
+          290.8,
+          18.0,
+          290.8,
+          30.0,
+          290.8,
+          30.0,
+          290.8,
+          36.0,
+          296.8,
+          42.0,
+          302.8,
+          42.0,
+          302.8,
+          42.0,
+          357.8,
+          42.0,
+          357.8,
+          42.0,
+          363.8,
+          42.0,
+          369.8,
+          36.0,
+          369.8,
+          30.0,
+          369.8,
+          30.0,
+          369.8,
+          18.0,
+          369.8,
+          18.0,
+          369.8,
+          12.0,
+          363.8,
+          6.0,
+          357.8,
+          6.0
+         ],
+         "s": "ink"
+        },
+        {
+         "k": "T",
+         "x": 330.3,
+         "y": 20.4,
+         "s": "s_rotgelb",
+         "a": "c",
+         "z": 13.0,
+         "c": "ink"
+        },
+        {
+         "k": "T",
+         "x": 330.3,
+         "y": 34.4,
+         "s": "rot, gelb",
+         "a": "c",
+         "z": 13.0,
+         "c": "ink"
+        },
+        {
+         "k": "B",
+         "pts": [
+          597.8,
+          6.0,
+          597.8,
+          6.0,
+          542.8,
+          6.0,
+          542.8,
+          6.0,
+          536.8,
+          6.0,
+          530.8,
+          12.0,
+          530.8,
+          18.0,
+          530.8,
+          18.0,
+          530.8,
+          30.0,
+          530.8,
+          30.0,
+          530.8,
+          36.0,
+          536.8,
+          42.0,
+          542.8,
+          42.0,
+          542.8,
+          42.0,
+          597.8,
+          42.0,
+          597.8,
+          42.0,
+          603.8,
+          42.0,
+          609.8,
+          36.0,
+          609.8,
+          30.0,
+          609.8,
+          30.0,
+          609.8,
+          18.0,
+          609.8,
+          18.0,
+          609.8,
+          12.0,
+          603.8,
+          6.0,
+          597.8,
+          6.0
+         ],
+         "s": "accent"
+        },
+        {
+         "k": "T",
+         "x": 570.3,
+         "y": 20.4,
+         "s": "s_gruen",
+         "a": "c",
+         "z": 13.0,
+         "c": "accent"
+        },
+        {
+         "k": "T",
+         "x": 570.3,
+         "y": 34.4,
+         "s": "gruen",
+         "a": "c",
+         "z": 13.0,
+         "c": "accent"
+        },
+        {
+         "k": "B",
+         "pts": [
+          823.8,
+          6.0,
+          823.8,
+          6.0,
+          768.8,
+          6.0,
+          768.8,
+          6.0,
+          762.8,
+          6.0,
+          756.8,
+          12.0,
+          756.8,
+          18.0,
+          756.8,
+          18.0,
+          756.8,
+          30.0,
+          756.8,
+          30.0,
+          756.8,
+          36.0,
+          762.8,
+          42.0,
+          768.8,
+          42.0,
+          768.8,
+          42.0,
+          823.8,
+          42.0,
+          823.8,
+          42.0,
+          829.8,
+          42.0,
+          835.8,
+          36.0,
+          835.8,
+          30.0,
+          835.8,
+          30.0,
+          835.8,
+          18.0,
+          835.8,
+          18.0,
+          835.8,
+          12.0,
+          829.8,
+          6.0,
+          823.8,
+          6.0
+         ],
+         "s": "ink"
+        },
+        {
+         "k": "T",
+         "x": 796.3,
+         "y": 20.4,
+         "s": "s_gelb",
+         "a": "c",
+         "z": 13.0,
+         "c": "ink"
+        },
+        {
+         "k": "T",
+         "x": 796.3,
+         "y": 34.4,
+         "s": "gelb",
+         "a": "c",
+         "z": 13.0,
+         "c": "ink"
+        },
+        {
+         "k": "B",
+         "pts": [
+          11.8,
+          24.0,
+          19.6,
+          24.0,
+          49.0,
+          24.0,
+          75.5,
+          24.0
+         ],
+         "s": "line"
+        },
+        {
+         "k": "P",
+         "pts": [
+          75.6,
+          21.2,
+          83.6,
+          24.0,
+          75.6,
+          26.8
+         ],
+         "s": "line",
+         "f": "line"
+        },
+        {
+         "k": "T",
+         "x": 47.8,
+         "y": 20.6,
+         "s": "res_n",
+         "a": "c",
+         "z": 12.0,
+         "c": "ink"
+        },
+        {
+         "k": "B",
+         "pts": [
+          162.8,
+          24.0,
+          196.6,
+          24.0,
+          245.9,
+          24.0,
+          282.1,
+          24.0
+         ],
+         "s": "line"
+        },
+        {
+         "k": "P",
+         "pts": [
+          282.5,
+          21.2,
+          290.5,
+          24.0,
+          282.5,
+          26.8
+         ],
+         "s": "line",
+         "f": "line"
+        },
+        {
+         "k": "T",
+         "x": 226.8,
+         "y": 20.6,
+         "s": "zeit = T_ROT-1",
+         "a": "c",
+         "z": 12.0,
+         "c": "ink"
+        },
+        {
+         "k": "B",
+         "pts": [
+          369.8,
+          24.0,
+          411.4,
+          24.0,
+          477.7,
+          24.0,
+          522.4,
+          24.0
+         ],
+         "s": "line"
+        },
+        {
+         "k": "P",
+         "pts": [
+          522.4,
+          21.2,
+          530.4,
+          24.0,
+          522.4,
+          26.8
+         ],
+         "s": "line",
+         "f": "line"
+        },
+        {
+         "k": "T",
+         "x": 450.3,
+         "y": 20.6,
+         "s": "zeit = T_ROTGELB-1",
+         "a": "c",
+         "z": 12.0,
+         "c": "ink"
+        },
+        {
+         "k": "B",
+         "pts": [
+          609.8,
+          24.0,
+          648.1,
+          24.0,
+          707.2,
+          24.0,
+          748.3,
+          24.0
+         ],
+         "s": "line"
+        },
+        {
+         "k": "P",
+         "pts": [
+          748.5,
+          21.2,
+          756.5,
+          24.0,
+          748.5,
+          26.8
+         ],
+         "s": "line",
+         "f": "line"
+        },
+        {
+         "k": "T",
+         "x": 683.3,
+         "y": 20.6,
+         "s": "zeit = T_GRUEN-1",
+         "a": "c",
+         "z": 12.0,
+         "c": "ink"
+        },
+        {
+         "k": "B",
+         "pts": [
+          756.5,
+          33.2,
+          719.1,
+          41.6,
+          661.0,
+          53.3,
+          609.8,
+          58.0,
+          468.6,
+          70.8,
+          431.8,
+          72.3,
+          290.8,
+          58.0,
+          249.9,
+          53.9,
+          204.2,
+          44.2,
+          171.1,
+          36.2
+         ],
+         "s": "line"
+        },
+        {
+         "k": "P",
+         "pts": [
+          170.1,
+          38.8,
+          162.9,
+          34.2,
+          171.4,
+          33.4
+         ],
+         "s": "line",
+         "f": "line"
+        },
+        {
+         "k": "T",
+         "x": 450.3,
+         "y": 63.6,
+         "s": "zeit = T_GELB-1",
+         "a": "c",
+         "z": 12.0,
+         "c": "ink"
+        }
+       ]
+      },
+      {
+       "t": "p",
+       "s": "Rezept „Automat + Zähler“:"
+      },
+      {
+       "t": "ul",
+       "items": [
+        "Ein Zähler `zeit` zählt, wie lange der Automat schon im aktuellen Zustand ist.",
+        "Die **Übergangsfunktion** fragt `zeit` ab.",
+        "Im **Zustandsprozess**: Wechselt der Zustand (`next_state /= current_state`), wird `zeit` auf 0 gesetzt, sonst hochgezählt."
+       ]
+      },
+      {
+       "t": "code",
+       "lang": "vhdl",
+       "s": "entity ampel is\n  generic(T_ROT : positive := 5; T_ROTGELB : positive := 1;\n          T_GRUEN : positive := 4; T_GELB : positive := 2);\n  port(\n    clk, res_n       : in  std_logic;\n    rot, gelb, gruen : out std_logic\n    );\nend entity ampel;"
+      }
+     ],
+     "aufgabe": [
+      {
+       "t": "p",
+       "s": "Schreibe die Architecture mit `transition_function`, `state` (inklusive Zähler `zeit`) und `output_function`."
+      }
+     ],
+     "aufgabeMd": "Schreibe die Architecture mit `transition_function`, `state` (inklusive Zähler `zeit`) und `output_function`.",
+     "loesung": [
+      {
+       "t": "code",
+       "lang": "vhdl",
+       "s": "architecture behav of ampel is\n  type state_type is (s_rot, s_rotgelb, s_gruen, s_gelb);\n  signal current_state, next_state : state_type;\n  signal zeit : integer range 0 to 31;\nbegin\n  transition_function: process(current_state, zeit) is\n  begin\n    next_state <= current_state;\n    case current_state is\n      when s_rot =>\n        if zeit = T_ROT - 1 then next_state <= s_rotgelb; end if;\n      when s_rotgelb =>\n        if zeit = T_ROTGELB - 1 then next_state <= s_gruen; end if;\n      when s_gruen =>\n        if zeit = T_GRUEN - 1 then next_state <= s_gelb; end if;\n      when s_gelb =>\n        if zeit = T_GELB - 1 then next_state <= s_rot; end if;\n    end case;\n  end process transition_function;\n\n  state: process(clk, res_n) is\n  begin\n    if res_n = '0' then\n      current_state <= s_rot;\n      zeit <= 0;\n    else\n      if clk'event and clk = '1' then\n        current_state <= next_state;\n        if next_state /= current_state then\n          zeit <= 0;\n        else\n          zeit <= zeit + 1;\n        end if;\n      end if;\n    end if;\n  end process state;\n\n  output_function: process(current_state) is\n  begin\n    rot <= '0'; gelb <= '0'; gruen <= '0';\n    case current_state is\n      when s_rot     => rot <= '1';\n      when s_rotgelb => rot <= '1'; gelb <= '1';\n      when s_gruen   => gruen <= '1';\n      when s_gelb    => gelb <= '1';\n    end case;\n  end process output_function;\nend architecture behav;"
+      },
+      {
+       "t": "p",
+       "s": "Weiter üben: Fußgänger-Taste, die die Grünphase der Autos verkürzt."
+      }
+     ],
+     "loesungMd": "```vhdl\narchitecture behav of ampel is\n  type state_type is (s_rot, s_rotgelb, s_gruen, s_gelb);\n  signal current_state, next_state : state_type;\n  signal zeit : integer range 0 to 31;\nbegin\n  transition_function: process(current_state, zeit) is\n  begin\n    next_state <= current_state;\n    case current_state is\n      when s_rot =>\n        if zeit = T_ROT - 1 then next_state <= s_rotgelb; end if;\n      when s_rotgelb =>\n        if zeit = T_ROTGELB - 1 then next_state <= s_gruen; end if;\n      when s_gruen =>\n        if zeit = T_GRUEN - 1 then next_state <= s_gelb; end if;\n      when s_gelb =>\n        if zeit = T_GELB - 1 then next_state <= s_rot; end if;\n    end case;\n  end process transition_function;\n\n  state: process(clk, res_n) is\n  begin\n    if res_n = '0' then\n      current_state <= s_rot;\n      zeit <= 0;\n    else\n      if clk'event and clk = '1' then\n        current_state <= next_state;\n        if next_state /= current_state then\n          zeit <= 0;\n        else\n          zeit <= zeit + 1;\n        end if;\n      end if;\n    end if;\n  end process state;\n\n  output_function: process(current_state) is\n  begin\n    rot <= '0'; gelb <= '0'; gruen <= '0';\n    case current_state is\n      when s_rot     => rot <= '1';\n      when s_rotgelb => rot <= '1'; gelb <= '1';\n      when s_gruen   => gruen <= '1';\n      when s_gelb    => gelb <= '1';\n    end case;\n  end process output_function;\nend architecture behav;\n```\nWeiter üben: Fußgänger-Taste, die die Grünphase der Autos verkürzt.",
+     "klausur": [
+      {
+       "t": "p",
+       "s": "F24 A1 F8 (Steuerwerk), F21 A2 (Linienzeichner mit Zählern), F23 A2 (Synthesizer-Steuerung)."
+      }
+     ]
+    },
+    {
+     "id": "M10",
+     "block": "M",
+     "title": "Serieller Sender: alles zusammen",
+     "min": 10,
+     "mode": "code",
+     "starter": "",
+     "solutionCode": "architecture behav of sender is\n  signal sr    : std_logic_vector(9 downto 0);\n  signal bitnr : integer range 0 to 9;\n  signal takt  : integer range 0 to BIT_TAKTE - 1;\n  signal aktiv : std_logic;\nbegin\n  process(clk, res_n) is\n  begin\n    if res_n = '0' then\n      aktiv <= '0';\n      sr    <= (others => '1');\n      bitnr <= 0;\n      takt  <= 0;\n    else\n      if clk'event and clk = '1' then\n        if aktiv = '0' then\n          if start = '1' then\n            sr    <= '1' & data & '0';\n            aktiv <= '1';\n            bitnr <= 0;\n            takt  <= 0;\n          end if;\n        elsif takt = BIT_TAKTE - 1 then\n          takt <= 0;\n          sr   <= '1' & sr(9 downto 1);\n          if bitnr = 9 then\n            aktiv <= '0';\n          else\n            bitnr <= bitnr + 1;\n          end if;\n        else\n          takt <= takt + 1;\n        end if;\n      end if;\n    end if;\n  end process;\n  tx   <= sr(0) when aktiv = '1' else '1';\n  busy <= aktiv;\nend architecture behav;",
+     "ziel": [
+      {
+       "t": "p",
+       "s": "Schieberegister, Zähler und Ablaufsteuerung zu einem echten Baustein kombinieren."
+      }
+     ],
+     "erklaerung": [
+      {
+       "t": "p",
+       "s": "Ein serieller Sender (wie eine UART) schickt ein Byte Bit für Bit über eine Leitung:"
+      },
+      {
+       "t": "ul",
+       "items": [
+        "Ruhepegel `'1'`, dann **Startbit** `'0'`, dann **8 Datenbits, LSB zuerst**, dann **Stoppbit** `'1'`",
+        "Jedes Bit liegt `BIT_TAKTE` Takte an (Bitzeit aus Baudrate, M04)"
+       ]
+      },
+      {
+       "t": "diagram",
+       "id": "M10_sender",
+       "alt": "Sendeverlauf für x\"A5\"",
+       "w": 444,
+       "h": 88,
+       "prims": [
+        {
+         "k": "L",
+         "pts": [
+          78,
+          4,
+          78,
+          80
+         ],
+         "s": "grid"
+        },
+        {
+         "k": "L",
+         "pts": [
+          108,
+          4,
+          108,
+          80
+         ],
+         "s": "grid"
+        },
+        {
+         "k": "L",
+         "pts": [
+          138,
+          4,
+          138,
+          80
+         ],
+         "s": "grid"
+        },
+        {
+         "k": "L",
+         "pts": [
+          168,
+          4,
+          168,
+          80
+         ],
+         "s": "grid"
+        },
+        {
+         "k": "L",
+         "pts": [
+          198,
+          4,
+          198,
+          80
+         ],
+         "s": "grid"
+        },
+        {
+         "k": "L",
+         "pts": [
+          228,
+          4,
+          228,
+          80
+         ],
+         "s": "grid"
+        },
+        {
+         "k": "L",
+         "pts": [
+          258,
+          4,
+          258,
+          80
+         ],
+         "s": "grid"
+        },
+        {
+         "k": "L",
+         "pts": [
+          288,
+          4,
+          288,
+          80
+         ],
+         "s": "grid"
+        },
+        {
+         "k": "L",
+         "pts": [
+          318,
+          4,
+          318,
+          80
+         ],
+         "s": "grid"
+        },
+        {
+         "k": "L",
+         "pts": [
+          348,
+          4,
+          348,
+          80
+         ],
+         "s": "grid"
+        },
+        {
+         "k": "L",
+         "pts": [
+          378,
+          4,
+          378,
+          80
+         ],
+         "s": "grid"
+        },
+        {
+         "k": "L",
+         "pts": [
+          408,
+          4,
+          408,
+          80
+         ],
+         "s": "grid"
+        },
+        {
+         "k": "L",
+         "pts": [
+          438,
+          4,
+          438,
+          80
+         ],
+         "s": "grid"
+        },
+        {
+         "k": "T",
+         "x": 4,
+         "y": 27,
+         "s": "tx",
+         "a": "l",
+         "z": 13,
+         "c": "ink",
+         "m": true
+        },
+        {
+         "k": "L",
+         "pts": [
+          78,
+          12,
+          108,
+          12,
+          108,
+          34,
+          138,
+          34,
+          138,
+          12,
+          168,
+          12,
+          168,
+          34,
+          198,
+          34,
+          198,
+          12,
+          228,
+          12,
+          228,
+          34,
+          258,
+          34,
+          288,
+          34,
+          288,
+          12,
+          318,
+          12,
+          318,
+          34,
+          348,
+          34,
+          348,
+          12,
+          378,
+          12,
+          408,
+          12,
+          438,
+          12
+         ],
+         "s": "accent",
+         "w": 2
+        },
+        {
+         "k": "T",
+         "x": 4,
+         "y": 67,
+         "s": "busy",
+         "a": "l",
+         "z": 13,
+         "c": "ink",
+         "m": true
+        },
+        {
+         "k": "L",
+         "pts": [
+          78,
+          74,
+          108,
+          74,
+          108,
+          52,
+          138,
+          52,
+          168,
+          52,
+          198,
+          52,
+          228,
+          52,
+          258,
+          52,
+          288,
+          52,
+          318,
+          52,
+          348,
+          52,
+          378,
+          52,
+          408,
+          52,
+          408,
+          74,
+          438,
+          74
+         ],
+         "s": "accent",
+         "w": 2
+        }
+       ]
+      },
+      {
+       "t": "p",
+       "s": "Bausteine darin:"
+      },
+      {
+       "t": "ul",
+       "items": [
+        "**Schieberegister** `sr` (10 Bit: Stopp & Daten & Start), bei jedem Bitende eine Stelle nach rechts (M02)",
+        "**Taktzähler** `takt` für die Bitzeit (M04)",
+        "**Bitzähler** `bitnr` 0 … 9 (M03)",
+        "**Steuerbit** `aktiv` (Automat mit zwei Zuständen)"
+       ]
+      },
+      {
+       "t": "code",
+       "lang": "vhdl",
+       "s": "entity sender is\n  generic(BIT_TAKTE : positive := 4);\n  port(\n    clk, res_n : in  std_logic;\n    start      : in  std_logic;\n    data       : in  std_logic_vector(7 downto 0);\n    tx         : out std_logic;\n    busy       : out std_logic\n    );\nend entity sender;"
+      }
+     ],
+     "aufgabe": [
+      {
+       "t": "p",
+       "s": "Schreibe `architecture behav`. Bei `start = '1'` (und nicht aktiv) wird `'1' & data & '0'` geladen. `tx` ist `sr(0)` während des Sendens, sonst `'1'`."
+      }
+     ],
+     "aufgabeMd": "Schreibe `architecture behav`. Bei `start = '1'` (und nicht aktiv) wird `'1' & data & '0'` geladen. `tx` ist `sr(0)` während des Sendens, sonst `'1'`.",
+     "loesung": [
+      {
+       "t": "code",
+       "lang": "vhdl",
+       "s": "architecture behav of sender is\n  signal sr    : std_logic_vector(9 downto 0);\n  signal bitnr : integer range 0 to 9;\n  signal takt  : integer range 0 to BIT_TAKTE - 1;\n  signal aktiv : std_logic;\nbegin\n  process(clk, res_n) is\n  begin\n    if res_n = '0' then\n      aktiv <= '0';\n      sr    <= (others => '1');\n      bitnr <= 0;\n      takt  <= 0;\n    else\n      if clk'event and clk = '1' then\n        if aktiv = '0' then\n          if start = '1' then\n            sr    <= '1' & data & '0';\n            aktiv <= '1';\n            bitnr <= 0;\n            takt  <= 0;\n          end if;\n        elsif takt = BIT_TAKTE - 1 then\n          takt <= 0;\n          sr   <= '1' & sr(9 downto 1);\n          if bitnr = 9 then\n            aktiv <= '0';\n          else\n            bitnr <= bitnr + 1;\n          end if;\n        else\n          takt <= takt + 1;\n        end if;\n      end if;\n    end if;\n  end process;\n  tx   <= sr(0) when aktiv = '1' else '1';\n  busy <= aktiv;\nend architecture behav;"
+      },
+      {
+       "t": "p",
+       "s": "Weiter üben: Paritätsbit vor dem Stoppbit ergänzen (vgl. F19 A1 F9/F10); den passenden Empfänger mit Synchronisierer und Abtastung in Bitmitte schreiben."
+      }
+     ],
+     "loesungMd": "```vhdl\narchitecture behav of sender is\n  signal sr    : std_logic_vector(9 downto 0);\n  signal bitnr : integer range 0 to 9;\n  signal takt  : integer range 0 to BIT_TAKTE - 1;\n  signal aktiv : std_logic;\nbegin\n  process(clk, res_n) is\n  begin\n    if res_n = '0' then\n      aktiv <= '0';\n      sr    <= (others => '1');\n      bitnr <= 0;\n      takt  <= 0;\n    else\n      if clk'event and clk = '1' then\n        if aktiv = '0' then\n          if start = '1' then\n            sr    <= '1' & data & '0';\n            aktiv <= '1';\n            bitnr <= 0;\n            takt  <= 0;\n          end if;\n        elsif takt = BIT_TAKTE - 1 then\n          takt <= 0;\n          sr   <= '1' & sr(9 downto 1);\n          if bitnr = 9 then\n            aktiv <= '0';\n          else\n            bitnr <= bitnr + 1;\n          end if;\n        else\n          takt <= takt + 1;\n        end if;\n      end if;\n    end if;\n  end process;\n  tx   <= sr(0) when aktiv = '1' else '1';\n  busy <= aktiv;\nend architecture behav;\n```\nWeiter üben: Paritätsbit vor dem Stoppbit ergänzen (vgl. F19 A1 F9/F10); den passenden Empfänger mit Synchronisierer und Abtastung in Bitmitte schreiben.",
+     "klausur": [
+      {
+       "t": "p",
+       "s": "**Frühjahr 2019, Aufgabe 1** (asynchrone serielle Schnittstelle: Empfänger, `send_byte`, Parität). Achtung: Dort sind Ruhe- und Startpegel anders herum definiert – immer die Aufgabenstellung lesen."
       }
      ]
     },

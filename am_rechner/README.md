@@ -36,4 +36,5 @@ Alles auf einmal testen: `./am_rechner/alle_testen.sh`
 | `L07` | F02–F09 | Sequenzdetektor als Moore/Mealy/Medwedew, Garagentor |
 | `L08` | G01–G06 | Volladdierer aus Halbaddierern, `generate`, rekursiver Encoder |
 | `L10` | L01–L12 | Gatterbibliothek, Schaltpläne als behav und struct, Modularisierung |
+| `L11` | M01–M10 | Register, Schieberegister, Zähler, Taktteiler, Entpreller, PWM, FIFO, RAM, Ampel, serieller Sender |
 | `L09` | K01–K06 | Klausurlösungen F24 (CRC, Steuerwerk, ROM), H19, F20 |

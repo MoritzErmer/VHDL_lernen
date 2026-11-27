@@ -124,6 +124,20 @@ Erklärung** – Wiederholung ist der eigentliche Lerneffekt.
 | L11 | [Verdrahtungsfehler finden](haeppchen/L11_verdrahtungsfehler.md) | 6 min |
 | L12 | [Klausurtraining: Plan komplett umsetzen](haeppchen/L12_klausur_schaltplan.md) | 9 min |
 
+## Block M – Standardbausteine selbst bauen
+| | Häppchen | Dauer |
+|---|---|---|
+| M01 | [Register mit Enable und Löschen](haeppchen/M01_register.md) | 5 min |
+| M02 | [Schieberegister: seriell und parallel](haeppchen/M02_schieberegister.md) | 6 min |
+| M03 | [Modulo-Zähler mit Übertrag](haeppchen/M03_zaehler_modulo.md) | 5 min |
+| M04 | [Taktteiler als Enable-Puls](haeppchen/M04_taktteiler.md) | 5 min |
+| M05 | [Entpreller](haeppchen/M05_entpreller.md) | 6 min |
+| M06 | [PWM-Generator](haeppchen/M06_pwm.md) | 4 min |
+| M07 | [Synchroner FIFO](haeppchen/M07_fifo.md) | 9 min |
+| M08 | [RAM und Registerbank](haeppchen/M08_ram.md) | 5 min |
+| M09 | [Automat mit Timer: Ampel](haeppchen/M09_ampel_timer.md) | 8 min |
+| M10 | [Serieller Sender: alles zusammen](haeppchen/M10_sender.md) | 10 min |
+
 ## Block H – Funktionen, Prozeduren, Packages
 | | Häppchen | Dauer |
 |---|---|---|

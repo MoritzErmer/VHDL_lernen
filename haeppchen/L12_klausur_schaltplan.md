@@ -1,6 +1,6 @@
 # L12 · Klausurtraining: Plan komplett umsetzen
 
-9 min · zurück: [L11](L11_verdrahtungsfehler.md) · weiter: [H01](H01_funktionen.md)
+9 min · zurück: [L11](L11_verdrahtungsfehler.md) · weiter: [M01](M01_register.md)
 
 ## Ziel
 Eine typische Klausuraufgabe am Stück lösen: Entity, Struktur, Verhalten und Einordnung.

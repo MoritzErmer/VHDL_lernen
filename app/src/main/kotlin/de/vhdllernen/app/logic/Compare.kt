@@ -6,11 +6,16 @@ data class CodeToken(val start: Int, val end: Int, val text: String)
 /** A token range and whether it matched the other side. */
 data class Mark(val start: Int, val end: Int, val ok: Boolean)
 
+/** Solution tokens missing in the answer, to be shown inserted at [position] of the answer text. */
+data class Insertion(val position: Int, val text: String)
+
 data class CompareResult(
     /** Every token of the model solution; ok = also present in the answer. */
     val solution: List<Mark>,
     /** Every token of the answer; ok = also present in the model solution. */
     val answer: List<Mark>,
+    /** Missing solution tokens with the place in the answer where they belong. */
+    val insertions: List<Insertion> = emptyList(),
 ) {
     val solutionTotal get() = solution.size
     val solutionFound get() = solution.count { it.ok }
@@ -110,6 +115,14 @@ object Compare {
         // 2. remaining tokens aligned in order (LCS)
         val sRest = sTok.indices.filter { !sOk[it] }
         val aRest = aTok.indices.filter { !aOk[it] }
+        val inserts = ArrayList<Pair<Int, String>>()
+        // Where a missing solution token goes: right after the last answer token passed so far.
+        fun insertPos(j: Int): Int = when {
+            j > 0 -> aTok[aRest[j - 1]].end
+            aRest.isNotEmpty() -> aTok[aRest[0]].start
+            else -> answer.trimEnd().length
+        }
+        if (aRest.isEmpty()) sRest.forEach { inserts += insertPos(0) to sTok[it].text }
         if (sRest.isNotEmpty() && aRest.isNotEmpty() && sRest.size.toLong() * aRest.size <= 4_000_000L) {
             val n = sRest.size
             val m = aRest.size
@@ -123,14 +136,56 @@ object Compare {
             while (i < n && j < m) {
                 when {
                     sTok[sRest[i]].text == aTok[aRest[j]].text -> { sOk[sRest[i]] = true; aOk[aRest[j]] = true; i++; j++ }
-                    dp[i + 1][j] >= dp[i][j + 1] -> i++
+                    dp[i + 1][j] >= dp[i][j + 1] -> { inserts += insertPos(j) to solution.substring(sTok[sRest[i]].start, sTok[sRest[i]].end); i++ }
                     else -> j++
                 }
             }
+            while (i < n) { inserts += insertPos(m) to solution.substring(sTok[sRest[i]].start, sTok[sRest[i]].end); i++ }
         }
+        // merge consecutive missing tokens at the same place into one insertion ("std_logic_vector(3")
+        val merged = inserts.groupBy({ it.first }, { it.second }).map { (pos, toks) -> Insertion(pos, joinTokens(toks)) }
         return CompareResult(
             solution = sTok.mapIndexed { k, t -> Mark(t.start, t.end, sOk[k]) },
             answer = aTok.mapIndexed { k, t -> Mark(t.start, t.end, aOk[k]) },
+            insertions = merged.sortedBy { it.position },
         )
     }
+
+    /** Joins tokens with spaces, but not before ; , ) . or after ( . */
+    fun joinTokens(tokens: List<String>): String = buildString {
+        tokens.forEachIndexed { k, t ->
+            val noSpace = k == 0 || t in setOf(";", ",", ")", ".", "'") || tokens[k - 1] in setOf("(", ".", "'")
+            if (!noSpace) append(' ')
+            append(t)
+        }
+    }
+
+    /**
+     * The learner's answer as a corrected copy: missing solution tokens inserted at their place.
+     * Returns the text plus the ranges of wrong/extra tokens and of inserted tokens (in the new text).
+     */
+    fun corrected(answer: String, r: CompareResult): Corrected {
+        val text = StringBuilder()
+        val inserted = ArrayList<IntRange>()
+        val placed = ArrayList<Pair<Int, Int>>()   // (original position, inserted length)
+        var pos = 0
+        r.insertions.forEach { ins ->
+            val at = ins.position.coerceIn(pos, answer.length)
+            text.append(answer, pos, at)
+            val before = if (at > 0 && !answer[at - 1].isWhitespace() && ins.text.first() !in ";,).") " " else ""
+            val after = if (at < answer.length && (answer[at].isLetterOrDigit() || answer[at] == '_')) " " else ""
+            val start = text.length + before.length
+            text.append(before).append(ins.text).append(after)
+            inserted += start until start + ins.text.length
+            placed += at to (before.length + ins.text.length + after.length)
+            pos = at
+        }
+        text.append(answer, pos, answer.length)
+        // an insertion at position p is placed before a token starting at p
+        fun shifted(i: Int) = i + placed.filter { it.first <= i }.sumOf { it.second }
+        val wrong = r.answer.filter { !it.ok }.map { shifted(it.start) until shifted(it.start) + (it.end - it.start) }
+        return Corrected(text.toString(), wrong, inserted)
+    }
 }
+
+data class Corrected(val text: String, val wrong: List<IntRange>, val inserted: List<IntRange>)

@@ -1,0 +1,15 @@
+// Traffic light: Moore automaton, every state waits a number of clock cycles (counter zeit)
+digraph ampel {
+  rankdir=LR; graph [bgcolor="transparent", fontname="Helvetica", fontsize=13, fontcolor="#000001", nodesep=0.45, ranksep=0.55, pad=0];
+  node [fontname="Helvetica", fontsize=13, color="#000001", fontcolor="#000001", penwidth=1.3];
+  edge [fontname="Helvetica", fontsize=12, color="#000002", fontcolor="#000001", penwidth=1.2, arrowsize=0.8];
+  node [shape=box, style="rounded", width=1.1];
+  init [shape=point, width=0.08, color="#000002"];
+  init -> s_rot [label="res_n"];
+  s_rot [label="s_rot\nrot"]; s_rotgelb [label="s_rotgelb\nrot, gelb"];
+  s_gruen [label="s_gruen\ngruen", color="#000003", fontcolor="#000003"]; s_gelb [label="s_gelb\ngelb"];
+  s_rot -> s_rotgelb [label="zeit = T_ROT-1"];
+  s_rotgelb -> s_gruen [label="zeit = T_ROTGELB-1"];
+  s_gruen -> s_gelb [label="zeit = T_GRUEN-1"];
+  s_gelb -> s_rot [label="zeit = T_GELB-1", constraint=false];
+}

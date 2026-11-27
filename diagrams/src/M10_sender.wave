@@ -1,0 +1,3 @@
+@title Serieller Sender, data = x"A5": Ruhe 1, Start 0, Bits LSB zuerst 1 0 1 0 0 1 0 1, Stopp 1 (ein Zeichen = eine Bitzeit)
+tx:   101010010111
+busy: 011111111110

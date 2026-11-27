@@ -87,6 +87,19 @@ class LogicTest {
     }
 
     @Test
+    fun correctedCopyInsertsMissingAndMarksWrongTokens() {
+        val solution = "e : in std_logic_vector(3 downto 0);\nv : out std_logic;"
+        val answer = "e:in std_logic_vector(3 downto 1)\nv: out std_logic"
+        val r = Compare.run(answer, solution)
+        val c = Compare.corrected(answer, r)
+        val wrong = c.wrong.map { c.text.substring(it) }
+        val inserted = c.inserted.map { c.text.substring(it) }
+        assertEquals(listOf("1"), wrong)
+        assertEquals(listOf("0", ";", ";"), inserted)
+        assertEquals("e:in std_logic_vector(3 downto 0 1);\nv: out std_logic;", c.text)
+    }
+
+    @Test
     fun compareUsesLinesAndSemicolonCommentsForAssembler() {
         val r = Compare.run("add r3 := r0,r0 ; null", "add  r3 := r0,r0      ; Summe = 0", "ikr")
         assertEquals(r.solutionTotal, r.solutionFound)

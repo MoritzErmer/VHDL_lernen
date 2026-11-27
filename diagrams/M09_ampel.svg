@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 841.8 74.2" width="841.8" height="74.2" role="img" aria-label="M09_ampel">
+<style>.s-ink{stroke:#151A22}.f-ink{fill:#151A22}.s-line{stroke:#5A6474}.f-line{fill:#5A6474}.s-accent{stroke:#1F45C4}.f-accent{fill:#1F45C4}.s-soft{stroke:#E3E9FB}.f-soft{fill:#E3E9FB}.s-surface{stroke:#FFFFFF}.f-surface{fill:#FFFFFF}.s-grid{stroke:#D9DEE7}.f-grid{fill:#D9DEE7}@media (prefers-color-scheme: dark){.s-ink{stroke:#E5E9F0}.f-ink{fill:#E5E9F0}.s-line{stroke:#97A1B0}.f-line{fill:#97A1B0}.s-accent{stroke:#8CA6FF}.f-accent{fill:#8CA6FF}.s-soft{stroke:#1E2848}.f-soft{fill:#1E2848}.s-surface{stroke:#161A21}.f-surface{fill:#161A21}.s-grid{stroke:#283040}.f-grid{fill:#283040}}text{font-family:Helvetica,Arial,sans-serif}.m{font-family:Menlo,Consolas,monospace}</style>
+<rect width="100%" height="100%" class="f-surface"/>
+<ellipse cx="8.9" cy="24.0" rx="2.9" ry="2.9" stroke-width="1.4" class="s-line f-line"/>
+<path d="M150.8,6.0 C150.8,6.0 95.8,6.0 95.8,6.0 C89.8,6.0 83.8,12.0 83.8,18.0 C83.8,18.0 83.8,30.0 83.8,30.0 C83.8,36.0 89.8,42.0 95.8,42.0 C95.8,42.0 150.8,42.0 150.8,42.0 C156.8,42.0 162.8,36.0 162.8,30.0 C162.8,30.0 162.8,18.0 162.8,18.0 C162.8,12.0 156.8,6.0 150.8,6.0" stroke-width="1.4" class="s-ink" fill="none"/>
+<text x="123.3" y="20.4" font-size="13.0" text-anchor="middle" class="f-ink">s_rot</text>
+<text x="123.3" y="34.4" font-size="13.0" text-anchor="middle" class="f-ink">rot</text>
+<path d="M357.8,6.0 C357.8,6.0 302.8,6.0 302.8,6.0 C296.8,6.0 290.8,12.0 290.8,18.0 C290.8,18.0 290.8,30.0 290.8,30.0 C290.8,36.0 296.8,42.0 302.8,42.0 C302.8,42.0 357.8,42.0 357.8,42.0 C363.8,42.0 369.8,36.0 369.8,30.0 C369.8,30.0 369.8,18.0 369.8,18.0 C369.8,12.0 363.8,6.0 357.8,6.0" stroke-width="1.4" class="s-ink" fill="none"/>
+<text x="330.3" y="20.4" font-size="13.0" text-anchor="middle" class="f-ink">s_rotgelb</text>
+<text x="330.3" y="34.4" font-size="13.0" text-anchor="middle" class="f-ink">rot, gelb</text>
+<path d="M597.8,6.0 C597.8,6.0 542.8,6.0 542.8,6.0 C536.8,6.0 530.8,12.0 530.8,18.0 C530.8,18.0 530.8,30.0 530.8,30.0 C530.8,36.0 536.8,42.0 542.8,42.0 C542.8,42.0 597.8,42.0 597.8,42.0 C603.8,42.0 609.8,36.0 609.8,30.0 C609.8,30.0 609.8,18.0 609.8,18.0 C609.8,12.0 603.8,6.0 597.8,6.0" stroke-width="1.4" class="s-accent" fill="none"/>
+<text x="570.3" y="20.4" font-size="13.0" text-anchor="middle" class="f-accent">s_gruen</text>
+<text x="570.3" y="34.4" font-size="13.0" text-anchor="middle" class="f-accent">gruen</text>
+<path d="M823.8,6.0 C823.8,6.0 768.8,6.0 768.8,6.0 C762.8,6.0 756.8,12.0 756.8,18.0 C756.8,18.0 756.8,30.0 756.8,30.0 C756.8,36.0 762.8,42.0 768.8,42.0 C768.8,42.0 823.8,42.0 823.8,42.0 C829.8,42.0 835.8,36.0 835.8,30.0 C835.8,30.0 835.8,18.0 835.8,18.0 C835.8,12.0 829.8,6.0 823.8,6.0" stroke-width="1.4" class="s-ink" fill="none"/>
+<text x="796.3" y="20.4" font-size="13.0" text-anchor="middle" class="f-ink">s_gelb</text>
+<text x="796.3" y="34.4" font-size="13.0" text-anchor="middle" class="f-ink">gelb</text>
+<path d="M11.8,24.0 C19.6,24.0 49.0,24.0 75.5,24.0" stroke-width="1.4" class="s-line" fill="none"/>
+<polygon points="75.6,21.2 83.6,24.0 75.6,26.8" stroke-width="1.4" class="s-line f-line"/>
+<text x="47.8" y="20.6" font-size="12.0" text-anchor="middle" class="f-ink">res_n</text>
+<path d="M162.8,24.0 C196.6,24.0 245.9,24.0 282.1,24.0" stroke-width="1.4" class="s-line" fill="none"/>
+<polygon points="282.5,21.2 290.5,24.0 282.5,26.8" stroke-width="1.4" class="s-line f-line"/>
+<text x="226.8" y="20.6" font-size="12.0" text-anchor="middle" class="f-ink">zeit = T_ROT-1</text>
+<path d="M369.8,24.0 C411.4,24.0 477.7,24.0 522.4,24.0" stroke-width="1.4" class="s-line" fill="none"/>
+<polygon points="522.4,21.2 530.4,24.0 522.4,26.8" stroke-width="1.4" class="s-line f-line"/>
+<text x="450.3" y="20.6" font-size="12.0" text-anchor="middle" class="f-ink">zeit = T_ROTGELB-1</text>
+<path d="M609.8,24.0 C648.1,24.0 707.2,24.0 748.3,24.0" stroke-width="1.4" class="s-line" fill="none"/>
+<polygon points="748.5,21.2 756.5,24.0 748.5,26.8" stroke-width="1.4" class="s-line f-line"/>
+<text x="683.3" y="20.6" font-size="12.0" text-anchor="middle" class="f-ink">zeit = T_GRUEN-1</text>
+<path d="M756.5,33.2 C719.1,41.6 661.0,53.3 609.8,58.0 C468.6,70.8 431.8,72.3 290.8,58.0 C249.9,53.9 204.2,44.2 171.1,36.2" stroke-width="1.4" class="s-line" fill="none"/>
+<polygon points="170.1,38.8 162.9,34.2 171.4,33.4" stroke-width="1.4" class="s-line f-line"/>
+<text x="450.3" y="63.6" font-size="12.0" text-anchor="middle" class="f-ink">zeit = T_GELB-1</text>
+</svg>

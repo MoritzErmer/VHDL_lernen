@@ -1,0 +1,3 @@
+@title Taktteiler N = 4: tick ist jeden 4. Takt fuer einen Takt '1' (ein Zeichen = halbe Periode)
+clk:  0101010101010101
+tick: 0000001100000011
