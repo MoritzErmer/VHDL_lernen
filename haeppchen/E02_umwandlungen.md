@@ -1,12 +1,12 @@
 # E02 · Umwandlungen mit numeric_std
 
-⏱️ 6 min · zurück: [E01](E01_integer_subtypes.md) · weiter: [E03](E03_aufzaehlungstypen.md)
+6 min · zurück: [E01](E01_integer_subtypes.md) · weiter: [E03](E03_aufzaehlungstypen.md)
 
-## 🎯 Ziel
+## Ziel
 Zwischen `std_logic_vector`, `unsigned`/`signed` und
 `integer` sicher umwandeln.
 
-## 📖 Erklärung
+## Erklärung
 ```
                  unsigned(v)
 std_logic_vector ───────────▶ unsigned
@@ -36,7 +36,7 @@ unsigned ────────────▶ integer
 Gleiche Bits, verschiedene Werte:
 `"11110000"` → unsigned 240, signed −16.
 
-## ✍️ Aufgabe
+## Aufgabe
 `a`, `b`: `std_logic_vector(7 downto 0)`,
 `i`: `integer range 0 to 255`. Schreibe:
 1. `i` = Wert von `a` (vorzeichenlos)
@@ -45,7 +45,7 @@ Gleiche Bits, verschiedene Werte:
    Übertrag
 4. Ist `a + 1` mit `a : std_logic_vector` erlaubt?
 
-<details><summary>✅ Lösung</summary>
+<details><summary>Lösung</summary>
 
 ```vhdl
 i <= to_integer(unsigned(a));
@@ -58,9 +58,9 @@ s <= std_logic_vector(resize(unsigned(a), 9)
    `unsigned(a) + 1`.
 </details>
 
-## 🎓 Klausur
+## Klausur
 In fast jeder Architecture nötig, z.B. **H19 A1 F8**
 (`to_unsigned(i, 3)`), **F24 A1 F12**
 (`r(to_integer(unsigned(s)))`), F20 A1 F5.
 
-💻 Am Rechner: `am_rechner/L02/rechner_8bit.vhd`
+Am Rechner: `am_rechner/L02/rechner_8bit.vhd`

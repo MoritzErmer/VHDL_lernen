@@ -1,12 +1,12 @@
 # H06 · ROM per Funktion vorberechnen
 
-⏱️ 7 min · zurück: [H05](H05_operatoren.md) · weiter: [I01](I01_takt_reset.md)
+7 min · zurück: [H05](H05_operatoren.md) · weiter: [I01](I01_takt_reset.md)
 
-## 🎯 Ziel
+## Ziel
 Eine Tabelle zur **Übersetzungszeit** berechnen
 lassen statt sie von Hand einzutippen.
 
-## 📖 Erklärung
+## Erklärung
 Eine Funktion kann den kompletten Array-Inhalt
 berechnen. Als Initialwert einer **Konstanten**
 wird sie bei der Elaboration ausgeführt – in der
@@ -33,13 +33,13 @@ Vorteil: Statt einer langen Rechenkette (langer
 kritischer Pfad) nur ein Speicherzugriff.
 Nachteil: Speicher wächst mit 2^Eingangsbits.
 
-## ✍️ Aufgabe
+## Aufgabe
 Schreibe `init_rom` für ein ROM mit 8 Einträgen à
 3 Bit, das zu jeder Adresse `i` die Anzahl der
 Einsen von `i` speichert (`popcount`). Tipp: Wandle
 `i` in einen 3-Bit-Vektor um und zähle.
 
-<details><summary>✅ Lösung</summary>
+<details><summary>Lösung</summary>
 
 ```vhdl
 type rom_type is array (0 to 7)
@@ -66,6 +66,6 @@ end function init_rom;
 ```
 </details>
 
-## 🎓 Klausur
+## Klausur
 **F24 A1 F12** (CRC-ROM mit 2048 Einträgen über
 `init_rom`).

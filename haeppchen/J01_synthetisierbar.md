@@ -1,12 +1,12 @@
 # J01 · Synthetisierbar oder nicht?
 
-⏱️ 5 min · zurück: [I06](I06_event_transaction.md) · weiter: [J02](J02_kritischer_pfad.md)
+5 min · zurück: [I06](I06_event_transaction.md) · weiter: [J02](J02_kritischer_pfad.md)
 
-## 🎯 Ziel
+## Ziel
 Schnell erkennen, welcher Code nur für die
 Simulation taugt.
 
-## 📖 Erklärung
+## Erklärung
 **Nicht synthetisierbar** (nur Simulation):
 - `wait for …` und `after …` (Zeitangaben)
 - `'transaction`, `now`
@@ -27,7 +27,7 @@ Simulation taugt.
 - Initialwerte von Signalen: nur teilweise
   (FPGA ja, ASIC nein) → besser Reset benutzen
 
-## ✍️ Aufgabe
+## Aufgabe
 Synthetisierbar? Ja/Nein + Grund.
 1. `y <= a and b after 2 ns;`
 2. `for i in 0 to n loop` (`n` ist ein Signal)
@@ -36,7 +36,7 @@ Synthetisierbar? Ja/Nein + Grund.
 5. Ein Prozess mit `wait until rising_edge(clk);`
    als **einzigem** wait am Anfang
 
-<details><summary>✅ Lösung</summary>
+<details><summary>Lösung</summary>
 
 1. **Teilweise**: Das `after 2 ns` wird ignoriert
    (Warnung), das UND wird synthetisiert.
@@ -50,6 +50,6 @@ Synthetisierbar? Ja/Nein + Grund.
    (ohne asynchronen Reset).
 </details>
 
-## 🎓 Klausur
+## Klausur
 **F24 A2 F4**, **F19 A1 F3c** (`wait for`),
 F24 A2 F9 („synthetisierbar angeben“).

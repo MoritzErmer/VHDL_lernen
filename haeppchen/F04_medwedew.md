@@ -1,12 +1,12 @@
 # F04 · Medwedew: Ausgang aus dem Register
 
-⏱️ 5 min · zurück: [F03](F03_mealy.md) · weiter: [F05](F05_defaults.md)
+5 min · zurück: [F03](F03_mealy.md) · weiter: [F05](F05_defaults.md)
 
-## 🎯 Ziel
+## Ziel
 Einen Automaten mit **registrierten** Ausgängen
 schreiben.
 
-## 📖 Erklärung
+## Erklärung
 Idee aus dem Skript: Die Übergangsfunktion berechnet
 neben `next_state` auch `next_y`. Beides wird im
 `state`-Prozess **mit derselben Flanke** gespeichert:
@@ -35,13 +35,13 @@ end process state;
 Der einfachste Medwedew-Automat ist ein **Register**
 oder **Zähler**, dessen Inhalt der Ausgang ist.
 
-## ✍️ Aufgabe
+## Aufgabe
 Ergänze für den Detektor (Zustände `start, s1, s10,
 s101`) im `when s10 =>`-Zweig von
 `transition_function` die Zuweisungen an `next_state`
 **und** `next_y`.
 
-<details><summary>✅ Lösung</summary>
+<details><summary>Lösung</summary>
 
 ```vhdl
 when s10 =>
@@ -57,6 +57,6 @@ when s10 =>
 Zustand `s101` ist.
 </details>
 
-## 🎓 Klausur
+## Klausur
 Skript Kap. 3.4.3, **F24 A1 F2**, F21 A2 F3
 (busy-Ausgang als Medwedew mit 2 Zuständen).

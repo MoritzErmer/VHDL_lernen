@@ -1,6 +1,6 @@
 {
  "schema": 1,
- "version": "9c715644bb47",
+ "version": "e5abc26703e8",
  "revision": 0,
  "courses": [
   {
@@ -438,7 +438,7 @@
       {
        "t": "ul",
        "items": [
-        "Slice-Richtung muss passen: `a(7 downto 4)` , `a(4 to 7)`  bei einem `downto`-Vektor.",
+        "Slice-Richtung muss passen: `a(7 downto 4)` (richtig), `a(4 to 7)` (falsch) bei einem `downto`-Vektor.",
         "Beide Seiten einer Zuweisung brauchen **gleiche Länge**, sonst Fehler.",
         "`(others => '0')` passt sich automatisch an die Länge an → ideal für Resets.",
         "Aggregat mit Namen: `(7 => '1', others => '0')` = `\"10000000\"`."
@@ -584,7 +584,7 @@
        "items": [
         "Bedingungen werden **von oben nach unten** geprüft → die erste wahre gewinnt. → ideal für **Prioritäten**.",
         "Der letzte Zweig **ohne** `when` ist Pflicht-Ersatz (sonst entsteht Speicherverhalten).",
-        "Eine Bedingung muss vom Typ `boolean` sein: `req(3) = '1'` , nur `req(3)`  (in VHDL-93).",
+        "Eine Bedingung muss vom Typ `boolean` sein: `req(3) = '1'` (richtig), nur `req(3)` (falsch, in VHDL-93).",
         "Typischer Trick, um aus `boolean` ein `std_logic` zu machen:"
        ]
       },
@@ -813,7 +813,7 @@
       {
        "t": "code",
        "lang": "vhdl",
-       "s": "y <= a;          -- Treiber 1\ny <= b;          -- Treiber 2  "
+       "s": "y <= a;          -- Treiber 1\ny <= b;          -- Treiber 2  (falsch)"
       },
       {
        "t": "ul",
@@ -1099,7 +1099,7 @@
        "s": "Genau diese Testbench zum Ausprobieren: `am_rechner/L04/tb_signal_vs_variable.vhd`"
       }
      ],
-     "loesungMd": "- **A: v=2 s=0** – v sofort 1, dann 2. s hat noch den\n  alten Wert 0.\n- **B: v=2 s=1** – durch `wait` wird s aktualisiert.\n  Vorgemerkt war zuletzt `s + 1` mit altem s = 0 → 1.\n\n Genau diese Testbench zum Ausprobieren:\n`am_rechner/L04/tb_signal_vs_variable.vhd`",
+     "loesungMd": "- **A: v=2 s=0** – v sofort 1, dann 2. s hat noch den\n  alten Wert 0.\n- **B: v=2 s=1** – durch `wait` wird s aktualisiert.\n  Vorgemerkt war zuletzt `s + 1` mit altem s = 0 → 1.\n\nGenau diese Testbench zum Ausprobieren:\n`am_rechner/L04/tb_signal_vs_variable.vhd`",
      "klausur": [
       {
        "t": "p",
@@ -1286,7 +1286,7 @@
       {
        "t": "code",
        "lang": "vhdl",
-       "s": "process(en, d) is   --  Latch für q!\nbegin\n  if en = '1' then\n    q <= d;\n  end if;           -- en='0': q behält Wert\nend process;"
+       "s": "process(en, d) is   -- (falsch) Latch für q!\nbegin\n  if en = '1' then\n    q <= d;\n  end if;           -- en='0': q behält Wert\nend process;"
       },
       {
        "t": "p",
@@ -6238,7 +6238,7 @@
     {
      "id": "B04",
      "block": "B",
-     "title": "Drei Arten von Sprüngen ⭐",
+     "title": "Drei Arten von Sprüngen",
      "min": 4,
      "mode": "text",
      "starter": "",
@@ -6349,7 +6349,7 @@
     {
      "id": "B05",
      "block": "B",
-     "title": "Kopf- oder fußgesteuert? ⭐",
+     "title": "Kopf- oder fußgesteuert?",
      "min": 4,
      "mode": "text",
      "starter": "",
@@ -6580,7 +6580,7 @@
     {
      "id": "C02",
      "block": "C",
-     "title": "Calling Convention: Caller- vs. Callee-Save ⭐",
+     "title": "Calling Convention: Caller- vs. Callee-Save",
      "min": 5,
      "mode": "text",
      "starter": "",
@@ -6661,7 +6661,7 @@
     {
      "id": "C03",
      "block": "C",
-     "title": "Registertabelle tracen ⭐",
+     "title": "Registertabelle tracen",
      "min": 6,
      "mode": "text",
      "starter": ".reg r1 = $100, r2 = 4\n.mem $100: 1, 2, -5, 3\nup1:     add  r3 := r0,r0\nloop:    beq  r2,ret\n         ldd  r5 := (r1,0)\n         bge  r5,greater\n         sub  r3 := r3,r5\n         bra  end_if\ngreater: add  r3 := r3,r5\nend_if:  addi r1 := r1,#1\n         addi r2 := r2,#-1\n         bra  loop\nret:     add  r1 := r0,r3\n         jmp  r31",
@@ -6758,7 +6758,7 @@
     {
      "id": "C04",
      "block": "C",
-     "title": "Branchless: Masken statt Sprünge ⭐",
+     "title": "Branchless: Masken statt Sprünge",
      "min": 6,
      "mode": "text",
      "starter": "",

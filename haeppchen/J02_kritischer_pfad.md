@@ -1,12 +1,12 @@
 # J02 · Kritischer Pfad
 
-⏱️ 6 min · zurück: [J01](J01_synthetisierbar.md) · weiter: [J03](J03_aufwand.md)
+6 min · zurück: [J01](J01_synthetisierbar.md) · weiter: [J03](J03_aufwand.md)
 
-## 🎯 Ziel
+## Ziel
 Die Länge des längsten kombinatorischen Pfades
 abschätzen und begründen.
 
-## 📖 Erklärung
+## Erklärung
 **Kritischer Pfad** = längster Weg durch Kombinatorik
 zwischen zwei Registern (oder Ein-/Ausgang). Er
 bestimmt die **maximale Taktfrequenz**:
@@ -31,14 +31,14 @@ Weitere Faustregeln:
   Anzahl Iterationen.
 - Register dazwischen (Pipelining) teilen den Pfad.
 
-## ✍️ Aufgabe
+## Aufgabe
 Ein Ausgangsbit eines CRC-Netzwerks ist das XOR von
 **8** Eingangsbits, ein anderes von **5**.
 1. Wie lang ist der kritische Pfad in XOR-Gattern
    (2 Eingänge), bestmöglich optimiert?
 2. Begründe kurz.
 
-<details><summary>✅ Lösung</summary>
+<details><summary>Lösung</summary>
 
 1. **3 XOR-Gatter**.
 2. Das längste ist die Verknüpfung von 8 Bits. Mit
@@ -47,5 +47,5 @@ Ein Ausgangsbit eines CRC-Netzwerks ist das XOR von
    ⌈log₂ 5⌉ = 3 auch, aber nicht mehr.)
 </details>
 
-## 🎓 Klausur
+## Klausur
 **F24 A1 F10**, F21 A2 F6, F22 A2 F9a.

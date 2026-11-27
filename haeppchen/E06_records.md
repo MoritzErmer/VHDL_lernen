@@ -1,11 +1,11 @@
 # E06 · Records
 
-⏱️ 4 min · zurück: [E05](E05_rom.md) · weiter: [E07](E07_aggregate.md)
+4 min · zurück: [E05](E05_rom.md) · weiter: [E07](E07_aggregate.md)
 
-## 🎯 Ziel
+## Ziel
 Zusammengehörige Werte verschiedener Typen bündeln.
 
-## 📖 Erklärung
+## Erklärung
 Ein **Record** ist wie ein `struct` in C:
 ```vhdl
 type pair_type is record
@@ -30,7 +30,7 @@ y          <= p.output;
   ```
   Zugriff: `table(state, x).state`
 
-## ✍️ Aufgabe
+## Aufgabe
 Ein Stack-Element besteht aus einem Zeichen
 (`character`) und einer Position (`integer range 0
 to 99`).
@@ -38,7 +38,7 @@ to 99`).
 2. Schreibe eine Konstante `LEER` mit Zeichen `' '`
    und Position 0 (named association).
 
-<details><summary>✅ Lösung</summary>
+<details><summary>Lösung</summary>
 
 ```vhdl
 type element_type is record
@@ -51,6 +51,6 @@ constant LEER : element_type :=
 ```
 </details>
 
-## 🎓 Klausur
+## Klausur
 **F24 A2** (`state_output_pair_type`, Zugriff
 `transition_table(state, x).state` in F9).

@@ -1,12 +1,12 @@
 # F07 · Zustandstabelle als Array
 
-⏱️ 6 min · zurück: [F06](F06_steuerwerk.md) · weiter: [F08](F08_entwurf_garagentor.md)
+6 min · zurück: [F06](F06_steuerwerk.md) · weiter: [F08](F08_entwurf_garagentor.md)
 
-## 🎯 Ziel
+## Ziel
 Einen Automaten kompakt mit einer konstanten
 Übergangstabelle beschreiben.
 
-## 📖 Erklärung
+## Erklärung
 Statt verschachtelter `case`-Anweisungen:
 ```vhdl
 type table_type is
@@ -33,14 +33,14 @@ next_state <= TRANS(current_state, x);
   y <= TRANS(state, x).output;   -- Mealy
   ```
 
-## ✍️ Aufgabe
+## Aufgabe
 Die Tabelle `transition_table` hat Felder vom Typ
 `state_output_pair_type` (`.state`, `.output`).
 Schreibe eine **synthetisierbare** Architecture-Zeile
 für `y` und den getakteten Prozess für `state`
 (Reset auf `q0`, `res_n` low-aktiv).
 
-<details><summary>✅ Lösung</summary>
+<details><summary>Lösung</summary>
 
 ```vhdl
 tp: process(res_n, clk) is
@@ -58,6 +58,6 @@ y <= transition_table(state, x).output;
 ```
 </details>
 
-## 🎓 Klausur
+## Klausur
 **F24 A2 F9** (exakt das), Skript Kap. 3.4.1
 („Alternative Implementierung für Prozess f“).

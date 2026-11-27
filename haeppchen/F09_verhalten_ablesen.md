@@ -1,12 +1,12 @@
 # F09 · Verhalten aus Code ablesen
 
-⏱️ 6 min · zurück: [F08](F08_entwurf_garagentor.md) · weiter: [G01](G01_instanziierung.md)
+6 min · zurück: [F08](F08_entwurf_garagentor.md) · weiter: [G01](G01_instanziierung.md)
 
-## 🎯 Ziel
+## Ziel
 Eine Eingabefolge durch einen gegebenen Automaten
 „durchspielen“ und die Ausgabefolge angeben.
 
-## 📖 Erklärung
+## Erklärung
 Vorgehen:
 1. Tabelle anlegen: Takt | Zustand | Eingabe |
    Ausgabe | Folgezustand
@@ -15,13 +15,13 @@ Vorgehen:
    **Moore**: Ausgabe nur aus Zustand.
 4. Folgezustand wird Zustand der nächsten Zeile.
 
-## ✍️ Aufgabe
+## Aufgabe
 Mealy-Detektor aus F03 (Zustände start, s1, s10;
 `y = 1` bei s10 und x = 1). Start in `start`.
 Eingabefolge x: `1 0 1 0 1 1 0 1`
 Gib die Ausgabefolge y an.
 
-<details><summary>✅ Lösung</summary>
+<details><summary>Lösung</summary>
 
 | Takt | Zustand | x | y | nächster |
 |---|---|---|---|---|
@@ -37,6 +37,6 @@ Gib die Ausgabefolge y an.
 **y = 0 0 1 0 1 0 0 1** (überlappend erkannt).
 </details>
 
-## 🎓 Klausur
+## Klausur
 **F24 A2 F6** (Ausgabefolge zu Tester-Sequenz),
 F24 A2 F5 (Diagramm aus Tabelle zeichnen), F24 A2 F7.

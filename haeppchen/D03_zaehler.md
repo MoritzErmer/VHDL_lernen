@@ -1,11 +1,11 @@
 # D03 · Zähler mit numeric_std
 
-⏱️ 6 min · zurück: [D02](D02_enable_clear.md) · weiter: [D04](D04_flipflops_zaehlen.md)
+6 min · zurück: [D02](D02_enable_clear.md) · weiter: [D04](D04_flipflops_zaehlen.md)
 
-## 🎯 Ziel
+## Ziel
 Einen Zähler beschreiben – zwei typische Stile.
 
-## 📖 Erklärung
+## Erklärung
 **Stil 1: Signal vom Typ `unsigned`**
 ```vhdl
 library ieee; use ieee.numeric_std.all;
@@ -45,13 +45,13 @@ end process;
   Flankenabfrage → `q` ist kein eigenes FF, sondern
   nur der Ausgang des FFs von `q_int`.
 
-## ✍️ Aufgabe
+## Aufgabe
 Schreibe einen **Modulo-6-Zähler** `cnt` (Signal,
 `unsigned(2 downto 0)`) mit Enable `en`: zählt nur
 bei `en = '1'`, nach 5 kommt 0.
 Nur den Teil **innerhalb** der Flankenabfrage.
 
-<details><summary>✅ Lösung</summary>
+<details><summary>Lösung</summary>
 
 ```vhdl
 if en = '1' then
@@ -66,6 +66,6 @@ end if;
 `=` zwischen `unsigned` und `natural`.
 </details>
 
-## 🎓 Klausur
+## Klausur
 Generischer Binärzähler: **F20 A2 F5**; Zähler mit
 Variablen: F23 A2 F3 (`counter`).

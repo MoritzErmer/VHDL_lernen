@@ -1,12 +1,12 @@
 # G06 · if-generate & Rekursion
 
-⏱️ 7 min · zurück: [G05](G05_for_generate.md) · weiter: [H01](H01_funktionen.md)
+7 min · zurück: [G05](G05_for_generate.md) · weiter: [H01](H01_funktionen.md)
 
-## 🎯 Ziel
+## Ziel
 Eine Komponente sich selbst instanziieren lassen –
 die schwerste Strukturaufgabe der Klausuren.
 
-## 📖 Erklärung
+## Erklärung
 `if … generate` erzeugt Hardware nur, wenn die
 (konstante!) Bedingung gilt. Damit baut man
 **Rekursion**: Eine Entity instanziiert sich selbst
@@ -46,13 +46,13 @@ end generate recursion;
 - Die Architecture muss **explizit** genannt werden
   (`(recursive)`), sonst ist die Wahl unklar.
 
-## ✍️ Aufgabe
+## Aufgabe
 1. Was ist der Abbruchfall, und warum braucht man ihn?
 2. Bei `A_WIDTH = 3`: Wie viele Eingänge hat `e`, und
    wie viele Instanzen entstehen insgesamt
    (inkl. der obersten)?
 
-<details><summary>✅ Lösung</summary>
+<details><summary>Lösung</summary>
 
 1. `A_WIDTH = 1` (2 Eingänge, direkt verdrahtet).
    Ohne ihn würde die Instanziierung **endlos**
@@ -61,6 +61,6 @@ end generate recursion;
    1 (Breite 3) + 2 (Breite 2) + 4 (Breite 1) = **7**.
 </details>
 
-## 🎓 Klausur
+## Klausur
 **H19 A1 F11** (25 Punkte!), **F23 A1 F8/F10**
 (rekursive `det_plru_element`, `update_tree`).

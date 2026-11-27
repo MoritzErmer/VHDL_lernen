@@ -1,4 +1,4 @@
-# 💻 Am Rechner üben
+# Am Rechner üben
 
 Die Häppchen kannst du komplett am Handy lernen. Wenn du an einem Rechner
 sitzt, kannst du hier Code **abtippen und wirklich simulieren** – das festigt

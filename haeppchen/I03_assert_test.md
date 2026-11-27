@@ -1,12 +1,12 @@
 # I03 · assert und erschöpfender Test
 
-⏱️ 6 min · zurück: [I02](I02_wait.md) · weiter: [I04](I04_simulationszeit.md)
+6 min · zurück: [I02](I02_wait.md) · weiter: [I04](I04_simulationszeit.md)
 
-## 🎯 Ziel
+## Ziel
 Eine Komponente automatisch für **alle** Eingaben
 prüfen.
 
-## 📖 Erklärung
+## Erklärung
 ```vhdl
 assert bedingung
   report "Text" severity error;
@@ -38,13 +38,13 @@ Das `wait for 10 ns;` **vor** dem `assert` ist
 entscheidend: Erst dann haben `a`, `b` und alle davon
 abhängigen Signale (`p`) ihre neuen Werte (C04).
 
-## ✍️ Aufgabe
+## Aufgabe
 Schreibe den Testprozess für einen Volladdierer
 (`a, b, cin` → `s, cout`), der alle 8 Kombinationen
 prüft. Tipp: Zähle `i` von 0 bis 7 und nutze die
 Bits von `to_unsigned(i, 3)`.
 
-<details><summary>✅ Lösung</summary>
+<details><summary>Lösung</summary>
 
 ```vhdl
 process is
@@ -65,7 +65,7 @@ end process;
 ```
 </details>
 
-## 🎓 Klausur
+## Klausur
 **F20 A1 F5** (`mult_tester` für allgemeine N).
 
-💻 Am Rechner: `am_rechner/L01/tb_volladdierer.vhd`
+Am Rechner: `am_rechner/L01/tb_volladdierer.vhd`

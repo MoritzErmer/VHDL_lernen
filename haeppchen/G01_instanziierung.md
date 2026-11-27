@@ -1,12 +1,12 @@
 # G01 · Komponenten instanziieren
 
-⏱️ 6 min · zurück: [F09](F09_verhalten_ablesen.md) · weiter: [G02](G02_component.md)
+6 min · zurück: [F09](F09_verhalten_ablesen.md) · weiter: [G02](G02_component.md)
 
-## 🎯 Ziel
+## Ziel
 Bausteine in einer Architecture einsetzen und
 verdrahten.
 
-## 📖 Erklärung
+## Erklärung
 Volladdierer aus zwei Halbaddierern:
 ```vhdl
 architecture struct of volladdierer is
@@ -35,14 +35,14 @@ end architecture struct;
 - Mischung aus Instanzen und Zuweisungen/Prozessen
   heißt oft `architecture mixed`.
 
-## ✍️ Aufgabe
+## Aufgabe
 Eine Komponente `single_step` (Ports `q`, `s`, `d`,
 je wie in A03) soll mit einem 5-Bit-Register
 verbunden werden: `d` geht ins Register, das
 Register gibt `q` zurück. Schreibe die Instanz und
 die nötige Signaldeklaration.
 
-<details><summary>✅ Lösung</summary>
+<details><summary>Lösung</summary>
 
 ```vhdl
 signal q, d : std_logic_vector(4 downto 0);
@@ -55,6 +55,6 @@ Dazu kommt der Registerprozess aus D01 und
 **F24 A1 F3** (→ K01).
 </details>
 
-## 🎓 Klausur
+## Klausur
 **F24 A1 F3/F9**, F20 A1 F1b, F19 A1 F2,
 F23 A1 F2b – in jeder Klausur.

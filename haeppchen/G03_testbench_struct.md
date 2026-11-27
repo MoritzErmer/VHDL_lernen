@@ -1,12 +1,12 @@
 # G03 · Testbench als Strukturbeschreibung
 
-⏱️ 6 min · zurück: [G02](G02_component.md) · weiter: [G04](G04_generics.md)
+6 min · zurück: [G02](G02_component.md) · weiter: [G04](G04_generics.md)
 
-## 🎯 Ziel
+## Ziel
 Die Klausur-Standardaufgabe „Entity und Architecture
 struct der Testbench“ sicher lösen.
 
-## 📖 Erklärung
+## Erklärung
 Eine Testbench hat **keine Ports** – sie ist die
 oberste Ebene:
 ```vhdl
@@ -37,14 +37,14 @@ Checkliste:
    verbunden sind → weglassen (Eingänge brauchen
    aber einen Wert!).
 
-## ✍️ Aufgabe
+## Aufgabe
 Bild: `tester` (Ausgänge `a`, `b`, Eingang `p`),
 `mult` (Eingänge `a`, `b`, Ausgang `p`). Beide haben
 das Generic `N`. `a`, `b` sind N Bit, `p` ist 2N Bit.
 Schreibe die Architecture `struct` zu `mult_tb` mit
 einer Konstanten `N = 3` geeigneten Typs.
 
-<details><summary>✅ Lösung</summary>
+<details><summary>Lösung</summary>
 
 ```vhdl
 use work.all;
@@ -65,6 +65,6 @@ Woran erkennt man eine Testbench? **Die Entity hat
 keine Ports.**
 </details>
 
-## 🎓 Klausur
+## Klausur
 **F20 A1 F1**, **F19 A1 F1/F2**, F23 A1 F2,
 F21 A2 F2 – praktisch jedes Jahr!

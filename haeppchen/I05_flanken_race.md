@@ -1,12 +1,12 @@
 # I05 · Stimuli nicht auf die Flanke legen
 
-⏱️ 5 min · zurück: [I04](I04_simulationszeit.md) · weiter: [I06](I06_event_transaction.md)
+5 min · zurück: [I04](I04_simulationszeit.md) · weiter: [I06](I06_event_transaction.md)
 
-## 🎯 Ziel
+## Ziel
 Eine typische Testbench-Falle erkennen: Eingang und
 Takt ändern sich gleichzeitig.
 
-## 📖 Erklärung
+## Erklärung
 ```vhdl
 -- in der Testbench
 ser_in <= '1';
@@ -33,7 +33,7 @@ wait until clk = '0';   -- fallende Flanke
 ser_in <= '1';          -- sicher
 ```
 
-## ✍️ Aufgabe
+## Aufgabe
 Warum funktioniert diese Testbench, obwohl auch hier
 `d` und `clk` im selben Prozess gesetzt werden?
 ```vhdl
@@ -42,7 +42,7 @@ wait for 2 ns;
 clk <= '1';
 ```
 
-<details><summary>✅ Lösung</summary>
+<details><summary>Lösung</summary>
 
 Zwischen den beiden Zuweisungen vergehen **2 ns**.
 Bis dahin sind alle Delta-Zyklen abgearbeitet und
@@ -50,7 +50,7 @@ jedes von `d` abhängige Signal hat seinen neuen Wert.
 Die Flanke kommt danach.
 </details>
 
-## 🎓 Klausur
+## Klausur
 Hintergrund für alle Fragen „Welchen Wert hat … nach
 der Flanke?“ und für Metastabilität (D05, Skript
 Kap. 6.1).

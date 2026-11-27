@@ -1,12 +1,12 @@
 # A06 · Fehlersuche: typische Syntax-Fallen
 
-⏱️ 5 min · zurück: [A05](A05_vektoren.md) · weiter: [B01](B01_when_else.md)
+5 min · zurück: [A05](A05_vektoren.md) · weiter: [B01](B01_when_else.md)
 
-## 🎯 Ziel
+## Ziel
 Die Fehler erkennen, die in Klausuren am häufigsten
 Punkte kosten.
 
-## 📖 Erklärung
+## Erklärung
 - `library ieee; use ieee.std_logic_1164.all;`
   gilt nur für die **direkt folgende** Entity (und
   deren Architectures). Zweite Entity in derselben
@@ -26,7 +26,7 @@ Punkte kosten.
   (Genau so macht es das Skript beim Zähler.)
 - Groß-/Kleinschreibung ist egal, `--` ist Kommentar.
 
-## ✍️ Aufgabe
+## Aufgabe
 Finde die **4 Fehler**:
 ```vhdl
 entity zaehler is
@@ -42,7 +42,7 @@ begin
 end architecture behav;
 ```
 
-<details><summary>✅ Lösung</summary>
+<details><summary>Lösung</summary>
 
 1. `library ieee; use ieee.std_logic_1164.all;` fehlt.
 2. `;` nach dem letzten Port (`q : out std_logic;`).
@@ -56,6 +56,6 @@ end architecture behav;
 im Skript-Stil schreibt man aber `end entity zaehler;`.
 </details>
 
-## 🎓 Klausur
+## Klausur
 „Geben Sie … vollständig an“ heißt: inklusive
 `library`/`use`. Fehlt das, gibt es Abzug.

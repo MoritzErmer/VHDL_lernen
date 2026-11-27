@@ -1,12 +1,12 @@
 # D04 · Wie viele Flipflops entstehen?
 
-⏱️ 6 min · zurück: [D03](D03_zaehler.md) · weiter: [D05](D05_synchronisierer.md)
+6 min · zurück: [D03](D03_zaehler.md) · weiter: [D05](D05_synchronisierer.md)
 
-## 🎯 Ziel
+## Ziel
 Aus Code ablesen, welche Signale/Variablen zu
 Flipflops werden – **Lieblingsfrage** der Klausur.
 
-## 📖 Erklärung
+## Erklärung
 In einem **getakteten** Prozess (innerhalb der
 Flankenabfrage):
 
@@ -20,7 +20,7 @@ Anzahl FFs = Anzahl **Bits** (`integer range 0 to
 9` → 4 Bit, `unsigned(7 downto 0)` → 8 Bit,
 `boolean`/`std_logic` → 1 Bit).
 
-## ✍️ Aufgabe
+## Aufgabe
 Wie viele Flipflops?
 ```vhdl
 process(clk) is
@@ -37,7 +37,7 @@ end process;
 ```
 (`z`: std_logic, `cnt`: unsigned(3 downto 0))
 
-<details><summary>✅ Lösung</summary>
+<details><summary>Lösung</summary>
 
 **9 Flipflops.**
 - `t`: zuerst geschrieben, dann gelesen → **0**
@@ -50,6 +50,6 @@ end process;
 vorigen Takt – daher zwei verschiedene Register.)
 </details>
 
-## 🎓 Klausur
+## Klausur
 F19 A1 F6, F21 A2 F4, F22 A2 F8/F10, F23 A2 F2 –
 fast **jedes Jahr**.

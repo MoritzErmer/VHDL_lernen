@@ -1,11 +1,11 @@
 # H01 · Funktionen
 
-⏱️ 6 min · zurück: [G06](G06_if_generate_rekursion.md) · weiter: [H02](H02_prozeduren.md)
+6 min · zurück: [G06](G06_if_generate_rekursion.md) · weiter: [H02](H02_prozeduren.md)
 
-## 🎯 Ziel
+## Ziel
 Eine Funktion schreiben, die einen Wert berechnet.
 
-## 📖 Erklärung
+## Erklärung
 ```vhdl
 function parity(v : std_logic_vector)
   return std_logic is
@@ -33,13 +33,13 @@ end function parity;
 - Synthese: wird zu **kombinatorischer Logik**
   (Schleife abgerollt).
 
-## ✍️ Aufgabe
+## Aufgabe
 Schreibe `function clz(x : std_logic_vector) return
 natural`, die die **führenden Nullen** zählt (von
 `x'left` aus bis zur ersten `'1'`). Beispiel:
 `clz("00101") = 2`, `clz("000") = 3`.
 
-<details><summary>✅ Lösung</summary>
+<details><summary>Lösung</summary>
 
 ```vhdl
 function clz(x : std_logic_vector)
@@ -59,6 +59,6 @@ end function clz;
 sofort.
 </details>
 
-## 🎓 Klausur
+## Klausur
 **F22 A1 F11** (`clz`), F24 A1 F12 (`init_rom`),
 F22 A2 F3–F6.

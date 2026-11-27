@@ -1,12 +1,12 @@
 # A04 · std_logic: mehr als 0 und 1
 
-⏱️ 4 min · zurück: [A03](A03_architecture.md) · weiter: [A05](A05_vektoren.md)
+4 min · zurück: [A03](A03_architecture.md) · weiter: [A05](A05_vektoren.md)
 
-## 🎯 Ziel
+## Ziel
 Die 9 Werte von `std_logic` kennen und wissen,
 wofür `'U'`, `'Z'` und `'-'` gut sind.
 
-## 📖 Erklärung
+## Erklärung
 ```vhdl
 type std_logic is
   ('U','X','0','1','Z','W','L','H','-');
@@ -28,14 +28,14 @@ type std_logic is
 - `'-'` ist **kein Joker beim Vergleichen**:
   `x = "1-"` ist nur wahr, wenn x wirklich `"1-"` ist.
 
-## ✍️ Aufgabe
+## Aufgabe
 1. Welchen Wert hat ein `std_logic`-Signal zu
    Simulationsbeginn, wenn es keinen Startwert hat?
 2. Ein Prioritätsencoder gibt bei `v = '0'` den
    Ausgang `a <= "--"` aus. Welchen Vorteil hat
    `'-'` hier gegenüber `"00"`?
 
-<details><summary>✅ Lösung</summary>
+<details><summary>Lösung</summary>
 
 1. `'U'` (der erste Wert der Aufzählung ist immer der
    Default).
@@ -46,5 +46,5 @@ type std_logic is
    was weniger Gatter ergibt).
 </details>
 
-## 🎓 Klausur
+## Klausur
 Frage 2 ist **Herbst 2019, A1 F3** (3 Punkte).

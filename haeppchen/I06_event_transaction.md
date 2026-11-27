@@ -1,12 +1,12 @@
 # I06 · Event vs. Transaction
 
-⏱️ 5 min · zurück: [I05](I05_flanken_race.md) · weiter: [J01](J01_synthetisierbar.md)
+5 min · zurück: [I05](I05_flanken_race.md) · weiter: [J01](J01_synthetisierbar.md)
 
-## 🎯 Ziel
+## Ziel
 Den Unterschied kennen, der in F24 eine ganze
 Teilaufgabe ausmacht.
 
-## 📖 Erklärung
+## Erklärung
 - **Transaction**: Einem Signal wird ein Wert
   zugewiesen (auch derselbe wie vorher).
 - **Event**: Der Wert **ändert sich** wirklich.
@@ -33,11 +33,11 @@ sich nicht) → **nicht synthetisierbar**. Die
 synthetisierbare Lösung: einen **Takt** benutzen und
 pro Takt ein Zeichen verarbeiten (F07).
 
-## ✍️ Aufgabe
+## Aufgabe
 1. Warum braucht `tp` das `'transaction`-Attribut?
 2. Warum ist `tp` damit nicht synthetisierbar?
 
-<details><summary>✅ Lösung</summary>
+<details><summary>Lösung</summary>
 
 1. Prozesse reagieren nur auf Events. Zwei gleiche
    aufeinanderfolgende Zeichen erzeugen nur **ein**
@@ -49,5 +49,5 @@ pro Takt ein Zeichen verarbeiten (F07).
    Pegeländerungen (Events).
 </details>
 
-## 🎓 Klausur
+## Klausur
 **F24 A2 F4 und F8a** – wörtlich.

@@ -1,11 +1,11 @@
 # F02 · Das 3-Prozess-Template (Moore)
 
-⏱️ 7 min · zurück: [F01](F01_automatentypen.md) · weiter: [F03](F03_mealy.md)
+7 min · zurück: [F01](F01_automatentypen.md) · weiter: [F03](F03_mealy.md)
 
-## 🎯 Ziel
+## Ziel
 Einen Moore-Automaten im Skript-Stil aufschreiben.
 
-## 📖 Erklärung
+## Erklärung
 Sequenzdetektor: `y = '1'`, wenn zuletzt `1 0 1`
 kam (überlappend).
 ```vhdl
@@ -58,7 +58,7 @@ end architecture moore;
 3 Prozesse = 3 Blöcke im Blockschaltbild:
 f (kombinatorisch) → Zustandsregister → g.
 
-## ✍️ Aufgabe
+## Aufgabe
 1. Warum steht in `transition_function` **kein**
    `when others`?
 2. Was wäre falsch an `output_function:
@@ -67,7 +67,7 @@ f (kombinatorisch) → Zustandsregister → g.
 3. Warum ist `s101 → x='0' → s10` richtig und nicht
    `→ start`?
 
-<details><summary>✅ Lösung</summary>
+<details><summary>Lösung</summary>
 
 1. Alle 4 Werte von `state_type` sind aufgezählt →
    `case` ist vollständig. (`when others` wäre
@@ -80,8 +80,8 @@ f (kombinatorisch) → Zustandsregister → g.
    `10`.
 </details>
 
-## 🎓 Klausur
+## Klausur
 Grundgerüst für jede Automaten-Frage, z.B. **F24
 A1 F8**, Skript Kap. 3.4.2.
 
-💻 Am Rechner: `am_rechner/L07/detektor.vhd`
+Am Rechner: `am_rechner/L07/detektor.vhd`

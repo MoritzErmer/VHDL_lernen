@@ -1,11 +1,11 @@
 # A01 · VHDL beschreibt Hardware
 
-⏱️ 4 min · [Übersicht](../README.md) · weiter: [A02](A02_entity.md)
+4 min · [Übersicht](../README.md) · weiter: [A02](A02_entity.md)
 
-## 🎯 Ziel
+## Ziel
 Verstehen, warum VHDL **kein** Programm ist, das Zeile für Zeile abläuft.
 
-## 📖 Erklärung
+## Erklärung
 Eine VHDL-Komponente besteht immer aus zwei Teilen:
 
 | Teil | Bild | Inhalt |
@@ -37,7 +37,7 @@ egal**.
 `<=` heißt „wird getrieben von“ (Signalzuweisung),
 nicht „wird einmal gesetzt“.
 
-## ✍️ Aufgabe
+## Aufgabe
 Beschreiben diese beiden Architectures dieselbe Schaltung?
 
 ```vhdl
@@ -46,7 +46,7 @@ h <= a and b;           y <= h or c;
 y <= h or c;            h <= a and b;
 ```
 
-<details><summary>✅ Lösung</summary>
+<details><summary>Lösung</summary>
 
 **Ja, exakt dieselbe.** Beide Zeilen sind
 nebenläufige Anweisungen = zwei Gatter (UND, ODER),
@@ -58,6 +58,6 @@ die über die Leitung `h` verbunden sind. Ändert sich
 das kommt in Block C.)
 </details>
 
-## 🎓 Klausur
+## Klausur
 Fast jede Klausur beginnt mit „Geben Sie eine Entity … an“
 und „Geben Sie eine Architecture … an“.

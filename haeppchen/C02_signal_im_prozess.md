@@ -1,11 +1,11 @@
 # C02 · Signale im Prozess: vorgemerkt, nicht sofort
 
-⏱️ 5 min · zurück: [C01](C01_prozess_aufbau.md) · weiter: [C03](C03_variablen.md)
+5 min · zurück: [C01](C01_prozess_aufbau.md) · weiter: [C03](C03_variablen.md)
 
-## 🎯 Ziel
+## Ziel
 **Die** wichtigste Regel in VHDL verstehen.
 
-## 📖 Erklärung
+## Erklärung
 Eine Signalzuweisung `s <= wert;` im Prozess
 **ändert `s` nicht sofort**. Der neue Wert wird nur
 **vorgemerkt** (Transaktion). Erst wenn der Prozess
@@ -31,7 +31,7 @@ a <= b;
 b <= a;   -- liest altes a → Tausch klappt!
 ```
 
-## ✍️ Aufgabe
+## Aufgabe
 Vor dem Prozessdurchlauf gilt `s = 5` (integer).
 ```vhdl
 s <= 1;
@@ -42,7 +42,7 @@ end if;
 ```
 Welchen Wert hat `s` **nach** dem Durchlauf?
 
-<details><summary>✅ Lösung</summary>
+<details><summary>Lösung</summary>
 
 **`s = 6`**.
 - `s <= 1;` merkt 1 vor.
@@ -53,7 +53,7 @@ Welchen Wert hat `s` **nach** dem Durchlauf?
 - Letzte Vormerkung: 6.
 </details>
 
-## 🎓 Klausur
+## Klausur
 **Frühjahr 2024, A2 F3**: „Spielt die Reihenfolge
 der Zuweisungen eine Rolle?“ – Dort ist `state`
 eine **Variable**: `y` liest den alten Zustand, also

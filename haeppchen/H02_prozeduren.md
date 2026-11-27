@@ -1,12 +1,12 @@
 # H02 · Prozeduren
 
-⏱️ 6 min · zurück: [H01](H01_funktionen.md) · weiter: [H03](H03_wo_deklarieren.md)
+6 min · zurück: [H01](H01_funktionen.md) · weiter: [H03](H03_wo_deklarieren.md)
 
-## 🎯 Ziel
+## Ziel
 Wiederkehrende Abläufe (v.a. in Testbenches) als
 Prozedur schreiben.
 
-## 📖 Erklärung
+## Erklärung
 ```vhdl
 procedure send_byte(
   byte : in std_logic_vector(7 downto 0)) is
@@ -33,13 +33,13 @@ end procedure send_byte;
 - Eine Prozedur, die im Prozess deklariert ist, darf
   dessen Signale (z.B. `ser_in`) **direkt** treiben.
 
-## ✍️ Aufgabe
+## Aufgabe
 1. Warum ist `send_byte` **nicht synthetisierbar**?
 2. Schreibe eine Prozedur `pulse`, die das Signal
    `start` für **eine Periode T** auf `'1'` setzt und
    danach wieder auf `'0'`.
 
-<details><summary>✅ Lösung</summary>
+<details><summary>Lösung</summary>
 
 1. Sie enthält `wait for` – Zeitangaben kann eine
    Schaltung nicht umsetzen (nur Takte).
@@ -55,7 +55,7 @@ end procedure pulse;
 Aufruf im Testprozess: `pulse;`
 </details>
 
-## 🎓 Klausur
+## Klausur
 **F19 A1 F3b/c, F9** (`send_byte`,
 `send_byte_with_parity`), **F22 A1** (`divstep`),
 F19 A2 F2 (`init`).

@@ -1,11 +1,11 @@
 # I02 · Die vier wait-Formen
 
-⏱️ 4 min · zurück: [I01](I01_takt_reset.md) · weiter: [I03](I03_assert_test.md)
+4 min · zurück: [I01](I01_takt_reset.md) · weiter: [I03](I03_assert_test.md)
 
-## 🎯 Ziel
+## Ziel
 Den Ablauf eines Testprozesses steuern.
 
-## 📖 Erklärung
+## Erklärung
 | Anweisung | wartet … |
 |---|---|
 | `wait for 10 ns;` | eine feste Zeit |
@@ -23,7 +23,7 @@ Den Ablauf eines Testprozesses steuern.
   `wait` enthalten, sonst hängt die Simulation
   (Endlosschleife zur Zeit 0).
 
-## ✍️ Aufgabe
+## Aufgabe
 Ein Testprozess legt in zwei Schleifen alle
 Kombinationen an und endet mit `wait;`.
 1. Was passiert, wenn das abschließende `wait;`
@@ -31,7 +31,7 @@ Kombinationen an und endet mit `wait;`.
 2. Was ist an `process(clk) is begin … wait for
    5 ns; … end process;` falsch?
 
-<details><summary>✅ Lösung</summary>
+<details><summary>Lösung</summary>
 
 1. Der Prozess beginnt von vorn → der Test wird
    **unendlich oft wiederholt**.
@@ -39,6 +39,6 @@ Kombinationen an und endet mit `wait;`.
    `wait`** enthalten.
 </details>
 
-## 🎓 Klausur
+## Klausur
 **F20 A1 F2b** (ohne Wait-Statement), Skript Kap.
 3.3.

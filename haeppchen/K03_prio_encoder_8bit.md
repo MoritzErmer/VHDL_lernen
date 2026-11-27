@@ -1,11 +1,11 @@
 # K03 · Klausur H19: 8-Bit-Prioritätsencoder
 
-⏱️ 7 min · zurück: [K02](K02_crc_steuerwerk.md) · weiter: [K04](K04_multiplizierer.md)
+7 min · zurück: [K02](K02_crc_steuerwerk.md) · weiter: [K04](K04_multiplizierer.md)
 
-## 🎯 Ziel
+## Ziel
 Eine 10-Punkte-Aufgabe in einem Zug lösen.
 
-## 📖 Erklärung
+## Erklärung
 Aufgabe (H19 A1 F8): Entity `priorityencoder_8_bit`
 mit `e(7 downto 0)`, `v` und `a(2 downto 0)`.
 `e(0)` hat die **höchste** Priorität. Schreibe die
@@ -17,11 +17,11 @@ Bausteine, die du brauchst:
 - `to_unsigned` + Typumwandlung (E02)
 - `'-'` für den ungültigen Fall (A04)
 
-## ✍️ Aufgabe
+## Aufgabe
 Schreibe die vollständige Architecture inkl. der
 nötigen `library`/`use`-Zeile.
 
-<details><summary>✅ Lösung</summary>
+<details><summary>Lösung</summary>
 
 ```vhdl
 library ieee; use ieee.numeric_std.all;
@@ -46,5 +46,5 @@ Prüffragen: Läuft die Schleife `7 downto 0`
 `a` 3 Bit breit (`to_unsigned(i, 3)`)?
 </details>
 
-## 🎓 Klausur
+## Klausur
 **H19 A1 F8** (10 Punkte), dazu F5–F7.

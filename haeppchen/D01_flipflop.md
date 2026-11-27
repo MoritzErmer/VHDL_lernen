@@ -1,12 +1,12 @@
 # D01 · Das Flipflop-Template
 
-⏱️ 5 min · zurück: [C08](C08_variable_akkumulator.md) · weiter: [D02](D02_enable_clear.md)
+5 min · zurück: [C08](C08_variable_akkumulator.md) · weiter: [D02](D02_enable_clear.md)
 
-## 🎯 Ziel
+## Ziel
 Das getaktete Prozess-Template **auswendig** und im
 Stil der Vorlesung schreiben können.
 
-## 📖 Erklärung
+## Erklärung
 ```vhdl
 reg: process(clk, res_n) is
 begin
@@ -32,13 +32,13 @@ end process reg;
   `elsif clk'event and clk = '1' then`
 - Vektoren zurücksetzen: `q <= (others => '0');`
 
-## ✍️ Aufgabe
+## Aufgabe
 Schreibe aus dem Kopf einen Prozess für ein
 **5-Bit-Register** `q` (Signal), das bei jeder
 steigenden Flanke `d` übernimmt und bei
 `res_n = '0'` auf null geht.
 
-<details><summary>✅ Lösung</summary>
+<details><summary>Lösung</summary>
 
 ```vhdl
 reg: process(clk, res_n) is
@@ -57,8 +57,8 @@ Das ist exakt der Prozess aus **F24 A1 F3**
 `crc <= q;`
 </details>
 
-## 🎓 Klausur
+## Klausur
 Dieses Template kommt in **jeder** Klausur vor –
 in Registern, Zählern und Automaten.
 
-💻 Am Rechner: `am_rechner/L05/d_ff.vhd`
+Am Rechner: `am_rechner/L05/d_ff.vhd`

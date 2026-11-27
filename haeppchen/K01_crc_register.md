@@ -1,12 +1,12 @@
 # K01 · Klausur F24: CRC-Rechenwerk
 
-⏱️ 8 min · zurück: [J05](J05_namen_fallen.md) · weiter: [K02](K02_crc_steuerwerk.md)
+8 min · zurück: [J05](J05_namen_fallen.md) · weiter: [K02](K02_crc_steuerwerk.md)
 
-## 🎯 Ziel
+## Ziel
 Eine komplette `mixed`-Architecture wie in der
 Klausur schreiben (Instanz + Register).
 
-## 📖 Erklärung
+## Erklärung
 Aufgabe (F24 A1 F3, sinngemäß): Die Komponente
 `calc_crc` hat die Ports `clk`, `res_n`, `s`
 (1 Bit) und `crc` (5 Bit). Innen:
@@ -24,11 +24,11 @@ Plan:
 3. Registerprozess (D01)
 4. Ausgang zuweisen
 
-## ✍️ Aufgabe
+## Aufgabe
 Schreibe die vollständige Architecture `mixed` zur
 gegebenen Entity `calc_crc`.
 
-<details><summary>✅ Lösung</summary>
+<details><summary>Lösung</summary>
 
 ```vhdl
 use work.all;
@@ -57,7 +57,7 @@ Weil `q` gelesen werden muss (Rückführung) und ein
 `out`-Port nicht gelesen werden darf.
 </details>
 
-## 🎓 Klausur
+## Klausur
 **F24 A1 F3** (Musterlösung fast identisch).
 
-💻 Am Rechner: `am_rechner/L09/crc.vhd`
+Am Rechner: `am_rechner/L09/crc.vhd`

@@ -1,12 +1,12 @@
 # E07 · Positional vs. named association
 
-⏱️ 4 min · zurück: [E06](E06_records.md) · weiter: [E08](E08_attribute.md)
+4 min · zurück: [E06](E06_records.md) · weiter: [E08](E08_attribute.md)
 
-## 🎯 Ziel
+## Ziel
 Die zwei Arten der Zuordnung erkennen und
 begründen – betrifft Aggregate **und** Port Maps.
 
-## 📖 Erklärung
+## Erklärung
 **Positional**: Zuordnung über die **Reihenfolge**.
 ```vhdl
 constant T : rom_type := (x"12", x"34");
@@ -25,7 +25,7 @@ u1: entity work.and_2
 - Bei positional kann man aus dem Code **nicht**
   ablesen, welcher Index/Name zu welchem Wert gehört.
 
-## ✍️ Aufgabe
+## Aufgabe
 ```vhdl
 constant transition_table : table_type := (
   ( (q1,'*'), (q8,'*'), (q0,'0') ),
@@ -36,7 +36,7 @@ constant transition_table : table_type := (
 2. Warum kann man aus diesem Code die **Werte** von
    `input_type` nicht angeben, nur ihre Anzahl?
 
-<details><summary>✅ Lösung</summary>
+<details><summary>Lösung</summary>
 
 1. **Positional**: Es gibt kein `=>`, der Index jedes
    Elements ergibt sich aus seiner Position.
@@ -45,5 +45,5 @@ constant transition_table : table_type := (
    `input_type` hat 3 Werte.
 </details>
 
-## 🎓 Klausur
+## Klausur
 **F24 A2 F1b und F1e** – fast wörtlich.

@@ -1,12 +1,12 @@
 # G02 · component-Deklaration & positional
 
-⏱️ 4 min · zurück: [G01](G01_instanziierung.md) · weiter: [G03](G03_testbench_struct.md)
+4 min · zurück: [G01](G01_instanziierung.md) · weiter: [G03](G03_testbench_struct.md)
 
-## 🎯 Ziel
+## Ziel
 Die zweite Instanziierungs-Schreibweise lesen und
 schreiben können.
 
-## 📖 Erklärung
+## Erklärung
 Klassisch (VHDL-87-Stil) wird die Komponente
 **zuerst deklariert**, dann instanziiert:
 ```vhdl
@@ -36,11 +36,11 @@ end architecture struct;
 | Deklaration nötig | nein | ja |
 | Tippfehler-Gefahr | gering | Port-Liste doppelt |
 
-## ✍️ Aufgabe
+## Aufgabe
 Schreibe `u2` aus dem Beispiel mit **named
 association** und als **direkte** Instanziierung.
 
-<details><summary>✅ Lösung</summary>
+<details><summary>Lösung</summary>
 
 ```vhdl
 u2: entity work.and_2
@@ -48,6 +48,6 @@ u2: entity work.and_2
 ```
 </details>
 
-## 🎓 Klausur
+## Klausur
 Skript Kap. 3.6 (Components und Strukturbeschreibungen).
 Die Musterlösungen nutzen meist die direkte Form.

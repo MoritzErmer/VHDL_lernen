@@ -4,7 +4,7 @@ Für die Klausur **Entwurf digitaler Systeme** (Uni Stuttgart, IKR).
 Code-Stil exakt wie im Skript (`clk'event and clk = '1'`, Reset `res_n`,
 `end entity …;`, Automaten mit `transition_function` / `state` / `output_function`).
 
-## 📱 Als Handy-App: Lern-Häppchen
+## Als Handy-App: Lern-Häppchen
 Alle Häppchen gibt es als Android-App – zusammen mit dem Fach **Rechnerarchitektur**
 ([Rechnerarchtektur_Lernen](https://github.com/MoritzErmer/Rechnerarchtektur_Lernen)):
 
@@ -20,11 +20,11 @@ Alle Häppchen gibt es als Android-App – zusammen mit dem Fach **Rechnerarchit
 ## So funktioniert's
 Jedes Häppchen dauert **4–6 Minuten** und passt auf den Handy-Bildschirm:
 
-1. 🎯 **Ziel** – was du danach kannst
-2. 📖 **Erklärung** – kurz, mit Beispielcode
-3. ✍️ **Aufgabe** – im Kopf, auf Papier oder in der Notizen-App lösen
-4. ✅ **Lösung** – erst aufklappen, wenn du eine eigene Antwort hast!
-5. 🎓 **Klausur** – wo genau das schon abgefragt wurde
+1. **Ziel** – was du danach kannst
+2. **Erklärung** – kurz, mit Beispielcode
+3. **Aufgabe** – im Kopf, auf Papier oder in der Notizen-App lösen
+4. **Lösung** – erst aufklappen, wenn du eine eigene Antwort hast!
+5. **Klausur** – wo genau das schon abgefragt wurde
 
 Klausur-Kürzel: **F24** = Frühjahr 2024, **H19** = Herbst 2019, usw.
 Tipp: Mach die Aufgabe eines Häppchens am nächsten Tag **nochmal ohne
@@ -32,7 +32,7 @@ Erklärung** – Wiederholung ist der eigentliche Lerneffekt.
 
 ---
 
-## 🧱 Block A – Grundgerüst
+## Block A – Grundgerüst
 | | Häppchen | Inhalt |
 |---|---|---|
 | A01 | [VHDL beschreibt Hardware](haeppchen/A01_hardware_denken.md) | Entity/Architecture, nebenläufig |
@@ -42,7 +42,7 @@ Erklärung** – Wiederholung ist der eigentliche Lerneffekt.
 | A05 | [Vektoren](haeppchen/A05_vektoren.md) | Index, Slice, `&`, `others` |
 | A06 | [Syntax-Fallen](haeppchen/A06_fallen_library.md) | Fehlersuche |
 
-## 🔀 Block B – Nebenläufige Anweisungen
+## Block B – Nebenläufige Anweisungen
 | | Häppchen | Inhalt |
 |---|---|---|
 | B01 | [when … else](haeppchen/B01_when_else.md) | Priorität |
@@ -50,7 +50,7 @@ Erklärung** – Wiederholung ist der eigentliche Lerneffekt.
 | B03 | [Versteckter Prozess](haeppchen/B03_versteckter_prozess.md) | Äquivalenz zum Prozess |
 | B04 | [Ein Signal – ein Treiber](haeppchen/B04_mehrfachtreiber.md) | Mehrfachtreiber |
 
-## ⚙️ Block C – Prozesse (das Herzstück!)
+## Block C – Prozesse (das Herzstück!)
 | | Häppchen | Inhalt |
 |---|---|---|
 | C01 | [Aufbau eines Prozesses](haeppchen/C01_prozess_aufbau.md) | Sensitivitätsliste, Simulationsstart |
@@ -62,19 +62,19 @@ Erklärung** – Wiederholung ist der eigentliche Lerneffekt.
 | C07 | [for-Schleife](haeppchen/C07_for_schleife.md) | abgerollte Hardware |
 | C08 | [Variablen in Schleifen](haeppchen/C08_variable_akkumulator.md) | Akkumulator-Muster |
 
-## ⏱️ Block D – Getaktete Logik
+## Block D – Getaktete Logik
 | | Häppchen | Inhalt |
 |---|---|---|
 | D01 | [Flipflop-Template](haeppchen/D01_flipflop.md) | asynchroner Reset |
 | D02 | [Enable & Clear](haeppchen/D02_enable_clear.md) | synchron vs. asynchron |
 | D03 | [Zähler](haeppchen/D03_zaehler.md) | `unsigned` / `integer` |
-| D04 | [Flipflops zählen](haeppchen/D04_flipflops_zaehlen.md) | ⭐ Klausur-Favorit |
+| D04 | [Flipflops zählen](haeppchen/D04_flipflops_zaehlen.md) | Klausur-Favorit |
 | D05 | [Synchronisierer](haeppchen/D05_synchronisierer.md) | Metastabilität |
 | D06 | [Von Hand simulieren](haeppchen/D06_von_hand_simulieren.md) | Werte nach jeder Flanke |
 | D07 | [Flankenerkennung](haeppchen/D07_flankenerkennung.md) | Puls aus Tastendruck |
 
-## 🧮 Block E – Typen & Arrays
-| | Häppchen | ⏱️ |
+## Block E – Typen & Arrays
+| | Häppchen | Dauer |
 |---|---|---|
 | E01 | [integer, natural, positive, subtype](haeppchen/E01_integer_subtypes.md) | 5 min |
 | E02 | [Umwandlungen mit numeric_std](haeppchen/E02_umwandlungen.md) | 6 min |
@@ -85,8 +85,8 @@ Erklärung** – Wiederholung ist der eigentliche Lerneffekt.
 | E07 | [Positional vs. named association](haeppchen/E07_aggregate.md) | 4 min |
 | E08 | [Attribute](haeppchen/E08_attribute.md) | 5 min |
 
-## 🔁 Block F – Automaten
-| | Häppchen | ⏱️ |
+## Block F – Automaten
+| | Häppchen | Dauer |
 |---|---|---|
 | F01 | [Mealy, Moore, Medwedew](haeppchen/F01_automatentypen.md) | 5 min |
 | F02 | [Das 3-Prozess-Template (Moore)](haeppchen/F02_moore_template.md) | 7 min |
@@ -98,8 +98,8 @@ Erklärung** – Wiederholung ist der eigentliche Lerneffekt.
 | F08 | [Selbst entwerfen: Garagentor](haeppchen/F08_entwurf_garagentor.md) | 8 min |
 | F09 | [Verhalten aus Code ablesen](haeppchen/F09_verhalten_ablesen.md) | 6 min |
 
-## 🧩 Block G – Strukturbeschreibung
-| | Häppchen | ⏱️ |
+## Block G – Strukturbeschreibung
+| | Häppchen | Dauer |
 |---|---|---|
 | G01 | [Komponenten instanziieren](haeppchen/G01_instanziierung.md) | 6 min |
 | G02 | [component-Deklaration & positional](haeppchen/G02_component.md) | 4 min |
@@ -108,8 +108,8 @@ Erklärung** – Wiederholung ist der eigentliche Lerneffekt.
 | G05 | [for-generate](haeppchen/G05_for_generate.md) | 6 min |
 | G06 | [if-generate & Rekursion](haeppchen/G06_if_generate_rekursion.md) | 7 min |
 
-## 📦 Block H – Funktionen, Prozeduren, Packages
-| | Häppchen | ⏱️ |
+## Block H – Funktionen, Prozeduren, Packages
+| | Häppchen | Dauer |
 |---|---|---|
 | H01 | [Funktionen](haeppchen/H01_funktionen.md) | 6 min |
 | H02 | [Prozeduren](haeppchen/H02_prozeduren.md) | 6 min |
@@ -118,8 +118,8 @@ Erklärung** – Wiederholung ist der eigentliche Lerneffekt.
 | H05 | [Operatoren überladen](haeppchen/H05_operatoren.md) | 5 min |
 | H06 | [ROM per Funktion vorberechnen](haeppchen/H06_rom_init_funktion.md) | 7 min |
 
-## 🧪 Block I – Testbenches
-| | Häppchen | ⏱️ |
+## Block I – Testbenches
+| | Häppchen | Dauer |
 |---|---|---|
 | I01 | [Takt- und Reset-Generator](haeppchen/I01_takt_reset.md) | 5 min |
 | I02 | [Die vier wait-Formen](haeppchen/I02_wait.md) | 4 min |
@@ -128,8 +128,8 @@ Erklärung** – Wiederholung ist der eigentliche Lerneffekt.
 | I05 | [Stimuli nicht auf die Flanke legen](haeppchen/I05_flanken_race.md) | 5 min |
 | I06 | [Event vs. Transaction](haeppchen/I06_event_transaction.md) | 5 min |
 
-## 🏭 Block J – Synthesefragen
-| | Häppchen | ⏱️ |
+## Block J – Synthesefragen
+| | Häppchen | Dauer |
 |---|---|---|
 | J01 | [Synthetisierbar oder nicht?](haeppchen/J01_synthetisierbar.md) | 5 min |
 | J02 | [Kritischer Pfad](haeppchen/J02_kritischer_pfad.md) | 6 min |
@@ -137,8 +137,8 @@ Erklärung** – Wiederholung ist der eigentliche Lerneffekt.
 | J04 | [Funktionale vs. Timing-Simulation](haeppchen/J04_simulationsarten.md) | 3 min |
 | J05 | [Namen und Schreibweise](haeppchen/J05_namen_fallen.md) | 3 min |
 
-## 🎓 Block K – Klausurtraining
-| | Häppchen | ⏱️ |
+## Block K – Klausurtraining
+| | Häppchen | Dauer |
 |---|---|---|
 | K01 | [Klausur F24: CRC-Rechenwerk](haeppchen/K01_crc_register.md) | 8 min |
 | K02 | [Klausur F24: Steuerwerk](haeppchen/K02_crc_steuerwerk.md) | 8 min |
@@ -149,6 +149,6 @@ Erklärung** – Wiederholung ist der eigentliche Lerneffekt.
 
 ---
 
-💻 **Am Rechner üben:** siehe [am_rechner/](am_rechner/README.md) –
+**Am Rechner üben:** siehe [am_rechner/](am_rechner/README.md) –
 getestete Beispiele mit Testbenches zum Abtippen und Simulieren.
 Deine eigenen Dateien kommen nach `meine_dateien/`.

@@ -1,11 +1,11 @@
 # I01 · Takt- und Reset-Generator
 
-⏱️ 5 min · zurück: [H06](H06_rom_init_funktion.md) · weiter: [I02](I02_wait.md)
+5 min · zurück: [H06](H06_rom_init_funktion.md) · weiter: [I02](I02_wait.md)
 
-## 🎯 Ziel
+## Ziel
 Takt und Reset für eine Simulation erzeugen.
 
-## 📖 Erklärung
+## Erklärung
 Die Komponente aus dem Skript:
 ```vhdl
 entity clk_res_gen is
@@ -41,12 +41,12 @@ end architecture behav;
   Stoppzeit beenden oder den Takt über ein Signal
   abschalten.
 
-## ✍️ Aufgabe
+## Aufgabe
 1. Welche Frequenz hat ein Takt mit `T = 8 ns`?
 2. Schreibe einen Taktprozess, der stoppt, sobald
    das Signal `ende` (boolean) `true` wird.
 
-<details><summary>✅ Lösung</summary>
+<details><summary>Lösung</summary>
 
 1. 1 / 8 ns = **125 MHz**.
 
@@ -62,6 +62,6 @@ end process;
 ```
 </details>
 
-## 🎓 Klausur
+## Klausur
 Skript Kap. 2.3.5, F19 A1 F2 (`clock_reset: entity
 clk_res_gen`), F23 A2 F4 (50 MHz-Rechnung).

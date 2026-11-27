@@ -1,11 +1,11 @@
 # B01 · Bedingte Zuweisung: when … else
 
-⏱️ 5 min · zurück: [A06](A06_fallen_library.md) · weiter: [B02](B02_with_select.md)
+5 min · zurück: [A06](A06_fallen_library.md) · weiter: [B02](B02_with_select.md)
 
-## 🎯 Ziel
+## Ziel
 Logik mit Bedingungen ohne Prozess beschreiben.
 
-## 📖 Erklärung
+## Erklärung
 ```vhdl
 code <= "11" when req(3) = '1' else
         "10" when req(2) = '1' else
@@ -18,7 +18,7 @@ code <= "11" when req(3) = '1' else
 - Der letzte Zweig **ohne** `when` ist Pflicht-Ersatz
   (sonst entsteht Speicherverhalten).
 - Eine Bedingung muss vom Typ `boolean` sein:
-  `req(3) = '1'` ✔, nur `req(3)` ✘ (in VHDL-93).
+  `req(3) = '1'` (richtig), nur `req(3)` (falsch, in VHDL-93).
 - Typischer Trick, um aus `boolean` ein
   `std_logic` zu machen:
   ```vhdl
@@ -26,7 +26,7 @@ code <= "11" when req(3) = '1' else
   ```
 - Hardware: eine Kette von 2:1-Multiplexern.
 
-## ✍️ Aufgabe
+## Aufgabe
 Zwei 4-Bit-Prioritätsencoder liefern `v_l, a_l`
 (untere Hälfte) und `v_h, a_h` (obere Hälfte).
 Baue daraus einen 8-Bit-Encoder (`v`, `a(2 downto 0)`),
@@ -37,7 +37,7 @@ untere Hälfte hat Vorrang:
 
 (3 Zeilen)
 
-<details><summary>✅ Lösung</summary>
+<details><summary>Lösung</summary>
 
 ```vhdl
 v <= v_l or v_h;
@@ -49,6 +49,6 @@ Beachte: `v` ist `out` → nicht lesen! Deshalb wird
 `(v_l or v_h)` in Zeile 2 neu berechnet.
 </details>
 
-## 🎓 Klausur
+## Klausur
 **Herbst 2019, A1 F10** (6 Punkte), Grundlage für
 den rekursiven Encoder in F11.

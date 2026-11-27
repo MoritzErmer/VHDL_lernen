@@ -1,12 +1,12 @@
 # E03 · Aufzählungstypen
 
-⏱️ 5 min · zurück: [E02](E02_umwandlungen.md) · weiter: [E04](E04_arrays.md)
+5 min · zurück: [E02](E02_umwandlungen.md) · weiter: [E04](E04_arrays.md)
 
-## 🎯 Ziel
+## Ziel
 Eigene Typen mit benannten Werten definieren –
 Grundlage für Automaten und Zeichenketten-Aufgaben.
 
-## 📖 Erklärung
+## Erklärung
 ```vhdl
 type state_type  is (idle, q1, q2, q3);
 type input_type  is (kurz, lang, pause);
@@ -26,7 +26,7 @@ type output_type is ('s', 'o', 'x', '-');
 - Für **Ports** muss der Typ in einem **Package**
   stehen (Block H), weil die Entity ihn kennen muss.
 
-## ✍️ Aufgabe
+## Aufgabe
 In einem Code kommen nur diese Ausdrücke vor:
 `y <= '*';` `y <= '0';` `y <= '1';` (`y` ist vom
 Typ `output_type`).
@@ -35,7 +35,7 @@ Typ `output_type`).
    deiner Definition?
 3. Warum ist `type t is ('0', '1', '0');` falsch?
 
-<details><summary>✅ Lösung</summary>
+<details><summary>Lösung</summary>
 
 ```vhdl
 type output_type is ('*', '0', '1');
@@ -44,6 +44,6 @@ type output_type is ('*', '0', '1');
 3. Jeder Wert darf nur **einmal** vorkommen.
 </details>
 
-## 🎓 Klausur
+## Klausur
 **F24 A2 F1c** (output_type angeben), F24 A2 F1d/e,
 Morsedetektor im Skript (Kap. 3.4).

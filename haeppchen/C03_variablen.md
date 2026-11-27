@@ -1,11 +1,11 @@
 # C03 · Variablen: sofort gültig
 
-⏱️ 5 min · zurück: [C02](C02_signal_im_prozess.md) · weiter: [C04](C04_delta_zyklen.md)
+5 min · zurück: [C02](C02_signal_im_prozess.md) · weiter: [C04](C04_delta_zyklen.md)
 
-## 🎯 Ziel
+## Ziel
 Signal vs. Variable sicher unterscheiden.
 
-## 📖 Erklärung
+## Erklärung
 ```vhdl
 process(a, b) is
   variable v : integer;   -- nur hier sichtbar
@@ -27,7 +27,7 @@ Variablen **behalten ihren Wert** zwischen zwei
 Prozessdurchläufen! Deshalb bei Zwischenergebnissen
 immer am Anfang neu setzen.
 
-## ✍️ Aufgabe
+## Aufgabe
 Vorher: `s = 0`, `v = 0`.
 ```vhdl
 v := 1;
@@ -42,17 +42,17 @@ report "B: v=" & integer'image(v) &
 ```
 Was wird bei A und B ausgegeben?
 
-<details><summary>✅ Lösung</summary>
+<details><summary>Lösung</summary>
 
 - **A: v=2 s=0** – v sofort 1, dann 2. s hat noch den
   alten Wert 0.
 - **B: v=2 s=1** – durch `wait` wird s aktualisiert.
   Vorgemerkt war zuletzt `s + 1` mit altem s = 0 → 1.
 
-💻 Genau diese Testbench zum Ausprobieren:
+Genau diese Testbench zum Ausprobieren:
 `am_rechner/L04/tb_signal_vs_variable.vhd`
 </details>
 
-## 🎓 Klausur
+## Klausur
 Werte von Variablen/Signalen in Tabellen eintragen
 kommt sehr oft: F19 A1 F7, F23 A2 F3, F22 A1 F7.

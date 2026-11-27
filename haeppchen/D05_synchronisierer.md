@@ -1,12 +1,12 @@
 # D05 · Schieberegister & Synchronisierer
 
-⏱️ 5 min · zurück: [D04](D04_flipflops_zaehlen.md) · weiter: [D06](D06_von_hand_simulieren.md)
+5 min · zurück: [D04](D04_flipflops_zaehlen.md) · weiter: [D06](D06_von_hand_simulieren.md)
 
-## 🎯 Ziel
+## Ziel
 Schieberegister schreiben und wissen, warum man
 asynchrone Eingänge über **2 Flipflops** einliest.
 
-## 📖 Erklärung
+## Erklärung
 **Schieberegister** (seriell rein, parallel raus):
 ```vhdl
 if clk'event and clk = '1' then
@@ -37,13 +37,13 @@ ser_in_dd := ser_in_d;
 ser_in_d  := ser_in;
 ```
 
-## ✍️ Aufgabe
+## Aufgabe
 1. Wie heißt die Anordnung aus `ser_in_d` und
    `ser_in_dd`, und wozu dient sie?
 2. Was passiert bei den Variablen, wenn man die zwei
    Zeilen vertauscht?
 
-<details><summary>✅ Lösung</summary>
+<details><summary>Lösung</summary>
 
 1. **Synchronisierer** (Synchronisationsstufe / zwei-
    stufiges Schieberegister). Er verhindert, dass
@@ -55,7 +55,7 @@ ser_in_d  := ser_in;
    Flipflop, Synchronisierer kaputt.
 </details>
 
-## 🎓 Klausur
+## Klausur
 **Frühjahr 2019, A1 F5a** (Variablen `ser_in_d`,
 `ser_in_dd`), F20 A2 F9 (Tastatur-Eingänge).
 Designrichtlinien: Skript Kap. 6.1.

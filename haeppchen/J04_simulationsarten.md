@@ -1,11 +1,11 @@
 # J04 · Funktionale vs. Timing-Simulation
 
-⏱️ 3 min · zurück: [J03](J03_aufwand.md) · weiter: [J05](J05_namen_fallen.md)
+3 min · zurück: [J03](J03_aufwand.md) · weiter: [J05](J05_namen_fallen.md)
 
-## 🎯 Ziel
+## Ziel
 Eine kurze Theoriefrage sicher beantworten.
 
-## 📖 Erklärung
+## Erklärung
 | | funktional | Timing |
 |---|---|---|
 | Modell | dein VHDL-Code (RTL) | Netzliste **nach** Synthese/Place&Route |
@@ -21,14 +21,14 @@ Auf RT-Ebene wird **fast nur funktional** simuliert:
   durchspielen, um die maximale Verzögerung zu
   finden – praktisch nutzlos.
 
-## ✍️ Aufgabe
+## Aufgabe
 Beantworte in je einem Satz:
 1. Worin unterscheiden sich funktionale und Timing-
    Simulation?
 2. Welche wird auf RT-Ebene fast ausschließlich
    verwendet, und warum?
 
-<details><summary>✅ Lösung</summary>
+<details><summary>Lösung</summary>
 
 1. Die funktionale Simulation berücksichtigt **keine
    Verzögerungszeiten**.
@@ -38,5 +38,5 @@ Beantworte in je einem Satz:
    müsste alle Fälle abdecken.
 </details>
 
-## 🎓 Klausur
+## Klausur
 **H19 A2 F1a–c** (5 Punkte).

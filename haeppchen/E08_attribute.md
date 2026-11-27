@@ -1,12 +1,12 @@
 # E08 · Attribute
 
-⏱️ 5 min · zurück: [E07](E07_aggregate.md) · weiter: [F01](F01_automatentypen.md)
+5 min · zurück: [E07](E07_aggregate.md) · weiter: [F01](F01_automatentypen.md)
 
-## 🎯 Ziel
+## Ziel
 Attribute lesen, nutzen und durch Zahlen ersetzen
 können.
 
-## 📖 Erklärung
+## Erklärung
 Für `signal v : std_logic_vector(7 downto 0);`
 
 | Attribut | Wert |
@@ -35,18 +35,18 @@ variable tmp : unsigned(a'range);
 for i in a'range loop ...
 ```
 
-## ✍️ Aufgabe
+## Aufgabe
 Ersetze die Attribute durch Ausdrücke mit `N`, wenn
 `f : unsigned(2*N-1 downto 0)` gilt:
 1. `f'length`  2. `f'left`  3. `f'high - 1`
 4. `f'right`
 
-<details><summary>✅ Lösung</summary>
+<details><summary>Lösung</summary>
 
 1. `2*N`  2. `2*N-1`  3. `2*N-2`  4. `0`
 </details>
 
-## 🎓 Klausur
+## Klausur
 **F22 A1 F2a** (alle Attribute durch M, N
 ersetzen), H19 A1 F11 (`e'length / 2`, `a'left`),
 F24 A2 F10 (`sp_type'low`).

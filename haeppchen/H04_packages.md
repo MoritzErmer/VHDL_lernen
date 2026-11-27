@@ -1,12 +1,12 @@
 # H04 · Packages
 
-⏱️ 6 min · zurück: [H03](H03_wo_deklarieren.md) · weiter: [H05](H05_operatoren.md)
+6 min · zurück: [H03](H03_wo_deklarieren.md) · weiter: [H05](H05_operatoren.md)
 
-## 🎯 Ziel
+## Ziel
 Typen, Konstanten und Funktionen in einem Package
 bereitstellen.
 
-## 📖 Erklärung
+## Erklärung
 Ein Package hat zwei Teile:
 ```vhdl
 library ieee; use ieee.std_logic_1164.all;
@@ -41,12 +41,12 @@ entity morsedetektor is
 - Ohne Unterprogramme braucht man keinen Body.
 - Selektiv: `use work.types.input_type;`
 
-## ✍️ Aufgabe
+## Aufgabe
 Warum **müssen** Typen, die für **Ports** einer
 Entity verwendet werden, in einem Package stehen und
 können nicht in der Architecture deklariert werden?
 
-<details><summary>✅ Lösung</summary>
+<details><summary>Lösung</summary>
 
 Die Ports stehen in der **Entity**, und die Entity
 wird **vor** (und unabhängig von) der Architecture
@@ -57,6 +57,6 @@ Komponenten, die über diesen Port verbunden werden
 geht nur über ein gemeinsames Package.
 </details>
 
-## 🎓 Klausur
+## Klausur
 **F22 A2 F1a** (fractional/complex im Package),
 F22 A2 F2 (Header ergänzen), F24 A2 F2.

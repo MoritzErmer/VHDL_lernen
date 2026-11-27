@@ -1,12 +1,12 @@
 # C08 · Variablen in Schleifen (Akkumulator)
 
-⏱️ 6 min · zurück: [C07](C07_for_schleife.md) · weiter: [D01](D01_flipflop.md)
+6 min · zurück: [C07](C07_for_schleife.md) · weiter: [D01](D01_flipflop.md)
 
-## 🎯 Ziel
+## Ziel
 Mit einer Variablen über mehrere Schleifendurchläufe
 ein Ergebnis aufbauen – sehr klausurtypisch.
 
-## 📖 Erklärung
+## Erklärung
 Signale sind im Prozess „eingefroren“ (C02). Will man
 ein Zwischenergebnis **im selben Durchlauf**
 weiterverwenden, braucht man eine **Variable**.
@@ -29,7 +29,7 @@ Hardware: eine Kette von N Addierer-Stufen
 (abgerollt), kein Speicher – weil `cnt` immer erst
 **geschrieben** und dann gelesen wird.
 
-## ✍️ Aufgabe
+## Aufgabe
 Ein CRC-Schritt (siehe A03) soll **M-mal
 hintereinander** angewendet werden, mit den Bits
 `s(0)` bis `s(M-1)`. Ergänze den Prozess:
@@ -47,7 +47,7 @@ begin
 end process;
 ```
 
-<details><summary>✅ Lösung</summary>
+<details><summary>Lösung</summary>
 
 ```vhdl
     d_int(4 downto 3) := q_int(3 downto 2);
@@ -60,6 +60,6 @@ end process;
 Schleifendurchlauf weiter.
 </details>
 
-## 🎓 Klausur
+## Klausur
 **Frühjahr 2024, A1 F6b**. Ähnlich: F20 A1 F6
 (Multiplizierer mit Variable `ac`).

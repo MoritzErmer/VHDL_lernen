@@ -1,11 +1,11 @@
 # F05 · Defaults im Automaten
 
-⏱️ 5 min · zurück: [F04](F04_medwedew.md) · weiter: [F06](F06_steuerwerk.md)
+5 min · zurück: [F04](F04_medwedew.md) · weiter: [F06](F06_steuerwerk.md)
 
-## 🎯 Ziel
+## Ziel
 Automaten kurz und latch-frei schreiben.
 
-## 📖 Erklärung
+## Erklärung
 Zwei Defaults sparen viel Schreibarbeit:
 ```vhdl
 transition_p: process(current_state, start) is
@@ -35,7 +35,7 @@ setzen – sonst entsteht ein Latch (C06).
 `'-'` als Default für Multiplexer-Steuersignale gibt
 der Synthese Freiheit (A04).
 
-## ✍️ Aufgabe
+## Aufgabe
 Was passiert hier, wenn `current_state = S3`?
 ```vhdl
 process(current_state) is
@@ -49,7 +49,7 @@ end process;
 ```
 Und was passiert in `S2` mit `clr`?
 
-<details><summary>✅ Lösung</summary>
+<details><summary>Lösung</summary>
 
 - In `S3`: `valid = '1'`, `clr = '0'` – korrekt.
 - In `S2` wird `clr` **nicht** zugewiesen → `clr`
@@ -58,7 +58,7 @@ Und was passiert in `S2` mit `clr`?
   `case` (und `valid <= '0';` gleich mit).
 </details>
 
-## 🎓 Klausur
+## Klausur
 Musterlösung **F24 A1 F8** benutzt genau diese
 Defaults (`next_state <= current_state;`,
 `sel_k4 <= '-';`).

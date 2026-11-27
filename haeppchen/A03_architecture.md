@@ -1,12 +1,12 @@
 # A03 · Die Architecture: Schaltbild → Code
 
-⏱️ 5 min · zurück: [A02](A02_entity.md) · weiter: [A04](A04_std_logic.md)
+5 min · zurück: [A02](A02_entity.md) · weiter: [A04](A04_std_logic.md)
 
-## 🎯 Ziel
+## Ziel
 Ein kombinatorisches Schaltbild direkt als
 nebenläufige Zuweisungen hinschreiben.
 
-## 📖 Erklärung
+## Erklärung
 ```vhdl
 architecture behav of halbaddierer is
 begin
@@ -28,7 +28,7 @@ xor xnor`. Achtung: `and`/`or` haben **gleichen Rang**
 Mehrere Bits auf einmal geht mit Slices:
 `d(4 downto 3) <= q(3 downto 2);`
 
-## ✍️ Aufgabe
+## Aufgabe
 Entity `single_step`: Eingänge `q(4 downto 0)`, `s`;
 Ausgang `d(4 downto 0)`. Das Schaltbild sagt:
 - d4 = q3, d3 = q2
@@ -38,7 +38,7 @@ Ausgang `d(4 downto 0)`. Das Schaltbild sagt:
 
 Schreibe `architecture behav` (d4/d3 in **einer** Zeile).
 
-<details><summary>✅ Lösung</summary>
+<details><summary>Lösung</summary>
 
 ```vhdl
 architecture behav of single_step is
@@ -53,5 +53,5 @@ Das ist ein Schritt einer CRC-Berechnung
 (Schieberegister mit XOR-Rückkopplung).
 </details>
 
-## 🎓 Klausur
+## Klausur
 **Frühjahr 2024, A1 F1b** – genau diese Aufgabe.

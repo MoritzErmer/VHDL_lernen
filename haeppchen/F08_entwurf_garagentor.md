@@ -1,11 +1,11 @@
 # F08 · Selbst entwerfen: Garagentor
 
-⏱️ 8 min · zurück: [F07](F07_tabelle_als_array.md) · weiter: [F09](F09_verhalten_ablesen.md)
+8 min · zurück: [F07](F07_tabelle_als_array.md) · weiter: [F09](F09_verhalten_ablesen.md)
 
-## 🎯 Ziel
+## Ziel
 Von einer Textbeschreibung zu fertigem Automaten-Code.
 
-## 📖 Erklärung
+## Erklärung
 Vorgehen in 4 Schritten:
 1. **Zustände** sammeln (was „merkt“ sich das System?)
 2. **Übergänge** je Zustand und Eingang
@@ -21,12 +21,12 @@ Spezifikation:
 - Beim Schließen und `hindernis` → sofort wieder
   öffnen
 
-## ✍️ Aufgabe
+## Aufgabe
 Schreibe den Typ, `transition_function` und
 `output_function`. (Den `state`-Prozess kannst du
 weglassen.)
 
-<details><summary>✅ Lösung</summary>
+<details><summary>Lösung</summary>
 
 ```vhdl
 type state_type is (zu, oeffnet, offen, schliesst);
@@ -72,8 +72,8 @@ Beachte: `hindernis` hat **Vorrang** vor `unten`
 (Sicherheit!).
 </details>
 
-## 🎓 Klausur
+## Klausur
 Freie Entwurfsaufgaben wie **F20 A2 F8** (Tastatur)
 oder F23 A2 F9 laufen genauso ab.
 
-💻 Am Rechner: `am_rechner/L07/garagentor.vhd`
+Am Rechner: `am_rechner/L07/garagentor.vhd`

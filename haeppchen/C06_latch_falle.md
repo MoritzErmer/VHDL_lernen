@@ -1,12 +1,12 @@
 # C06 · Kombinatorischer Prozess & die Latch-Falle
 
-⏱️ 5 min · zurück: [C05](C05_if_case.md) · weiter: [C07](C07_for_schleife.md)
+5 min · zurück: [C05](C05_if_case.md) · weiter: [C07](C07_for_schleife.md)
 
-## 🎯 Ziel
+## Ziel
 Die zwei Regeln für **kombinatorische** Prozesse
 auswendig können.
 
-## 📖 Erklärung
+## Erklärung
 **Regel 1 – Sensitivitätsliste vollständig:**
 Alle Signale, die im Prozess **gelesen** werden,
 gehören in die Liste. Sonst: Simulation ≠ Hardware.
@@ -18,7 +18,7 @@ Sonst muss die Hardware den alten Wert **speichern**
 → es entsteht ein **Latch** (ungewollt, böse).
 
 ```vhdl
-process(en, d) is   -- ✘ Latch für q!
+process(en, d) is   -- (falsch) Latch für q!
 begin
   if en = '1' then
     q <= d;
@@ -38,7 +38,7 @@ begin
 VHDL-2008: `process(all)` erledigt Regel 1
 automatisch.
 
-## ✍️ Aufgabe
+## Aufgabe
 Was ist falsch? (2 Dinge)
 ```vhdl
 process(a) is
@@ -52,7 +52,7 @@ begin
 end process;
 ```
 
-<details><summary>✅ Lösung</summary>
+<details><summary>Lösung</summary>
 
 1. **Sensitivitätsliste unvollständig**: `b` und `c`
    werden gelesen, fehlen aber → `process(a, b, c)`.
@@ -61,6 +61,6 @@ end process;
    oder im else-Zweig.
 </details>
 
-## 🎓 Klausur
+## Klausur
 „Synthetisierbar / was erzeugt das Synthese-Tool?“ –
 Latch vs. Flipflop vs. kombinatorisch muss sitzen.

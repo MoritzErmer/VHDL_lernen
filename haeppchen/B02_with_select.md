@@ -1,11 +1,11 @@
 # B02 · Selektive Zuweisung: with … select
 
-⏱️ 5 min · zurück: [B01](B01_when_else.md) · weiter: [B03](B03_versteckter_prozess.md)
+5 min · zurück: [B01](B01_when_else.md) · weiter: [B03](B03_versteckter_prozess.md)
 
-## 🎯 Ziel
+## Ziel
 Multiplexer und Decoder kompakt beschreiben.
 
-## 📖 Erklärung
+## Erklärung
 ```vhdl
 with sel select
   y <= d0 when "00",
@@ -27,12 +27,12 @@ with sel select
 | Bedingungen | beliebig, verschiedene Signale | Werte *eines* Ausdrucks |
 | Priorität | ja | nein |
 
-## ✍️ Aufgabe
+## Aufgabe
 3-zu-8-Decoder: Eingang `x(2 downto 0)`, Ausgang
 `y(7 downto 0)`. Genau das Bit `y(x)` ist `'1'`.
 Schreibe die Zuweisung mit `with … select`.
 
-<details><summary>✅ Lösung</summary>
+<details><summary>Lösung</summary>
 
 ```vhdl
 with x select
@@ -52,8 +52,8 @@ geht leider **nicht** (Aggregat braucht konstante
 Indizes) – gute Klausurfalle!
 </details>
 
-## 🎓 Klausur
+## Klausur
 Decoder: **Frühjahr 2020, A2 F1/F2**,
 Multiplexer: **F20 A2 F3/F4**.
 
-💻 Am Rechner: `am_rechner/L03/mux4.vhd`, `siebenseg.vhd`
+Am Rechner: `am_rechner/L03/mux4.vhd`, `siebenseg.vhd`

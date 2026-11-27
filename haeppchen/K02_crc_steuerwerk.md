@@ -1,12 +1,12 @@
 # K02 · Klausur F24: Steuerwerk
 
-⏱️ 8 min · zurück: [K01](K01_crc_register.md) · weiter: [K03](K03_prio_encoder_8bit.md)
+8 min · zurück: [K01](K01_crc_register.md) · weiter: [K03](K03_prio_encoder_8bit.md)
 
-## 🎯 Ziel
+## Ziel
 Einen Steuerwerks-Automaten vollständig mit
 Zustands- und Übergangsprozess angeben.
 
-## 📖 Erklärung
+## Erklärung
 Aufgabe (F24 A1 F8, gekürzt): Entity `ctrl` mit
 `clk`, `res_n`, `start` und Ausgängen. Zustände
 `S1, S2, S3, CLEAR`, Reset nach `S1`.
@@ -15,13 +15,13 @@ Aufgabe (F24 A1 F8, gekürzt): Entity `ctrl` mit
 
 Den Ausgangsprozess hast du in F06 geschrieben.
 
-## ✍️ Aufgabe
+## Aufgabe
 Schreibe die Architecture `behav` mit Typ,
 Signalen, **`state_p`** (Register) und
 **`transition_p`** (Übergänge, mit Default).
 Den Ausgangsprozess darfst du weglassen.
 
-<details><summary>✅ Lösung</summary>
+<details><summary>Lösung</summary>
 
 ```vhdl
 architecture behav of ctrl is
@@ -63,5 +63,5 @@ Warum 4 Takte? 3 Takte rechnen + 1 Takt, um das
 Register zu löschen (F24 A1 F7).
 </details>
 
-## 🎓 Klausur
+## Klausur
 **F24 A1 F7/F8**.

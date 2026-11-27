@@ -1,12 +1,12 @@
 # H03 · Wo wird was deklariert?
 
-⏱️ 4 min · zurück: [H02](H02_prozeduren.md) · weiter: [H04](H04_packages.md)
+4 min · zurück: [H02](H02_prozeduren.md) · weiter: [H04](H04_packages.md)
 
-## 🎯 Ziel
+## Ziel
 Sichtbarkeit von Typen, Konstanten und
 Unterprogrammen sicher beurteilen.
 
-## 📖 Erklärung
+## Erklärung
 Deklarationsorte (von groß nach klein):
 
 | Ort | sichtbar in |
@@ -29,13 +29,13 @@ Regeln:
 - Typen für **Ports** → Package (die Entity braucht
   sie schon).
 
-## ✍️ Aufgabe
+## Aufgabe
 Ein Testprozess `testp` nutzt Prozeduren `read` und
 `write`, die Signale der Architecture direkt treiben.
 1. Wo können `read`/`write` deklariert sein?
 2. Welcher Ort ist am besten? Warum?
 
-<details><summary>✅ Lösung</summary>
+<details><summary>Lösung</summary>
 
 1. Im Deklarationsteil der **Architecture**, die
    `testp` enthält, oder im Deklarationsteil des
@@ -44,5 +44,5 @@ Ein Testprozess `testp` nutzt Prozeduren `read` und
    dort verwendet werden (möglichst lokal).
 </details>
 
-## 🎓 Klausur
+## Klausur
 **F19 A2 F1a/b** – genau diese Frage.

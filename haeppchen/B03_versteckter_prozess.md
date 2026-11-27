@@ -1,12 +1,12 @@
 # B03 · Jede Zuweisung ist ein versteckter Prozess
 
-⏱️ 4 min · zurück: [B02](B02_with_select.md) · weiter: [B04](B04_mehrfachtreiber.md)
+4 min · zurück: [B02](B02_with_select.md) · weiter: [B04](B04_mehrfachtreiber.md)
 
-## 🎯 Ziel
+## Ziel
 Verstehen, wann nebenläufige Anweisungen
 „aufwachen“ – Grundlage für alles in Block C.
 
-## 📖 Erklärung
+## Erklärung
 Der Simulator macht aus jeder nebenläufigen
 Zuweisung intern einen **Prozess**, dessen
 Sensitivitätsliste alle **rechts gelesenen
@@ -32,7 +32,7 @@ wird der Prozess ausgeführt und `y` neu berechnet.
 Mit `with … select` entspricht das einem
 `case`-Statement.
 
-## ✍️ Aufgabe
+## Aufgabe
 Schreibe als Prozess:
 ```vhdl
 with op select
@@ -41,7 +41,7 @@ with op select
        a xor b when others;
 ```
 
-<details><summary>✅ Lösung</summary>
+<details><summary>Lösung</summary>
 
 ```vhdl
 process(a, b, op) is
@@ -57,7 +57,7 @@ Sensitivitätsliste: **alle** gelesenen Signale
 (`a`, `b`, `op`).
 </details>
 
-## 🎓 Klausur
+## Klausur
 Wichtig für Fragen wie „Zu welcher Zeit …“ und
 „Welche Werte haben die Signale …“
 (z.B. F20 A1 F3/F4).

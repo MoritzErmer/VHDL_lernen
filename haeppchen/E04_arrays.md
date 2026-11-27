@@ -1,11 +1,11 @@
 # E04 · Eigene Array-Typen
 
-⏱️ 6 min · zurück: [E03](E03_aufzaehlungstypen.md) · weiter: [E05](E05_rom.md)
+6 min · zurück: [E03](E03_aufzaehlungstypen.md) · weiter: [E05](E05_rom.md)
 
-## 🎯 Ziel
+## Ziel
 Speicher und Tabellen als Array-Typ deklarieren.
 
-## 📖 Erklärung
+## Erklärung
 Ein Array braucht **immer einen eigenen Typ**:
 ```vhdl
 type memory_type is array (0 to 7)
@@ -32,7 +32,7 @@ signal memory : memory_type;
   ```
   (`std_logic_vector` selbst ist so definiert.)
 
-## ✍️ Aufgabe
+## Aufgabe
 Ein FIFO speichert **16 Werte à 8 Bit**.
 1. Deklariere einen Typ `memory_type` und ein
    Signal `memory`.
@@ -41,7 +41,7 @@ Ein FIFO speichert **16 Werte à 8 Bit**.
 3. Wie viele Dimensionen hat
    `array(state_type, input_type) of X`?
 
-<details><summary>✅ Lösung</summary>
+<details><summary>Lösung</summary>
 
 ```vhdl
 type memory_type is array (0 to 15)
@@ -53,7 +53,7 @@ memory(windex) <= din;
 3. **Zwei** Dimensionen (je eine pro Indextyp).
 </details>
 
-## 🎓 Klausur
+## Klausur
 **H19 A2 F6** (memory_type für FIFO),
 **F24 A2 F1a** (Dimensionen von
 `transition_table_type`), F23 A1 F5.

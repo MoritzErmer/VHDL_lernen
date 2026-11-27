@@ -28,15 +28,15 @@ COURSES = [
     ("ra", "Rechnerarchitektur", "Rechnerarchitektur und Rechnerorganisation", "ikr",
      "../moritzermer/rechnerarchtektur_lernen"),
 ]
-EMOJI = re.compile("[\U0001F300-\U0001FAFF☀-➿️⏱]")
+EMOJI = re.compile("[\U0001F000-\U0001FAFF\u2600-\u27BF\u2B00-\u2BFF\u23E9-\u23FA\uFE0F\u200D]")
 ID_RE = re.compile(r"^[A-Z]\d\d$")
 
 
 def clean(md: str) -> str:
-    md = md.replace("🧠", "Knobelfrage:")
+    md = md.replace("\U0001F9E0", "Knobelfrage:")  # brain emoji in the Rechnerarchitektur lessons
     md = re.sub(r"\[([^\]]+)\]\(([A-Z]\d\d)_[^)]*\.md\)", r"[\1](#\2)", md)
     md = re.sub(r"\[([^\]]+)\]\(\.\./README\.md\)", r"\1", md)
-    md = md.replace("💻 Am Rechner:", "Am Rechner (Repo-Ordner):")
+    md = md.replace("Am Rechner:", "Am Rechner (Repo-Ordner):")
     md = EMOJI.sub("", md)
     return md.strip()
 
@@ -136,7 +136,7 @@ def parse(path: str, lang: str) -> dict:
     text = open(path, encoding="utf-8").read()
     lines = text.splitlines()
     m = re.match(r"# ([A-Z]\d\d) · (.+)", lines[0])
-    hid, title = m.group(1), m.group(2).strip()
+    hid, title = m.group(1), EMOJI.sub("", m.group(2)).strip()
     minutes = int(re.search(r"(\d+) min", lines[2]).group(1))
     sections, current = {}, None
     for line in lines[3:]:

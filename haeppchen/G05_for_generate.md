@@ -1,12 +1,12 @@
 # G05 · for-generate
 
-⏱️ 6 min · zurück: [G04](G04_generics.md) · weiter: [G06](G06_if_generate_rekursion.md)
+6 min · zurück: [G04](G04_generics.md) · weiter: [G06](G06_if_generate_rekursion.md)
 
-## 🎯 Ziel
+## Ziel
 N gleiche Bausteine automatisch erzeugen und
 verketten.
 
-## 📖 Erklärung
+## Erklärung
 N-Bit-Ripple-Carry-Addierer aus Volladdierern:
 ```vhdl
 architecture struct of adder_n is
@@ -34,14 +34,14 @@ end architecture struct;
 - Im generate-Rumpf dürfen auch Zuweisungen und
   Prozesse stehen.
 
-## ✍️ Aufgabe
+## Aufgabe
 Baue mit `for … generate` ein N-Bit-Schieberegister
 aus N Instanzen von `d_ff` (Ports `clk`, `res_n`,
 `d`, `q`). Eingang `ser_in`, Ausgang
 `par_out(N-1 downto 0)`; `ser_in` geht in Stufe N-1,
 Stufe i speist Stufe i-1.
 
-<details><summary>✅ Lösung</summary>
+<details><summary>Lösung</summary>
 
 ```vhdl
 architecture struct of schiebereg is
@@ -58,8 +58,8 @@ end architecture struct;
 ```
 </details>
 
-## 🎓 Klausur
+## Klausur
 F20 A1 F10 (Multiplizierer für allgemeine N),
 F21 A1 F10 (LAB generisch), H19 A1 F11.
 
-💻 Am Rechner: `am_rechner/L08/adder_n.vhd`
+Am Rechner: `am_rechner/L08/adder_n.vhd`

@@ -1,11 +1,11 @@
 # J03 · Hardware-Aufwand von Operatoren
 
-⏱️ 5 min · zurück: [J02](J02_kritischer_pfad.md) · weiter: [J04](J04_simulationsarten.md)
+5 min · zurück: [J02](J02_kritischer_pfad.md) · weiter: [J04](J04_simulationsarten.md)
 
-## 🎯 Ziel
+## Ziel
 Einschätzen, was ein Operator in Hardware kostet.
 
-## 📖 Erklärung
+## Erklärung
 | Operation | Hardware | Aufwand |
 |---|---|---|
 | `and`, `or`, `xor`, `not` | Gatter | sehr klein |
@@ -21,14 +21,14 @@ Merke: Multiplikation/Division mit **Zweierpotenzen**
 ist gratis (nur Verdrahtung), mit beliebigen Werten
 teuer.
 
-## ✍️ Aufgabe
+## Aufgabe
 1. Warum ist `y / 2` (unsigned) bei der Synthese
    kein Problem?
 2. Eine Architecture berechnet `y := (dy * x) / dx`
    kombinatorisch. Bewerte Aufwand und kritischen
    Pfad.
 
-<details><summary>✅ Lösung</summary>
+<details><summary>Lösung</summary>
 
 1. Durch 2 dividiert man durch einfaches
    **Rechtsschieben** um eine Stelle – reine
@@ -40,5 +40,5 @@ teuer.
    Algorithmus nur mit Addition.)
 </details>
 
-## 🎓 Klausur
+## Klausur
 **F21 A2 F6/F7** (Bresenham), F22 A1 (Dividierwerke).

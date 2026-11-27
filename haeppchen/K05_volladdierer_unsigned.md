@@ -1,12 +1,12 @@
 # K05 · Klausur F20: Volladdierer mit „+“
 
-⏱️ 5 min · zurück: [K04](K04_multiplizierer.md) · weiter: [K06](K06_crc_rom.md)
+5 min · zurück: [K04](K04_multiplizierer.md) · weiter: [K06](K06_crc_rom.md)
 
-## 🎯 Ziel
+## Ziel
 Einzelbits mit `unsigned` addieren und das Ergebnis
 auf zwei Ports verteilen.
 
-## 📖 Erklärung
+## Erklärung
 Ein einzelnes `std_logic` kann man nicht addieren.
 Trick: Mit `'0' &` einen 2-Bit-Vektor bilden und
 per **Typqualifikation** als `unsigned` markieren:
@@ -24,13 +24,13 @@ Zuweisung:
 Ohne VHDL-2008: Hilfssignal `sum : unsigned(1
 downto 0)` und dann `c_out <= sum(1); s <= sum(0);`
 
-## ✍️ Aufgabe
+## Aufgabe
 Schreibe die Architecture `behav` für den
 Volladdierer `va` (Eingänge `a`, `b`, `c_in`,
 Ausgänge `s`, `c_out`) mit `unsigned` und `+` –
 einmal **mit** Aggregat-Ziel.
 
-<details><summary>✅ Lösung</summary>
+<details><summary>Lösung</summary>
 
 ```vhdl
 library ieee; use ieee.numeric_std.all;
@@ -44,5 +44,5 @@ end architecture behav;
 ```
 </details>
 
-## 🎓 Klausur
+## Klausur
 **F20 A1 F7**.

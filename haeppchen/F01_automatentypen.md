@@ -1,12 +1,12 @@
 # F01 · Mealy, Moore, Medwedew
 
-⏱️ 5 min · zurück: [E08](E08_attribute.md) · weiter: [F02](F02_moore_template.md)
+5 min · zurück: [E08](E08_attribute.md) · weiter: [F02](F02_moore_template.md)
 
-## 🎯 Ziel
+## Ziel
 Den Automatentyp an einer Schaltung oder an Code
 erkennen und **begründen**.
 
-## 📖 Erklärung
+## Erklärung
 Alle drei haben: Zustandsregister + Übergangsfunktion
 `next_state = f(x, state)`. Der Unterschied ist der
 **Ausgang y**:
@@ -27,7 +27,7 @@ Folgen:
   FFs) – deshalb oft „am geeignetsten“ für Register
   wie CRC-Rechner oder Zähler.
 
-## ✍️ Aufgabe
+## Aufgabe
 Welcher Typ? Begründe in einem Satz.
 1. Ein Register `q`, Ausgang `crc <= q;`
 2. `output_function: process(current_state)` mit
@@ -35,7 +35,7 @@ Welcher Typ? Begründe in einem Satz.
 3. Ein Prozess `process(current_state, start)`
    setzt `clr <= '1'`, wenn `start /= '1'`.
 
-<details><summary>✅ Lösung</summary>
+<details><summary>Lösung</summary>
 
 1. **Medwedew** – der Ausgang wird direkt von den
    Flipflops (dem Zustand) getrieben.
@@ -44,6 +44,6 @@ Welcher Typ? Begründe in einem Satz.
    vom Eingang `start` ab.
 </details>
 
-## 🎓 Klausur
+## Klausur
 **F24 A1 F2** (calc_crc → Medwedew), F23 A2 F1,
 F21 A2 F3, Skript Kap. 3.4.

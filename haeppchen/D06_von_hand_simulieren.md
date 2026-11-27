@@ -1,13 +1,13 @@
 # D06 · Takt für Takt von Hand simulieren
 
-⏱️ 6 min · zurück: [D05](D05_synchronisierer.md) · weiter: [D07](D07_flankenerkennung.md)
+6 min · zurück: [D05](D05_synchronisierer.md) · weiter: [D07](D07_flankenerkennung.md)
 
-## 🎯 Ziel
+## Ziel
 Den Ablauf einer getakteten Schaltung in eine
 Tabelle eintragen – typische „Fleißaufgabe“ mit
 sicheren Punkten.
 
-## 📖 Erklärung
+## Erklärung
 Vorgehen:
 1. Startwert nach Reset notieren.
 2. **Kombinatorik** aus dem *aktuellen* Registerwert
@@ -18,7 +18,7 @@ Vorgehen:
 Wichtig: Alle FFs übernehmen **gleichzeitig** –
 immer mit den Werten **vor** der Flanke rechnen.
 
-## ✍️ Aufgabe
+## Aufgabe
 3-Bit-Register `q(2 downto 0)`, Reset auf `"001"`:
 ```vhdl
 d(2) <= q(1);
@@ -27,7 +27,7 @@ d(0) <= q(2) xor q(1);
 ```
 Gib `q` nach den ersten **5** steigenden Flanken an.
 
-<details><summary>✅ Lösung</summary>
+<details><summary>Lösung</summary>
 
 | Flanke | q vorher | d = (q1, q0, q2⊕q1) | q nachher |
 |---|---|---|---|
@@ -41,7 +41,7 @@ Gib `q` nach den ersten **5** steigenden Flanken an.
 Periode 7 = 2³−1.)
 </details>
 
-## 🎓 Klausur
+## Klausur
 **F24 A1 F4** (CRC-Werte nach 5 Flanken),
 H19 A2 F4/F5 (FIFO-Inhalt nach jeder Flanke),
 F23 A1 F3, F23 A2 F3/F8.

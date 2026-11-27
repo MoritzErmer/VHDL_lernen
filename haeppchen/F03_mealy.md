@@ -1,12 +1,12 @@
 # F03 · Mealy-Automat
 
-⏱️ 6 min · zurück: [F02](F02_moore_template.md) · weiter: [F04](F04_medwedew.md)
+6 min · zurück: [F02](F02_moore_template.md) · weiter: [F04](F04_medwedew.md)
 
-## 🎯 Ziel
+## Ziel
 Denselben Detektor als Mealy-Automaten bauen und
 den Zeitunterschied verstehen.
 
-## 📖 Erklärung
+## Erklärung
 Mealy erkennt `101` schon **während** die letzte `1`
 anliegt → der Zustand `s101` entfällt:
 ```vhdl
@@ -32,11 +32,11 @@ Zeitlich: Moore-`y` kommt **einen Takt nach**
 dem letzten Bit, Mealy-`y` **im selben Takt**
 (solange `x` anliegt).
 
-## ✍️ Aufgabe
+## Aufgabe
 Schreibe `transition_function` für den Mealy-
 Detektor (3 Zustände, Tabelle oben).
 
-<details><summary>✅ Lösung</summary>
+<details><summary>Lösung</summary>
 
 ```vhdl
 transition_function: process(x, current_state) is
@@ -59,6 +59,6 @@ end process transition_function;
 ```
 </details>
 
-## 🎓 Klausur
+## Klausur
 Skript Kap. 3.4.1 (Morsedetektor als Mealy),
 **F24 A1 F8** (Steuerwerk als Mealy: weniger Takte).

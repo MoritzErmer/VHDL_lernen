@@ -1,11 +1,11 @@
 # A02 · Die Entity richtig schreiben
 
-⏱️ 5 min · zurück: [A01](A01_hardware_denken.md) · weiter: [A03](A03_architecture.md)
+5 min · zurück: [A01](A01_hardware_denken.md) · weiter: [A03](A03_architecture.md)
 
-## 🎯 Ziel
+## Ziel
 Eine Entity fehlerfrei aus einem Schaltbild aufschreiben.
 
-## 📖 Erklärung
+## Erklärung
 ```vhdl
 library ieee; use ieee.std_logic_1164.all;
 
@@ -34,12 +34,12 @@ Regeln, die in der Klausur Punkte kosten:
 6. Vektoren: `std_logic_vector(4 downto 0)` =
    5 Bit, Bit 4 ist links (MSB).
 
-## ✍️ Aufgabe
+## Aufgabe
 Ein Prioritätsencoder hat einen 4-Bit-Eingang `e`,
 einen 1-Bit-Ausgang `v` und einen 2-Bit-Ausgang `a`.
 Schreibe die Entity `priorityencoder_4_bit`.
 
-<details><summary>✅ Lösung</summary>
+<details><summary>Lösung</summary>
 
 ```vhdl
 library ieee; use ieee.std_logic_1164.all;
@@ -56,6 +56,6 @@ Check: `library/use` da? Letzter Port ohne `;`?
 `end entity …;`?
 </details>
 
-## 🎓 Klausur
+## Klausur
 Wörtlich so in **Herbst 2019, A1 F1** (4 Punkte).
 Ähnlich: F24 A1 F1a (`single_step`), F24 A2 F2.

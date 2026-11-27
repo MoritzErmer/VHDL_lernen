@@ -1,12 +1,12 @@
 # G04 · Generics
 
-⏱️ 6 min · zurück: [G03](G03_testbench_struct.md) · weiter: [G05](G05_for_generate.md)
+6 min · zurück: [G03](G03_testbench_struct.md) · weiter: [G05](G05_for_generate.md)
 
-## 🎯 Ziel
+## Ziel
 Bausteine mit einstellbarer Breite schreiben und
 benutzen.
 
-## 📖 Erklärung
+## Erklärung
 Ein **Generic** ist eine Konstante, die erst beim
 **Instanziieren** festgelegt wird:
 ```vhdl
@@ -35,13 +35,13 @@ end entity counter;
   der Synthese (nur so viel Hardware wie nötig), ein
   Eingang kann sich zur Laufzeit ändern.
 
-## ✍️ Aufgabe
+## Aufgabe
 Schreibe die generische Entity `m_step`: Generic `M`
 (Anzahl Bits pro Schritt), Eingänge
 `q(4 downto 0)` und `s` mit **M Bit**, Ausgang
 `d(4 downto 0)`.
 
-<details><summary>✅ Lösung</summary>
+<details><summary>Lösung</summary>
 
 ```vhdl
 library ieee; use ieee.std_logic_1164.all;
@@ -59,6 +59,6 @@ end entity m_step;
 ```
 </details>
 
-## 🎓 Klausur
+## Klausur
 **F24 A1 F6a**, F21 A1 F4 (Generics statt
 Eingänge – was ändert sich?), F21 A2 F1, F23 A1 F6a.

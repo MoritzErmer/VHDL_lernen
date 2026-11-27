@@ -1,12 +1,12 @@
 # J05 · Namen und Schreibweise
 
-⏱️ 3 min · zurück: [J04](J04_simulationsarten.md) · weiter: [K01](K01_crc_register.md)
+3 min · zurück: [J04](J04_simulationsarten.md) · weiter: [K01](K01_crc_register.md)
 
-## 🎯 Ziel
+## Ziel
 Fehler durch Bezeichner vermeiden, die beim
 Abschreiben unter Zeitdruck passieren.
 
-## 📖 Erklärung
+## Erklärung
 - VHDL ist **nicht** case-sensitiv: `N` und `n`
   sind **derselbe** Name. Eine Variable `n` in
   einer Funktion verdeckt eine Konstante `N`!
@@ -24,12 +24,12 @@ Abschreiben unter Zeitdruck passieren.
   der **Architecture**-Name sein (nicht der der
   Entity).
 
-## ✍️ Aufgabe
+## Aufgabe
 Welche Namen sind **ungültig**?
 `clk_2`, `2clk`, `next_state`, `next`, `res__n`,
 `Q_int`, `register`, `data_`
 
-<details><summary>✅ Lösung</summary>
+<details><summary>Lösung</summary>
 
 Ungültig: **`2clk`** (Ziffer am Anfang), **`next`**
 (reserviert), **`res__n`** (doppelter Unterstrich),
@@ -38,6 +38,6 @@ am Ende).
 Gültig: `clk_2`, `next_state`, `Q_int`.
 </details>
 
-## 🎓 Klausur
+## Klausur
 F20 A2 F1/F3 (Entity-Namen `3_to_8_decoder`,
 `4_to_1_mux`). Kleine Fehler, die Punkte kosten.

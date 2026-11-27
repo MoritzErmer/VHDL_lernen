@@ -1,12 +1,12 @@
 # K06 · Klausur F24: CRC per ROM
 
-⏱️ 10 min · zurück: [K05](K05_volladdierer_unsigned.md) · weiter: [Übersicht](../README.md)
+10 min · zurück: [K05](K05_volladdierer_unsigned.md) · weiter: [Übersicht](../README.md)
 
-## 🎯 Ziel
+## Ziel
 Die größte Programmieraufgabe aus F24 lösen: Funktion
 + Array + ROM-Zugriff.
 
-## 📖 Erklärung
+## Erklärung
 Statt die 11-Bit-Nachricht `s` in mehreren Takten
 durchzurechnen, wird für **jede** mögliche Nachricht
 die Prüfsumme vorab berechnet und in einem ROM
@@ -19,13 +19,13 @@ Bausteine:
   Schleife über die 11 Bits (C08, H06)
 - Lesen: `crc <= r(to_integer(unsigned(s)));`
 
-## ✍️ Aufgabe
+## Aufgabe
 Schreibe die Architecture `behav` zur Entity `rom`
 (Eingang `s(10 downto 0)`, Ausgang `crc(4 downto 0)`).
 Die Bits werden von `s(0)` bis `s(10)` verarbeitet,
 Start mit `q = "00000"`.
 
-<details><summary>✅ Lösung</summary>
+<details><summary>Lösung</summary>
 
 ```vhdl
 library ieee; use ieee.numeric_std.all;
@@ -63,5 +63,5 @@ end architecture behav;
 sogar klarer.)
 </details>
 
-## 🎓 Klausur
+## Klausur
 **F24 A1 F11/F12**.

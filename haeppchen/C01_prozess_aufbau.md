@@ -1,12 +1,12 @@
 # C01 · Aufbau eines Prozesses
 
-⏱️ 5 min · zurück: [B04](B04_mehrfachtreiber.md) · weiter: [C02](C02_signal_im_prozess.md)
+5 min · zurück: [B04](B04_mehrfachtreiber.md) · weiter: [C02](C02_signal_im_prozess.md)
 
-## 🎯 Ziel
+## Ziel
 Wissen, wie ein Prozess aufgebaut ist und **wann**
 er ausgeführt wird.
 
-## 📖 Erklärung
+## Erklärung
 ```vhdl
 alu: process(a, b, op) is   -- Sensitivitätsliste
   variable tmp : std_logic; -- Deklarationen
@@ -37,14 +37,14 @@ end process alu;
   liste **oder** `wait`-Anweisungen – nie beides.
 - Das Label (`alu:`) ist optional, hilft aber.
 
-## ✍️ Aufgabe
+## Aufgabe
 Ein Prozess `tp` mit Sensitivitätsliste `(x)` soll
 ein Zeichen `x` verarbeiten. Die Testbench legt als
 erstes `x <= 'a'` an. Warum würde ohne eine
 Freigabe-Bedingung (`if ena then …`) ein `'a'`
 **zu viel** verarbeitet?
 
-<details><summary>✅ Lösung</summary>
+<details><summary>Lösung</summary>
 
 Zu Simulationsbeginn wird **jeder Prozess einmal
 ausgeführt**. `tp` läuft also schon zur Zeit 0 einmal
@@ -54,5 +54,5 @@ Testbench ihr erstes Zeichen anlegt. Damit wird ein
 `'a'` zusätzlich verarbeitet.
 </details>
 
-## 🎓 Klausur
+## Klausur
 **Frühjahr 2024, A2 F8b** – fast wörtlich.

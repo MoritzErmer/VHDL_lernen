@@ -1,12 +1,12 @@
 # C04 · Delta-Zyklen
 
-⏱️ 6 min · zurück: [C03](C03_variablen.md) · weiter: [C05](C05_if_case.md)
+6 min · zurück: [C03](C03_variablen.md) · weiter: [C05](C05_if_case.md)
 
-## 🎯 Ziel
+## Ziel
 Verstehen, wie der Simulator „gleichzeitige“
 Änderungen nacheinander abarbeitet.
 
-## 📖 Erklärung
+## Erklärung
 Ein **Delta-Zyklus** ist ein Simulationsschritt
 **ohne** dass Zeit vergeht (0 ns). Ablauf:
 1. Vorgemerkte Signalwerte werden übernommen.
@@ -28,7 +28,7 @@ Testbench setzt `a` zur Zeit 10 ns:
 `wait for 0 ns;` lässt **genau einen** Delta-Zyklus
 vergehen.
 
-## ✍️ Aufgabe
+## Aufgabe
 Ein Tester-Prozess setzt `a` und `b`, wartet mit
 `wait for 0 ns;` und prüft dann `p`. Im Multiplizierer
 gilt: `pp0, pp1, pp2` hängen von `a, b` ab; `p` hängt
@@ -36,7 +36,7 @@ von `pp0..pp2` ab.
 Wie viele `wait for 0 ns;` sind **mindestens** nötig,
 bis `p` stimmt? Begründe.
 
-<details><summary>✅ Lösung</summary>
+<details><summary>Lösung</summary>
 
 **Drei.**
 1. Nach dem 1.: `a`, `b` haben ihre neuen Werte.
@@ -48,5 +48,5 @@ Merke: **Anzahl Deltas = Anzahl Signal-„Stufen“**
 in der Kette.
 </details>
 
-## 🎓 Klausur
+## Klausur
 **Frühjahr 2020, A1 F4b** – genau diese Frage.

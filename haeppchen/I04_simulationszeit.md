@@ -1,12 +1,12 @@
 # I04 · Simulationszeiten berechnen
 
-⏱️ 4 min · zurück: [I03](I03_assert_test.md) · weiter: [I05](I05_flanken_race.md)
+4 min · zurück: [I03](I03_assert_test.md) · weiter: [I05](I05_flanken_race.md)
 
-## 🎯 Ziel
+## Ziel
 Ausrechnen, **wann** ein Testprozess eine bestimmte
 Stelle erreicht.
 
-## 📖 Erklärung
+## Erklärung
 Nur `wait for` lässt Zeit vergehen. Alles andere
 (Zuweisungen, Schleifen, `report`) dauert **0 ns**
 (höchstens Delta-Zyklen).
@@ -20,7 +20,7 @@ Beispiel: zwei Schleifen je 0 … 7, im Rumpf
 Das abschließende `wait;` wird bei 640 ns
 ausgeführt.
 
-## ✍️ Aufgabe
+## Aufgabe
 ```vhdl
 process is
 begin
@@ -37,11 +37,11 @@ end process;
 ```
 Zu welcher Simulationszeit erscheint „fertig“?
 
-<details><summary>✅ Lösung</summary>
+<details><summary>Lösung</summary>
 
 15 ns + 16 · 20 ns + 5 ns = 15 + 320 + 5 =
 **340 ns**.
 </details>
 
-## 🎓 Klausur
+## Klausur
 **F20 A1 F2a** (640 ns).

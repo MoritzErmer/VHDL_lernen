@@ -1,12 +1,12 @@
 # C05 · if und case
 
-⏱️ 5 min · zurück: [C04](C04_delta_zyklen.md) · weiter: [C06](C06_latch_falle.md)
+5 min · zurück: [C04](C04_delta_zyklen.md) · weiter: [C06](C06_latch_falle.md)
 
-## 🎯 Ziel
+## Ziel
 Die beiden wichtigsten sequenziellen Anweisungen
 syntaktisch sicher schreiben.
 
-## 📖 Erklärung
+## Erklärung
 ```vhdl
 if a = '1' then
   y <= "01";
@@ -35,7 +35,7 @@ end case;
   Funktion/Prozedur). Außerhalb: `when…else` /
   `with…select`.
 
-## ✍️ Aufgabe
+## Aufgabe
 Finde die 3 Fehler:
 ```vhdl
 process(sel, a) is
@@ -51,7 +51,7 @@ begin
 end process;
 ```
 
-<details><summary>✅ Lösung</summary>
+<details><summary>Lösung</summary>
 
 1. `case` unvollständig → `when others => …` fehlt
    (`"11"`, `"XX"`, …).
@@ -60,7 +60,7 @@ end process;
    eigenes `end if;`) → richtig ist `elsif`.
 </details>
 
-## 🎓 Klausur
+## Klausur
 H19 A1 F4: „Verwenden Sie ausschließlich
 If-Statements“. Automaten (Block F) bestehen fast
 nur aus `case`.

@@ -1,12 +1,12 @@
 # D07 · Flankenerkennung
 
-⏱️ 5 min · zurück: [D06](D06_von_hand_simulieren.md) · weiter: [E01](E01_integer_subtypes.md)
+5 min · zurück: [D06](D06_von_hand_simulieren.md) · weiter: [E01](E01_integer_subtypes.md)
 
-## 🎯 Ziel
+## Ziel
 Aus einem langen Tastendruck einen **einzigen**
 Taktimpuls machen – Standardbaustein vor Automaten.
 
-## 📖 Erklärung
+## Erklärung
 Idee: Eingang um einen Takt verzögern und mit dem
 aktuellen Wert vergleichen.
 ```
@@ -38,14 +38,14 @@ Struktur: **1 FF + kombinatorische Logik** am
 Ausgang. (Ist `taste` asynchron → vorher noch durch
 einen Synchronisierer, D05!)
 
-## ✍️ Aufgabe
+## Aufgabe
 1. Ändere die Zuweisung so, dass `puls` bei der
    **fallenden** Flanke von `taste` kommt.
 2. Welcher Automatentyp ist das (Mealy, Moore,
    Medwedew)? Tipp: Hängt `puls` direkt vom Eingang
    ab?
 
-<details><summary>✅ Lösung</summary>
+<details><summary>Lösung</summary>
 
 1. `puls <= not taste and taste_d;`
 2. **Mealy**: Der Ausgang hängt vom Zustand
@@ -53,6 +53,6 @@ einen Synchronisierer, D05!)
    ab. (Mehr dazu in Block F.)
 </details>
 
-## 🎓 Klausur
+## Klausur
 Automatentyp begründen: **F24 A1 F2**, F23 A2 F1,
 F21 A2 F3.

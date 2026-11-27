@@ -1,12 +1,12 @@
 # F06 · Steuerwerk + Rechenwerk
 
-⏱️ 7 min · zurück: [F05](F05_defaults.md) · weiter: [F07](F07_tabelle_als_array.md)
+7 min · zurück: [F05](F05_defaults.md) · weiter: [F07](F07_tabelle_als_array.md)
 
-## 🎯 Ziel
+## Ziel
 Verstehen, wie ein Automat (Steuerwerk) einen
 Datenpfad (Rechenwerk) über Steuersignale lenkt.
 
-## 📖 Erklärung
+## Erklärung
 Typisches Klausurbild:
 ```
  start ─▶ [ Steuerwerk ] ─ clr, sel ─▶ [ Rechenwerk ] ─▶ crc
@@ -31,11 +31,11 @@ dann Register löschen. Zustände `S1, S2, S3, CLEAR`.
 | S3 | CLEAR | 0 | 0 |
 | CLEAR | S1 | 1 | 1 |
 
-## ✍️ Aufgabe
+## Aufgabe
 Schreibe `output_p` für die Tabelle (Mealy, weil
 `clr` in S1 von `start` abhängt). Nutze Defaults.
 
-<details><summary>✅ Lösung</summary>
+<details><summary>Lösung</summary>
 
 ```vhdl
 output_p: process(current_state, start) is
@@ -57,6 +57,6 @@ end process output_p;
 ```
 </details>
 
-## 🎓 Klausur
+## Klausur
 **F24 A1 F7–F9** (calc_11bit_crc, 4 Takte: 3 rechnen +
 1 löschen). Siehe auch K02.

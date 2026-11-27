@@ -1,12 +1,12 @@
 # E05 · ROM als konstantes Array
 
-⏱️ 6 min · zurück: [E04](E04_arrays.md) · weiter: [E06](E06_records.md)
+6 min · zurück: [E04](E04_arrays.md) · weiter: [E06](E06_records.md)
 
-## 🎯 Ziel
+## Ziel
 Einen Nur-Lese-Speicher beschreiben und seine
 Kapazität berechnen.
 
-## 📖 Erklärung
+## Erklärung
 Ein ROM ist eine **Konstante** vom Array-Typ plus
 ein Lesezugriff – rein kombinatorisch:
 ```vhdl
@@ -30,7 +30,7 @@ Mit Takt (synchrones ROM, typisch für FPGA-Block-RAM):
 die Leseadresse oder Ausgabe in einem getakteten
 Prozess registrieren.
 
-## ✍️ Aufgabe
+## Aufgabe
 1. Ein ROM hat `addr : std_logic_vector(9 downto 0)`
    und `data : std_logic_vector(15 downto 0)`.
    Kapazität in Bit und in Byte?
@@ -38,7 +38,7 @@ Prozess registrieren.
    jeder Adresse `a` (2 Bit) den Wert `3 - a`
    liefert.
 
-<details><summary>✅ Lösung</summary>
+<details><summary>Lösung</summary>
 
 1. 2¹⁰ · 16 = 1024 · 16 = **16 384 Bit = 2048 Byte**.
 
@@ -55,7 +55,7 @@ end architecture behav;
 (Braucht `use ieee.numeric_std.all;`)
 </details>
 
-## 🎓 Klausur
+## Klausur
 **F24 A1 F11** (Kapazität), **F19 A2 F3/F4**
 (ROM synthetisierbar angeben), F23 A2 F5
 (`period_rom`).

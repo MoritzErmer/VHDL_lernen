@@ -1,11 +1,11 @@
 # E01 · integer, natural, positive, subtype
 
-⏱️ 5 min · zurück: [D07](D07_flankenerkennung.md) · weiter: [E02](E02_umwandlungen.md)
+5 min · zurück: [D07](D07_flankenerkennung.md) · weiter: [E02](E02_umwandlungen.md)
 
-## 🎯 Ziel
+## Ziel
 Den passenden Zahlentyp wählen und begründen können.
 
-## 📖 Erklärung
+## Erklärung
 ```vhdl
 integer               -- mind. -2^31+1 .. 2^31-1
 natural  -- = integer range 0 to integer'high
@@ -31,7 +31,7 @@ Faustregel für Generics und Konstanten:
 - Größe, die **0** sein darf (Adressbreite eines
   Speichers mit nur 1 Wort, Zählerstand) → `natural`
 
-## ✍️ Aufgabe
+## Aufgabe
 1. Warum ist `positive` ein guter Typ für eine
    Konstante `BAUD_RATE`?
 2. Ein generischer RAM hat `ADDR_WIDTH`. Warum
@@ -39,7 +39,7 @@ Faustregel für Generics und Konstanten:
 3. Wie viele Bits belegt `signal x : integer range
    0 to 100;` in Hardware?
 
-<details><summary>✅ Lösung</summary>
+<details><summary>Lösung</summary>
 
 1. Eine Baudrate ist immer > 0 – mit `positive`
    wird ein ungültiger Wert 0 schon vom Simulator
@@ -52,7 +52,7 @@ Faustregel für Generics und Konstanten:
 3. **7 Bit** (2⁷ = 128 > 100 ≥ 2⁶ = 64).
 </details>
 
-## 🎓 Klausur
+## Klausur
 **F19 A1 F3a** (`BAUD_RATE` positive), **F19 A2 F10a**
 (`ADDR_WIDTH` natural), F20 A1 F1b („Konstante N
 geeigneten Typs“), F23 A1 F6a.

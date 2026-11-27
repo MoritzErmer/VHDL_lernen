@@ -1,11 +1,11 @@
 # H05 · Operatoren überladen
 
-⏱️ 5 min · zurück: [H04](H04_packages.md) · weiter: [H06](H06_rom_init_funktion.md)
+5 min · zurück: [H04](H04_packages.md) · weiter: [H06](H06_rom_init_funktion.md)
 
-## 🎯 Ziel
+## Ziel
 Eigene Typen mit `+`, `-`, `*` rechnen lassen.
 
-## 📖 Erklärung
+## Erklärung
 Steht der Funktionsname in **Anführungszeichen**, ist
 die Funktion ein **Operator**. Man kann sie dann in
 Infix-Schreibweise aufrufen:
@@ -32,12 +32,12 @@ z := x + y;          -- ruft "+"(x, y) auf
 - Unäre Operatoren haben einen Parameter:
   `function "-"(a : complex) return complex`
 
-## ✍️ Aufgabe
+## Aufgabe
 1. Welche Besonderheit haben Funktionen, deren Namen
    in Anführungszeichen stehen?
 2. Schreibe `"-"` (binär) für `complex`.
 
-<details><summary>✅ Lösung</summary>
+<details><summary>Lösung</summary>
 
 1. Sie **überladen einen Operator** und können in
    der üblichen Operator-Schreibweise (`a - b`)
@@ -52,6 +52,6 @@ end function "-";
 ```
 </details>
 
-## 🎓 Klausur
+## Klausur
 **F22 A2 F3, F5, F6** (Operatoren für `fractional`
 und `complex`).

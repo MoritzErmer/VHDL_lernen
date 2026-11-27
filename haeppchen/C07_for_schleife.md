@@ -1,12 +1,12 @@
 # C07 · for-Schleife = kopierte Hardware
 
-⏱️ 6 min · zurück: [C06](C06_latch_falle.md) · weiter: [C08](C08_variable_akkumulator.md)
+6 min · zurück: [C06](C06_latch_falle.md) · weiter: [C08](C08_variable_akkumulator.md)
 
-## 🎯 Ziel
+## Ziel
 Schleifen als **Hardware** verstehen und damit
 Priorität elegant bauen.
 
-## 📖 Erklärung
+## Erklärung
 Eine `for`-Schleife läuft in Hardware **nicht
 nacheinander**: Das Synthese-Tool **rollt sie ab**
 (kopiert den Rumpf N-mal). Die Grenzen müssen
@@ -39,12 +39,12 @@ end process encoder;
 `3 downto 0` → Index 0 wird zuletzt geprüft →
 **Index 0 hat die höchste Priorität**.
 
-## ✍️ Aufgabe
+## Aufgabe
 1. Warum lässt sich diese Version leichter auf 8 Bit
    erweitern als eine `if/elsif`-Kette?
 2. Was musst du für 8 Bit ändern?
 
-<details><summary>✅ Lösung</summary>
+<details><summary>Lösung</summary>
 
 1. Nur der **Schleifenbereich** wird angepasst; bei
    `if/elsif` braucht jedes neue Bit einen neuen
@@ -56,5 +56,5 @@ end process encoder;
    `to_unsigned`.)
 </details>
 
-## 🎓 Klausur
+## Klausur
 **Herbst 2019, A1 F5, F7, F8** (17 Punkte zusammen!).

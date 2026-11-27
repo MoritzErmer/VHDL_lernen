@@ -1,12 +1,12 @@
 # D02 · Enable und synchrones Löschen
 
-⏱️ 5 min · zurück: [D01](D01_flipflop.md) · weiter: [D03](D03_zaehler.md)
+5 min · zurück: [D01](D01_flipflop.md) · weiter: [D03](D03_zaehler.md)
 
-## 🎯 Ziel
+## Ziel
 Register mit Steuereingängen bauen und
 **asynchron vs. synchron** unterscheiden.
 
-## 📖 Erklärung
+## Erklärung
 ```vhdl
 reg: process(clk, res_n) is
 begin
@@ -35,13 +35,13 @@ einfach (das *ist* ein Flipflop mit Enable). Die
 Latch-Falle aus C06 gilt nur für kombinatorische
 Prozesse!
 
-## ✍️ Aufgabe
+## Aufgabe
 Ein Steuerwerk liefert `clr`. Das 5-Bit-Register
 `q` soll bei `clr = '1'` mit der Taktflanke gelöscht
 werden, sonst `d` übernehmen. Asynchroner Reset über
 `res_n`. Schreibe den Prozess.
 
-<details><summary>✅ Lösung</summary>
+<details><summary>Lösung</summary>
 
 ```vhdl
 reg: process(clk, res_n) is
@@ -61,5 +61,5 @@ end process reg;
 ```
 </details>
 
-## 🎓 Klausur
+## Klausur
 **Frühjahr 2024, A1 F9** (Teil der Gesamtschaltung).
