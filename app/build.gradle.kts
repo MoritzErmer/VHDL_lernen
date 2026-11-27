@@ -57,6 +57,8 @@ android {
     testOptions {
         unitTests.isIncludeAndroidResources = true
         unitTests.all {
+            // The screenshot test downloads Android runtime jars on start; only run it when asked for.
+            if (!project.hasProperty("screenshots")) it.exclude("**/ScreenshotTest*")
             it.systemProperty("screenshotDir", rootProject.file("docs/screenshots").path)
             it.systemProperty("screenshots", project.hasProperty("screenshots").toString())
             it.systemProperty("contentFile", rootProject.file("content/haeppchen.json").path)
