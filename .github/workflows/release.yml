@@ -91,7 +91,9 @@ jobs:
                  "-PversionName=$V" "-PversionCode=$CODE" 2>&1 | tee /tmp/build.log; then
               exit 0
             fi
-            if grep -qE "^e: |FAILED" /tmp/build.log && ! grep -q "status code 429" /tmp/build.log; then
+            # Real code problems (compile errors, failing tests) stop at once; everything else
+            # (Maven Central outages, HTTP 429, "Could not find/resolve") is retried.
+            if grep -qE "^e: |tests completed, [0-9]+ failed|There were failing tests" /tmp/build.log; then
               echo "=================== FEHLER ==================="
               grep -E "^e: |FAILED|expected:|actual:" /tmp/build.log | head -60 || true
               exit 1
