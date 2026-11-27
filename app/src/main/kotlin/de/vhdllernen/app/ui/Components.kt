@@ -95,14 +95,18 @@ fun Nodes(nodes: List<Node>, onLesson: (String) -> Unit, modifier: Modifier = Mo
 @Composable
 fun CodeBlock(code: String, lang: String = "vhdl", modifier: Modifier = Modifier) {
     val p = LocalPalette.current
+    CodeBlock(if (lang.isNotEmpty()) highlight(code, p, lang) else AnnotatedString(code), modifier)
+}
+
+/** Already styled code: no wrapping, scrolls sideways. */
+@Composable
+fun CodeBlock(code: AnnotatedString, modifier: Modifier = Modifier) {
+    val p = LocalPalette.current
     Box(
         modifier.fillMaxWidth().background(p.sunken, Corner).border(1.dp, p.line, Corner)
             .horizontalScroll(rememberScrollState()).padding(horizontal = 12.dp, vertical = 10.dp)
     ) {
-        Text(
-            if (lang.isNotEmpty()) highlight(code, p, lang) else AnnotatedString(code),
-            style = Type.code, color = p.ink, softWrap = false,
-        )
+        Text(code, style = Type.code, color = p.ink, softWrap = false)
     }
 }
 

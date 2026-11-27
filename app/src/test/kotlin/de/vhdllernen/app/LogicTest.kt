@@ -62,24 +62,34 @@ class LogicTest {
     }
 
     @Test
-    fun compareIgnoresCaseSpacingCommentsAndOrder() {
+    fun compareIgnoresLineBreaksCaseCommentsAndStatementOrder() {
         val solution = "s <= a xor b;\nc <= a and b;"
-        val answer = "C<=A AND B;   -- Uebertrag\n  s <= a xor b ;\nz <= '1';"
+        val answer = "C <=\n  A AND B;   -- Uebertrag\ns <= a\n xor b ;"
         val r = Compare.run(answer, solution)
-        assertEquals(2, r.foundCount)
-        assertEquals(listOf("z <= '1';"), r.extra)
+        assertEquals(r.solutionTotal, r.solutionFound)
+        assertEquals(0, r.answerWrong)
     }
 
     @Test
-    fun compareReportsMissingLines() {
-        val r = Compare.run("s <= a xor b;", "s <= a xor b;\nc <= a and b;")
-        assertEquals(listOf(true, false), r.solution.map { it.found })
+    fun compareMarksExactlyTheWrongTokens() {
+        // the learner's answer from the A02 screenshot: wrong package number, wrong bound, missing semicolons
+        val solution = "library ieee; use ieee.std_logic_1164.all;\n\nentity priorityencoder_4_bit is\n  port(\n" +
+            "    e : in  std_logic_vector(3 downto 0);\n    v : out std_logic;\n    a : out std_logic_vector(1 downto 0)\n" +
+            "    );\nend entity priorityencoder_4_bit;"
+        val answer = "library ieee; use\nieee.std_logic_1146.all;\n\nentity priorityencoder_4_bit is\n  port(\n" +
+            "    e:in std_logic_vector(3 downto 1)\n    v: out std_logic\n    a: out std_logic_vector(1 downto 0)\n" +
+            "    );\n    end entity priorityencoder_4_bit;"
+        val r = Compare.run(answer, solution)
+        val wrong = r.answer.filter { !it.ok }.map { answer.substring(it.start, it.end) }
+        val missing = r.solution.filter { !it.ok }.map { solution.substring(it.start, it.end) }
+        assertEquals(listOf("std_logic_1146", "1"), wrong)
+        assertEquals(listOf("std_logic_1164", "0", ";", ";"), missing)
     }
 
     @Test
-    fun compareUsesSemicolonCommentsForAssembler() {
+    fun compareUsesLinesAndSemicolonCommentsForAssembler() {
         val r = Compare.run("add r3 := r0,r0 ; null", "add  r3 := r0,r0      ; Summe = 0", "ikr")
-        assertEquals(1, r.foundCount)
+        assertEquals(r.solutionTotal, r.solutionFound)
     }
 
     @Test

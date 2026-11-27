@@ -39,6 +39,12 @@ import de.vhdllernen.app.data.Lesson
 import de.vhdllernen.app.data.Progress
 import de.vhdllernen.app.data.Rating
 import de.vhdllernen.app.logic.Compare
+import de.vhdllernen.app.logic.Mark
+import androidx.compose.foundation.layout.size
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.text.style.TextDecoration
 
 private enum class SolutionTab(val label: String) { COMPARE("Abgleich"), SOLUTION("Musterlösung") }
 
@@ -193,35 +199,47 @@ private fun CompareView(answer: String, solution: String, lang: String) {
         return
     }
     val r = remember(answer, solution) { Compare.run(answer, solution, lang) }
+    // Mark tokens on top of the syntax colours: wrong/extra in the answer, missing in the solution.
+    fun marked(code: String, marks: List<Mark>, color: Color) = buildAnnotatedString {
+        append(highlight(code, p, lang))
+        marks.filter { !it.ok }.forEach {
+            addStyle(SpanStyle(background = color.copy(alpha = if (p.dark) 0.35f else 0.22f), textDecoration = TextDecoration.Underline,
+                color = color), it.start, it.end)
+        }
+    }
+    val missing = r.solution.count { !it.ok }
+    val wrong = r.answerWrong
     Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
         Text(
-            "${r.foundCount} von ${r.solution.size} Zeilen der Musterlösung kommen bei dir vor",
-            style = Type.body.copy(fontWeight = FontWeight.SemiBold), color = p.ink,
+            if (missing == 0 && wrong == 0) "Alles getroffen – deine Lösung stimmt mit der Musterlösung überein."
+            else "${r.percent} % der Musterlösung getroffen",
+            style = Type.body.copy(fontWeight = FontWeight.SemiBold), color = if (missing == 0 && wrong == 0) p.ok else p.ink,
         )
-        Column(Modifier.fillMaxWidth().background(p.sunken, Corner).border(1.dp, p.line, Corner).padding(vertical = 6.dp)) {
-            r.solution.forEach { line ->
-                Row(Modifier.fillMaxWidth().padding(horizontal = 10.dp, vertical = 2.dp)) {
-                    Text(if (line.found) "ok" else "fehlt", style = Type.label,
-                        color = if (line.found) p.ok else p.bad, modifier = Modifier.width(40.dp))
-                    Text(highlight(line.text.trimEnd(), p, lang), style = Type.code, color = p.ink,
-                        maxLines = 2, overflow = TextOverflow.Ellipsis)
-                }
+        if (missing > 0 || wrong > 0) {
+            Row(horizontalArrangement = Arrangement.spacedBy(16.dp)) {
+                Legend(p.warn, "$wrong ${if (wrong == 1) "Stelle" else "Stellen"} falsch oder zusätzlich")
+                Legend(p.bad, "$missing fehlen")
             }
         }
-        if (r.extra.isNotEmpty()) {
-            SectionLabel("Nur bei dir")
-            Column(Modifier.fillMaxWidth().border(1.dp, p.line, Corner).padding(vertical = 6.dp)) {
-                r.extra.forEach { line ->
-                    Text(highlight(line.trimEnd(), p, lang), style = Type.code, color = p.ink,
-                        modifier = Modifier.padding(horizontal = 10.dp, vertical = 2.dp))
-                }
-            }
-        }
+        SectionLabel("Deine Lösung")
+        CodeBlock(marked(answer.trimEnd(), r.answer, p.warn))
+        SectionLabel("Musterlösung")
+        CodeBlock(marked(solution, r.solution, p.bad))
         Text(
-            "Andere Namen, Reihenfolge oder Formatierung können trotzdem richtig sein. " +
-                "Im Zweifel: Frage notieren und exportieren.",
+            "Verglichen werden Wörter und Zeichen, nicht Zeilen: Umbrüche, Leerzeichen, Groß-/Kleinschreibung und " +
+                "Kommentare spielen keine Rolle, ganze Anweisungen dürfen in anderer Reihenfolge stehen. " +
+                "Andere Namen können trotzdem richtig sein – im Zweifel Frage notieren und exportieren.",
             style = Type.small, color = p.muted,
         )
+    }
+}
+
+@Composable
+private fun Legend(color: Color, text: String) {
+    val p = LocalPalette.current
+    Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(6.dp)) {
+        Box(Modifier.size(12.dp).background(color.copy(alpha = if (p.dark) 0.35f else 0.22f), Corner).border(1.dp, color, Corner))
+        Text(text, style = Type.small, color = p.ink)
     }
 }
 
