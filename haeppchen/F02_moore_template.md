@@ -8,6 +8,9 @@ Einen Moore-Automaten im Skript-Stil aufschreiben.
 ## Erklärung
 Sequenzdetektor: `y = '1'`, wenn zuletzt `1 0 1`
 kam (überlappend).
+
+![Moore-Automat für die Folge 101](../diagrams/F02_moore.svg)
+
 ```vhdl
 architecture moore of detektor is
   type state_type is (start, s1, s10, s101);

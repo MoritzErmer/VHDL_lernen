@@ -72,3 +72,42 @@ jobs:
           set -o pipefail
           ./am_rechner/alle_testen.sh 2>&1 | tee /tmp/sim.log
           if grep -q "(assertion error)" /tmp/sim.log; then echo "::error::Assertion fehlgeschlagen"; exit 1; fi
+
+  screenshots:
+    # Renders the app screens (Robolectric, no emulator) and commits them to docs/screenshots on the
+    # default branch, so layout changes can be reviewed without a phone. Pushes made with the workflow
+    # token do not start new workflow runs.
+    if: github.event_name == 'push' && github.ref == format('refs/heads/{0}', github.event.repository.default_branch)
+    needs: app
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - name: Inhalte beider Fächer bauen
+        run: |
+          git clone --depth 1 https://github.com/MoritzErmer/Rechnerarchtektur_Lernen "$RUNNER_TEMP/ra"
+          python3 tools/build_content.py --ra "$RUNNER_TEMP/ra"
+          git checkout -- content/   # only the screenshots are committed
+      - uses: actions/setup-java@d1374f8ac74474200d16ef8ecee22c7ae7a51880 # v6.3.0
+        with:
+          distribution: temurin
+          java-version: 21
+      - uses: gradle/actions/setup-gradle@8da46b539cd8fe6ab27ca75128919a18d757604c # v6.4.1
+        with:
+          cache-read-only: true
+      - name: Screenshots rendern
+        run: |
+          for attempt in 1 2 3; do
+            ./gradlew --console=plain :app:testDebugUnitTest -Pscreenshots --tests '*ScreenshotTest*' && exit 0
+            echo "::warning::Versuch $attempt fehlgeschlagen, neuer Versuch in 60 s"; sleep 60
+          done
+          exit 1
+      - name: Screenshots committen
+        run: |
+          git add docs/screenshots
+          if git diff --cached --quiet; then echo "Keine Änderungen an den Screenshots."; exit 0; fi
+          git -c user.name="github-actions[bot]" -c user.email="41898282+github-actions[bot]@users.noreply.github.com" \
+            commit -m "Screenshots der App aktualisiert"
+          git push

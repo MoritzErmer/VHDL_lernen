@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 624.0 159.0" width="624.0" height="159.0" role="img" aria-label="K01_calc_crc">
+<style>.s-ink{stroke:#151A22}.f-ink{fill:#151A22}.s-line{stroke:#5A6474}.f-line{fill:#5A6474}.s-accent{stroke:#1F45C4}.f-accent{fill:#1F45C4}.s-soft{stroke:#E3E9FB}.f-soft{fill:#E3E9FB}.s-surface{stroke:#FFFFFF}.f-surface{fill:#FFFFFF}.s-grid{stroke:#D9DEE7}.f-grid{fill:#D9DEE7}@media (prefers-color-scheme: dark){.s-ink{stroke:#E5E9F0}.f-ink{fill:#E5E9F0}.s-line{stroke:#97A1B0}.f-line{fill:#97A1B0}.s-accent{stroke:#8CA6FF}.f-accent{fill:#8CA6FF}.s-soft{stroke:#1E2848}.f-soft{fill:#1E2848}.s-surface{stroke:#161A21}.f-surface{fill:#161A21}.s-grid{stroke:#283040}.f-grid{fill:#283040}}text{font-family:Helvetica,Arial,sans-serif}.m{font-family:Menlo,Consolas,monospace}</style>
+<rect width="100%" height="100%" class="f-surface"/>
+<text x="49.0" y="30.9" font-size="13.0" text-anchor="middle" class="f-ink">s</text>
+<text x="575.0" y="107.9" font-size="13.0" text-anchor="middle" class="f-ink">crc</text>
+<text x="197.0" y="134.9" font-size="13.0" text-anchor="middle" class="f-line">clk, res_n</text>
+<polygon points="261.0,6.0 133.0,6.0 133.0,49.0 261.0,49.0" stroke-width="1.4" class="s-ink" fill="none"/>
+<text x="197.0" y="23.9" font-size="13.0" text-anchor="middle" class="f-ink">single_step</text>
+<text x="197.0" y="37.9" font-size="13.0" text-anchor="middle" class="f-ink">(kombinatorisch)</text>
+<polygon points="484.0,83.0 398.0,83.0 398.0,126.0 484.0,126.0" stroke-width="1.4" class="s-accent" fill="none"/>
+<text x="441.0" y="100.9" font-size="13.0" text-anchor="middle" class="f-accent">Register</text>
+<text x="441.0" y="114.9" font-size="13.0" text-anchor="middle" class="f-accent">5 Flipflops</text>
+<path d="M92.2,27.5 C102.5,27.5 113.7,27.5 124.8,27.5" stroke-width="1.4" class="s-line" fill="none"/>
+<polygon points="125.0,24.7 132.9,27.5 125.0,30.3" stroke-width="1.4" class="s-line f-line"/>
+<path d="M240.2,126.8 C281.8,122.2 345.6,115.0 389.9,110.1" stroke-width="1.4" class="s-line" fill="none" stroke-dasharray="5,4"/>
+<polygon points="389.7,107.3 397.9,109.2 390.3,112.9" stroke-width="1.4" class="s-line f-line"/>
+<path d="M261.4,34.1 C296.7,39.2 340.9,48.2 378.0,63.5 C387.4,67.4 396.9,72.8 405.6,78.3" stroke-width="1.4" class="s-line" fill="none"/>
+<polygon points="407.2,76.1 412.3,82.9 404.1,80.7" stroke-width="1.4" class="s-line f-line"/>
+<text x="329.5" y="33.1" font-size="12.0" text-anchor="middle" class="f-ink">d(4..0)</text>
+<path d="M484.1,104.5 C496.8,104.5 510.7,104.5 523.8,104.5" stroke-width="1.4" class="s-line" fill="none"/>
+<polygon points="523.8,101.7 531.8,104.5 523.8,107.3" stroke-width="1.4" class="s-line f-line"/>
+<text x="508.0" y="101.1" font-size="12.0" text-anchor="middle" class="f-ink">q</text>
+<path d="M398.0,102.9 C365.2,100.6 319.0,94.8 281.0,80.5 C263.8,74.0 246.4,63.7 232.1,53.8" stroke-width="1.4" class="s-accent" fill="none"/>
+<polygon points="230.2,55.9 225.2,49.0 233.4,51.3" stroke-width="1.4" class="s-accent f-accent"/>
+<text x="329.5" y="77.1" font-size="12.0" text-anchor="middle" class="f-accent">q (Rückführung)</text>
+</svg>

@@ -1,18 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- A clock signal (square wave) above a bit vector: the two things every VHDL design is made of. -->
+<!-- A chip with a bite taken out of its corner (a "Häppchen" of hardware) and a clock signal on it. -->
 <vector xmlns:android="http://schemas.android.com/apk/res/android"
     android:width="108dp"
     android:height="108dp"
     android:viewportWidth="108"
     android:viewportHeight="108">
+    <group android:pivotX="54" android:pivotY="54" android:scaleX="1.15" android:scaleY="1.15">
+    <!-- pins -->
+    <path android:fillColor="#C9D5FF" android:pathData="M30,44h6v4h-6z M30,52h6v4h-6z M30,60h6v4h-6z M72,52h6v4h-6z M72,60h6v4h-6z" />
+    <path android:fillColor="#C9D5FF" android:pathData="M44,72h4v6h-4z M52,72h4v6h-4z M60,72h4v6h-4z M44,30h4v6h-4z M52,30h4v6h-4z" />
+    <!-- chip body with the bite -->
+    <path android:fillColor="#FFFFFF" android:pathData="M39,36 H59 A13,13 0 0,0 72,49 V69 A3,3 0 0,1 69,72 H39 A3,3 0 0,1 36,69 V39 A3,3 0 0,1 39,36 Z" />
+    <!-- clock signal -->
     <path
-        android:pathData="M30,58 L30,58 L38,58 L38,40 L50,40 L50,58 L62,58 L62,40 L74,40 L74,58 L78,58"
-        android:strokeWidth="5"
-        android:strokeColor="#FFFFFF"
+        android:pathData="M41,63 H46 V51 H53 V63 H60 V51 H66"
+        android:strokeWidth="3.2"
+        android:strokeColor="#1B3FB8"
         android:strokeLineCap="round"
         android:strokeLineJoin="round" />
-    <path android:fillColor="#FFFFFF" android:pathData="M33,66h8v8h-8z" />
-    <path android:fillColor="#9FB4FF" android:pathData="M45,66h8v8h-8z" />
-    <path android:fillColor="#FFFFFF" android:pathData="M57,66h8v8h-8z" />
-    <path android:fillColor="#FFFFFF" android:pathData="M69,66h8v8h-8z" />
+    </group>
 </vector>

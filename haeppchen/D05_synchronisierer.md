@@ -27,6 +27,9 @@ if clk'event and clk = '1' then
   ser_in_dd <= ser_in_d;    -- FF 2 → sicher
 end if;
 ```
+
+![Synchronisierer aus zwei Flipflops](../diagrams/D05_synchronisierer.svg)
+
 Nur `ser_in_dd` darf weiterverwendet werden!
 
 Mit **Variablen** geht das auch – dann aber in der

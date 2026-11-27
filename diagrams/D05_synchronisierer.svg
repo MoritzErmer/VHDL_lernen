@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 595.0 131.0" width="595.0" height="131.0" role="img" aria-label="D05_synchronisierer">
+<style>.s-ink{stroke:#151A22}.f-ink{fill:#151A22}.s-line{stroke:#5A6474}.f-line{fill:#5A6474}.s-accent{stroke:#1F45C4}.f-accent{fill:#1F45C4}.s-soft{stroke:#E3E9FB}.f-soft{fill:#E3E9FB}.s-surface{stroke:#FFFFFF}.f-surface{fill:#FFFFFF}.s-grid{stroke:#D9DEE7}.f-grid{fill:#D9DEE7}@media (prefers-color-scheme: dark){.s-ink{stroke:#E5E9F0}.f-ink{fill:#E5E9F0}.s-line{stroke:#97A1B0}.f-line{fill:#97A1B0}.s-accent{stroke:#8CA6FF}.f-accent{fill:#8CA6FF}.s-soft{stroke:#1E2848}.f-soft{fill:#1E2848}.s-surface{stroke:#161A21}.f-surface{fill:#161A21}.s-grid{stroke:#283040}.f-grid{fill:#283040}}text{font-family:Helvetica,Arial,sans-serif}.m{font-family:Menlo,Consolas,monospace}</style>
+<rect width="100%" height="100%" class="f-surface"/>
+<text x="53.5" y="23.9" font-size="13.0" text-anchor="middle" class="f-ink">ser_in</text>
+<text x="53.5" y="37.9" font-size="13.0" text-anchor="middle" class="f-ink">(asynchron)</text>
+<polygon points="214.0,13.0 142.0,13.0 142.0,56.0 214.0,56.0" stroke-width="1.4" class="s-ink" fill="none"/>
+<text x="178.0" y="30.9" font-size="13.0" text-anchor="middle" class="f-ink">FF 1</text>
+<text x="178.0" y="44.9" font-size="13.0" text-anchor="middle" class="f-ink">ser_in_d</text>
+<polygon points="425.0,57.0 346.0,57.0 346.0,100.0 425.0,100.0" stroke-width="1.4" class="s-accent" fill="none"/>
+<text x="385.5" y="74.9" font-size="13.0" text-anchor="middle" class="f-accent">FF 2</text>
+<text x="385.5" y="88.9" font-size="13.0" text-anchor="middle" class="f-accent">ser_in_dd</text>
+<text x="545.5" y="74.9" font-size="13.0" text-anchor="middle" class="f-ink">Logik</text>
+<text x="545.5" y="88.9" font-size="13.0" text-anchor="middle" class="f-ink">(synchron)</text>
+<text x="53.5" y="106.9" font-size="13.0" text-anchor="middle" class="f-line">clk</text>
+<path d="M101.2,30.2 C111.8,30.8 123.1,31.4 133.7,32.0" stroke-width="1.4" class="s-line" fill="none"/>
+<polygon points="134.1,29.2 141.9,32.5 133.8,34.8" stroke-width="1.4" class="s-line f-line"/>
+<path d="M214.3,42.1 C248.4,49.3 300.1,60.4 337.6,68.5" stroke-width="1.4" class="s-line" fill="none"/>
+<polygon points="338.6,65.8 345.8,70.2 337.4,71.3" stroke-width="1.4" class="s-line f-line"/>
+<text x="280.0" y="30.1" font-size="12.0" text-anchor="middle" class="f-ink">darf metastabil</text>
+<text x="280.0" y="43.1" font-size="12.0" text-anchor="middle" class="f-ink">werden</text>
+<path d="M425.1,78.5 C445.8,78.5 471.5,78.5 493.8,78.5" stroke-width="1.4" class="s-line" fill="none"/>
+<polygon points="493.8,75.7 501.8,78.5 493.8,81.3" stroke-width="1.4" class="s-line f-line"/>
+<text x="463.5" y="75.1" font-size="12.0" text-anchor="middle" class="f-ink">sicher</text>
+<path d="M89.6,83.7 C103.7,75.8 120.1,66.6 134.8,58.3" stroke-width="1.4" class="s-line" fill="none" stroke-dasharray="5,4"/>
+<polygon points="133.6,55.8 141.9,54.3 136.3,60.6" stroke-width="1.4" class="s-line f-line"/>
+<path d="M89.5,100.8 C149.2,96.3 270.5,87.1 337.5,82.1" stroke-width="1.4" class="s-line" fill="none" stroke-dasharray="5,4"/>
+<polygon points="337.6,79.2 345.8,81.4 338.0,84.8" stroke-width="1.4" class="s-line f-line"/>
+</svg>

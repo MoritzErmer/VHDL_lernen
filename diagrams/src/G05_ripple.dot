@@ -1,0 +1,12 @@
+// N-bit ripple-carry adder from for-generate (N = 4)
+digraph ripple {
+  rankdir=LR; graph [bgcolor="transparent", fontname="Helvetica", fontsize=13, fontcolor="#000001", nodesep=0.45, ranksep=0.55, pad=0];
+  node [fontname="Helvetica", fontsize=13, color="#000001", fontcolor="#000001", penwidth=1.3];
+  edge [fontname="Helvetica", fontsize=12, color="#000002", fontcolor="#000001", penwidth=1.2, arrowsize=0.8];
+  node [shape=box, width=0.75, height=0.75];
+  cin [label="cin", shape=plaintext]; cout [label="cout", shape=plaintext];
+  va0 [label="VA\ni=0"]; va1 [label="VA\ni=1"]; va2 [label="VA\ni=2"]; va3 [label="VA\ni=3"];
+  cin -> va0 [label="c(0)"]; va0 -> va1 [label="c(1)", color="#000003", fontcolor="#000003"];
+  va1 -> va2 [label="c(2)", color="#000003", fontcolor="#000003"]; va2 -> va3 [label="c(3)", color="#000003", fontcolor="#000003"];
+  va3 -> cout [label="c(4)"];
+}

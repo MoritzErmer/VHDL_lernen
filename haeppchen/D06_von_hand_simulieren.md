@@ -25,6 +25,9 @@ d(2) <= q(1);
 d(1) <= q(0);
 d(0) <= q(2) xor q(1);
 ```
+
+![3-Bit-LFSR mit XOR-Rückkopplung](../diagrams/D06_lfsr.svg)
+
 Gib `q` nach den ersten **5** steigenden Flanken an.
 
 <details><summary>Lösung</summary>

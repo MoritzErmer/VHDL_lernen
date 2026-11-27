@@ -1,0 +1,16 @@
+// Garage door controller (Moore): outputs motor_auf / motor_zu in the states
+digraph tor {
+  rankdir=LR; graph [bgcolor="transparent", fontname="Helvetica", fontsize=13, fontcolor="#000001", nodesep=0.45, ranksep=0.55, pad=0];
+  node [fontname="Helvetica", fontsize=13, color="#000001", fontcolor="#000001", penwidth=1.3];
+  edge [fontname="Helvetica", fontsize=12, color="#000002", fontcolor="#000001", penwidth=1.2, arrowsize=0.8];
+  node [shape=box, style="rounded", width=1.2];
+  init [shape=point, width=0.08, color="#000002"];
+  init -> zu [label="res_n"];
+  oeffnet [label="oeffnet\nmotor_auf=1", color="#000003", fontcolor="#000003"];
+  schliesst [label="schliesst\nmotor_zu=1", color="#000003", fontcolor="#000003"];
+  zu -> oeffnet [label="taster"];
+  oeffnet -> offen [label="oben"];
+  offen -> schliesst [label="taster"];
+  schliesst -> zu [label="unten"];
+  schliesst -> oeffnet [label="hindernis\n(Vorrang)", color="#000003", fontcolor="#000003", penwidth=2, constraint=false];
+}

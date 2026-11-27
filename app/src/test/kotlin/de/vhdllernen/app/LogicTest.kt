@@ -114,6 +114,19 @@ class LogicTest {
         assertEquals("C08", vhdl.next("C07")?.id)
     }
 
+    @Test
+    fun diagramsAreParsedWithPrimitives() {
+        val f02 = content.course("vhdl")!!.lesson("F02")!!
+        val d = f02.erklaerung.filterIsInstance<de.vhdllernen.app.data.Node.Diagram>().single()
+        assertEquals("F02_moore", d.id)
+        assertTrue(d.width > 100f && d.height > 50f)
+        val labels = d.prims.filterIsInstance<de.vhdllernen.app.data.Prim.Label>().map { it.text }
+        assertTrue("s101" in labels)
+        assertTrue(d.prims.any { it is de.vhdllernen.app.data.Prim.Bezier })
+        val all = content.courses.flatMap { c -> c.lessons }.flatMap { l -> l.erklaerung + l.aufgabe + l.loesung }
+        assertEquals(13, all.count { it is de.vhdllernen.app.data.Node.Diagram })
+    }
+
     @Test(expected = ContentFormatException::class)
     fun parserRejectsUnknownSchema() {
         ContentParser.parse("""{"schema": 99, "courses": []}""")

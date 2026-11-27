@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 656.0 66.0" width="656.0" height="66.0" role="img" aria-label="G05_ripple">
+<style>.s-ink{stroke:#151A22}.f-ink{fill:#151A22}.s-line{stroke:#5A6474}.f-line{fill:#5A6474}.s-accent{stroke:#1F45C4}.f-accent{fill:#1F45C4}.s-soft{stroke:#E3E9FB}.f-soft{fill:#E3E9FB}.s-surface{stroke:#FFFFFF}.f-surface{fill:#FFFFFF}.s-grid{stroke:#D9DEE7}.f-grid{fill:#D9DEE7}@media (prefers-color-scheme: dark){.s-ink{stroke:#E5E9F0}.f-ink{fill:#E5E9F0}.s-line{stroke:#97A1B0}.f-line{fill:#97A1B0}.s-accent{stroke:#8CA6FF}.f-accent{fill:#8CA6FF}.s-soft{stroke:#1E2848}.f-soft{fill:#1E2848}.s-surface{stroke:#161A21}.f-surface{fill:#161A21}.s-grid{stroke:#283040}.f-grid{fill:#283040}}text{font-family:Helvetica,Arial,sans-serif}.m{font-family:Menlo,Consolas,monospace}</style>
+<rect width="100%" height="100%" class="f-surface"/>
+<text x="33.0" y="36.4" font-size="13.0" text-anchor="middle" class="f-ink">cin</text>
+<text x="623.0" y="36.4" font-size="13.0" text-anchor="middle" class="f-ink">cout</text>
+<polygon points="178.0,6.0 124.0,6.0 124.0,60.0 178.0,60.0" stroke-width="1.4" class="s-ink" fill="none"/>
+<text x="151.0" y="29.4" font-size="13.0" text-anchor="middle" class="f-ink">VA</text>
+<text x="151.0" y="43.4" font-size="13.0" text-anchor="middle" class="f-ink">i=0</text>
+<polygon points="296.0,6.0 242.0,6.0 242.0,60.0 296.0,60.0" stroke-width="1.4" class="s-ink" fill="none"/>
+<text x="269.0" y="29.4" font-size="13.0" text-anchor="middle" class="f-ink">VA</text>
+<text x="269.0" y="43.4" font-size="13.0" text-anchor="middle" class="f-ink">i=1</text>
+<polygon points="414.0,6.0 360.0,6.0 360.0,60.0 414.0,60.0" stroke-width="1.4" class="s-ink" fill="none"/>
+<text x="387.0" y="29.4" font-size="13.0" text-anchor="middle" class="f-ink">VA</text>
+<text x="387.0" y="43.4" font-size="13.0" text-anchor="middle" class="f-ink">i=2</text>
+<polygon points="532.0,6.0 478.0,6.0 478.0,60.0 532.0,60.0" stroke-width="1.4" class="s-ink" fill="none"/>
+<text x="505.0" y="29.4" font-size="13.0" text-anchor="middle" class="f-ink">VA</text>
+<text x="505.0" y="43.4" font-size="13.0" text-anchor="middle" class="f-ink">i=3</text>
+<path d="M60.0,33.0 C76.3,33.0 97.5,33.0 115.3,33.0" stroke-width="1.4" class="s-line" fill="none"/>
+<polygon points="115.7,30.2 123.7,33.0 115.7,35.8" stroke-width="1.4" class="s-line f-line"/>
+<text x="92.0" y="29.6" font-size="12.0" text-anchor="middle" class="f-ink">c(0)</text>
+<path d="M178.0,33.0 C194.3,33.0 215.5,33.0 233.3,33.0" stroke-width="1.4" class="s-accent" fill="none"/>
+<polygon points="233.7,30.2 241.7,33.0 233.7,35.8" stroke-width="1.4" class="s-accent f-accent"/>
+<text x="210.0" y="29.6" font-size="12.0" text-anchor="middle" class="f-accent">c(1)</text>
+<path d="M296.0,33.0 C312.3,33.0 333.5,33.0 351.3,33.0" stroke-width="1.4" class="s-accent" fill="none"/>
+<polygon points="351.6,30.2 359.6,33.0 351.6,35.8" stroke-width="1.4" class="s-accent f-accent"/>
+<text x="328.0" y="29.6" font-size="12.0" text-anchor="middle" class="f-accent">c(2)</text>
+<path d="M414.0,33.0 C430.3,33.0 451.5,33.0 469.3,33.0" stroke-width="1.4" class="s-accent" fill="none"/>
+<polygon points="469.6,30.2 477.6,33.0 469.6,35.8" stroke-width="1.4" class="s-accent f-accent"/>
+<text x="446.0" y="29.6" font-size="12.0" text-anchor="middle" class="f-accent">c(3)</text>
+<path d="M532.0,33.0 C548.3,33.0 569.5,33.0 587.3,33.0" stroke-width="1.4" class="s-line" fill="none"/>
+<polygon points="587.6,30.2 595.6,33.0 587.6,35.8" stroke-width="1.4" class="s-line f-line"/>
+<text x="564.0" y="29.6" font-size="12.0" text-anchor="middle" class="f-ink">c(4)</text>
+</svg>

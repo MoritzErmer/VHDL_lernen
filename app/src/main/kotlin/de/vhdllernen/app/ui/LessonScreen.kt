@@ -179,6 +179,7 @@ private fun AnswerArea(state: AppState, course: Course, lesson: Lesson, key: Str
             },
             code = false,
             placeholder = "Was ist dir unklar?",
+            title = "Frage an Claude",
         )
     }
 }

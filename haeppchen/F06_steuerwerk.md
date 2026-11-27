@@ -31,6 +31,8 @@ dann Register löschen. Zustände `S1, S2, S3, CLEAR`.
 | S3 | CLEAR | 0 | 0 |
 | CLEAR | S1 | 1 | 1 |
 
+![Zustandsdiagramm des Steuerwerks S1, S2, S3, CLEAR](../diagrams/F06_steuerwerk.svg)
+
 ## Aufgabe
 Schreibe `output_p` für die Tabelle (Mealy, weil
 `clr` in S1 von `start` abhängt). Nutze Defaults.

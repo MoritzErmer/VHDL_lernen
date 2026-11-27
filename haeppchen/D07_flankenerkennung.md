@@ -9,11 +9,9 @@ Taktimpuls machen – Standardbaustein vor Automaten.
 ## Erklärung
 Idee: Eingang um einen Takt verzögern und mit dem
 aktuellen Wert vergleichen.
-```
-taste   : 0 0 1 1 1 1 0 0
-taste_d : 0 0 0 1 1 1 1 0
-puls    : 0 0 1 0 0 0 0 0
-```
+
+![Timing-Diagramm: clk, taste, taste_d, puls](../diagrams/D07_flanke.svg)
+
 `puls = taste and not taste_d`
 
 ```vhdl

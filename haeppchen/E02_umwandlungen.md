@@ -7,17 +7,9 @@ Zwischen `std_logic_vector`, `unsigned`/`signed` und
 `integer` sicher umwandeln.
 
 ## Erklärung
-```
-                 unsigned(v)
-std_logic_vector ───────────▶ unsigned
-                 ◀───────────
-           std_logic_vector(u)
 
-         to_integer(u)
-unsigned ────────────▶ integer
-         ◀────────────
-      to_unsigned(i, N)
-```
+![Umwandlungen zwischen std_logic_vector, unsigned/signed und integer](../diagrams/E02_umwandlungen.svg)
+
 (genauso mit `signed` / `to_signed(i, N)`)
 
 - `unsigned(...)`, `std_logic_vector(...)` sind

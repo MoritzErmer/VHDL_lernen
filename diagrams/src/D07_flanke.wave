@@ -1,0 +1,5 @@
+@title Flankenerkennung: puls = taste and not taste_d (ein Zeichen = halbe Taktperiode)
+clk:     01010101010101
+taste:   00111111111000
+taste_d: 00011111111110
+puls:    00100000000000

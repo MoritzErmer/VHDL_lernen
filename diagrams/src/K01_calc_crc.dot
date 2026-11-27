@@ -1,0 +1,14 @@
+// Exam F24 A1: serial CRC unit = combinational single_step + 5-bit register (Medwedew)
+digraph crc {
+  rankdir=LR; graph [bgcolor="transparent", fontname="Helvetica", fontsize=13, fontcolor="#000001", nodesep=0.45, ranksep=0.55, pad=0];
+  node [fontname="Helvetica", fontsize=13, color="#000001", fontcolor="#000001", penwidth=1.3];
+  edge [fontname="Helvetica", fontsize=12, color="#000002", fontcolor="#000001", penwidth=1.2, arrowsize=0.8];
+  node [shape=box, width=1.2, height=0.6];
+  s [label="s", shape=plaintext]; crc [label="crc", shape=plaintext];
+  clk [label="clk, res_n", shape=plaintext, fontcolor="#000002"];
+  step [label="single_step\n(kombinatorisch)"];
+  reg [label="Register\n5 Flipflops", color="#000003", fontcolor="#000003", penwidth=2];
+  s -> step; step -> reg [label="d(4..0)"]; reg -> crc [label="q"];
+  reg -> step [label="q (Rückführung)", constraint=false, color="#000003", fontcolor="#000003"];
+  clk -> reg [style=dashed];
+}

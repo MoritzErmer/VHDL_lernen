@@ -20,6 +20,9 @@ Beispiel-Kette:
 pp <= a and b;    -- Stufe 1
 p  <= pp or c;    -- Stufe 2
 ```
+
+![Delta-Kette: a, b → and → pp → or → p](../diagrams/C04_delta.svg)
+
 Testbench setzt `a` zur Zeit 10 ns:
 - Delta 1: `a` neu → `pp` wird berechnet
 - Delta 2: `pp` neu → `p` wird berechnet

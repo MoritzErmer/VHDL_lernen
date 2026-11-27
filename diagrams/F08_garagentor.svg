@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 690.8 186.0" width="690.8" height="186.0" role="img" aria-label="F08_garagentor">
+<style>.s-ink{stroke:#151A22}.f-ink{fill:#151A22}.s-line{stroke:#5A6474}.f-line{fill:#5A6474}.s-accent{stroke:#1F45C4}.f-accent{fill:#1F45C4}.s-soft{stroke:#E3E9FB}.f-soft{fill:#E3E9FB}.s-surface{stroke:#FFFFFF}.f-surface{fill:#FFFFFF}.s-grid{stroke:#D9DEE7}.f-grid{fill:#D9DEE7}@media (prefers-color-scheme: dark){.s-ink{stroke:#E5E9F0}.f-ink{fill:#E5E9F0}.s-line{stroke:#97A1B0}.f-line{fill:#97A1B0}.s-accent{stroke:#8CA6FF}.f-accent{fill:#8CA6FF}.s-soft{stroke:#1E2848}.f-soft{fill:#1E2848}.s-surface{stroke:#161A21}.f-surface{fill:#161A21}.s-grid{stroke:#283040}.f-grid{fill:#283040}}text{font-family:Helvetica,Arial,sans-serif}.m{font-family:Menlo,Consolas,monospace}</style>
+<rect width="100%" height="100%" class="f-surface"/>
+<ellipse cx="8.9" cy="154.0" rx="2.9" ry="2.9" stroke-width="1.4" class="s-line f-line"/>
+<path d="M157.8,136.0 C157.8,136.0 95.8,136.0 95.8,136.0 C89.8,136.0 83.8,142.0 83.8,148.0 C83.8,148.0 83.8,160.0 83.8,160.0 C83.8,166.0 89.8,172.0 95.8,172.0 C95.8,172.0 157.8,172.0 157.8,172.0 C163.8,172.0 169.8,166.0 169.8,160.0 C169.8,160.0 169.8,148.0 169.8,148.0 C169.8,142.0 163.8,136.0 157.8,136.0" stroke-width="1.4" class="s-ink" fill="none"/>
+<text x="126.8" y="157.4" font-size="13.0" text-anchor="middle" class="f-ink">zu</text>
+<path d="M337.8,77.0 C337.8,77.0 257.8,77.0 257.8,77.0 C251.8,77.0 245.8,83.0 245.8,89.0 C245.8,89.0 245.8,101.0 245.8,101.0 C245.8,107.0 251.8,113.0 257.8,113.0 C257.8,113.0 337.8,113.0 337.8,113.0 C343.8,113.0 349.8,107.0 349.8,101.0 C349.8,101.0 349.8,89.0 349.8,89.0 C349.8,83.0 343.8,77.0 337.8,77.0" stroke-width="1.4" class="s-accent" fill="none"/>
+<text x="297.8" y="91.4" font-size="13.0" text-anchor="middle" class="f-accent">oeffnet</text>
+<text x="297.8" y="105.4" font-size="13.0" text-anchor="middle" class="f-accent">motor_auf=1</text>
+<path d="M672.8,144.0 C672.8,144.0 598.8,144.0 598.8,144.0 C592.8,144.0 586.8,150.0 586.8,156.0 C586.8,156.0 586.8,168.0 586.8,168.0 C586.8,174.0 592.8,180.0 598.8,180.0 C598.8,180.0 672.8,180.0 672.8,180.0 C678.8,180.0 684.8,174.0 684.8,168.0 C684.8,168.0 684.8,156.0 684.8,156.0 C684.8,150.0 678.8,144.0 672.8,144.0" stroke-width="1.4" class="s-accent" fill="none"/>
+<text x="635.8" y="158.4" font-size="13.0" text-anchor="middle" class="f-accent">schliesst</text>
+<text x="635.8" y="172.4" font-size="13.0" text-anchor="middle" class="f-accent">motor_zu=1</text>
+<path d="M498.8,6.0 C498.8,6.0 436.8,6.0 436.8,6.0 C430.8,6.0 424.8,12.0 424.8,18.0 C424.8,18.0 424.8,30.0 424.8,30.0 C424.8,36.0 430.8,42.0 436.8,42.0 C436.8,42.0 498.8,42.0 498.8,42.0 C504.8,42.0 510.8,36.0 510.8,30.0 C510.8,30.0 510.8,18.0 510.8,18.0 C510.8,12.0 504.8,6.0 498.8,6.0" stroke-width="1.4" class="s-ink" fill="none"/>
+<text x="467.8" y="27.4" font-size="13.0" text-anchor="middle" class="f-ink">offen</text>
+<path d="M11.9,154.0 C19.6,154.0 48.6,154.0 75.3,154.0" stroke-width="1.4" class="s-line" fill="none"/>
+<polygon points="75.5,151.2 83.5,154.0 75.5,156.8" stroke-width="1.4" class="s-line f-line"/>
+<text x="47.8" y="150.6" font-size="12.0" text-anchor="middle" class="f-ink">res_n</text>
+<path d="M170.0,139.3 C190.5,132.1 215.6,123.3 238.0,115.5" stroke-width="1.4" class="s-line" fill="none"/>
+<polygon points="237.3,112.8 245.8,112.8 239.1,118.1" stroke-width="1.4" class="s-line f-line"/>
+<text x="207.8" y="117.6" font-size="12.0" text-anchor="middle" class="f-ink">taster</text>
+<path d="M341.6,76.9 C364.6,67.2 393.0,55.2 417.0,45.0" stroke-width="1.4" class="s-line" fill="none"/>
+<polygon points="416.1,42.4 424.6,41.8 418.3,47.5" stroke-width="1.4" class="s-line f-line"/>
+<text x="387.3" y="48.6" font-size="12.0" text-anchor="middle" class="f-ink">oben</text>
+<path d="M586.7,161.2 C490.7,159.7 276.4,156.3 178.4,154.8" stroke-width="1.4" class="s-line" fill="none"/>
+<polygon points="178.1,157.6 170.1,154.7 178.2,152.0" stroke-width="1.4" class="s-line f-line"/>
+<text x="387.3" y="154.6" font-size="12.0" text-anchor="middle" class="f-ink">unten</text>
+<path d="M586.5,152.4 C526.2,140.3 423.0,119.8 357.9,106.8" stroke-width="1.4" class="s-accent" fill="none"/>
+<polygon points="357.1,109.5 349.8,105.2 358.2,104.0" stroke-width="1.4" class="s-accent f-accent"/>
+<text x="467.8" y="104.6" font-size="12.0" text-anchor="middle" class="f-accent">hindernis</text>
+<text x="467.8" y="117.6" font-size="12.0" text-anchor="middle" class="f-accent">(Vorrang)</text>
+<path d="M495.3,42.0 C515.4,56.0 543.5,76.4 566.8,96.0 C582.5,109.3 599.0,125.3 611.9,138.2" stroke-width="1.4" class="s-line" fill="none"/>
+<polygon points="613.9,136.3 617.5,143.9 609.9,140.2" stroke-width="1.4" class="s-line f-line"/>
+<text x="548.8" y="66.6" font-size="12.0" text-anchor="middle" class="f-ink">taster</text>
+</svg>

@@ -1,0 +1,11 @@
+// 3-bit LFSR from lesson D06: d2 = q1, d1 = q0, d0 = q2 xor q1
+digraph lfsr {
+  rankdir=LR; graph [bgcolor="transparent", fontname="Helvetica", fontsize=13, fontcolor="#000001", nodesep=0.45, ranksep=0.55, pad=0];
+  node [fontname="Helvetica", fontsize=13, color="#000001", fontcolor="#000001", penwidth=1.3];
+  edge [fontname="Helvetica", fontsize=12, color="#000002", fontcolor="#000001", penwidth=1.2, arrowsize=0.8];
+  node [shape=box, width=0.8, height=0.6];
+  x [label="XOR", shape=circle, width=0.6, fixedsize=true, color="#000003", fontcolor="#000003"];
+  q0 [label="FF\nq(0)"]; q1 [label="FF\nq(1)"]; q2 [label="FF\nq(2)"];
+  x -> q0 [label="d(0)"]; q0 -> q1 [label="d(1)"]; q1 -> q2 [label="d(2)"];
+  q2 -> x [constraint=false, color="#000003"]; q1 -> x [constraint=false, color="#000003"];
+}

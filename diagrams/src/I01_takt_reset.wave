@@ -1,0 +1,3 @@
+@title clk_res_gen: ein Zeichen = T/4, Reset endet bei 0,75 T (nicht auf einer Flanke)
+clk:   11001100110011001100
+res_n: 00011111111111111111

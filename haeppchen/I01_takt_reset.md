@@ -31,6 +31,9 @@ begin
   end process;
 end architecture behav;
 ```
+
+![Takt und Reset aus clk_res_gen](../diagrams/I01_takt_reset.svg)
+
 - Prozesse **ohne** Sensitivitätsliste, gesteuert
   durch `wait`.
 - Reset endet bei 0,75 T – **nicht** auf einer

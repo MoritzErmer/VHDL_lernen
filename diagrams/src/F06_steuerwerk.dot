@@ -1,0 +1,15 @@
+// Control unit from exam F24: 3 cycles computing, 1 cycle clearing (outputs: clr, valid)
+digraph ctrl {
+  rankdir=LR; graph [bgcolor="transparent", fontname="Helvetica", fontsize=13, fontcolor="#000001", nodesep=0.45, ranksep=0.55, pad=0];
+  node [fontname="Helvetica", fontsize=13, color="#000001", fontcolor="#000001", penwidth=1.3];
+  edge [fontname="Helvetica", fontsize=12, color="#000002", fontcolor="#000001", penwidth=1.2, arrowsize=0.8];
+  node [shape=box, style="rounded", width=1.1];
+  init [shape=point, width=0.08, color="#000002"];
+  init -> S1 [label="res_n"];
+  S1 [label="S1\nwarten"];
+  S1 -> S1 [label="start=0 / clr=1"];
+  S1 -> S2 [label="start=1"];
+  S2 -> S3; S3 -> CLEAR;
+  CLEAR [label="CLEAR\nclr=1, valid=1", color="#000003", fontcolor="#000003", penwidth=2];
+  CLEAR -> S1;
+}

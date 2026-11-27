@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 424.0 87.4" width="424.0" height="87.4" role="img" aria-label="D06_lfsr">
+<style>.s-ink{stroke:#151A22}.f-ink{fill:#151A22}.s-line{stroke:#5A6474}.f-line{fill:#5A6474}.s-accent{stroke:#1F45C4}.f-accent{fill:#1F45C4}.s-soft{stroke:#E3E9FB}.f-soft{fill:#E3E9FB}.s-surface{stroke:#FFFFFF}.f-surface{fill:#FFFFFF}.s-grid{stroke:#D9DEE7}.f-grid{fill:#D9DEE7}@media (prefers-color-scheme: dark){.s-ink{stroke:#E5E9F0}.f-ink{fill:#E5E9F0}.s-line{stroke:#97A1B0}.f-line{fill:#97A1B0}.s-accent{stroke:#8CA6FF}.f-accent{fill:#8CA6FF}.s-soft{stroke:#1E2848}.f-soft{fill:#1E2848}.s-surface{stroke:#161A21}.f-surface{fill:#161A21}.s-grid{stroke:#283040}.f-grid{fill:#283040}}text{font-family:Helvetica,Arial,sans-serif}.m{font-family:Menlo,Consolas,monospace}</style>
+<rect width="100%" height="100%" class="f-surface"/>
+<ellipse cx="27.5" cy="27.5" rx="21.5" ry="21.5" stroke-width="1.4" class="s-accent" fill="none"/>
+<text x="27.5" y="30.9" font-size="13.0" text-anchor="middle" class="f-accent">XOR</text>
+<polygon points="172.0,6.0 114.0,6.0 114.0,49.0 172.0,49.0" stroke-width="1.4" class="s-ink" fill="none"/>
+<text x="143.0" y="23.9" font-size="13.0" text-anchor="middle" class="f-ink">FF</text>
+<text x="143.0" y="37.9" font-size="13.0" text-anchor="middle" class="f-ink">q(0)</text>
+<polygon points="295.0,6.0 237.0,6.0 237.0,49.0 295.0,49.0" stroke-width="1.4" class="s-ink" fill="none"/>
+<text x="266.0" y="23.9" font-size="13.0" text-anchor="middle" class="f-ink">FF</text>
+<text x="266.0" y="37.9" font-size="13.0" text-anchor="middle" class="f-ink">q(1)</text>
+<polygon points="418.0,6.0 360.0,6.0 360.0,49.0 418.0,49.0" stroke-width="1.4" class="s-ink" fill="none"/>
+<text x="389.0" y="23.9" font-size="13.0" text-anchor="middle" class="f-ink">FF</text>
+<text x="389.0" y="37.9" font-size="13.0" text-anchor="middle" class="f-ink">q(2)</text>
+<path d="M49.0,27.5 C64.9,27.5 87.1,27.5 105.8,27.5" stroke-width="1.4" class="s-line" fill="none"/>
+<polygon points="105.9,24.7 113.9,27.5 105.9,30.3" stroke-width="1.4" class="s-line f-line"/>
+<text x="81.5" y="24.1" font-size="12.0" text-anchor="middle" class="f-ink">d(0)</text>
+<path d="M172.1,27.5 C188.9,27.5 210.5,27.5 228.6,27.5" stroke-width="1.4" class="s-line" fill="none"/>
+<polygon points="228.7,24.7 236.7,27.5 228.7,30.3" stroke-width="1.4" class="s-line f-line"/>
+<text x="204.5" y="24.1" font-size="12.0" text-anchor="middle" class="f-ink">d(1)</text>
+<path d="M236.9,41.9 C218.9,50.3 194.7,60.2 172.0,64.5 C146.7,69.4 139.2,69.7 114.0,64.5 C92.7,60.1 70.2,50.1 53.6,41.6" stroke-width="1.4" class="s-accent" fill="none"/>
+<polygon points="52.2,44.1 46.5,37.9 54.9,39.1" stroke-width="1.4" class="s-accent f-accent"/>
+<path d="M295.1,27.5 C311.9,27.5 333.5,27.5 351.6,27.5" stroke-width="1.4" class="s-line" fill="none"/>
+<polygon points="351.7,24.7 359.7,27.5 351.7,30.3" stroke-width="1.4" class="s-line f-line"/>
+<text x="327.5" y="24.1" font-size="12.0" text-anchor="middle" class="f-ink">d(2)</text>
+<path d="M359.8,41.1 C341.7,49.3 317.5,59.1 295.0,64.5 C216.7,83.5 194.2,84.4 114.0,76.5 C93.7,74.5 87.0,77.1 69.0,67.5 C60.9,63.2 53.2,56.7 46.9,50.2" stroke-width="1.4" class="s-accent" fill="none"/>
+<polygon points="44.8,52.0 41.4,44.3 48.9,48.2" stroke-width="1.4" class="s-accent f-accent"/>
+</svg>

@@ -45,6 +45,16 @@ def table_row(line: str) -> list:
     return [c.strip() for c in line.strip().strip("|").split("|")]
 
 
+def diagram_node(name: str, alt: str) -> dict:
+    """Embeds a diagram built by tools/build_diagrams.py (drawing primitives, rendered natively)."""
+    path = os.path.join(ROOT, "diagrams", name + ".json")
+    if not os.path.exists(path):
+        raise SystemExit(f"Diagramm {name} fehlt: python3 tools/build_diagrams.py ausführen")
+    with open(path, encoding="utf-8") as fh:
+        d = json.load(fh)
+    return {"t": "diagram", "id": name, "alt": alt, "w": d["w"], "h": d["h"], "prims": d["prims"]}
+
+
 def to_nodes(md: str) -> list:
     """Very small block-level markdown parser for the subset used in the lessons."""
     lines = clean(md).split("\n")
@@ -66,6 +76,12 @@ def to_nodes(md: str) -> list:
     while i < len(lines):
         line = lines[i]
         stripped = line.strip()
+        diagram = re.match(r"^!\[([^\]]*)\]\(\.\./diagrams/(\w+)\.svg\)\s*$", stripped)
+        if diagram:
+            flush_para(); flush_list()
+            nodes.append(diagram_node(diagram.group(2), diagram.group(1)))
+            i += 1
+            continue
         fence = re.match(r"^(\s*)```(\w*)\s*$", line)
         if fence:
             flush_para(); flush_list()

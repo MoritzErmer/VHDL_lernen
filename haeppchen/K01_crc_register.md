@@ -18,6 +18,8 @@ Aufgabe (F24 A1 F3, sinngemäß): Die Komponente
 - asynchroner Reset auf `"00000"`,
 - `crc` ist der Registerinhalt.
 
+![CRC-Rechenwerk: single_step und 5-Bit-Register mit Rückführung](../diagrams/K01_calc_crc.svg)
+
 Plan:
 1. Signale für die internen Leitungen (`q`, `d`)
 2. Instanz von `single_step`

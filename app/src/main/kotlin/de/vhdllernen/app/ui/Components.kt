@@ -86,6 +86,7 @@ fun Nodes(nodes: List<Node>, onLesson: (String) -> Unit, modifier: Modifier = Mo
                     }
                 }
                 is Node.Table -> TableBlock(node.rows, onLesson)
+                is Node.Diagram -> DiagramView(node)
             }
         }
     }

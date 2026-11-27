@@ -1,0 +1,13 @@
+// Two flip-flops in series against metastability
+digraph sync {
+  rankdir=LR; graph [bgcolor="transparent", fontname="Helvetica", fontsize=13, fontcolor="#000001", nodesep=0.45, ranksep=0.55, pad=0];
+  node [fontname="Helvetica", fontsize=13, color="#000001", fontcolor="#000001", penwidth=1.3];
+  edge [fontname="Helvetica", fontsize=12, color="#000002", fontcolor="#000001", penwidth=1.2, arrowsize=0.8];
+  node [shape=box, width=1.0, height=0.6];
+  in [label="ser_in\n(asynchron)", shape=plaintext];
+  ff1 [label="FF 1\nser_in_d"]; ff2 [label="FF 2\nser_in_dd", color="#000003", fontcolor="#000003", penwidth=2];
+  out [label="Logik\n(synchron)", shape=plaintext];
+  clk [label="clk", shape=plaintext, fontcolor="#000002"];
+  in -> ff1; ff1 -> ff2 [label="darf metastabil\nwerden"]; ff2 -> out [label="sicher"];
+  clk -> ff1 [style=dashed]; clk -> ff2 [style=dashed];
+}

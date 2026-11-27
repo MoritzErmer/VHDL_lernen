@@ -28,6 +28,8 @@ weglassen.)
 
 <details><summary>Lösung</summary>
 
+![Zustandsdiagramm der Garagentor-Steuerung](../diagrams/F08_garagentor.svg)
+
 ```vhdl
 type state_type is (zu, oeffnet, offen, schliesst);
 

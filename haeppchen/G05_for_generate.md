@@ -24,6 +24,9 @@ begin
   cout <= c(N);
 end architecture struct;
 ```
+
+![Ripple-Carry-Addierer aus vier Volladdierern](../diagrams/G05_ripple.svg)
+
 - `generate` ist **nebenläufig** (außerhalb von
   Prozessen), `for … loop` ist **sequenziell** (im
   Prozess). Nicht verwechseln!

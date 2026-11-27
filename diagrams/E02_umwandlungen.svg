@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 732.0 56.8" width="732.0" height="56.8" role="img" aria-label="E02_umwandlungen">
+<style>.s-ink{stroke:#151A22}.f-ink{fill:#151A22}.s-line{stroke:#5A6474}.f-line{fill:#5A6474}.s-accent{stroke:#1F45C4}.f-accent{fill:#1F45C4}.s-soft{stroke:#E3E9FB}.f-soft{fill:#E3E9FB}.s-surface{stroke:#FFFFFF}.f-surface{fill:#FFFFFF}.s-grid{stroke:#D9DEE7}.f-grid{fill:#D9DEE7}@media (prefers-color-scheme: dark){.s-ink{stroke:#E5E9F0}.f-ink{fill:#E5E9F0}.s-line{stroke:#97A1B0}.f-line{fill:#97A1B0}.s-accent{stroke:#8CA6FF}.f-accent{fill:#8CA6FF}.s-soft{stroke:#1E2848}.f-soft{fill:#1E2848}.s-surface{stroke:#161A21}.f-surface{fill:#161A21}.s-grid{stroke:#283040}.f-grid{fill:#283040}}text{font-family:Helvetica,Arial,sans-serif}.m{font-family:Menlo,Consolas,monospace}</style>
+<rect width="100%" height="100%" class="f-surface"/>
+<path d="M131.0,6.0 C131.0,6.0 18.0,6.0 18.0,6.0 C12.0,6.0 6.0,12.0 6.0,18.0 C6.0,18.0 6.0,34.0 6.0,34.0 C6.0,40.0 12.0,46.0 18.0,46.0 C18.0,46.0 131.0,46.0 131.0,46.0 C137.0,46.0 143.0,40.0 143.0,34.0 C143.0,34.0 143.0,18.0 143.0,18.0 C143.0,12.0 137.0,6.0 131.0,6.0" stroke-width="1.4" class="s-ink" fill="none"/>
+<text x="74.5" y="29.4" font-size="13.0" text-anchor="middle" class="f-ink">std_logic_vector</text>
+<path d="M444.0,6.0 C444.0,6.0 324.0,6.0 324.0,6.0 C318.0,6.0 312.0,12.0 312.0,18.0 C312.0,18.0 312.0,34.0 312.0,34.0 C312.0,40.0 318.0,46.0 324.0,46.0 C324.0,46.0 444.0,46.0 444.0,46.0 C450.0,46.0 456.0,40.0 456.0,34.0 C456.0,34.0 456.0,18.0 456.0,18.0 C456.0,12.0 450.0,6.0 444.0,6.0" stroke-width="1.4" class="s-accent" fill="none"/>
+<text x="384.0" y="29.4" font-size="13.0" text-anchor="middle" class="f-accent">unsigned / signed</text>
+<path d="M714.0,6.0 C714.0,6.0 623.0,6.0 623.0,6.0 C617.0,6.0 611.0,12.0 611.0,18.0 C611.0,18.0 611.0,34.0 611.0,34.0 C611.0,40.0 617.0,46.0 623.0,46.0 C623.0,46.0 714.0,46.0 714.0,46.0 C720.0,46.0 726.0,40.0 726.0,34.0 C726.0,34.0 726.0,18.0 726.0,18.0 C726.0,12.0 720.0,6.0 714.0,6.0" stroke-width="1.4" class="s-ink" fill="none"/>
+<text x="668.5" y="29.4" font-size="13.0" text-anchor="middle" class="f-ink">integer</text>
+<path d="M143.4,26.0 C190.7,26.0 254.0,26.0 303.7,26.0" stroke-width="1.4" class="s-line" fill="none"/>
+<polygon points="303.8,23.2 311.8,26.0 303.8,28.8" stroke-width="1.4" class="s-line f-line"/>
+<text x="227.5" y="22.8" font-size="11.0" text-anchor="middle" class="f-ink">unsigned(v)</text>
+<path d="M311.7,43.2 C305.1,44.3 298.4,45.3 292.0,46.0 C235.0,52.2 220.0,52.4 163.0,46.0 C159.1,45.6 155.2,45.0 151.2,44.4" stroke-width="1.4" class="s-line" fill="none"/>
+<polygon points="150.5,47.1 143.1,43.0 151.4,41.6" stroke-width="1.4" class="s-line f-line"/>
+<text x="227.5" y="42.8" font-size="11.0" text-anchor="middle" class="f-ink">std_logic_vector(u)</text>
+<path d="M456.3,26.0 C501.3,26.0 558.9,26.0 602.6,26.0" stroke-width="1.4" class="s-line" fill="none"/>
+<polygon points="602.9,23.2 610.9,26.0 602.9,28.8" stroke-width="1.4" class="s-line f-line"/>
+<text x="533.5" y="22.8" font-size="11.0" text-anchor="middle" class="f-ink">to_integer(u)</text>
+<path d="M610.6,42.6 C604.0,44.0 597.4,45.2 591.0,46.0 C540.3,52.5 526.8,51.5 476.0,46.0 C472.2,45.6 468.3,45.1 464.4,44.5" stroke-width="1.4" class="s-line" fill="none"/>
+<polygon points="463.8,47.2 456.3,43.2 464.6,41.7" stroke-width="1.4" class="s-line f-line"/>
+<text x="533.5" y="42.8" font-size="11.0" text-anchor="middle" class="f-ink">to_unsigned(i, N)</text>
+</svg>

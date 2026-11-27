@@ -19,6 +19,8 @@ type state_type is (start, s1, s10);
 | s1 | s10 / 0 | s1 / 0 |
 | s10 | start / 0 | s1 / **1** |
 
+![Mealy-Automat für die Folge 101](../diagrams/F03_mealy.svg)
+
 ```vhdl
 output_function: process(x, current_state) is
 begin

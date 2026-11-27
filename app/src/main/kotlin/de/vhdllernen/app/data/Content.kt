@@ -9,6 +9,20 @@ sealed interface Node {
     data class Code(val code: String, val lang: String) : Node
     data class ListBlock(val items: List<String>, val ordered: Boolean) : Node
     data class Table(val rows: List<List<String>>) : Node
+    /** A diagram as drawing primitives in diagram units (see tools/build_diagrams.py). */
+    data class Diagram(val id: String, val alt: String, val width: Float, val height: Float, val prims: List<Prim>) : Node
+}
+
+/** Colour roles of diagram primitives; the app maps them to the current theme palette. */
+enum class DiagramRole { INK, LINE, ACCENT, SOFT, SURFACE, GRID }
+
+sealed interface Prim {
+    data class Ellipse(val x: Float, val y: Float, val rx: Float, val ry: Float, val stroke: DiagramRole?, val fill: DiagramRole?) : Prim
+    data class Polygon(val points: FloatArray, val stroke: DiagramRole?, val fill: DiagramRole?) : Prim
+    data class Polyline(val points: FloatArray, val stroke: DiagramRole?, val width: Float) : Prim
+    /** Cubic Bezier chain: start point, then three points per segment. */
+    data class Bezier(val points: FloatArray, val stroke: DiagramRole?, val dashed: Boolean) : Prim
+    data class Label(val x: Float, val y: Float, val text: String, val align: Char, val size: Float, val color: DiagramRole?, val mono: Boolean) : Prim
 }
 
 enum class AnswerMode { CODE, TEXT }
@@ -142,9 +156,40 @@ object ContentParser {
             "code" -> Node.Code(n.str("s"), n.str("lang", 20))
             "ul", "ol" -> Node.ListBlock(n.getJSONArray("items").strings(), ordered = n.optString("t") == "ol")
             "table" -> Node.Table(n.getJSONArray("rows").let { rows -> (0 until rows.length()).map { rows.getJSONArray(it).strings() } })
+            "diagram" -> diagram(n)
             else -> null // unknown node types from newer content are skipped, not fatal
         }
     } ?: emptyList()
+
+    private fun diagram(n: JSONObject): Node.Diagram? {
+        val w = n.optDouble("w", 0.0).toFloat()
+        val h = n.optDouble("h", 0.0).toFloat()
+        val raw = n.optJSONArray("prims") ?: return null
+        if (w !in 1f..4000f || h !in 1f..4000f || raw.length() > MAX_PRIMS) return null
+        val prims = raw.objects().mapNotNull { p ->
+            fun role(key: String) = when (p.optString(key)) {
+                "ink" -> DiagramRole.INK; "line" -> DiagramRole.LINE; "accent" -> DiagramRole.ACCENT
+                "soft" -> DiagramRole.SOFT; "surface" -> DiagramRole.SURFACE; "grid" -> DiagramRole.GRID
+                else -> null
+            }
+            fun f(key: String) = p.optDouble(key, 0.0).toFloat()
+            fun pts(): FloatArray? = p.optJSONArray("pts")?.let { a ->
+                if (a.length() % 2 != 0 || a.length() > 400) null else FloatArray(a.length()) { a.optDouble(it).toFloat() }
+            }
+            when (p.optString("k")) {
+                "E" -> Prim.Ellipse(f("x"), f("y"), f("rx"), f("ry"), role("s"), role("f"))
+                "P" -> pts()?.let { Prim.Polygon(it, role("s"), role("f")) }
+                "L" -> pts()?.let { Prim.Polyline(it, role("s"), p.optDouble("w", 1.4).toFloat()) }
+                "B" -> pts()?.takeIf { (it.size - 2) % 6 == 0 }?.let { Prim.Bezier(it, role("s"), p.optInt("d") == 1) }
+                "T" -> Prim.Label(f("x"), f("y"), p.str("s", 200), p.optString("a", "c").firstOrNull() ?: 'c',
+                    f("z").coerceIn(6f, 30f), role("c"), p.optBoolean("m"))
+                else -> null
+            }
+        }
+        return Node.Diagram(n.str("id", 64), n.str("alt", 300), w, h, prims)
+    }
+
+    private const val MAX_PRIMS = 2000
 
     private fun JSONObject.str(key: String, max: Int = MAX_TEXT): String = optString(key, "").take(max)
     private fun JSONArray.strings(): List<String> = (0 until length()).map { optString(it).take(MAX_TEXT) }

@@ -1,6 +1,30 @@
 package de.vhdllernen.app.ui
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.BoxWithConstraints
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.imePadding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.systemBarsPadding
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.widthIn
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.OpenInFull
+import androidx.compose.material3.Icon
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.layout.layout
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.window.Dialog
+import androidx.compose.ui.window.DialogProperties
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.horizontalScroll
@@ -62,9 +86,82 @@ fun insertAt(v: TextFieldValue, s: String): TextFieldValue {
     return TextFieldValue(text, TextRange(start + s.length))
 }
 
+/** Lets a child use extra width beyond the page padding (the page has a 16 dp gutter). */
+fun Modifier.bleed(each: Dp) = layout { measurable, constraints ->
+    if (!constraints.hasBoundedWidth) {
+        val pl = measurable.measure(constraints)
+        return@layout layout(pl.width, pl.height) { pl.place(0, 0) }
+    }
+    val extra = each.roundToPx() * 2
+    val pl = measurable.measure(
+        constraints.copy(minWidth = constraints.minWidth + extra, maxWidth = constraints.maxWidth + extra)
+    )
+    layout(pl.width - extra, pl.height) { pl.place(-extra / 2, 0) }
+}
+
+@Composable
+private fun KeyBar(value: TextFieldValue, onChange: (TextFieldValue) -> Unit, lang: String, modifier: Modifier = Modifier) {
+    val p = LocalPalette.current
+    Row(modifier.horizontalScroll(rememberScrollState()), horizontalArrangement = Arrangement.spacedBy(6.dp)) {
+        (if (lang == "ikr") ikrKeys else vhdlKeys).forEach { (label, insert) ->
+            Box(
+                Modifier.background(p.surface, Corner).border(1.dp, p.line, Corner)
+                    .clickable { onChange(insertAt(value, insert)) }
+                    .padding(horizontal = 12.dp, vertical = 8.dp)
+            ) { Text(label, style = Type.code, color = p.ink) }
+        }
+    }
+}
+
+/**
+ * The text field itself. Code does not wrap: it scrolls horizontally and, inside the given height, vertically.
+ * Text wraps and scrolls vertically.
+ */
+@Composable
+private fun EditorField(
+    value: TextFieldValue,
+    onChange: (TextFieldValue) -> Unit,
+    code: Boolean,
+    placeholder: String,
+    lang: String,
+    modifier: Modifier,
+) {
+    val p = LocalPalette.current
+    BoxWithConstraints(
+        modifier.clip(Corner).background(if (code) p.sunken else p.surface).border(1.dp, p.line, Corner)
+    ) {
+        val minW = maxWidth
+        val minH = minHeight
+        val vertical = rememberScrollState()
+        val horizontal = rememberScrollState()
+        Box(Modifier.verticalScroll(vertical).then(if (code) Modifier.horizontalScroll(horizontal) else Modifier)) {
+            BasicTextField(
+                value = value,
+                onValueChange = { onChange(if (code && lang == "vhdl") autoIndent(value, it) else it) },
+                textStyle = (if (code) Type.code else Type.body).copy(color = p.ink),
+                cursorBrush = SolidColor(p.accent),
+                visualTransformation = if (code) CodeTransformation(p, lang) else VisualTransformation.None,
+                keyboardOptions = KeyboardOptions(
+                    capitalization = if (code) KeyboardCapitalization.None else KeyboardCapitalization.Sentences,
+                    autoCorrectEnabled = !code,
+                ),
+                modifier = (if (code) Modifier.widthIn(min = minW) else Modifier.width(minW))
+                    .heightIn(min = minH)
+                    .padding(horizontal = 10.dp, vertical = 10.dp),
+                decorationBox = { inner ->
+                    Box {
+                        if (value.text.isEmpty()) Text(placeholder, style = if (code) Type.code else Type.body, color = p.muted)
+                        inner()
+                    }
+                },
+            )
+        }
+    }
+}
+
 /**
  * Answer editor. In code mode with syntax highlighting (VHDL or IKR assembler), auto-indent and extra keys.
- * In text mode a plain multi-line field.
+ * Uses a little more width than the page text and can be opened full screen (also in landscape).
  */
 @Composable
 fun AnswerEditor(
@@ -74,39 +171,42 @@ fun AnswerEditor(
     placeholder: String,
     lang: String = "vhdl",
     modifier: Modifier = Modifier,
+    title: String = if (code) "Deine Lösung" else "Deine Antwort",
 ) {
     val p = LocalPalette.current
-    Column(modifier, verticalArrangement = Arrangement.spacedBy(6.dp)) {
-        if (code) {
-            Row(Modifier.horizontalScroll(rememberScrollState()), horizontalArrangement = Arrangement.spacedBy(6.dp)) {
-                (if (lang == "ikr") ikrKeys else vhdlKeys).forEach { (label, insert) ->
-                    Box(
-                        Modifier.background(p.surface, Corner).border(1.dp, p.line, Corner)
-                            .clickable { onChange(insertAt(value, insert)) }
-                            .padding(horizontal = 12.dp, vertical = 8.dp)
-                    ) { Text(label, style = Type.code, color = p.ink) }
+    var fullscreen by remember { mutableStateOf(false) }
+    Column(modifier.bleed(10.dp), verticalArrangement = Arrangement.spacedBy(6.dp)) {
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            if (code) KeyBar(value, onChange, lang, Modifier.weight(1f)) else Spacer(Modifier.weight(1f))
+            Box(
+                Modifier.padding(start = 6.dp).size(38.dp).border(1.dp, p.line, Corner).clickable { fullscreen = true },
+                contentAlignment = Alignment.Center,
+            ) { Icon(Icons.Filled.OpenInFull, contentDescription = "Im Vollbild bearbeiten", tint = p.ink, modifier = Modifier.size(18.dp)) }
+        }
+        EditorField(
+            value, onChange, code, placeholder, lang,
+            Modifier.fillMaxWidth().heightIn(min = if (code) 200.dp else 110.dp, max = if (code) 420.dp else 300.dp),
+        )
+    }
+    if (fullscreen) {
+        Dialog(
+            onDismissRequest = { fullscreen = false },
+            properties = DialogProperties(usePlatformDefaultWidth = false, decorFitsSystemWindows = false),
+        ) {
+            Column(
+                Modifier.fillMaxSize().background(p.bg).systemBarsPadding().imePadding().padding(horizontal = 8.dp),
+                verticalArrangement = Arrangement.spacedBy(6.dp),
+            ) {
+                Row(Modifier.fillMaxWidth().height(52.dp), verticalAlignment = Alignment.CenterVertically) {
+                    Text(title, style = Type.body.copy(fontWeight = FontWeight.SemiBold), color = p.ink, modifier = Modifier.weight(1f))
+                    Text(
+                        "Fertig", style = Type.body.copy(fontWeight = FontWeight.SemiBold), color = p.accent,
+                        modifier = Modifier.clickable { fullscreen = false }.padding(12.dp),
+                    )
                 }
+                if (code) KeyBar(value, onChange, lang)
+                EditorField(value, onChange, code, placeholder, lang, Modifier.fillMaxWidth().weight(1f).padding(bottom = 8.dp))
             }
         }
-        BasicTextField(
-            value = value,
-            onValueChange = { onChange(if (code && lang == "vhdl") autoIndent(value, it) else it) },
-            textStyle = (if (code) Type.code else Type.body).copy(color = p.ink),
-            cursorBrush = SolidColor(p.accent),
-            visualTransformation = if (code) CodeTransformation(p, lang) else VisualTransformation.None,
-            keyboardOptions = KeyboardOptions(
-                capitalization = if (code) KeyboardCapitalization.None else KeyboardCapitalization.Sentences,
-                autoCorrectEnabled = !code,
-            ),
-            modifier = Modifier.fillMaxWidth().heightIn(min = if (code) 180.dp else 110.dp)
-                .background(if (code) p.sunken else p.surface, Corner).border(1.dp, p.line, Corner)
-                .padding(12.dp),
-            decorationBox = { inner ->
-                Box {
-                    if (value.text.isEmpty()) Text(placeholder, style = if (code) Type.code else Type.body, color = p.muted)
-                    inner()
-                }
-            },
-        )
     }
 }

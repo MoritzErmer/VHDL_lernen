@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 504 168" width="504" height="168" role="img" aria-label="D07_flanke">
+<style>.s-ink{stroke:#151A22}.f-ink{fill:#151A22}.s-line{stroke:#5A6474}.f-line{fill:#5A6474}.s-accent{stroke:#1F45C4}.f-accent{fill:#1F45C4}.s-soft{stroke:#E3E9FB}.f-soft{fill:#E3E9FB}.s-surface{stroke:#FFFFFF}.f-surface{fill:#FFFFFF}.s-grid{stroke:#D9DEE7}.f-grid{fill:#D9DEE7}@media (prefers-color-scheme: dark){.s-ink{stroke:#E5E9F0}.f-ink{fill:#E5E9F0}.s-line{stroke:#97A1B0}.f-line{fill:#97A1B0}.s-accent{stroke:#8CA6FF}.f-accent{fill:#8CA6FF}.s-soft{stroke:#1E2848}.f-soft{fill:#1E2848}.s-surface{stroke:#161A21}.f-surface{fill:#161A21}.s-grid{stroke:#283040}.f-grid{fill:#283040}}text{font-family:Helvetica,Arial,sans-serif}.m{font-family:Menlo,Consolas,monospace}</style>
+<rect width="100%" height="100%" class="f-surface"/>
+<polyline points="78,4 78,160" stroke-width="1.4" class="s-grid" fill="none"/>
+<polyline points="108,4 108,160" stroke-width="1.4" class="s-grid" fill="none"/>
+<polyline points="138,4 138,160" stroke-width="1.4" class="s-grid" fill="none"/>
+<polyline points="168,4 168,160" stroke-width="1.4" class="s-grid" fill="none"/>
+<polyline points="198,4 198,160" stroke-width="1.4" class="s-grid" fill="none"/>
+<polyline points="228,4 228,160" stroke-width="1.4" class="s-grid" fill="none"/>
+<polyline points="258,4 258,160" stroke-width="1.4" class="s-grid" fill="none"/>
+<polyline points="288,4 288,160" stroke-width="1.4" class="s-grid" fill="none"/>
+<polyline points="318,4 318,160" stroke-width="1.4" class="s-grid" fill="none"/>
+<polyline points="348,4 348,160" stroke-width="1.4" class="s-grid" fill="none"/>
+<polyline points="378,4 378,160" stroke-width="1.4" class="s-grid" fill="none"/>
+<polyline points="408,4 408,160" stroke-width="1.4" class="s-grid" fill="none"/>
+<polyline points="438,4 438,160" stroke-width="1.4" class="s-grid" fill="none"/>
+<polyline points="468,4 468,160" stroke-width="1.4" class="s-grid" fill="none"/>
+<polyline points="498,4 498,160" stroke-width="1.4" class="s-grid" fill="none"/>
+<text x="4" y="27" font-size="13" text-anchor="start" class="f-ink m">clk</text>
+<polyline points="78,34 108,34 108,12 138,12 138,34 168,34 168,12 198,12 198,34 228,34 228,12 258,12 258,34 288,34 288,12 318,12 318,34 348,34 348,12 378,12 378,34 408,34 408,12 438,12 438,34 468,34 468,12 498,12" stroke-width="2" class="s-accent" fill="none"/>
+<text x="4" y="67" font-size="13" text-anchor="start" class="f-ink m">taste</text>
+<polyline points="78,74 108,74 138,74 138,52 168,52 198,52 228,52 258,52 288,52 318,52 348,52 378,52 408,52 408,74 438,74 468,74 498,74" stroke-width="2" class="s-accent" fill="none"/>
+<text x="4" y="107" font-size="13" text-anchor="start" class="f-ink m">taste_d</text>
+<polyline points="78,114 108,114 138,114 168,114 168,92 198,92 228,92 258,92 288,92 318,92 348,92 378,92 408,92 438,92 468,92 468,114 498,114" stroke-width="2" class="s-accent" fill="none"/>
+<text x="4" y="147" font-size="13" text-anchor="start" class="f-ink m">puls</text>
+<polyline points="78,154 108,154 138,154 138,132 168,132 168,154 198,154 228,154 258,154 288,154 318,154 348,154 378,154 408,154 438,154 468,154 498,154" stroke-width="2" class="s-accent" fill="none"/>
+</svg>

@@ -17,6 +17,8 @@ Alle drei haben: Zustandsregister + Übergangsfunktion
 | **Moore** | y = g(state) | Ausgangsprozess liest **nur** den Zustand |
 | **Medwedew** | y = Zustand (bzw. Teil davon) | y wird **direkt von Flipflops** getrieben |
 
+![Struktur von Mealy-, Moore- und Medwedew-Automat](../diagrams/F01_strukturen.svg)
+
 Folgen:
 - **Mealy** reagiert im selben Takt auf den Eingang,
   braucht oft **weniger Zustände**, kann aber
