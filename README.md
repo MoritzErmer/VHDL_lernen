@@ -4,6 +4,19 @@ Für die Klausur **Entwurf digitaler Systeme** (Uni Stuttgart, IKR).
 Code-Stil exakt wie im Skript (`clk'event and clk = '1'`, Reset `res_n`,
 `end entity …;`, Automaten mit `transition_function` / `state` / `output_function`).
 
+## 📱 Als Handy-App: Lern-Häppchen
+Alle Häppchen gibt es als Android-App – zusammen mit dem Fach **Rechnerarchitektur**
+([Rechnerarchtektur_Lernen](https://github.com/MoritzErmer/Rechnerarchtektur_Lernen)):
+
+- **Offline** von Anfang an, neue Inhalte lädt die App automatisch im **WLAN**
+- Editor mit **Syntax-Highlighting** (VHDL und IKR-Assembler) und Sondertasten (`<=`, `:=`, `=>`, …)
+- **Abgleich** deiner Lösung mit der Musterlösung, Selbsteinschätzung als `1` / `X` / `0`
+- **Export** deiner Antworten und Fragen, um sie im Chat mit Claude durchzusprechen
+- Hell- und Dunkelmodus
+
+**Installieren:** unter [Releases](https://github.com/MoritzErmer/VHDL_lernen/releases/latest) die
+`Lern-Haeppchen-….apk` auf dem Handy öffnen. Quellcode in [`app/`](app/), Screenshots in [`docs/screenshots/`](docs/screenshots/).
+
 ## So funktioniert's
 Jedes Häppchen dauert **4–6 Minuten** und passt auf den Handy-Bildschirm:
 
@@ -60,17 +73,79 @@ Erklärung** – Wiederholung ist der eigentliche Lerneffekt.
 | D06 | [Von Hand simulieren](haeppchen/D06_von_hand_simulieren.md) | Werte nach jeder Flanke |
 | D07 | [Flankenerkennung](haeppchen/D07_flankenerkennung.md) | Puls aus Tastendruck |
 
-## 🔜 Als Nächstes geplant
-- **E – Typen:** integer/natural/positive, `numeric_std`-Umwandlungen,
-  Aufzählungstypen, Arrays & ROM, Records, Attribute, named/positional association
-- **F – Automaten:** Mealy/Moore/Medwedew erkennen & begründen, 3-Prozess-Template,
-  Steuerwerk + Rechenwerk, Zustandstabelle als Array, Diagramm aus Code
-- **G – Struktur:** Instanziierung, Testbench-Entity & `struct`, Generics,
-  `for/if generate`, rekursive Komponenten
-- **H – Unterprogramme:** Funktionen, Prozeduren, Packages, Operator-Überladung
-- **I – Testbenches:** `wait`, `assert`, Takt-/Reset-Generator, `'transaction`
-- **J – Synthese-Fragen:** synthetisierbar?, kritischer Pfad, Speicherkapazität
-- **K – Klausur-Training:** komplette Klausuraufgaben in Häppchen zerlegt
+## 🧮 Block E – Typen & Arrays
+| | Häppchen | ⏱️ |
+|---|---|---|
+| E01 | [integer, natural, positive, subtype](haeppchen/E01_integer_subtypes.md) | 5 min |
+| E02 | [Umwandlungen mit numeric_std](haeppchen/E02_umwandlungen.md) | 6 min |
+| E03 | [Aufzählungstypen](haeppchen/E03_aufzaehlungstypen.md) | 5 min |
+| E04 | [Eigene Array-Typen](haeppchen/E04_arrays.md) | 6 min |
+| E05 | [ROM als konstantes Array](haeppchen/E05_rom.md) | 6 min |
+| E06 | [Records](haeppchen/E06_records.md) | 4 min |
+| E07 | [Positional vs. named association](haeppchen/E07_aggregate.md) | 4 min |
+| E08 | [Attribute](haeppchen/E08_attribute.md) | 5 min |
+
+## 🔁 Block F – Automaten
+| | Häppchen | ⏱️ |
+|---|---|---|
+| F01 | [Mealy, Moore, Medwedew](haeppchen/F01_automatentypen.md) | 5 min |
+| F02 | [Das 3-Prozess-Template (Moore)](haeppchen/F02_moore_template.md) | 7 min |
+| F03 | [Mealy-Automat](haeppchen/F03_mealy.md) | 6 min |
+| F04 | [Medwedew: Ausgang aus dem Register](haeppchen/F04_medwedew.md) | 5 min |
+| F05 | [Defaults im Automaten](haeppchen/F05_defaults.md) | 5 min |
+| F06 | [Steuerwerk + Rechenwerk](haeppchen/F06_steuerwerk.md) | 7 min |
+| F07 | [Zustandstabelle als Array](haeppchen/F07_tabelle_als_array.md) | 6 min |
+| F08 | [Selbst entwerfen: Garagentor](haeppchen/F08_entwurf_garagentor.md) | 8 min |
+| F09 | [Verhalten aus Code ablesen](haeppchen/F09_verhalten_ablesen.md) | 6 min |
+
+## 🧩 Block G – Strukturbeschreibung
+| | Häppchen | ⏱️ |
+|---|---|---|
+| G01 | [Komponenten instanziieren](haeppchen/G01_instanziierung.md) | 6 min |
+| G02 | [component-Deklaration & positional](haeppchen/G02_component.md) | 4 min |
+| G03 | [Testbench als Strukturbeschreibung](haeppchen/G03_testbench_struct.md) | 6 min |
+| G04 | [Generics](haeppchen/G04_generics.md) | 6 min |
+| G05 | [for-generate](haeppchen/G05_for_generate.md) | 6 min |
+| G06 | [if-generate & Rekursion](haeppchen/G06_if_generate_rekursion.md) | 7 min |
+
+## 📦 Block H – Funktionen, Prozeduren, Packages
+| | Häppchen | ⏱️ |
+|---|---|---|
+| H01 | [Funktionen](haeppchen/H01_funktionen.md) | 6 min |
+| H02 | [Prozeduren](haeppchen/H02_prozeduren.md) | 6 min |
+| H03 | [Wo wird was deklariert?](haeppchen/H03_wo_deklarieren.md) | 4 min |
+| H04 | [Packages](haeppchen/H04_packages.md) | 6 min |
+| H05 | [Operatoren überladen](haeppchen/H05_operatoren.md) | 5 min |
+| H06 | [ROM per Funktion vorberechnen](haeppchen/H06_rom_init_funktion.md) | 7 min |
+
+## 🧪 Block I – Testbenches
+| | Häppchen | ⏱️ |
+|---|---|---|
+| I01 | [Takt- und Reset-Generator](haeppchen/I01_takt_reset.md) | 5 min |
+| I02 | [Die vier wait-Formen](haeppchen/I02_wait.md) | 4 min |
+| I03 | [assert und erschöpfender Test](haeppchen/I03_assert_test.md) | 6 min |
+| I04 | [Simulationszeiten berechnen](haeppchen/I04_simulationszeit.md) | 4 min |
+| I05 | [Stimuli nicht auf die Flanke legen](haeppchen/I05_flanken_race.md) | 5 min |
+| I06 | [Event vs. Transaction](haeppchen/I06_event_transaction.md) | 5 min |
+
+## 🏭 Block J – Synthesefragen
+| | Häppchen | ⏱️ |
+|---|---|---|
+| J01 | [Synthetisierbar oder nicht?](haeppchen/J01_synthetisierbar.md) | 5 min |
+| J02 | [Kritischer Pfad](haeppchen/J02_kritischer_pfad.md) | 6 min |
+| J03 | [Hardware-Aufwand von Operatoren](haeppchen/J03_aufwand.md) | 5 min |
+| J04 | [Funktionale vs. Timing-Simulation](haeppchen/J04_simulationsarten.md) | 3 min |
+| J05 | [Namen und Schreibweise](haeppchen/J05_namen_fallen.md) | 3 min |
+
+## 🎓 Block K – Klausurtraining
+| | Häppchen | ⏱️ |
+|---|---|---|
+| K01 | [Klausur F24: CRC-Rechenwerk](haeppchen/K01_crc_register.md) | 8 min |
+| K02 | [Klausur F24: Steuerwerk](haeppchen/K02_crc_steuerwerk.md) | 8 min |
+| K03 | [Klausur H19: 8-Bit-Prioritätsencoder](haeppchen/K03_prio_encoder_8bit.md) | 7 min |
+| K04 | [Klausur F20: Multiplizierer mit Schleife](haeppchen/K04_multiplizierer.md) | 9 min |
+| K05 | [Klausur F20: Volladdierer mit „+“](haeppchen/K05_volladdierer_unsigned.md) | 5 min |
+| K06 | [Klausur F24: CRC per ROM](haeppchen/K06_crc_rom.md) | 10 min |
 
 ---
 

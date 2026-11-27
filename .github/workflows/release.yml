@@ -1,0 +1,180 @@
+name: Release
+
+# Builds a signed APK on every push and publishes it as a GitHub release (same approach as DesignLanguages):
+# - default branch: regular release, marked "Latest"
+# - other branches: pre-release
+# Differences: this repository is public, so the signing key is NOT committed. It comes from the secrets
+# VHDL_KEYSTORE_BASE64 / VHDL_KEYSTORE_PASSWORD. The release also carries haeppchen.json (lessons of both
+# courses), which the app downloads over Wi-Fi.
+on:
+  push:
+    branches-ignore: ["dependabot/**"]
+    # Lesson texts only (haeppchen/*.md, README) are published by content.yml without a new APK.
+    paths-ignore: ["**.md", "docs/**", "am_rechner/**", "meine_dateien/**", "sim.sh"]
+  workflow_dispatch:
+
+permissions: {}
+
+defaults:
+  run:
+    shell: bash
+
+concurrency:
+  group: release-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    permissions:
+      contents: write      # create the release and its tag
+    steps:
+      - name: Quellcode holen
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+          fetch-depth: 0   # history and tags for the release notes
+
+      - name: Signaturschlüssel prüfen
+        env:
+          KEYSTORE_BASE64: ${{ secrets.VHDL_KEYSTORE_BASE64 }}
+          KEYSTORE_PASSWORD: ${{ secrets.VHDL_KEYSTORE_PASSWORD }}
+        run: |
+          if [ -z "$KEYSTORE_BASE64" ] || [ -z "$KEYSTORE_PASSWORD" ]; then
+            echo "::error::Secrets VHDL_KEYSTORE_BASE64 und VHDL_KEYSTORE_PASSWORD fehlen (Settings → Secrets and variables → Actions). Ohne sie kann kein update-fähiges Release gebaut werden."
+            exit 1
+          fi
+          umask 077
+          echo "$KEYSTORE_BASE64" | base64 -d > "$RUNNER_TEMP/release.jks"
+          echo "VHDL_KEYSTORE_FILE=$RUNNER_TEMP/release.jks" >> "$GITHUB_ENV"
+
+      - name: Inhalte beider Fächer bauen
+        run: |
+          git clone --depth 1 https://github.com/MoritzErmer/Rechnerarchtektur_Lernen "$RUNNER_TEMP/ra"
+          python3 tools/build_content.py --ra "$RUNNER_TEMP/ra" --revision "$(date +%s)"
+
+      - name: JDK 21 einrichten
+        uses: actions/setup-java@d1374f8ac74474200d16ef8ecee22c7ae7a51880 # v6.3.0
+        with:
+          distribution: temurin
+          java-version: 21
+
+      - uses: gradle/actions/wrapper-validation@8da46b539cd8fe6ab27ca75128919a18d757604c # v6.4.1
+
+      - name: Gradle einrichten
+        uses: gradle/actions/setup-gradle@8da46b539cd8fe6ab27ca75128919a18d757604c # v6.4.1
+        with:
+          cache-disabled: true
+
+      - name: Version bestimmen
+        id: v
+        env:
+          RUN: ${{ github.run_number }}
+        run: |
+          BASE=$(tr -d '[:space:]' < VERSION)
+          if [[ ! "$BASE" =~ ^[0-9]{1,2}\.[0-9]{1,2}$ ]]; then
+            echo "::error::VERSION muss MAJOR.MINOR enthalten (z. B. 0.1), ist '$BASE'"; exit 1
+          fi
+          IFS=. read -r MAJ MIN <<< "$BASE"
+          echo "version=$BASE.$RUN" >> "$GITHUB_OUTPUT"
+          echo "code=$(( MAJ * 10000000 + MIN * 100000 + RUN ))" >> "$GITHUB_OUTPUT"
+
+      - name: Tests und Release-Build
+        env:
+          V: ${{ steps.v.outputs.version }}
+          CODE: ${{ steps.v.outputs.code }}
+          VHDL_KEYSTORE_PASSWORD: ${{ secrets.VHDL_KEYSTORE_PASSWORD }}
+        run: |
+          for attempt in 1 2 3; do
+            if ./gradlew --no-daemon --console=plain :app:testDebugUnitTest :app:assembleRelease \
+                 "-PversionName=$V" "-PversionCode=$CODE" 2>&1 | tee /tmp/build.log; then
+              exit 0
+            fi
+            if grep -qE "^e: |FAILED" /tmp/build.log && ! grep -q "status code 429" /tmp/build.log; then
+              echo "=================== FEHLER ==================="
+              grep -E "^e: |FAILED|expected:|actual:" /tmp/build.log | head -60 || true
+              exit 1
+            fi
+            echo "::warning::Build-Versuch $attempt fehlgeschlagen (Netzwerk?), neuer Versuch in 60 s"
+            sleep 60
+          done
+          exit 1
+
+      - name: APK prüfen und benennen
+        id: pkg
+        env:
+          V: ${{ steps.v.outputs.version }}
+          CODE: ${{ steps.v.outputs.code }}
+          REPO: ${{ github.repository }}
+        run: |
+          rm -f "$RUNNER_TEMP/release.jks"
+          mkdir -p dist
+          APK="dist/Lern-Haeppchen-$V.apk"
+          cp app/build/outputs/apk/release/app-release.apk "$APK"
+          (cd dist && sha256sum "Lern-Haeppchen-$V.apk" > "Lern-Haeppchen-$V.apk.sha256")
+          BT=$(ls -d "$ANDROID_HOME"/build-tools/*/ | sort -V | tail -1)
+          VERIFY=$("${BT}apksigner" verify --verbose --print-certs "$APK")
+          if ! grep -q "Verified using v2 scheme (APK Signature Scheme v2): true" <<< "$VERIFY"; then
+            echo "::error::APK-Signatur (v2) ungültig"; exit 1
+          fi
+          CERT=$(grep -m1 'certificate SHA-256 digest' <<< "$VERIFY" | awk '{print $NF}')
+          EXPECTED=$(tr -d '[:space:]' < .github/release-cert-sha256.txt | tr 'A-F' 'a-f')
+          if [ "$CERT" != "$EXPECTED" ]; then
+            echo "::error::Signaturschlüssel passt nicht zum hinterlegten Fingerabdruck ($CERT ≠ $EXPECTED)."; exit 1
+          fi
+          echo "cert=$CERT" >> "$GITHUB_OUTPUT"
+          # Content for the in-app update, with a pointer to this APK release.
+          python3 tools/stamp_content.py content/haeppchen.json dist/haeppchen.json \
+            --app-code "$CODE" --app-name "$V" --app-url "https://github.com/$REPO/releases/tag/v$V"
+
+      - name: GitHub-Release erstellen
+        env:
+          GH_TOKEN: ${{ github.token }}
+          V: ${{ steps.v.outputs.version }}
+          CERT: ${{ steps.pkg.outputs.cert }}
+          BRANCH: ${{ github.ref_name }}
+          DEFAULT_BRANCH: ${{ github.event.repository.default_branch }}
+        run: |
+          # "Neu in dieser Version": commit messages since the previous release tag (titles + bullet points),
+          # without trailer lines. Commit messages are written as release notes (see CLAUDE.md).
+          PREV=""
+          if [ "$BRANCH" = "$DEFAULT_BRANCH" ]; then
+            PREV=$(gh release list --repo "$GITHUB_REPOSITORY" --exclude-pre-releases --limit 10 --json tagName \
+              -q '.[].tagName' 2>/dev/null | grep -vx "v$V" | head -1 || true)
+          fi
+          if [ -z "$PREV" ]; then
+            for t in $(git tag --list 'v*' --sort=-creatordate); do
+              [ "$t" = "v$V" ] && continue
+              if git merge-base --is-ancestor "$t" "$GITHUB_SHA"; then PREV="$t"; break; fi
+            done
+          fi
+          if [ -n "$PREV" ] && git rev-parse -q --verify "$PREV^{commit}" >/dev/null; then RANGE="$PREV..$GITHUB_SHA"; else RANGE="-n 20 $GITHUB_SHA"; fi
+          {
+            echo "## Neu in dieser Version"
+            echo
+            git log --format='### %s%n%n%b' $RANGE | awk '/^### Merge (branch|remote-tracking|pull request)/{skip=1; next} /^### /{skip=0} !skip' > raw-log.txt || true
+            { grep -vE '^(Co-Authored-By|Claude-Session|Signed-off-by):' raw-log.txt || true; } \
+              | sed -e 's/ \[skip ci\]//' | cat -s > log.txt
+            head -c 30000 log.txt
+            echo
+            if [ -n "$PREV" ]; then echo "_Änderungen seit \`$PREV\`._"; echo; fi
+          } > changes.md
+          {
+            echo "## Installation"
+            echo
+            echo "\`Lern-Haeppchen-$V.apk\` auf dem Handy herunterladen und öffnen (Installation aus unbekannten Quellen erlauben)."
+            echo "Updates einfach darüber installieren. Neue Lern-Inhalte lädt die App selbst über WLAN (\`haeppchen.json\`)."
+            echo
+            echo "Prüfsumme: \`Lern-Haeppchen-$V.apk.sha256\` · Zertifikat (SHA-256): \`$CERT\`"
+            echo
+            echo "Branch: \`$BRANCH\` · Commit: \`${GITHUB_SHA:0:7}\`"
+          } > install.md
+          cat changes.md install.md > notes.md
+          if [ "$BRANCH" = "$DEFAULT_BRANCH" ]; then
+            gh release create "v$V" dist/* --repo "$GITHUB_REPOSITORY" --target "$GITHUB_SHA" \
+              --title "Lern-Häppchen $V" --notes-file notes.md --latest
+          else
+            gh release create "v$V" dist/* --repo "$GITHUB_REPOSITORY" --target "$GITHUB_SHA" \
+              --title "Lern-Häppchen $V ($BRANCH)" --notes-file notes.md --prerelease --latest=false
+          fi

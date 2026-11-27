@@ -17,7 +17,7 @@ GHDL installieren (Linux: `sudo apt install ghdl`, Windows/Mac: siehe
 ./sim.sh tb_halbaddierer am_rechner/L01/halbaddierer.vhd am_rechner/L01/tb_halbaddierer.vhd
 ```
 Dateien in Abhängigkeits-Reihenfolge angeben (erst Bausteine, dann Testbench).
-Wellenform ansehen: `gtkwave build/tb_halbaddierer.ghw`.
+Wellenform ansehen: `gtkwave build/tb_halbaddierer/tb_halbaddierer.ghw`.
 
 Alles auf einmal testen: `./am_rechner/alle_testen.sh`
 
@@ -33,3 +33,6 @@ Alles auf einmal testen: `./am_rechner/alle_testen.sh`
 | `L03` | B01–B02 | Multiplexer, 7-Segment, Prioritätsencoder |
 | `L04` | C02–C08 | Signal vs. Variable, ALU, Popcount |
 | `L05` | D01, D07 | D-Flipflop, Flankenerkennung |
+| `L07` | F02–F09 | Sequenzdetektor als Moore/Mealy/Medwedew, Garagentor |
+| `L08` | G01–G06 | Volladdierer aus Halbaddierern, `generate`, rekursiver Encoder |
+| `L09` | K01–K06 | Klausurlösungen F24 (CRC, Steuerwerk, ROM), H19, F20 |

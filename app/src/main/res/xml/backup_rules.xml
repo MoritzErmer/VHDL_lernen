@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Back up the learning progress (answers, ratings), not the downloaded content cache. -->
+<full-backup-content>
+    <include domain="file" path="fortschritt.json" />
+    <include domain="sharedpref" path="einstellungen.xml" />
+</full-backup-content>

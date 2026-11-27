@@ -1,6 +1,6 @@
 # D07 · Flankenerkennung
 
-⏱️ 5 min · zurück: [D06](D06_von_hand_simulieren.md) · weiter: [Übersicht](../README.md)
+⏱️ 5 min · zurück: [D06](D06_von_hand_simulieren.md) · weiter: [E01](E01_integer_subtypes.md)
 
 ## 🎯 Ziel
 Aus einem langen Tastendruck einen **einzigen**

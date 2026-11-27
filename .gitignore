@@ -1,3 +1,24 @@
+# VHDL simulation output
 build/
 *.o
 *.cf
+
+# Android / Gradle
+.gradle/
+*/build/
+local.properties
+.idea/
+*.iml
+.DS_Store
+captures/
+.kotlin/
+
+# Signing material and secrets: NEVER commit them, this repository is public.
+# The release key lives only in the GitHub secrets VHDL_KEYSTORE_BASE64 / VHDL_KEYSTORE_PASSWORD.
+*.jks
+*.keystore
+*.p12
+*.b64
+keystore.properties
+secrets.properties
+.env

@@ -1,0 +1,56 @@
+name: Inhalte veröffentlichen
+
+# Publishes new lessons without building a new APK: rebuilds haeppchen.json from both repositories
+# (this one and MoritzErmer/Rechnerarchtektur_Lernen) and replaces the asset on the latest release.
+# The app downloads it over Wi-Fi. Runs on lesson changes here, daily (to pick up changes in the
+# Rechnerarchitektur repository) and on demand.
+on:
+  push:
+    branches-ignore: ["dependabot/**"]
+    paths: ["haeppchen/**", "README.md", "tools/build_content.py", "tools/stamp_content.py"]
+  schedule:
+    - cron: "17 4 * * *"
+  workflow_dispatch:
+
+permissions: {}
+
+concurrency:
+  group: content
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: write      # replace the release asset
+    steps:
+      - name: Quellcode holen
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Inhalte bauen und veröffentlichen
+        env:
+          GH_TOKEN: ${{ github.token }}
+          BRANCH: ${{ github.ref_name }}
+          DEFAULT_BRANCH: ${{ github.event.repository.default_branch }}
+        run: |
+          if [ "$BRANCH" != "$DEFAULT_BRANCH" ]; then
+            echo "Nur der Standard-Branch veröffentlicht Inhalte (dieser: $BRANCH)."; exit 0
+          fi
+          git clone --depth 1 https://github.com/MoritzErmer/Rechnerarchtektur_Lernen "$RUNNER_TEMP/ra"
+          python3 tools/build_content.py --ra "$RUNNER_TEMP/ra" --out "$RUNNER_TEMP/new.json"
+          TAG=$(gh release view --repo "$GITHUB_REPOSITORY" --json tagName -q .tagName 2>/dev/null || true)
+          if [ -z "$TAG" ]; then
+            echo "::notice::Noch kein Release vorhanden – die Inhalte kommen mit dem ersten APK-Release."; exit 0
+          fi
+          mkdir -p old dist
+          gh release download "$TAG" --repo "$GITHUB_REPOSITORY" --pattern haeppchen.json --dir old || true
+          if python3 tools/stamp_content.py --same-version old/haeppchen.json "$RUNNER_TEMP/new.json"; then
+            echo "Inhalte unverändert (Release $TAG)."; exit 0
+          fi
+          python3 tools/stamp_content.py "$RUNNER_TEMP/new.json" dist/haeppchen.json \
+            --revision "$(date +%s)" --app-from old/haeppchen.json
+          gh release upload "$TAG" dist/haeppchen.json --repo "$GITHUB_REPOSITORY" --clobber
+          echo "::notice::Neue Inhalte an Release $TAG veröffentlicht."

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Theme.VhdlLernen" parent="android:Theme.Material.Light.NoActionBar">
+        <item name="android:windowBackground">@color/splash</item>
+    </style>
+    <color name="splash">#F4F6FA</color>
+    <color name="ic_launcher_background">#1B3FB8</color>
+</resources>
