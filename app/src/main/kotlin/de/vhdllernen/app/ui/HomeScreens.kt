@@ -242,6 +242,7 @@ fun HomeScreen(state: AppState, courseId: String, progress: Map<String, Progress
     }
 }
 
+@OptIn(ExperimentalLayoutApi::class)
 @Composable
 private fun Summary(course: Course, progress: Map<String, Progress>) {
     val p = LocalPalette.current
@@ -251,7 +252,7 @@ private fun Summary(course: Course, progress: Map<String, Progress>) {
         verticalArrangement = Arrangement.spacedBy(12.dp),
     ) {
         ProgressVector(course, progress)
-        Row(horizontalArrangement = Arrangement.spacedBy(14.dp)) {
+        FlowRow(horizontalArrangement = Arrangement.spacedBy(14.dp), verticalArrangement = Arrangement.spacedBy(6.dp)) {
             listOf(Rating.ONE, Rating.X, Rating.ZERO, Rating.U).forEach { r ->
                 Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(5.dp)) {
                     RatingCell(r, size = 16)
