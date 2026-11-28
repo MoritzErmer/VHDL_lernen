@@ -1,0 +1,31 @@
+// Senso main control (Moore)
+digraph steuerung {
+  rankdir=TB; graph [bgcolor="transparent", fontname="Helvetica", fontsize=13, fontcolor="#000001", nodesep=0.35, ranksep=0.4, pad=0];
+  node [fontname="Helvetica", fontsize=12, color="#000001", fontcolor="#000001", penwidth=1.3, shape=box, style="rounded"];
+  edge [fontname="Helvetica", fontsize=11, color="#000002", fontcolor="#000001", penwidth=1.2, arrowsize=0.8];
+  init [label="init\nnext_rnd, res_step,\nres_score, res_duration"];
+  store [label="store\nstore_rnd"];
+  load [label="load\nrestore_rnd, res_step"];
+  show [label="show\nled_on, start_timer", color="#000003", fontcolor="#000003"];
+  pause [label="pause\nstart_timer"];
+  show_next [label="show_next\nnext_rnd, inc_step"];
+  reload [label="reload\nrestore_rnd, res_step"];
+  wait_key [label="wait_key", color="#000003", fontcolor="#000003"];
+  key_ok [label="key_ok\nnext_rnd, inc_step"];
+  won [label="won\ninc_score, dec_duration"];
+  lost [label="lost\nall_on, start_timer"];
+  init -> store [label="key_valid"];
+  store -> load;
+  load -> show;
+  show -> pause [label="expired"];
+  pause -> show_next [label="expired and\nnot step_eq_score"];
+  show_next -> show;
+  pause -> reload [label="expired and\nstep_eq_score"];
+  reload -> wait_key;
+  wait_key -> key_ok [label="richtig,\nnicht fertig"];
+  key_ok -> wait_key;
+  wait_key -> won [label="richtig\nund fertig"];
+  won -> load;
+  wait_key -> lost [label="falsch"];
+  lost -> init [label="expired"];
+}

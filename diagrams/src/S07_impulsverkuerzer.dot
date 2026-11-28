@@ -1,0 +1,17 @@
+// Pulse shortener (Moore): key = 1 only in state pulse
+digraph puls {
+  rankdir=LR; graph [bgcolor="transparent", fontname="Helvetica", fontsize=13, fontcolor="#000001", nodesep=0.5, ranksep=0.7, pad=0];
+  node [fontname="Helvetica", fontsize=13, color="#000001", fontcolor="#000001", penwidth=1.3, shape=box, style="rounded", width=1.0];
+  edge [fontname="Helvetica", fontsize=12, color="#000002", fontcolor="#000001", penwidth=1.2, arrowsize=0.8];
+  init [shape=point, width=0.08, color="#000002"];
+  init -> idle [label="res_n"];
+  idle [label="idle\nkey=0"];
+  pulse [label="pulse\nkey=1", color="#000003", fontcolor="#000003"];
+  hold [label="hold\nkey=0"];
+  idle -> idle [label="0"];
+  idle -> pulse [label="1"];
+  pulse -> hold [label="1"];
+  pulse -> idle [label="0", constraint=false];
+  hold -> hold [label="1"];
+  hold -> idle [label="0", constraint=false];
+}

@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 431.8 133.7" width="431.8" height="133.7" role="img" aria-label="S07_impulsverkuerzer">
+<style>.s-ink{stroke:#151A22}.f-ink{fill:#151A22}.s-line{stroke:#5A6474}.f-line{fill:#5A6474}.s-accent{stroke:#1F45C4}.f-accent{fill:#1F45C4}.s-soft{stroke:#E3E9FB}.f-soft{fill:#E3E9FB}.s-surface{stroke:#FFFFFF}.f-surface{fill:#FFFFFF}.s-grid{stroke:#D9DEE7}.f-grid{fill:#D9DEE7}@media (prefers-color-scheme: dark){.s-ink{stroke:#E5E9F0}.f-ink{fill:#E5E9F0}.s-line{stroke:#97A1B0}.f-line{fill:#97A1B0}.s-accent{stroke:#8CA6FF}.f-accent{fill:#8CA6FF}.s-soft{stroke:#1E2848}.f-soft{fill:#1E2848}.s-surface{stroke:#161A21}.f-surface{fill:#161A21}.s-grid{stroke:#283040}.f-grid{fill:#283040}}text{font-family:Helvetica,Arial,sans-serif}.m{font-family:Menlo,Consolas,monospace}</style>
+<rect width="100%" height="100%" class="f-surface"/>
+<ellipse cx="8.9" cy="73.0" rx="2.9" ry="2.9" stroke-width="1.4" class="s-line f-line"/>
+<path d="M153.8,55.0 C153.8,55.0 105.8,55.0 105.8,55.0 C99.8,55.0 93.8,61.0 93.8,67.0 C93.8,67.0 93.8,79.0 93.8,79.0 C93.8,85.0 99.8,91.0 105.8,91.0 C105.8,91.0 153.8,91.0 153.8,91.0 C159.8,91.0 165.8,85.0 165.8,79.0 C165.8,79.0 165.8,67.0 165.8,67.0 C165.8,61.0 159.8,55.0 153.8,55.0" stroke-width="1.4" class="s-ink" fill="none"/>
+<text x="129.8" y="69.4" font-size="13.0" text-anchor="middle" class="f-ink">idle</text>
+<text x="129.8" y="83.4" font-size="13.0" text-anchor="middle" class="f-ink">key=0</text>
+<path d="M283.8,55.0 C283.8,55.0 235.8,55.0 235.8,55.0 C229.8,55.0 223.8,61.0 223.8,67.0 C223.8,67.0 223.8,79.0 223.8,79.0 C223.8,85.0 229.8,91.0 235.8,91.0 C235.8,91.0 283.8,91.0 283.8,91.0 C289.8,91.0 295.8,85.0 295.8,79.0 C295.8,79.0 295.8,67.0 295.8,67.0 C295.8,61.0 289.8,55.0 283.8,55.0" stroke-width="1.4" class="s-accent" fill="none"/>
+<text x="259.8" y="69.4" font-size="13.0" text-anchor="middle" class="f-accent">pulse</text>
+<text x="259.8" y="83.4" font-size="13.0" text-anchor="middle" class="f-accent">key=1</text>
+<path d="M413.8,55.0 C413.8,55.0 365.8,55.0 365.8,55.0 C359.8,55.0 353.8,61.0 353.8,67.0 C353.8,67.0 353.8,79.0 353.8,79.0 C353.8,85.0 359.8,91.0 365.8,91.0 C365.8,91.0 413.8,91.0 413.8,91.0 C419.8,91.0 425.8,85.0 425.8,79.0 C425.8,79.0 425.8,67.0 425.8,67.0 C425.8,61.0 419.8,55.0 413.8,55.0" stroke-width="1.4" class="s-ink" fill="none"/>
+<text x="389.8" y="69.4" font-size="13.0" text-anchor="middle" class="f-ink">hold</text>
+<text x="389.8" y="83.4" font-size="13.0" text-anchor="middle" class="f-ink">key=0</text>
+<path d="M11.9,73.0 C20.7,73.0 56.0,73.0 85.5,73.0" stroke-width="1.4" class="s-line" fill="none"/>
+<polygon points="85.6,70.2 93.6,73.0 85.6,75.8" stroke-width="1.4" class="s-line f-line"/>
+<text x="52.8" y="69.6" font-size="12.0" text-anchor="middle" class="f-ink">res_n</text>
+<path d="M120.1,54.8 C115.0,37.6 118.3,19.0 129.8,19.0 C139.5,19.0 143.3,32.2 141.2,46.7" stroke-width="1.4" class="s-line" fill="none"/>
+<polygon points="143.9,47.5 139.5,54.8 138.4,46.3" stroke-width="1.4" class="s-line f-line"/>
+<text x="129.8" y="15.6" font-size="12.0" text-anchor="middle" class="f-ink">0</text>
+<path d="M166.1,73.0 C181.3,73.0 199.3,73.0 215.4,73.0" stroke-width="1.4" class="s-line" fill="none"/>
+<polygon points="215.6,70.2 223.6,73.0 215.6,75.8" stroke-width="1.4" class="s-line f-line"/>
+<text x="194.8" y="69.6" font-size="12.0" text-anchor="middle" class="f-ink">1</text>
+<path d="M224.3,91.1 C213.7,94.8 201.9,97.0 190.8,95.0 C185.1,94.0 179.3,92.5 173.7,90.8" stroke-width="1.4" class="s-line" fill="none"/>
+<polygon points="172.8,93.4 166.0,88.3 174.5,88.1" stroke-width="1.4" class="s-line f-line"/>
+<text x="194.8" y="91.6" font-size="12.0" text-anchor="middle" class="f-ink">0</text>
+<path d="M296.1,73.0 C311.3,73.0 329.3,73.0 345.4,73.0" stroke-width="1.4" class="s-line" fill="none"/>
+<polygon points="345.6,70.2 353.6,73.0 345.6,75.8" stroke-width="1.4" class="s-line f-line"/>
+<text x="324.8" y="69.6" font-size="12.0" text-anchor="middle" class="f-ink">1</text>
+<path d="M362.9,91.0 C345.0,102.4 320.0,116.0 295.8,122.0 C264.7,129.7 254.9,129.5 223.8,122.0 C207.7,118.1 205.4,112.7 190.8,105.0 C184.6,101.8 178.1,98.3 171.7,95.0" stroke-width="1.4" class="s-line" fill="none"/>
+<polygon points="170.1,97.3 164.3,91.0 172.7,92.3" stroke-width="1.4" class="s-line f-line"/>
+<text x="259.8" y="118.6" font-size="12.0" text-anchor="middle" class="f-ink">0</text>
+<path d="M380.1,54.8 C375.0,37.6 378.3,19.0 389.8,19.0 C399.5,19.0 403.3,32.2 401.2,46.7" stroke-width="1.4" class="s-line" fill="none"/>
+<polygon points="403.9,47.5 399.5,54.8 398.4,46.3" stroke-width="1.4" class="s-line f-line"/>
+<text x="389.8" y="15.6" font-size="12.0" text-anchor="middle" class="f-ink">1</text>
+</svg>

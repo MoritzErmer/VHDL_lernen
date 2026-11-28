@@ -1,0 +1,53 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 736.4 88.2" width="736.4" height="88.2" role="img" aria-label="S09_lfsr">
+<style>.s-ink{stroke:#151A22}.f-ink{fill:#151A22}.s-line{stroke:#5A6474}.f-line{fill:#5A6474}.s-accent{stroke:#1F45C4}.f-accent{fill:#1F45C4}.s-soft{stroke:#E3E9FB}.f-soft{fill:#E3E9FB}.s-surface{stroke:#FFFFFF}.f-surface{fill:#FFFFFF}.s-grid{stroke:#D9DEE7}.f-grid{fill:#D9DEE7}@media (prefers-color-scheme: dark){.s-ink{stroke:#E5E9F0}.f-ink{fill:#E5E9F0}.s-line{stroke:#97A1B0}.f-line{fill:#97A1B0}.s-accent{stroke:#8CA6FF}.f-accent{fill:#8CA6FF}.s-soft{stroke:#1E2848}.f-soft{fill:#1E2848}.s-surface{stroke:#161A21}.f-surface{fill:#161A21}.s-grid{stroke:#283040}.f-grid{fill:#283040}}text{font-family:Helvetica,Arial,sans-serif}.m{font-family:Menlo,Consolas,monospace}</style>
+<rect width="100%" height="100%" class="f-surface"/>
+<ellipse cx="81.2" cy="27.2" rx="21.4" ry="21.4" stroke-width="1.4" class="s-accent" fill="none"/>
+<text x="81.2" y="29.7" font-size="10.0" text-anchor="middle" class="f-accent">xor</text>
+<ellipse cx="306.5" cy="27.2" rx="21.4" ry="21.4" stroke-width="1.4" class="s-accent" fill="none"/>
+<text x="306.5" y="29.7" font-size="10.0" text-anchor="middle" class="f-accent">xor</text>
+<ellipse cx="483.9" cy="27.2" rx="21.4" ry="21.4" stroke-width="1.4" class="s-accent" fill="none"/>
+<text x="483.9" y="29.7" font-size="10.0" text-anchor="middle" class="f-accent">xor</text>
+<ellipse cx="601.2" cy="27.2" rx="21.4" ry="21.4" stroke-width="1.4" class="s-accent" fill="none"/>
+<text x="601.2" y="29.7" font-size="10.0" text-anchor="middle" class="f-accent">xor</text>
+<polygon points="39.0,12.7 6.0,12.7 6.0,41.7 39.0,41.7" stroke-width="1.4" class="s-ink" fill="none"/>
+<text x="22.5" y="30.6" font-size="13.0" text-anchor="middle" class="f-ink">q0</text>
+<polygon points="156.4,12.7 123.4,12.7 123.4,41.7 156.4,41.7" stroke-width="1.4" class="s-ink" fill="none"/>
+<text x="139.9" y="30.6" font-size="13.0" text-anchor="middle" class="f-ink">q1</text>
+<polygon points="210.4,12.7 177.4,12.7 177.4,41.7 210.4,41.7" stroke-width="1.4" class="s-ink" fill="none"/>
+<text x="193.9" y="30.6" font-size="13.0" text-anchor="middle" class="f-ink">q2</text>
+<polygon points="264.4,12.7 231.4,12.7 231.4,41.7 264.4,41.7" stroke-width="1.4" class="s-ink" fill="none"/>
+<text x="247.9" y="30.6" font-size="13.0" text-anchor="middle" class="f-ink">q3</text>
+<polygon points="441.7,12.7 408.7,12.7 408.7,41.7 441.7,41.7" stroke-width="1.4" class="s-ink" fill="none"/>
+<text x="425.2" y="30.6" font-size="13.0" text-anchor="middle" class="f-ink">q4</text>
+<polygon points="559.1,12.7 526.1,12.7 526.1,41.7 559.1,41.7" stroke-width="1.4" class="s-ink" fill="none"/>
+<text x="542.6" y="30.6" font-size="13.0" text-anchor="middle" class="f-ink">q5</text>
+<polygon points="676.4,12.7 643.4,12.7 643.4,41.7 676.4,41.7" stroke-width="1.4" class="s-ink" fill="none"/>
+<text x="659.9" y="30.6" font-size="13.0" text-anchor="middle" class="f-ink">q6</text>
+<polygon points="730.4,12.7 697.4,12.7 697.4,41.7 730.4,41.7" stroke-width="1.4" class="s-ink" fill="none"/>
+<text x="713.9" y="30.6" font-size="13.0" text-anchor="middle" class="f-ink">q7</text>
+<path d="M102.6,27.2 C107.0,27.2 111.5,27.2 115.9,27.2" stroke-width="1.4" class="s-line" fill="none"/>
+<polygon points="116.0,24.7 123.0,27.2 116.0,29.6" stroke-width="1.4" class="s-line f-line"/>
+<path d="M327.9,27.2 C348.4,27.2 380.1,27.2 401.5,27.2" stroke-width="1.4" class="s-line" fill="none"/>
+<polygon points="401.6,24.7 408.6,27.2 401.6,29.6" stroke-width="1.4" class="s-line f-line"/>
+<path d="M505.4,27.2 C509.7,27.2 514.2,27.2 518.6,27.2" stroke-width="1.4" class="s-line" fill="none"/>
+<polygon points="518.8,24.7 525.8,27.2 518.8,29.6" stroke-width="1.4" class="s-line f-line"/>
+<path d="M622.7,27.2 C627.0,27.2 631.6,27.2 636.0,27.2" stroke-width="1.4" class="s-line" fill="none"/>
+<polygon points="636.1,24.7 643.1,27.2 636.1,29.6" stroke-width="1.4" class="s-line f-line"/>
+<path d="M39.3,27.2 C43.4,27.2 48.0,27.2 52.5,27.2" stroke-width="1.4" class="s-line" fill="none"/>
+<polygon points="52.6,24.7 59.6,27.2 52.6,29.6" stroke-width="1.4" class="s-line f-line"/>
+<path d="M156.5,27.2 C160.8,27.2 165.6,27.2 170.2,27.2" stroke-width="1.4" class="s-line" fill="none"/>
+<polygon points="170.3,24.7 177.3,27.2 170.3,29.6" stroke-width="1.4" class="s-line f-line"/>
+<path d="M210.5,27.2 C214.8,27.2 219.6,27.2 224.2,27.2" stroke-width="1.4" class="s-line" fill="none"/>
+<polygon points="224.3,24.7 231.3,27.2 224.3,29.6" stroke-width="1.4" class="s-line f-line"/>
+<path d="M264.6,27.2 C268.8,27.2 273.3,27.2 277.9,27.2" stroke-width="1.4" class="s-line" fill="none"/>
+<polygon points="277.9,24.7 284.9,27.2 277.9,29.6" stroke-width="1.4" class="s-line f-line"/>
+<path d="M442.0,27.2 C446.1,27.2 450.7,27.2 455.2,27.2" stroke-width="1.4" class="s-line" fill="none"/>
+<polygon points="455.3,24.7 462.3,27.2 455.3,29.6" stroke-width="1.4" class="s-line f-line"/>
+<path d="M559.4,27.2 C563.5,27.2 568.1,27.2 572.6,27.2" stroke-width="1.4" class="s-line" fill="none"/>
+<polygon points="572.7,24.7 579.7,27.2 572.7,29.6" stroke-width="1.4" class="s-line f-line"/>
+<path d="M676.5,27.2 C680.9,27.2 685.6,27.2 690.3,27.2" stroke-width="1.4" class="s-line" fill="none"/>
+<polygon points="690.3,24.7 697.3,27.2 690.3,29.6" stroke-width="1.4" class="s-line f-line"/>
+<path d="M697.1,40.4 C691.0,44.8 683.8,49.4 676.4,52.2 C653.8,60.8 646.5,56.8 622.4,59.2 C468.6,74.2 429.9,82.2 275.4,82.2 C112.4,82.2 112.4,82.2 112.4,82.2 C84.8,82.2 58.7,62.8 42.0,47.1" stroke-width="1.4" class="s-line" fill="none"/>
+<polygon points="40.0,48.6 36.7,41.9 43.4,45.1" stroke-width="1.4" class="s-line f-line"/>
+<text x="368.2" y="76.0" font-size="11.0" text-anchor="middle" class="f-ink">  q7 zurück</text>
+</svg>

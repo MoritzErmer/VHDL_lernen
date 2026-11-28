@@ -35,6 +35,7 @@ import de.vhdllernen.app.data.Rating
 import de.vhdllernen.app.logic.Inline
 import de.vhdllernen.app.logic.InlineParser
 import de.vhdllernen.app.logic.Highlighter
+import androidx.compose.ui.layout.Layout
 
 val Corner = RoundedCornerShape(6.dp)
 
@@ -102,35 +103,63 @@ fun CodeBlock(code: String, lang: String = "vhdl", modifier: Modifier = Modifier
 @Composable
 fun CodeBlock(code: AnnotatedString, modifier: Modifier = Modifier) {
     val p = LocalPalette.current
+    val h = rememberScrollState()
     Box(
         modifier.fillMaxWidth().background(p.sunken, Corner).border(1.dp, p.line, Corner)
-            .horizontalScroll(rememberScrollState()).padding(horizontal = 12.dp, vertical = 10.dp)
+            .scrollbars(h, null, p.line.copy(alpha = 0.5f), p.muted)
+            .horizontalScroll(h).padding(start = 12.dp, end = 12.dp, top = 10.dp, bottom = 14.dp)
     ) {
         Text(code, style = Type.code, color = p.ink, softWrap = false)
     }
 }
 
+/**
+ * Table with aligned rows and columns. Wider than the screen it scrolls sideways; the scroll bar below shows
+ * that more columns follow.
+ */
 @Composable
 private fun TableBlock(rows: List<List<String>>, onLesson: (String) -> Unit) {
+    if (rows.isEmpty()) return
     val p = LocalPalette.current
     val cols = rows.maxOf { it.size }
-    // Column-major layout so every column gets the width of its widest cell; cells do not wrap.
-    Box(Modifier.fillMaxWidth().border(1.dp, p.line, Corner).horizontalScroll(rememberScrollState())) {
-        Row {
-            for (c in 0 until cols) {
-                Column {
-                    rows.forEachIndexed { r, row ->
-                        Box(
-                            Modifier.background(if (r == 0) p.sunken else p.surface)
-                                .padding(horizontal = 10.dp, vertical = 8.dp)
-                        ) {
-                            Text(
-                                inlineText(row.getOrElse(c) { "" }, p, onLesson),
-                                style = Type.small.copy(fontWeight = if (r == 0) FontWeight.SemiBold else FontWeight.Normal),
-                                color = p.ink, softWrap = false,
-                            )
-                        }
+    val h = rememberScrollState()
+    Box(
+        Modifier.fillMaxWidth().border(1.dp, p.line, Corner)
+            .scrollbars(h, null, p.line.copy(alpha = 0.5f), p.muted)
+            .horizontalScroll(h).padding(bottom = if (h.maxValue > 0) 8.dp else 0.dp)
+    ) {
+        Layout(content = {
+            rows.forEachIndexed { r, row ->
+                for (c in 0 until cols) {
+                    Box(Modifier.background(if (r == 0) p.sunken else p.surface).padding(horizontal = 10.dp, vertical = 8.dp)) {
+                        Text(
+                            inlineText(row.getOrElse(c) { "" }, p, onLesson),
+                            style = Type.small.copy(fontWeight = if (r == 0) FontWeight.SemiBold else FontWeight.Normal),
+                            color = p.ink, softWrap = false,
+                        )
                     }
+                }
+            }
+        }) { measurables, constraints ->
+            // Intrinsic sizes first (a child may only be measured once), then every cell with its final size.
+            val w = measurables.map { it.maxIntrinsicWidth(Int.MAX_VALUE) }
+            val widths = IntArray(cols) { c -> rows.indices.maxOf { r -> w[r * cols + c] } }
+            val heights = IntArray(rows.size) { r -> (0 until cols).maxOf { c -> measurables[r * cols + c].maxIntrinsicHeight(widths[c]) } }
+            // Fill the available width when the table is narrower than the screen.
+            val total = widths.sum()
+            if (constraints.hasBoundedWidth && total < constraints.maxWidth) widths[cols - 1] += constraints.maxWidth - total
+            val placeables = measurables.mapIndexed { i, m ->
+                m.measure(androidx.compose.ui.unit.Constraints.fixed(widths[i % cols], heights[i / cols]))
+            }
+            layout(widths.sum(), heights.sum()) {
+                var y = 0
+                for (r in rows.indices) {
+                    var x = 0
+                    for (c in 0 until cols) {
+                        placeables[r * cols + c].place(x, y)
+                        x += widths[c]
+                    }
+                    y += heights[r]
                 }
             }
         }

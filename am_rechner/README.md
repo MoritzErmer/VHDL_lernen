@@ -39,3 +39,4 @@ Alles auf einmal testen: `./am_rechner/alle_testen.sh`
 | `L11` | M01–M10 | Register, Schieberegister, Zähler, Taktteiler, Entpreller, PWM, FIFO, RAM, Ampel, serieller Sender |
 | `L09` | K01–K06 | Klausurlösungen F24 (CRC, Steuerwerk, ROM), H19, F20 |
 | `L12` | P01–P18 | Projekte: Getränkeautomat, Codeschloss, Tastatur-Controller (F20), Empfänger (F19), Dividierwerk (F22), Oszillator und ROM (F23), Stack und Kellerautomat (F24) |
+| `L13` | S01–S20 | Spiel Senso komplett: Timer, Taster, Eingabe, LFSR mit tester/analyzer, Zufall, Zähler mit 7-Segment, Ausgabe, Hauptsteuerung, Gesamtsystem |

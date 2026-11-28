@@ -1,6 +1,6 @@
 {
  "schema": 1,
- "version": "e7083d768edf",
+ "version": "b27a64d2469d",
  "revision": 0,
  "courses": [
   {
@@ -64,6 +64,10 @@
     {
      "id": "P",
      "name": "Projekte im Klausurstil"
+    },
+    {
+     "id": "S",
+     "name": "Projekt Senso"
     }
    ],
    "items": [
@@ -744,8 +748,8 @@
     {
      "id": "A05",
      "block": "A",
-     "title": "Vektoren: Index, Slice, &, others",
-     "min": 5,
+     "title": "Vektoren: Index, Slice, &, and, others",
+     "min": 7,
      "mode": "text",
      "starter": "",
      "solutionCode": "",
@@ -811,6 +815,68 @@
        ]
       },
       {
+       "t": "p",
+       "s": "Was jede Zeile macht:"
+      },
+      {
+       "t": "ul",
+       "items": [
+        "**Index** `a(7)`: holt **ein** Bit heraus. Ergebnis ist ein `std_logic`, deshalb mit einfachen Hochkommas `'1'`.",
+        "**Slice** `a(7 downto 4)`: schneidet einen Teilvektor heraus, hier die oberen 4 Bits. Ergebnis ist wieder ein Vektor (doppelte Anführungszeichen).",
+        "**`&` (Konkatenation)**: hängt Vektoren oder Bits **aneinander**, links das, was links steht. `\"0001\" & \"1011\"` = `\"00011011\"`. Das Ergebnis ist so lang wie beide Teile zusammen.",
+        "**Achtung:** `&` ist **nicht** das logische UND. Das logische UND heißt in VHDL `and` (siehe unten).",
+        "**Links schieben** `a(6 downto 0) & '0'`: das oberste Bit fällt weg, rechts kommt eine `'0'` dazu. Bei Zahlen ist das „mal 2“.",
+        "**Rechts rotieren** `a(0) & a(7 downto 1)`: das unterste Bit wandert nach ganz links, nichts geht verloren.",
+        "**`not a`**: dreht **jedes** Bit um (aus `1` wird `0` und umgekehrt).",
+        "**Aggregat** `(others => '0')`: setzt alle Bits auf `'0'`, egal wie lang der Vektor ist.",
+        "**Hex-Literal** `x\"B1\"`: Kurzschreibweise, jede Hex-Ziffer steht für 4 Bit (`B` = `1011`, `1` = `0001`)."
+       ]
+      },
+      {
+       "t": "p",
+       "s": "Logische Operatoren arbeiten **Bit für Bit** und brauchen zwei gleich lange Vektoren:"
+      },
+      {
+       "t": "table",
+       "rows": [
+        [
+         "Operator",
+         "Bedeutung",
+         "`\"1100\" op \"1010\"`"
+        ],
+        [
+         "`and`",
+         "beide `1`",
+         "`\"1000\"`"
+        ],
+        [
+         "`or`",
+         "mindestens eine `1`",
+         "`\"1110\"`"
+        ],
+        [
+         "`xor`",
+         "genau eine `1`",
+         "`\"0110\"`"
+        ],
+        [
+         "`nand`",
+         "not and",
+         "`\"0111\"`"
+        ],
+        [
+         "`nor`",
+         "not or",
+         "`\"0001\"`"
+        ],
+        [
+         "`xnor`",
+         "gleich",
+         "`\"1001\"`"
+        ]
+       ]
+      },
+      {
        "t": "ul",
        "items": [
         "Slice-Richtung muss passen: `a(7 downto 4)` (richtig), `a(4 to 7)` (falsch) bei einem `downto`-Vektor.",
@@ -831,11 +897,13 @@
         "`x(7) & x(7 downto 1)`",
         "`x & \"00\"` (Länge?)",
         "`x(3 downto 0) & x(3 downto 0)`",
-        "`(0 => '1', others => '0')` als 4-Bit-Vektor"
+        "`(0 => '1', others => '0')` als 4-Bit-Vektor",
+        "`x(7 downto 4) and x(3 downto 0)`",
+        "Was ist der Unterschied zwischen `\"11\" & \"01\"` und `\"11\" and \"01\"`?"
        ]
       }
      ],
-     "aufgabeMd": "`x = \"11111010\"` (8 Bit). Was ergibt…\n1. `x(7) & x(7 downto 1)`\n2. `x & \"00\"` (Länge?)\n3. `x(3 downto 0) & x(3 downto 0)`\n4. `(0 => '1', others => '0')` als 4-Bit-Vektor",
+     "aufgabeMd": "`x = \"11111010\"` (8 Bit). Was ergibt…\n1. `x(7) & x(7 downto 1)`\n2. `x & \"00\"` (Länge?)\n3. `x(3 downto 0) & x(3 downto 0)`\n4. `(0 => '1', others => '0')` als 4-Bit-Vektor\n5. `x(7 downto 4) and x(3 downto 0)`\n6. Was ist der Unterschied zwischen `\"11\" & \"01\"` und `\"11\" and \"01\"`?",
      "loesung": [
       {
        "t": "ol",
@@ -843,11 +911,13 @@
         "`\"11111101\"` – **arithmetisch** rechts schieben (MSB wird kopiert): −6 / 2 = −3 im Zweierkomplement.",
         "`\"1111101000\"` – 10 Bit, = x · 4.",
         "`\"10101010\"`",
-        "`\"0001\"`"
+        "`\"0001\"`",
+        "`\"1111\" and \"1010\"` = `\"1010\"`",
+        "`&` hängt an: `\"1101\"` (4 Bit). `and` verknüpft Bit für Bit: `\"01\"` (2 Bit)."
        ]
       }
      ],
-     "loesungMd": "1. `\"11111101\"` – **arithmetisch** rechts schieben\n   (MSB wird kopiert): −6 / 2 = −3 im Zweierkomplement.\n2. `\"1111101000\"` – 10 Bit, = x · 4.\n3. `\"10101010\"`\n4. `\"0001\"`",
+     "loesungMd": "1. `\"11111101\"` – **arithmetisch** rechts schieben\n   (MSB wird kopiert): −6 / 2 = −3 im Zweierkomplement.\n2. `\"1111101000\"` – 10 Bit, = x · 4.\n3. `\"10101010\"`\n4. `\"0001\"`\n5. `\"1111\" and \"1010\"` = `\"1010\"`\n6. `&` hängt an: `\"1101\"` (4 Bit). `and` verknüpft Bit für Bit: `\"01\"` (2 Bit).",
      "klausur": [
       {
        "t": "p",
@@ -24655,6 +24725,6922 @@
       {
        "t": "p",
        "s": "**F24 A2 F11** (Architecture `fsm`, Mealy, drei Zustände). Simulierbar in `am_rechner/L12/projekte_klausur.vhd` mit elf Testfolgen in `tb_projekte.vhd`."
+      }
+     ]
+    },
+    {
+     "id": "S01",
+     "block": "S",
+     "title": "Projekt Senso: das ganze System im Überblick",
+     "min": 5,
+     "mode": "text",
+     "starter": "",
+     "solutionCode": "",
+     "ziel": [
+      {
+       "t": "p",
+       "s": "Verstehen, wie ein größeres Hardware-System in Komponenten zerlegt wird, bevor du sie einzeln programmierst."
+      }
+     ],
+     "erklaerung": [
+      {
+       "t": "p",
+       "s": "Nach **Übung 2 „Senso“** (sinngemäß): Senso ist ein Merkspiel. Das Spiel zeigt eine Folge von Farben auf vier LEDs, du drückst sie auf vier Tastern nach. Jede Runde wird die Folge um eine Farbe länger und schneller."
+      },
+      {
+       "t": "diagram",
+       "id": "S01_senso",
+       "alt": "Senso als Blockschaltbild",
+       "w": 845.0,
+       "h": 295.2,
+       "prims": [
+        {
+         "k": "P",
+         "pts": [
+          75.0,
+          137.0,
+          6.0,
+          137.0,
+          6.0,
+          173.0,
+          75.0,
+          173.0
+         ],
+         "s": "ink"
+        },
+        {
+         "k": "T",
+         "x": 40.5,
+         "y": 158.4,
+         "s": "4 Taster",
+         "a": "c",
+         "z": 13.0,
+         "c": "ink"
+        },
+        {
+         "k": "P",
+         "pts": [
+          216.0,
+          137.0,
+          162.0,
+          137.0,
+          162.0,
+          173.0,
+          216.0,
+          173.0
+         ],
+         "s": "ink"
+        },
+        {
+         "k": "T",
+         "x": 189.0,
+         "y": 158.4,
+         "s": "input",
+         "a": "c",
+         "z": 13.0,
+         "c": "ink"
+        },
+        {
+         "k": "P",
+         "pts": [
+          392.0,
+          137.0,
+          308.0,
+          137.0,
+          308.0,
+          173.0,
+          392.0,
+          173.0
+         ],
+         "s": "accent"
+        },
+        {
+         "k": "T",
+         "x": 350.0,
+         "y": 151.4,
+         "s": "control",
+         "a": "c",
+         "z": 13.0,
+         "c": "accent"
+        },
+        {
+         "k": "T",
+         "x": 350.0,
+         "y": 165.4,
+         "s": "(Automat)",
+         "a": "c",
+         "z": 13.0,
+         "c": "accent"
+        },
+        {
+         "k": "P",
+         "pts": [
+          572.0,
+          20.0,
+          518.0,
+          20.0,
+          518.0,
+          56.0,
+          572.0,
+          56.0
+         ],
+         "s": "ink"
+        },
+        {
+         "k": "T",
+         "x": 545.0,
+         "y": 41.4,
+         "s": "timer",
+         "a": "c",
+         "z": 13.0,
+         "c": "ink"
+        },
+        {
+         "k": "P",
+         "pts": [
+          579.0,
+          120.0,
+          511.0,
+          120.0,
+          511.0,
+          156.0,
+          579.0,
+          156.0
+         ],
+         "s": "ink"
+        },
+        {
+         "k": "T",
+         "x": 545.0,
+         "y": 141.4,
+         "s": "counter",
+         "a": "c",
+         "z": 13.0,
+         "c": "ink"
+        },
+        {
+         "k": "P",
+         "pts": [
+          579.0,
+          209.0,
+          511.0,
+          209.0,
+          511.0,
+          245.0,
+          579.0,
+          245.0
+         ],
+         "s": "ink"
+        },
+        {
+         "k": "T",
+         "x": 545.0,
+         "y": 230.4,
+         "s": "random",
+         "a": "c",
+         "z": 13.0,
+         "c": "ink"
+        },
+        {
+         "k": "P",
+         "pts": [
+          721.5,
+          248.0,
+          661.5,
+          248.0,
+          661.5,
+          284.0,
+          721.5,
+          284.0
+         ],
+         "s": "ink"
+        },
+        {
+         "k": "T",
+         "x": 691.5,
+         "y": 269.4,
+         "s": "output",
+         "a": "c",
+         "z": 13.0,
+         "c": "ink"
+        },
+        {
+         "k": "P",
+         "pts": [
+          839.0,
+          248.0,
+          777.0,
+          248.0,
+          777.0,
+          284.0,
+          839.0,
+          284.0
+         ],
+         "s": "ink"
+        },
+        {
+         "k": "T",
+         "x": 808.0,
+         "y": 269.4,
+         "s": "4 LEDs",
+         "a": "c",
+         "z": 13.0,
+         "c": "ink"
+        },
+        {
+         "k": "P",
+         "pts": [
+          736.0,
+          120.0,
+          647.0,
+          120.0,
+          647.0,
+          156.0,
+          736.0,
+          156.0
+         ],
+         "s": "ink"
+        },
+        {
+         "k": "T",
+         "x": 691.5,
+         "y": 134.4,
+         "s": "7-Segment",
+         "a": "c",
+         "z": 13.0,
+         "c": "ink"
+        },
+        {
+         "k": "T",
+         "x": 691.5,
+         "y": 148.4,
+         "s": "2 Stellen",
+         "a": "c",
+         "z": 13.0,
+         "c": "ink"
+        },
+        {
+         "k": "B",
+         "pts": [
+          75.1,
+          155.0,
+          98.7,
+          155.0,
+          130.1,
+          155.0,
+          153.8,
+          155.0
+         ],
+         "s": "line"
+        },
+        {
+         "k": "P",
+         "pts": [
+          153.8,
+          152.2,
+          161.8,
+          155.0,
+          153.8,
+          157.8
+         ],
+         "s": "line",
+         "f": "line"
+        },
+        {
+         "k": "T",
+         "x": 118.5,
+         "y": 151.8,
+         "s": "key_in_n",
+         "a": "c",
+         "z": 11.0,
+         "c": "ink"
+        },
+        {
+         "k": "B",
+         "pts": [
+          216.3,
+          155.0,
+          238.8,
+          155.0,
+          271.9,
+          155.0,
+          299.4,
+          155.0
+         ],
+         "s": "line"
+        },
+        {
+         "k": "P",
+         "pts": [
+          299.8,
+          152.2,
+          307.8,
+          155.0,
+          299.8,
+          157.8
+         ],
+         "s": "line",
+         "f": "line"
+        },
+        {
+         "k": "T",
+         "x": 262.0,
+         "y": 139.8,
+         "s": "key_valid",
+         "a": "c",
+         "z": 11.0,
+         "c": "ink"
+        },
+        {
+         "k": "T",
+         "x": 262.0,
+         "y": 151.8,
+         "s": "key_color",
+         "a": "c",
+         "z": 11.0,
+         "c": "ink"
+        },
+        {
+         "k": "B",
+         "pts": [
+          355.3,
+          137.0,
+          362.4,
+          111.7,
+          379.1,
+          66.6,
+          412.0,
+          46.0,
+          441.2,
+          27.7,
+          481.6,
+          28.1,
+          509.9,
+          31.6
+         ],
+         "s": "line"
+        },
+        {
+         "k": "P",
+         "pts": [
+          510.4,
+          28.8,
+          518.0,
+          32.7,
+          509.7,
+          34.4
+         ],
+         "s": "line",
+         "f": "line"
+        },
+        {
+         "k": "T",
+         "x": 451.5,
+         "y": 14.8,
+         "s": "start, dec,",
+         "a": "c",
+         "z": 11.0,
+         "c": "ink"
+        },
+        {
+         "k": "T",
+         "x": 451.5,
+         "y": 26.8,
+         "s": "res_duration",
+         "a": "c",
+         "z": 11.0,
+         "c": "ink"
+        },
+        {
+         "k": "B",
+         "pts": [
+          392.2,
+          145.2,
+          398.8,
+          143.9,
+          405.6,
+          142.8,
+          412.0,
+          142.0,
+          442.2,
+          138.4,
+          476.5,
+          137.4,
+          502.6,
+          137.4
+         ],
+         "s": "line"
+        },
+        {
+         "k": "P",
+         "pts": [
+          502.8,
+          134.6,
+          510.8,
+          137.4,
+          502.8,
+          140.2
+         ],
+         "s": "line",
+         "f": "line"
+        },
+        {
+         "k": "T",
+         "x": 451.5,
+         "y": 122.8,
+         "s": "res/inc",
+         "a": "c",
+         "z": 11.0,
+         "c": "ink"
+        },
+        {
+         "k": "T",
+         "x": 451.5,
+         "y": 134.8,
+         "s": "step, score",
+         "a": "c",
+         "z": 11.0,
+         "c": "ink"
+        },
+        {
+         "k": "B",
+         "pts": [
+          377.1,
+          173.1,
+          387.6,
+          179.8,
+          400.0,
+          186.9,
+          412.0,
+          192.0,
+          441.4,
+          204.5,
+          476.3,
+          213.5,
+          502.9,
+          219.3
+         ],
+         "s": "line"
+        },
+        {
+         "k": "P",
+         "pts": [
+          503.6,
+          216.6,
+          510.9,
+          221.0,
+          502.4,
+          222.0
+         ],
+         "s": "line",
+         "f": "line"
+        },
+        {
+         "k": "T",
+         "x": 451.5,
+         "y": 176.8,
+         "s": "next, store,",
+         "a": "c",
+         "z": 11.0,
+         "c": "ink"
+        },
+        {
+         "k": "T",
+         "x": 451.5,
+         "y": 188.8,
+         "s": "restore",
+         "a": "c",
+         "z": 11.0,
+         "c": "ink"
+        },
+        {
+         "k": "B",
+         "pts": [
+          358.0,
+          173.4,
+          367.1,
+          195.0,
+          385.3,
+          230.7,
+          412.0,
+          251.0,
+          482.9,
+          304.8,
+          595.6,
+          289.1,
+          653.5,
+          275.9
+         ],
+         "s": "line"
+        },
+        {
+         "k": "P",
+         "pts": [
+          652.9,
+          273.2,
+          661.3,
+          274.1,
+          654.1,
+          278.7
+         ],
+         "s": "line",
+         "f": "line"
+        },
+        {
+         "k": "T",
+         "x": 545.0,
+         "y": 271.8,
+         "s": "led_on",
+         "a": "c",
+         "z": 11.0,
+         "c": "ink"
+        },
+        {
+         "k": "T",
+         "x": 545.0,
+         "y": 283.8,
+         "s": "all_on",
+         "a": "c",
+         "z": 11.0,
+         "c": "ink"
+        },
+        {
+         "k": "B",
+         "pts": [
+          518.0,
+          50.2,
+          490.8,
+          63.3,
+          447.3,
+          85.3,
+          412.0,
+          108.0,
+          400.8,
+          115.2,
+          389.2,
+          123.9,
+          379.1,
+          131.8
+         ],
+         "s": "line"
+        },
+        {
+         "k": "P",
+         "pts": [
+          380.7,
+          134.1,
+          372.6,
+          136.9,
+          377.2,
+          129.7
+         ],
+         "s": "line",
+         "f": "line"
+        },
+        {
+         "k": "T",
+         "x": 451.5,
+         "y": 61.8,
+         "s": "expired",
+         "a": "c",
+         "z": 11.0,
+         "c": "ink"
+        },
+        {
+         "k": "B",
+         "pts": [
+          510.8,
+          151.9,
+          504.4,
+          154.0,
+          497.6,
+          155.9,
+          491.0,
+          157.0,
+          461.2,
+          162.2,
+          427.2,
+          161.9,
+          400.2,
+          160.1
+         ],
+         "s": "line"
+        },
+        {
+         "k": "P",
+         "pts": [
+          399.8,
+          162.9,
+          392.1,
+          159.6,
+          400.2,
+          157.3
+         ],
+         "s": "line",
+         "f": "line"
+        },
+        {
+         "k": "T",
+         "x": 451.5,
+         "y": 153.8,
+         "s": "step_eq_score",
+         "a": "c",
+         "z": 11.0,
+         "c": "ink"
+        },
+        {
+         "k": "B",
+         "pts": [
+          579.1,
+          138.0,
+          596.8,
+          138.0,
+          618.9,
+          138.0,
+          638.8,
+          138.0
+         ],
+         "s": "line"
+        },
+        {
+         "k": "P",
+         "pts": [
+          638.8,
+          135.2,
+          646.8,
+          138.0,
+          638.8,
+          140.8
+         ],
+         "s": "line",
+         "f": "line"
+        },
+        {
+         "k": "B",
+         "pts": [
+          510.7,
+          237.8,
+          482.9,
+          244.9,
+          442.9,
+          250.3,
+          412.0,
+          235.0,
+          389.2,
+          223.7,
+          372.6,
+          199.4,
+          362.5,
+          180.5
+         ],
+         "s": "line"
+        },
+        {
+         "k": "P",
+         "pts": [
+          360.0,
+          181.7,
+          358.9,
+          173.3,
+          365.0,
+          179.2
+         ],
+         "s": "line",
+         "f": "line"
+        },
+        {
+         "k": "T",
+         "x": 451.5,
+         "y": 231.8,
+         "s": "rnd",
+         "a": "c",
+         "z": 11.0,
+         "c": "ink"
+        },
+        {
+         "k": "B",
+         "pts": [
+          579.1,
+          236.0,
+          601.4,
+          241.9,
+          630.6,
+          249.8,
+          653.6,
+          256.0
+         ],
+         "s": "line"
+        },
+        {
+         "k": "P",
+         "pts": [
+          654.4,
+          253.4,
+          661.4,
+          258.2,
+          653.0,
+          258.8
+         ],
+         "s": "line",
+         "f": "line"
+        },
+        {
+         "k": "T",
+         "x": 613.0,
+         "y": 238.8,
+         "s": "color",
+         "a": "c",
+         "z": 11.0,
+         "c": "ink"
+        },
+        {
+         "k": "B",
+         "pts": [
+          721.7,
+          266.0,
+          735.9,
+          266.0,
+          753.1,
+          266.0,
+          768.4,
+          266.0
+         ],
+         "s": "line"
+        },
+        {
+         "k": "P",
+         "pts": [
+          768.7,
+          263.2,
+          776.7,
+          266.0,
+          768.7,
+          268.8
+         ],
+         "s": "line",
+         "f": "line"
+        }
+       ]
+      },
+      {
+       "t": "p",
+       "s": "Die Komponenten und ihre Häppchen:"
+      },
+      {
+       "t": "ul",
+       "items": [
+        "**timer** (S02–S04): misst, wie lange eine Farbe leuchtet.",
+        "**button** und **input** (S05–S08): Taster synchronisieren, Druck auf einen Takt verkürzen, Farbe ermitteln.",
+        "**galois_lfsr** und **random** (S09–S13): Pseudozufallszahlen, wiederholbar per Startwert.",
+        "**counter** (S14–S15): Schrittzähler, Punktestand, 7-Segment-Anzeige.",
+        "**output** (S16): LEDs ansteuern.",
+        "**control** (S17): der Automat, der alles steuert.",
+        "**senso** (S18): alles verdrahten."
+       ]
+      },
+      {
+       "t": "p",
+       "s": "Das ist genau das Prinzip **Steuerwerk + Rechenwerk** (F06): `control` entscheidet, die anderen Komponenten führen aus und melden zurück (`timer_expired`, `step_eq_score`, `key_valid`)."
+      }
+     ],
+     "aufgabe": [
+      {
+       "t": "ol",
+       "items": [
+        "Welche Komponenten brauchen `clk` und `res_n`, welche nicht?",
+        "Warum geht `rnd` sowohl an `control` als auch direkt an `output`?"
+       ]
+      }
+     ],
+     "aufgabeMd": "1. Welche Komponenten brauchen `clk` und `res_n`, welche nicht?\n2. Warum geht `rnd` sowohl an `control` als auch direkt an `output`?",
+     "loesung": [
+      {
+       "t": "ol",
+       "items": [
+        "Alle mit Speicher brauchen Takt und Reset: `timer` (Zähler), `button`/`input` (Synchronisierer, Automat), `random` (Register), `counter` (Zähler), `control` (Zustand). `output` ist rein kombinatorisch und braucht beides nicht.",
+        "`output` zeigt beim Vorspielen die aktuelle Zufallsfarbe an. `control` vergleicht beim Nachspielen die gedrückte Farbe mit `rnd`. Die Farbe muss nicht durch den Automaten laufen, deshalb geht sie direkt an `output`."
+       ]
+      }
+     ],
+     "loesungMd": "1. Alle mit Speicher brauchen Takt und Reset: `timer` (Zähler), `button`/`input` (Synchronisierer, Automat), `random` (Register), `counter` (Zähler), `control` (Zustand). `output` ist rein kombinatorisch und braucht beides nicht.\n2. `output` zeigt beim Vorspielen die aktuelle Zufallsfarbe an. `control` vergleicht beim Nachspielen die gedrückte Farbe mit `rnd`. Die Farbe muss nicht durch den Automaten laufen, deshalb geht sie direkt an `output`.",
+     "klausur": [
+      {
+       "t": "p",
+       "s": "Systeme aus mehreren Komponenten mit Steuerwerk gibt es in fast jeder Klausur (F20 A2 Tastatur, F23 A2 Synthesizer, F24 A1 CRC). Alles simulierbar in `am_rechner/L13/senso.vhd`."
+      }
+     ]
+    },
+    {
+     "id": "S02",
+     "block": "S",
+     "title": "Senso: Zeitgeber mit fester Dauer",
+     "min": 8,
+     "mode": "code",
+     "starter": "",
+     "solutionCode": "architecture behav of timer is\n  signal count   : integer range 0 to D_INIT - 1;\n  signal running : std_logic;\nbegin\n  process(clk, res_n) is\n  begin\n    if res_n = '0' then\n      count <= 0;\n      running <= '0';\n      timer_expired <= '0';\n    else\n      if clk'event and clk = '1' then\n        timer_expired <= '0';\n        if running = '0' then\n          if start_timer = '1' then\n            running <= '1';\n            count <= 0;\n          end if;\n        elsif count = D_INIT - 1 then\n          running <= '0';\n          timer_expired <= '1';\n        else\n          count <= count + 1;\n        end if;\n      end if;\n    end if;\n  end process;\nend architecture behav;",
+     "ziel": [
+      {
+       "t": "p",
+       "s": "Aus einer Zeitangabe die Zahl der Takte berechnen und einen startbaren Zeitgeber schreiben."
+      }
+     ],
+     "erklaerung": [
+      {
+       "t": "p",
+       "s": "Der Zeitgeber `timer` steuert, wie lange eine Farbe leuchtet:"
+      },
+      {
+       "t": "ul",
+       "items": [
+        "`start_timer = '1'` startet ihn.",
+        "Nach der Dauer **d** ist `timer_expired` genau **einen Takt** lang `'1'`.",
+        "Während er läuft, ist egal, was an `start_timer` anliegt."
+       ]
+      },
+      {
+       "t": "code",
+       "lang": "vhdl",
+       "s": "entity timer is\n  port(\n    clk, res_n    : in  std_logic;\n    start_timer   : in  std_logic;\n    dec_duration  : in  std_logic;\n    res_duration  : in  std_logic;\n    timer_expired : out std_logic\n    );\nend entity timer;"
+      },
+      {
+       "t": "p",
+       "s": "`dec_duration` und `res_duration` kommen erst in S04 dran."
+      },
+      {
+       "t": "p",
+       "s": "Takte ausrechnen: d · f = 0,5 s · 50 000 000 Hz = **25 000 000** Takte. Der Zähler läuft von 0 bis 24 999 999, das braucht 25 Bit (2²⁵ = 33 554 432)."
+      },
+      {
+       "t": "p",
+       "s": "Bauplan: ein Flag `running` und ein Zähler `count`. Ist `running = '0'` und `start_timer = '1'`, geht es los. Erreicht `count` den letzten Wert, wird `timer_expired` für einen Takt gesetzt und `running` gelöscht."
+      }
+     ],
+     "aufgabe": [
+      {
+       "t": "p",
+       "s": "Schreibe `architecture behav of timer` mit fester Dauer. Nimm dafür ein Generic `D_INIT : positive := 25_000_000` in die Entity auf, damit die Simulation mit kleinen Werten laufen kann."
+      }
+     ],
+     "aufgabeMd": "Schreibe `architecture behav of timer` mit fester Dauer. Nimm dafür ein Generic `D_INIT : positive := 25_000_000` in die Entity auf, damit die Simulation mit kleinen Werten laufen kann.",
+     "loesung": [
+      {
+       "t": "code",
+       "lang": "vhdl",
+       "s": "architecture behav of timer is\n  signal count   : integer range 0 to D_INIT - 1;\n  signal running : std_logic;\nbegin\n  process(clk, res_n) is\n  begin\n    if res_n = '0' then\n      count <= 0;\n      running <= '0';\n      timer_expired <= '0';\n    else\n      if clk'event and clk = '1' then\n        timer_expired <= '0';\n        if running = '0' then\n          if start_timer = '1' then\n            running <= '1';\n            count <= 0;\n          end if;\n        elsif count = D_INIT - 1 then\n          running <= '0';\n          timer_expired <= '1';\n        else\n          count <= count + 1;\n        end if;\n      end if;\n    end if;\n  end process;\nend architecture behav;"
+      },
+      {
+       "t": "p",
+       "s": "`timer_expired <= '0';` am Anfang ist der Default. Nur im Takt, in dem die Zeit um ist, wird er überschrieben. So bleibt das Signal sicher nur einen Takt lang `'1'`."
+      }
+     ],
+     "loesungMd": "```vhdl\narchitecture behav of timer is\n  signal count   : integer range 0 to D_INIT - 1;\n  signal running : std_logic;\nbegin\n  process(clk, res_n) is\n  begin\n    if res_n = '0' then\n      count <= 0;\n      running <= '0';\n      timer_expired <= '0';\n    else\n      if clk'event and clk = '1' then\n        timer_expired <= '0';\n        if running = '0' then\n          if start_timer = '1' then\n            running <= '1';\n            count <= 0;\n          end if;\n        elsif count = D_INIT - 1 then\n          running <= '0';\n          timer_expired <= '1';\n        else\n          count <= count + 1;\n        end if;\n      end if;\n    end if;\n  end process;\nend architecture behav;\n```\n`timer_expired <= '0';` am Anfang ist der Default. Nur im Takt, in dem die Zeit um ist, wird er überschrieben. So bleibt das Signal sicher nur einen Takt lang `'1'`.",
+     "klausur": [
+      {
+       "t": "p",
+       "s": "Zähler mit Zeitbedingung wie in M04 (Taktteiler) und M09 (Ampel). Frequenz in Takte umrechnen: F23 A2 F4."
+      }
+     ]
+    },
+    {
+     "id": "S03",
+     "block": "S",
+     "title": "Senso: Zeitgeber testen",
+     "min": 7,
+     "mode": "code",
+     "starter": "",
+     "solutionCode": "procedure miss_timer(erwartet : positive) is\n  variable n : natural := 0;\nbegin\n  start_timer <= '1'; takt; start_timer <= '0';\n  while timer_expired = '0' loop\n    takt;\n    n := n + 1;\n    assert n < 100\n      report \"Timer laeuft nicht ab\" severity failure;\n  end loop;\n  assert n = erwartet\n    report \"Dauer \" & integer'image(n) severity error;\n  takt;\n  assert timer_expired = '0'\n    report \"laenger als ein Takt\" severity error;\nend procedure miss_timer;",
+     "ziel": [
+      {
+       "t": "p",
+       "s": "Eine Komponente mit großem Generic in der Simulation mit kleinen Werten prüfen und Takte zählen."
+      }
+     ],
+     "erklaerung": [
+      {
+       "t": "p",
+       "s": "25 Millionen Takte zu simulieren dauert lange und sagt nichts Neues. Deshalb in der Testbench:"
+      },
+      {
+       "t": "code",
+       "lang": "vhdl",
+       "s": "dut: entity work.timer\n  generic map(D_INIT => 10)\n  port map(...);"
+      },
+      {
+       "t": "p",
+       "s": "Dann misst eine Prozedur, wie viele Takte nach dem Start vergehen, bis `timer_expired` kommt:"
+      },
+      {
+       "t": "ul",
+       "items": [
+        "`start_timer` einen Takt auf `'1'`,",
+        "danach in einer Schleife takten und mitzählen, bis `timer_expired = '1'`,",
+        "prüfen, dass es im nächsten Takt wieder `'0'` ist."
+       ]
+      },
+      {
+       "t": "p",
+       "s": "Eine Sicherung gegen Endlosschleifen gehört dazu: Läuft der Zeitgeber nie ab, soll die Testbench mit `severity failure` abbrechen statt ewig zu laufen."
+      }
+     ],
+     "aufgabe": [
+      {
+       "t": "p",
+       "s": "Schreibe `procedure miss_timer(erwartet : positive)` für den Stimulus-Prozess. Die Prozedur `takt` (Flanke abwarten, dann 1 ns) gibt es schon."
+      }
+     ],
+     "aufgabeMd": "Schreibe `procedure miss_timer(erwartet : positive)` für den Stimulus-Prozess. Die Prozedur `takt` (Flanke abwarten, dann 1 ns) gibt es schon.",
+     "loesung": [
+      {
+       "t": "code",
+       "lang": "vhdl",
+       "s": "procedure miss_timer(erwartet : positive) is\n  variable n : natural := 0;\nbegin\n  start_timer <= '1'; takt; start_timer <= '0';\n  while timer_expired = '0' loop\n    takt;\n    n := n + 1;\n    assert n < 100\n      report \"Timer laeuft nicht ab\" severity failure;\n  end loop;\n  assert n = erwartet\n    report \"Dauer \" & integer'image(n) severity error;\n  takt;\n  assert timer_expired = '0'\n    report \"laenger als ein Takt\" severity error;\nend procedure miss_timer;"
+      },
+      {
+       "t": "p",
+       "s": "Mit `D_INIT => 10` liefert `miss_timer(10)` keinen Fehler: Nach der Start-Flanke vergehen 10 Flanken bis `timer_expired`."
+      }
+     ],
+     "loesungMd": "```vhdl\nprocedure miss_timer(erwartet : positive) is\n  variable n : natural := 0;\nbegin\n  start_timer <= '1'; takt; start_timer <= '0';\n  while timer_expired = '0' loop\n    takt;\n    n := n + 1;\n    assert n < 100\n      report \"Timer laeuft nicht ab\" severity failure;\n  end loop;\n  assert n = erwartet\n    report \"Dauer \" & integer'image(n) severity error;\n  takt;\n  assert timer_expired = '0'\n    report \"laenger als ein Takt\" severity error;\nend procedure miss_timer;\n```\nMit `D_INIT => 10` liefert `miss_timer(10)` keinen Fehler: Nach der Start-Flanke vergehen 10 Flanken bis `timer_expired`.",
+     "klausur": [
+      {
+       "t": "p",
+       "s": "Testbench-Prozeduren und `assert` (I03, P04). Ganze Testbench in `am_rechner/L13/tb_senso.vhd`."
+      }
+     ]
+    },
+    {
+     "id": "S04",
+     "block": "S",
+     "title": "Senso: Zeitgeber wird schneller",
+     "min": 7,
+     "mode": "code",
+     "starter": "",
+     "solutionCode": "signal duration : integer range 1 to D_INIT;\n-- im Reset-Zweig:\nduration <= D_INIT;\n-- in der Taktflanke, vor der Zeitmessung:\nif res_duration = '1' then\n  duration <= D_INIT;\nelsif dec_duration = '1' and\n      duration - D_STEP >= D_MIN then\n  duration <= duration - D_STEP;\nend if;\n-- Ende der Zeit:\nelsif count = duration - 1 then",
+     "ziel": [
+      {
+       "t": "p",
+       "s": "Ein Register für die Dauer ergänzen, das schrittweise verkleinert und zurückgesetzt werden kann."
+      }
+     ],
+     "erklaerung": [
+      {
+       "t": "diagram",
+       "id": "S04_timer",
+       "alt": "Zeitgeber: Start, nach d Takten ein Takt timer_expired",
+       "w": 384,
+       "h": 88,
+       "prims": [
+        {
+         "k": "L",
+         "pts": [
+          78,
+          4,
+          78,
+          80
+         ],
+         "s": "grid"
+        },
+        {
+         "k": "L",
+         "pts": [
+          108,
+          4,
+          108,
+          80
+         ],
+         "s": "grid"
+        },
+        {
+         "k": "L",
+         "pts": [
+          138,
+          4,
+          138,
+          80
+         ],
+         "s": "grid"
+        },
+        {
+         "k": "L",
+         "pts": [
+          168,
+          4,
+          168,
+          80
+         ],
+         "s": "grid"
+        },
+        {
+         "k": "L",
+         "pts": [
+          198,
+          4,
+          198,
+          80
+         ],
+         "s": "grid"
+        },
+        {
+         "k": "L",
+         "pts": [
+          228,
+          4,
+          228,
+          80
+         ],
+         "s": "grid"
+        },
+        {
+         "k": "L",
+         "pts": [
+          258,
+          4,
+          258,
+          80
+         ],
+         "s": "grid"
+        },
+        {
+         "k": "L",
+         "pts": [
+          288,
+          4,
+          288,
+          80
+         ],
+         "s": "grid"
+        },
+        {
+         "k": "L",
+         "pts": [
+          318,
+          4,
+          318,
+          80
+         ],
+         "s": "grid"
+        },
+        {
+         "k": "L",
+         "pts": [
+          348,
+          4,
+          348,
+          80
+         ],
+         "s": "grid"
+        },
+        {
+         "k": "L",
+         "pts": [
+          378,
+          4,
+          378,
+          80
+         ],
+         "s": "grid"
+        },
+        {
+         "k": "T",
+         "x": 4,
+         "y": 27,
+         "s": "start_timer",
+         "a": "l",
+         "z": 13,
+         "c": "ink",
+         "m": true
+        },
+        {
+         "k": "L",
+         "pts": [
+          78,
+          34,
+          108,
+          34,
+          108,
+          12,
+          138,
+          12,
+          168,
+          12,
+          198,
+          12,
+          228,
+          12,
+          258,
+          12,
+          288,
+          12,
+          318,
+          12,
+          318,
+          34,
+          348,
+          34,
+          378,
+          34
+         ],
+         "s": "accent",
+         "w": 2
+        },
+        {
+         "k": "T",
+         "x": 4,
+         "y": 67,
+         "s": "timer_expired",
+         "a": "l",
+         "z": 13,
+         "c": "ink",
+         "m": true
+        },
+        {
+         "k": "L",
+         "pts": [
+          78,
+          74,
+          108,
+          74,
+          138,
+          74,
+          168,
+          74,
+          198,
+          74,
+          228,
+          74,
+          228,
+          52,
+          258,
+          52,
+          258,
+          74,
+          288,
+          74,
+          318,
+          74,
+          348,
+          74,
+          378,
+          74
+         ],
+         "s": "accent",
+         "w": 2
+        }
+       ]
+      },
+      {
+       "t": "p",
+       "s": "Mit jeder gewonnenen Runde soll das Spiel schneller werden:"
+      },
+      {
+       "t": "ul",
+       "items": [
+        "`dec_duration = '1'`: die Dauer wird um `D_STEP` Takte kürzer, aber nie kürzer als `D_MIN`.",
+        "`res_duration = '1'`: die Dauer springt zurück auf `D_INIT`."
+       ]
+      },
+      {
+       "t": "p",
+       "s": "Dafür kommt ein Signal `duration` dazu, das statt der Konstanten `D_INIT` verglichen wird. `res_duration` hat Vorrang. Die Prüfung „nicht unter `D_MIN`“ steht **vor** dem Abziehen, sonst würde der Wertebereich verlassen."
+      }
+     ],
+     "aufgabe": [
+      {
+       "t": "p",
+       "s": "Erweitere die Architecture aus S02 um `duration` und die Generics `D_STEP` und `D_MIN`. Gib nur den getakteten Teil an, der `duration` setzt, und die geänderte Abfrage für das Ende."
+      }
+     ],
+     "aufgabeMd": "Erweitere die Architecture aus S02 um `duration` und die Generics `D_STEP` und `D_MIN`. Gib nur den getakteten Teil an, der `duration` setzt, und die geänderte Abfrage für das Ende.",
+     "loesung": [
+      {
+       "t": "code",
+       "lang": "vhdl",
+       "s": "signal duration : integer range 1 to D_INIT;\n-- im Reset-Zweig:\nduration <= D_INIT;\n-- in der Taktflanke, vor der Zeitmessung:\nif res_duration = '1' then\n  duration <= D_INIT;\nelsif dec_duration = '1' and\n      duration - D_STEP >= D_MIN then\n  duration <= duration - D_STEP;\nend if;\n-- Ende der Zeit:\nelsif count = duration - 1 then"
+      },
+      {
+       "t": "p",
+       "s": "Mit `D_INIT => 10, D_STEP => 3, D_MIN => 4` gilt: 10, dann 7, dann 4, danach bleibt es bei 4."
+      },
+      {
+       "t": "p",
+       "s": "Ändert sich `duration`, während der Zeitgeber läuft, gilt der neue Wert sofort. Das ist hier egal, weil `control` die Dauer nur zwischen zwei Runden ändert."
+      }
+     ],
+     "loesungMd": "```vhdl\nsignal duration : integer range 1 to D_INIT;\n-- im Reset-Zweig:\nduration <= D_INIT;\n-- in der Taktflanke, vor der Zeitmessung:\nif res_duration = '1' then\n  duration <= D_INIT;\nelsif dec_duration = '1' and\n      duration - D_STEP >= D_MIN then\n  duration <= duration - D_STEP;\nend if;\n-- Ende der Zeit:\nelsif count = duration - 1 then\n```\nMit `D_INIT => 10, D_STEP => 3, D_MIN => 4` gilt: 10, dann 7, dann 4, danach bleibt es bei 4.\n\nÄndert sich `duration`, während der Zeitgeber läuft, gilt der neue Wert sofort. Das ist hier egal, weil `control` die Dauer nur zwischen zwei Runden ändert.",
+     "klausur": [
+      {
+       "t": "p",
+       "s": "Register mit Vorrang (`if … elsif`, D02). Simulierbar in `am_rechner/L13/senso.vhd`."
+      }
+     ]
+    },
+    {
+     "id": "S05",
+     "block": "S",
+     "title": "Senso: Synchronisierer – vier Schreibweisen",
+     "min": 8,
+     "mode": "text",
+     "starter": "",
+     "solutionCode": "",
+     "ziel": [
+      {
+       "t": "p",
+       "s": "Bei Signalen und Variablen im getakteten Prozess sicher sagen, welche Hardware entsteht."
+      }
+     ],
+     "erklaerung": [
+      {
+       "t": "p",
+       "s": "Taster ändern sich unabhängig vom Takt (asynchron). Direkt in ein getaktetes System geführt, droht **Metastabilität**: Setup- und Hold-Zeit eines Flipflops werden verletzt. Abhilfe ist der **Dual Rank Synchronizer**: zwei Flipflops hintereinander (D05). Der Taster ist low-aktiv (`tx_n`), deshalb wird er beim ersten Flipflop invertiert."
+      },
+      {
+       "t": "code",
+       "lang": "",
+       "s": "tx_n -> not -> FF -> tx_1st -> FF -> tx_sync"
+      },
+      {
+       "t": "p",
+       "s": "Vier Versuche, das zu beschreiben (nur der Teil in der Taktflanke):"
+      },
+      {
+       "t": "code",
+       "lang": "vhdl",
+       "s": "-- a) Signale, Reihenfolge 1st, sync\ntx_1st  <= not tx_n;\ntx_sync <= tx_1st;\n-- b) Signale, Reihenfolge sync, 1st\ntx_sync <= tx_1st;\ntx_1st  <= not tx_n;\n-- c) Variable, Reihenfolge 1st, sync\ntx_1st  := not tx_n;\ntx_sync <= tx_1st;\n-- d) Variable, Reihenfolge sync, 1st\ntx_sync <= tx_1st;\ntx_1st  := not tx_n;"
+      }
+     ],
+     "aufgabe": [
+      {
+       "t": "p",
+       "s": "Welche Varianten ergeben wirklich **zwei** Flipflops? Welche würdest du nehmen?"
+      }
+     ],
+     "aufgabeMd": "Welche Varianten ergeben wirklich **zwei** Flipflops? Welche würdest du nehmen?",
+     "loesung": [
+      {
+       "t": "ul",
+       "items": [
+        "**a) und b)**: richtig. Signale bekommen ihren neuen Wert erst am Ende des Prozesslaufs (C03). `tx_sync` übernimmt also immer den **alten** Wert von `tx_1st`, die Reihenfolge ist egal.",
+        "**c)**: falsch. Die Variable hat sofort den neuen Wert, `tx_sync` bekommt `not tx_n` direkt. Es bleibt **ein** Flipflop, die Variable wird zu einem Draht.",
+        "**d)**: richtig. `tx_sync` liest die Variable, bevor sie neu beschrieben wird, also den Wert vom letzten Takt. Die Variable muss sich das merken und wird zum Flipflop."
+       ]
+      },
+      {
+       "t": "p",
+       "s": "Am besten **a)**: Signale, Reihenfolge wie der Datenfluss. Die Funktion hängt nicht von der Reihenfolge ab, und man sieht sofort zwei Register. d) funktioniert nur wegen der Reihenfolge und geht bei einer Änderung leicht kaputt."
+      }
+     ],
+     "loesungMd": "- **a) und b)**: richtig. Signale bekommen ihren neuen Wert erst am Ende des Prozesslaufs (C03). `tx_sync` übernimmt also immer den **alten** Wert von `tx_1st`, die Reihenfolge ist egal.\n- **c)**: falsch. Die Variable hat sofort den neuen Wert, `tx_sync` bekommt `not tx_n` direkt. Es bleibt **ein** Flipflop, die Variable wird zu einem Draht.\n- **d)**: richtig. `tx_sync` liest die Variable, bevor sie neu beschrieben wird, also den Wert vom letzten Takt. Die Variable muss sich das merken und wird zum Flipflop.\n\nAm besten **a)**: Signale, Reihenfolge wie der Datenfluss. Die Funktion hängt nicht von der Reihenfolge ab, und man sieht sofort zwei Register. d) funktioniert nur wegen der Reihenfolge und geht bei einer Änderung leicht kaputt.",
+     "klausur": [
+      {
+       "t": "p",
+       "s": "Signal vs. Variable im getakteten Prozess (C03, D04): typische Klausurfrage, z.B. „Wie viele Flipflops?“."
+      }
+     ]
+    },
+    {
+     "id": "S06",
+     "block": "S",
+     "title": "Senso: Impulsverkürzer als Moore-Automat",
+     "min": 9,
+     "mode": "code",
+     "starter": "",
+     "solutionCode": "architecture behav of button is\n  signal tx_1st, tx_sync : std_logic;\n  type state_type is (idle, pulse, hold);\n  signal current_state, next_state : state_type;\nbegin\n  drs: process(clk, res_n) is\n  begin\n    if res_n = '0' then\n      tx_1st  <= '0';\n      tx_sync <= '0';\n    else\n      if clk'event and clk = '1' then\n        tx_1st  <= not tx_n;\n        tx_sync <= tx_1st;\n      end if;\n    end if;\n  end process drs;\n\n  transition_function: process(current_state, tx_sync) is\n  begin\n    case current_state is\n      when idle =>\n        if tx_sync = '1' then next_state <= pulse;\n        else next_state <= idle; end if;\n      when pulse =>\n        if tx_sync = '1' then next_state <= hold;\n        else next_state <= idle; end if;\n      when hold =>\n        if tx_sync = '1' then next_state <= hold;\n        else next_state <= idle; end if;\n    end case;\n  end process transition_function;\n\n  state: process(clk, res_n) is\n  begin\n    if res_n = '0' then\n      current_state <= idle;\n    else\n      if clk'event and clk = '1' then\n        current_state <= next_state;\n      end if;\n    end if;\n  end process state;\n\n  key <= '1' when current_state = pulse else '0';\nend architecture behav;",
+     "ziel": [
+      {
+       "t": "p",
+       "s": "Aus einem beliebig langen Tastendruck genau einen Takt-Impuls machen."
+      }
+     ],
+     "erklaerung": [
+      {
+       "t": "p",
+       "s": "Ein Tastendruck dauert viele Millionen Takte. Das Spiel soll ihn aber genau **einmal** zählen. Der Impulsverkürzer macht aus `tx_sync` das Signal `key`, das pro Druck genau einen Takt `'1'` ist."
+      },
+      {
+       "t": "diagram",
+       "id": "S07_impulsverkuerzer",
+       "alt": "Impulsverkürzer als Moore-Automat",
+       "w": 431.8,
+       "h": 133.7,
+       "prims": [
+        {
+         "k": "E",
+         "x": 8.9,
+         "y": 73.0,
+         "rx": 2.9,
+         "ry": 2.9,
+         "s": "line",
+         "f": "line"
+        },
+        {
+         "k": "B",
+         "pts": [
+          153.8,
+          55.0,
+          153.8,
+          55.0,
+          105.8,
+          55.0,
+          105.8,
+          55.0,
+          99.8,
+          55.0,
+          93.8,
+          61.0,
+          93.8,
+          67.0,
+          93.8,
+          67.0,
+          93.8,
+          79.0,
+          93.8,
+          79.0,
+          93.8,
+          85.0,
+          99.8,
+          91.0,
+          105.8,
+          91.0,
+          105.8,
+          91.0,
+          153.8,
+          91.0,
+          153.8,
+          91.0,
+          159.8,
+          91.0,
+          165.8,
+          85.0,
+          165.8,
+          79.0,
+          165.8,
+          79.0,
+          165.8,
+          67.0,
+          165.8,
+          67.0,
+          165.8,
+          61.0,
+          159.8,
+          55.0,
+          153.8,
+          55.0
+         ],
+         "s": "ink"
+        },
+        {
+         "k": "T",
+         "x": 129.8,
+         "y": 69.4,
+         "s": "idle",
+         "a": "c",
+         "z": 13.0,
+         "c": "ink"
+        },
+        {
+         "k": "T",
+         "x": 129.8,
+         "y": 83.4,
+         "s": "key=0",
+         "a": "c",
+         "z": 13.0,
+         "c": "ink"
+        },
+        {
+         "k": "B",
+         "pts": [
+          283.8,
+          55.0,
+          283.8,
+          55.0,
+          235.8,
+          55.0,
+          235.8,
+          55.0,
+          229.8,
+          55.0,
+          223.8,
+          61.0,
+          223.8,
+          67.0,
+          223.8,
+          67.0,
+          223.8,
+          79.0,
+          223.8,
+          79.0,
+          223.8,
+          85.0,
+          229.8,
+          91.0,
+          235.8,
+          91.0,
+          235.8,
+          91.0,
+          283.8,
+          91.0,
+          283.8,
+          91.0,
+          289.8,
+          91.0,
+          295.8,
+          85.0,
+          295.8,
+          79.0,
+          295.8,
+          79.0,
+          295.8,
+          67.0,
+          295.8,
+          67.0,
+          295.8,
+          61.0,
+          289.8,
+          55.0,
+          283.8,
+          55.0
+         ],
+         "s": "accent"
+        },
+        {
+         "k": "T",
+         "x": 259.8,
+         "y": 69.4,
+         "s": "pulse",
+         "a": "c",
+         "z": 13.0,
+         "c": "accent"
+        },
+        {
+         "k": "T",
+         "x": 259.8,
+         "y": 83.4,
+         "s": "key=1",
+         "a": "c",
+         "z": 13.0,
+         "c": "accent"
+        },
+        {
+         "k": "B",
+         "pts": [
+          413.8,
+          55.0,
+          413.8,
+          55.0,
+          365.8,
+          55.0,
+          365.8,
+          55.0,
+          359.8,
+          55.0,
+          353.8,
+          61.0,
+          353.8,
+          67.0,
+          353.8,
+          67.0,
+          353.8,
+          79.0,
+          353.8,
+          79.0,
+          353.8,
+          85.0,
+          359.8,
+          91.0,
+          365.8,
+          91.0,
+          365.8,
+          91.0,
+          413.8,
+          91.0,
+          413.8,
+          91.0,
+          419.8,
+          91.0,
+          425.8,
+          85.0,
+          425.8,
+          79.0,
+          425.8,
+          79.0,
+          425.8,
+          67.0,
+          425.8,
+          67.0,
+          425.8,
+          61.0,
+          419.8,
+          55.0,
+          413.8,
+          55.0
+         ],
+         "s": "ink"
+        },
+        {
+         "k": "T",
+         "x": 389.8,
+         "y": 69.4,
+         "s": "hold",
+         "a": "c",
+         "z": 13.0,
+         "c": "ink"
+        },
+        {
+         "k": "T",
+         "x": 389.8,
+         "y": 83.4,
+         "s": "key=0",
+         "a": "c",
+         "z": 13.0,
+         "c": "ink"
+        },
+        {
+         "k": "B",
+         "pts": [
+          11.9,
+          73.0,
+          20.7,
+          73.0,
+          56.0,
+          73.0,
+          85.5,
+          73.0
+         ],
+         "s": "line"
+        },
+        {
+         "k": "P",
+         "pts": [
+          85.6,
+          70.2,
+          93.6,
+          73.0,
+          85.6,
+          75.8
+         ],
+         "s": "line",
+         "f": "line"
+        },
+        {
+         "k": "T",
+         "x": 52.8,
+         "y": 69.6,
+         "s": "res_n",
+         "a": "c",
+         "z": 12.0,
+         "c": "ink"
+        },
+        {
+         "k": "B",
+         "pts": [
+          120.1,
+          54.8,
+          115.0,
+          37.6,
+          118.3,
+          19.0,
+          129.8,
+          19.0,
+          139.5,
+          19.0,
+          143.3,
+          32.2,
+          141.2,
+          46.7
+         ],
+         "s": "line"
+        },
+        {
+         "k": "P",
+         "pts": [
+          143.9,
+          47.5,
+          139.5,
+          54.8,
+          138.4,
+          46.3
+         ],
+         "s": "line",
+         "f": "line"
+        },
+        {
+         "k": "T",
+         "x": 129.8,
+         "y": 15.6,
+         "s": "0",
+         "a": "c",
+         "z": 12.0,
+         "c": "ink"
+        },
+        {
+         "k": "B",
+         "pts": [
+          166.1,
+          73.0,
+          181.3,
+          73.0,
+          199.3,
+          73.0,
+          215.4,
+          73.0
+         ],
+         "s": "line"
+        },
+        {
+         "k": "P",
+         "pts": [
+          215.6,
+          70.2,
+          223.6,
+          73.0,
+          215.6,
+          75.8
+         ],
+         "s": "line",
+         "f": "line"
+        },
+        {
+         "k": "T",
+         "x": 194.8,
+         "y": 69.6,
+         "s": "1",
+         "a": "c",
+         "z": 12.0,
+         "c": "ink"
+        },
+        {
+         "k": "B",
+         "pts": [
+          224.3,
+          91.1,
+          213.7,
+          94.8,
+          201.9,
+          97.0,
+          190.8,
+          95.0,
+          185.1,
+          94.0,
+          179.3,
+          92.5,
+          173.7,
+          90.8
+         ],
+         "s": "line"
+        },
+        {
+         "k": "P",
+         "pts": [
+          172.8,
+          93.4,
+          166.0,
+          88.3,
+          174.5,
+          88.1
+         ],
+         "s": "line",
+         "f": "line"
+        },
+        {
+         "k": "T",
+         "x": 194.8,
+         "y": 91.6,
+         "s": "0",
+         "a": "c",
+         "z": 12.0,
+         "c": "ink"
+        },
+        {
+         "k": "B",
+         "pts": [
+          296.1,
+          73.0,
+          311.3,
+          73.0,
+          329.3,
+          73.0,
+          345.4,
+          73.0
+         ],
+         "s": "line"
+        },
+        {
+         "k": "P",
+         "pts": [
+          345.6,
+          70.2,
+          353.6,
+          73.0,
+          345.6,
+          75.8
+         ],
+         "s": "line",
+         "f": "line"
+        },
+        {
+         "k": "T",
+         "x": 324.8,
+         "y": 69.6,
+         "s": "1",
+         "a": "c",
+         "z": 12.0,
+         "c": "ink"
+        },
+        {
+         "k": "B",
+         "pts": [
+          362.9,
+          91.0,
+          345.0,
+          102.4,
+          320.0,
+          116.0,
+          295.8,
+          122.0,
+          264.7,
+          129.7,
+          254.9,
+          129.5,
+          223.8,
+          122.0,
+          207.7,
+          118.1,
+          205.4,
+          112.7,
+          190.8,
+          105.0,
+          184.6,
+          101.8,
+          178.1,
+          98.3,
+          171.7,
+          95.0
+         ],
+         "s": "line"
+        },
+        {
+         "k": "P",
+         "pts": [
+          170.1,
+          97.3,
+          164.3,
+          91.0,
+          172.7,
+          92.3
+         ],
+         "s": "line",
+         "f": "line"
+        },
+        {
+         "k": "T",
+         "x": 259.8,
+         "y": 118.6,
+         "s": "0",
+         "a": "c",
+         "z": 12.0,
+         "c": "ink"
+        },
+        {
+         "k": "B",
+         "pts": [
+          380.1,
+          54.8,
+          375.0,
+          37.6,
+          378.3,
+          19.0,
+          389.8,
+          19.0,
+          399.5,
+          19.0,
+          403.3,
+          32.2,
+          401.2,
+          46.7
+         ],
+         "s": "line"
+        },
+        {
+         "k": "P",
+         "pts": [
+          403.9,
+          47.5,
+          399.5,
+          54.8,
+          398.4,
+          46.3
+         ],
+         "s": "line",
+         "f": "line"
+        },
+        {
+         "k": "T",
+         "x": 389.8,
+         "y": 15.6,
+         "s": "1",
+         "a": "c",
+         "z": 12.0,
+         "c": "ink"
+        }
+       ]
+      },
+      {
+       "t": "p",
+       "s": "Drei Zustände:"
+      },
+      {
+       "t": "ul",
+       "items": [
+        "`idle`: nichts gedrückt.",
+        "`pulse`: gerade gedrückt worden, `key = '1'`, wird nach einem Takt **unbedingt** verlassen.",
+        "`hold`: Taste wird noch gehalten, warten aufs Loslassen."
+       ]
+      },
+      {
+       "t": "code",
+       "lang": "vhdl",
+       "s": "entity button is\n  port(\n    clk, res_n : in  std_logic;\n    tx_n       : in  std_logic;\n    key        : out std_logic\n    );\nend entity button;"
+      }
+     ],
+     "aufgabe": [
+      {
+       "t": "p",
+       "s": "Schreibe `architecture behav of button`: Synchronisierer (Variante a aus S05) plus Automat mit `transition_function`, `state` und dem Ausgang `key`."
+      }
+     ],
+     "aufgabeMd": "Schreibe `architecture behav of button`: Synchronisierer (Variante a aus S05) plus Automat mit `transition_function`, `state` und dem Ausgang `key`.",
+     "loesung": [
+      {
+       "t": "code",
+       "lang": "vhdl",
+       "s": "architecture behav of button is\n  signal tx_1st, tx_sync : std_logic;\n  type state_type is (idle, pulse, hold);\n  signal current_state, next_state : state_type;\nbegin\n  drs: process(clk, res_n) is\n  begin\n    if res_n = '0' then\n      tx_1st  <= '0';\n      tx_sync <= '0';\n    else\n      if clk'event and clk = '1' then\n        tx_1st  <= not tx_n;\n        tx_sync <= tx_1st;\n      end if;\n    end if;\n  end process drs;\n\n  transition_function: process(current_state, tx_sync) is\n  begin\n    case current_state is\n      when idle =>\n        if tx_sync = '1' then next_state <= pulse;\n        else next_state <= idle; end if;\n      when pulse =>\n        if tx_sync = '1' then next_state <= hold;\n        else next_state <= idle; end if;\n      when hold =>\n        if tx_sync = '1' then next_state <= hold;\n        else next_state <= idle; end if;\n    end case;\n  end process transition_function;\n\n  state: process(clk, res_n) is\n  begin\n    if res_n = '0' then\n      current_state <= idle;\n    else\n      if clk'event and clk = '1' then\n        current_state <= next_state;\n      end if;\n    end if;\n  end process state;\n\n  key <= '1' when current_state = pulse else '0';\nend architecture behav;"
+      },
+      {
+       "t": "p",
+       "s": "Mit zwei Zuständen geht es nicht: Ohne `hold` könnte der Automat nicht unterscheiden, ob die Taste neu gedrückt oder noch gehalten wird."
+      }
+     ],
+     "loesungMd": "```vhdl\narchitecture behav of button is\n  signal tx_1st, tx_sync : std_logic;\n  type state_type is (idle, pulse, hold);\n  signal current_state, next_state : state_type;\nbegin\n  drs: process(clk, res_n) is\n  begin\n    if res_n = '0' then\n      tx_1st  <= '0';\n      tx_sync <= '0';\n    else\n      if clk'event and clk = '1' then\n        tx_1st  <= not tx_n;\n        tx_sync <= tx_1st;\n      end if;\n    end if;\n  end process drs;\n\n  transition_function: process(current_state, tx_sync) is\n  begin\n    case current_state is\n      when idle =>\n        if tx_sync = '1' then next_state <= pulse;\n        else next_state <= idle; end if;\n      when pulse =>\n        if tx_sync = '1' then next_state <= hold;\n        else next_state <= idle; end if;\n      when hold =>\n        if tx_sync = '1' then next_state <= hold;\n        else next_state <= idle; end if;\n    end case;\n  end process transition_function;\n\n  state: process(clk, res_n) is\n  begin\n    if res_n = '0' then\n      current_state <= idle;\n    else\n      if clk'event and clk = '1' then\n        current_state <= next_state;\n      end if;\n    end if;\n  end process state;\n\n  key <= '1' when current_state = pulse else '0';\nend architecture behav;\n```\nMit zwei Zuständen geht es nicht: Ohne `hold` könnte der Automat nicht unterscheiden, ob die Taste neu gedrückt oder noch gehalten wird.",
+     "klausur": [
+      {
+       "t": "p",
+       "s": "Moore-Automat aus Text entwerfen (F02, P01). Gleiches Muster wie die Flankenerkennung in D07."
+      }
+     ]
+    },
+    {
+     "id": "S07",
+     "block": "S",
+     "title": "Senso: Taster testen",
+     "min": 5,
+     "mode": "code",
+     "starter": "",
+     "solutionCode": "n_pulses := 0;\ntx_n <= '0';\nfor i in 1 to 20 loop\n  takt;\n  if key = '1' then\n    n_pulses := n_pulses + 1;\n  end if;\nend loop;\ntx_n <= '1';\nfor i in 1 to 5 loop\n  takt;\n  if key = '1' then\n    n_pulses := n_pulses + 1;\n  end if;\nend loop;\nassert n_pulses = 1\n  report \"Taster: \" & integer'image(n_pulses) & \" Impulse\"\n  severity error;",
+     "ziel": [
+      {
+       "t": "p",
+       "s": "Eine Testbench schreiben, die Impulse zählt, statt einzelne Zeitpunkte zu prüfen."
+      }
+     ],
+     "erklaerung": [
+      {
+       "t": "p",
+       "s": "Der Taster soll bei **jeder** Druckdauer genau einen Impuls liefern. Statt zu raten, in welchem Takt `key` kommt, zählt die Testbench einfach alle Takte mit `key = '1'`:"
+      },
+      {
+       "t": "ul",
+       "items": [
+        "Taste drücken (`tx_n <= '0'`), viele Takte halten und mitzählen.",
+        "Loslassen, noch ein paar Takte mitzählen.",
+        "Am Ende muss die Zahl genau 1 sein."
+       ]
+      },
+      {
+       "t": "p",
+       "s": "So bleibt der Test richtig, auch wenn du den Synchronisierer später um eine Stufe verlängerst."
+      }
+     ],
+     "aufgabe": [
+      {
+       "t": "p",
+       "s": "Schreibe den Teil des Stimulus-Prozesses, der einen 20 Takte langen Druck prüft. Variable: `n_pulses : natural`, Prozedur `takt` gibt es."
+      }
+     ],
+     "aufgabeMd": "Schreibe den Teil des Stimulus-Prozesses, der einen 20 Takte langen Druck prüft. Variable: `n_pulses : natural`, Prozedur `takt` gibt es.",
+     "loesung": [
+      {
+       "t": "code",
+       "lang": "vhdl",
+       "s": "n_pulses := 0;\ntx_n <= '0';\nfor i in 1 to 20 loop\n  takt;\n  if key = '1' then\n    n_pulses := n_pulses + 1;\n  end if;\nend loop;\ntx_n <= '1';\nfor i in 1 to 5 loop\n  takt;\n  if key = '1' then\n    n_pulses := n_pulses + 1;\n  end if;\nend loop;\nassert n_pulses = 1\n  report \"Taster: \" & integer'image(n_pulses) & \" Impulse\"\n  severity error;"
+      },
+      {
+       "t": "p",
+       "s": "Zusatztest: Ein Druck, der kürzer als ein Takt ist, kann verloren gehen. In der Praxis sind Tastendrücke immer viel länger als ein Takt."
+      }
+     ],
+     "loesungMd": "```vhdl\nn_pulses := 0;\ntx_n <= '0';\nfor i in 1 to 20 loop\n  takt;\n  if key = '1' then\n    n_pulses := n_pulses + 1;\n  end if;\nend loop;\ntx_n <= '1';\nfor i in 1 to 5 loop\n  takt;\n  if key = '1' then\n    n_pulses := n_pulses + 1;\n  end if;\nend loop;\nassert n_pulses = 1\n  report \"Taster: \" & integer'image(n_pulses) & \" Impulse\"\n  severity error;\n```\nZusatztest: Ein Druck, der kürzer als ein Takt ist, kann verloren gehen. In der Praxis sind Tastendrücke immer viel länger als ein Takt.",
+     "klausur": [
+      {
+       "t": "p",
+       "s": "Testbenches mit Schleifen und `assert` (I03). Simulierbar mit `am_rechner/L13/tb_senso.vhd`."
+      }
+     ]
+    },
+    {
+     "id": "S08",
+     "block": "S",
+     "title": "Senso: Eingabeeinheit mit vier Tastern",
+     "min": 8,
+     "mode": "code",
+     "starter": "",
+     "solutionCode": "architecture mixed of input is\n  signal keys : std_logic_vector(3 downto 0);\nbegin\n  buttons: for i in 0 to 3 generate\n    b: entity work.button\n      port map(clk => clk, res_n => res_n,\n               tx_n => key_in_n(i), key => keys(i));\n  end generate buttons;\n\n  key_valid <= keys(0) or keys(1) or keys(2) or keys(3);\n\n  key_color <= \"11\" when keys(3) = '1' else\n               \"10\" when keys(2) = '1' else\n               \"01\" when keys(1) = '1' else\n               \"00\";\nend architecture mixed;",
+     "ziel": [
+      {
+       "t": "p",
+       "s": "Eine Komponente mehrfach mit `for … generate` instanziieren und die Ausgänge zusammenfassen."
+      }
+     ],
+     "erklaerung": [
+      {
+       "t": "p",
+       "s": "Die Eingabeeinheit `input` fasst vier Taster zusammen:"
+      },
+      {
+       "t": "ul",
+       "items": [
+        "`key_valid`: einen Takt `'1'`, wenn **irgendeine** Taste gedrückt wurde.",
+        "`key_color`: Nummer der gedrückten Taste (`\"00\"` rot, `\"01\"` blau, `\"10\"` gelb, `\"11\"` grün)."
+       ]
+      },
+      {
+       "t": "code",
+       "lang": "vhdl",
+       "s": "entity input is\n  port(\n    clk, res_n : in  std_logic;\n    key_in_n   : in  std_logic_vector(3 downto 0);\n    key_valid  : out std_logic;\n    key_color  : out std_logic_vector(1 downto 0)\n    );\nend entity input;"
+      },
+      {
+       "t": "p",
+       "s": "Bausteine:"
+      },
+      {
+       "t": "ul",
+       "items": [
+        "4 × `button` per `for … generate` (G05), Ausgänge in einem Vektor `keys(3 downto 0)`.",
+        "`key_valid`: ODER über alle `keys`.",
+        "`key_color`: Prioritätsencoder mit `when … else` (B01), falls doch zwei Tasten gleichzeitig kommen."
+       ]
+      },
+      {
+       "t": "p",
+       "s": "Weil hier Struktur (Instanzen) und Verhalten (Zuweisungen) gemischt sind, heißt die Architecture `mixed`."
+      }
+     ],
+     "aufgabe": [
+      {
+       "t": "p",
+       "s": "Schreibe `architecture mixed of input`."
+      }
+     ],
+     "aufgabeMd": "Schreibe `architecture mixed of input`.",
+     "loesung": [
+      {
+       "t": "code",
+       "lang": "vhdl",
+       "s": "architecture mixed of input is\n  signal keys : std_logic_vector(3 downto 0);\nbegin\n  buttons: for i in 0 to 3 generate\n    b: entity work.button\n      port map(clk => clk, res_n => res_n,\n               tx_n => key_in_n(i), key => keys(i));\n  end generate buttons;\n\n  key_valid <= keys(0) or keys(1) or keys(2) or keys(3);\n\n  key_color <= \"11\" when keys(3) = '1' else\n               \"10\" when keys(2) = '1' else\n               \"01\" when keys(1) = '1' else\n               \"00\";\nend architecture mixed;"
+      },
+      {
+       "t": "p",
+       "s": "`key_color` ist nur gültig, solange `key_valid = '1'` ist. Ohne Tastendruck steht dort `\"00\"`, das ignoriert die Steuerung."
+      }
+     ],
+     "loesungMd": "```vhdl\narchitecture mixed of input is\n  signal keys : std_logic_vector(3 downto 0);\nbegin\n  buttons: for i in 0 to 3 generate\n    b: entity work.button\n      port map(clk => clk, res_n => res_n,\n               tx_n => key_in_n(i), key => keys(i));\n  end generate buttons;\n\n  key_valid <= keys(0) or keys(1) or keys(2) or keys(3);\n\n  key_color <= \"11\" when keys(3) = '1' else\n               \"10\" when keys(2) = '1' else\n               \"01\" when keys(1) = '1' else\n               \"00\";\nend architecture mixed;\n```\n`key_color` ist nur gültig, solange `key_valid = '1'` ist. Ohne Tastendruck steht dort `\"00\"`, das ignoriert die Steuerung.",
+     "klausur": [
+      {
+       "t": "p",
+       "s": "`generate` und Instanzen (G05, L10). Strukturbeschreibung mit Zusatzlogik wie in F20 A2 (P10)."
+      }
+     ]
+    },
+    {
+     "id": "S09",
+     "block": "S",
+     "title": "Senso: rückgekoppeltes Schieberegister von Hand",
+     "min": 8,
+     "mode": "text",
+     "starter": "",
+     "solutionCode": "",
+     "ziel": [
+      {
+       "t": "p",
+       "s": "Ein Galois-LFSR (Pseudozufallsgenerator) Takt für Takt von Hand rechnen."
+      }
+     ],
+     "erklaerung": [
+      {
+       "t": "p",
+       "s": "Acht Flipflops `q7 … q0` bilden ein Schieberegister. Bei jeder Flanke:"
+      },
+      {
+       "t": "ul",
+       "items": [
+        "jedes Bit rückt eine Stelle nach links (`q(i)` bekommt `q(i-1)`),",
+        "`q7` wandert nach `q0` (Rückkopplung),",
+        "vor manchen Flipflops sitzt ein XOR mit `q7`. Wo, legt das Muster `fb(7 downto 1)` fest: `fb(i) = '1'` heißt „XOR vor `q(i)`“."
+       ]
+      },
+      {
+       "t": "diagram",
+       "id": "S09_lfsr",
+       "alt": "LFSR mit fb = 0111001",
+       "w": 736.4,
+       "h": 88.2,
+       "prims": [
+        {
+         "k": "E",
+         "x": 81.2,
+         "y": 27.2,
+         "rx": 21.4,
+         "ry": 21.4,
+         "s": "accent"
+        },
+        {
+         "k": "T",
+         "x": 81.2,
+         "y": 29.7,
+         "s": "xor",
+         "a": "c",
+         "z": 10.0,
+         "c": "accent"
+        },
+        {
+         "k": "E",
+         "x": 306.5,
+         "y": 27.2,
+         "rx": 21.4,
+         "ry": 21.4,
+         "s": "accent"
+        },
+        {
+         "k": "T",
+         "x": 306.5,
+         "y": 29.7,
+         "s": "xor",
+         "a": "c",
+         "z": 10.0,
+         "c": "accent"
+        },
+        {
+         "k": "E",
+         "x": 483.9,
+         "y": 27.2,
+         "rx": 21.4,
+         "ry": 21.4,
+         "s": "accent"
+        },
+        {
+         "k": "T",
+         "x": 483.9,
+         "y": 29.7,
+         "s": "xor",
+         "a": "c",
+         "z": 10.0,
+         "c": "accent"
+        },
+        {
+         "k": "E",
+         "x": 601.2,
+         "y": 27.2,
+         "rx": 21.4,
+         "ry": 21.4,
+         "s": "accent"
+        },
+        {
+         "k": "T",
+         "x": 601.2,
+         "y": 29.7,
+         "s": "xor",
+         "a": "c",
+         "z": 10.0,
+         "c": "accent"
+        },
+        {
+         "k": "P",
+         "pts": [
+          39.0,
+          12.7,
+          6.0,
+          12.7,
+          6.0,
+          41.7,
+          39.0,
+          41.7
+         ],
+         "s": "ink"
+        },
+        {
+         "k": "T",
+         "x": 22.5,
+         "y": 30.6,
+         "s": "q0",
+         "a": "c",
+         "z": 13.0,
+         "c": "ink"
+        },
+        {
+         "k": "P",
+         "pts": [
+          156.4,
+          12.7,
+          123.4,
+          12.7,
+          123.4,
+          41.7,
+          156.4,
+          41.7
+         ],
+         "s": "ink"
+        },
+        {
+         "k": "T",
+         "x": 139.9,
+         "y": 30.6,
+         "s": "q1",
+         "a": "c",
+         "z": 13.0,
+         "c": "ink"
+        },
+        {
+         "k": "P",
+         "pts": [
+          210.4,
+          12.7,
+          177.4,
+          12.7,
+          177.4,
+          41.7,
+          210.4,
+          41.7
+         ],
+         "s": "ink"
+        },
+        {
+         "k": "T",
+         "x": 193.9,
+         "y": 30.6,
+         "s": "q2",
+         "a": "c",
+         "z": 13.0,
+         "c": "ink"
+        },
+        {
+         "k": "P",
+         "pts": [
+          264.4,
+          12.7,
+          231.4,
+          12.7,
+          231.4,
+          41.7,
+          264.4,
+          41.7
+         ],
+         "s": "ink"
+        },
+        {
+         "k": "T",
+         "x": 247.9,
+         "y": 30.6,
+         "s": "q3",
+         "a": "c",
+         "z": 13.0,
+         "c": "ink"
+        },
+        {
+         "k": "P",
+         "pts": [
+          441.7,
+          12.7,
+          408.7,
+          12.7,
+          408.7,
+          41.7,
+          441.7,
+          41.7
+         ],
+         "s": "ink"
+        },
+        {
+         "k": "T",
+         "x": 425.2,
+         "y": 30.6,
+         "s": "q4",
+         "a": "c",
+         "z": 13.0,
+         "c": "ink"
+        },
+        {
+         "k": "P",
+         "pts": [
+          559.1,
+          12.7,
+          526.1,
+          12.7,
+          526.1,
+          41.7,
+          559.1,
+          41.7
+         ],
+         "s": "ink"
+        },
+        {
+         "k": "T",
+         "x": 542.6,
+         "y": 30.6,
+         "s": "q5",
+         "a": "c",
+         "z": 13.0,
+         "c": "ink"
+        },
+        {
+         "k": "P",
+         "pts": [
+          676.4,
+          12.7,
+          643.4,
+          12.7,
+          643.4,
+          41.7,
+          676.4,
+          41.7
+         ],
+         "s": "ink"
+        },
+        {
+         "k": "T",
+         "x": 659.9,
+         "y": 30.6,
+         "s": "q6",
+         "a": "c",
+         "z": 13.0,
+         "c": "ink"
+        },
+        {
+         "k": "P",
+         "pts": [
+          730.4,
+          12.7,
+          697.4,
+          12.7,
+          697.4,
+          41.7,
+          730.4,
+          41.7
+         ],
+         "s": "ink"
+        },
+        {
+         "k": "T",
+         "x": 713.9,
+         "y": 30.6,
+         "s": "q7",
+         "a": "c",
+         "z": 13.0,
+         "c": "ink"
+        },
+        {
+         "k": "B",
+         "pts": [
+          102.6,
+          27.2,
+          107.0,
+          27.2,
+          111.5,
+          27.2,
+          115.9,
+          27.2
+         ],
+         "s": "line"
+        },
+        {
+         "k": "P",
+         "pts": [
+          116.0,
+          24.7,
+          123.0,
+          27.2,
+          116.0,
+          29.6
+         ],
+         "s": "line",
+         "f": "line"
+        },
+        {
+         "k": "B",
+         "pts": [
+          327.9,
+          27.2,
+          348.4,
+          27.2,
+          380.1,
+          27.2,
+          401.5,
+          27.2
+         ],
+         "s": "line"
+        },
+        {
+         "k": "P",
+         "pts": [
+          401.6,
+          24.7,
+          408.6,
+          27.2,
+          401.6,
+          29.6
+         ],
+         "s": "line",
+         "f": "line"
+        },
+        {
+         "k": "B",
+         "pts": [
+          505.4,
+          27.2,
+          509.7,
+          27.2,
+          514.2,
+          27.2,
+          518.6,
+          27.2
+         ],
+         "s": "line"
+        },
+        {
+         "k": "P",
+         "pts": [
+          518.8,
+          24.7,
+          525.8,
+          27.2,
+          518.8,
+          29.6
+         ],
+         "s": "line",
+         "f": "line"
+        },
+        {
+         "k": "B",
+         "pts": [
+          622.7,
+          27.2,
+          627.0,
+          27.2,
+          631.6,
+          27.2,
+          636.0,
+          27.2
+         ],
+         "s": "line"
+        },
+        {
+         "k": "P",
+         "pts": [
+          636.1,
+          24.7,
+          643.1,
+          27.2,
+          636.1,
+          29.6
+         ],
+         "s": "line",
+         "f": "line"
+        },
+        {
+         "k": "B",
+         "pts": [
+          39.3,
+          27.2,
+          43.4,
+          27.2,
+          48.0,
+          27.2,
+          52.5,
+          27.2
+         ],
+         "s": "line"
+        },
+        {
+         "k": "P",
+         "pts": [
+          52.6,
+          24.7,
+          59.6,
+          27.2,
+          52.6,
+          29.6
+         ],
+         "s": "line",
+         "f": "line"
+        },
+        {
+         "k": "B",
+         "pts": [
+          156.5,
+          27.2,
+          160.8,
+          27.2,
+          165.6,
+          27.2,
+          170.2,
+          27.2
+         ],
+         "s": "line"
+        },
+        {
+         "k": "P",
+         "pts": [
+          170.3,
+          24.7,
+          177.3,
+          27.2,
+          170.3,
+          29.6
+         ],
+         "s": "line",
+         "f": "line"
+        },
+        {
+         "k": "B",
+         "pts": [
+          210.5,
+          27.2,
+          214.8,
+          27.2,
+          219.6,
+          27.2,
+          224.2,
+          27.2
+         ],
+         "s": "line"
+        },
+        {
+         "k": "P",
+         "pts": [
+          224.3,
+          24.7,
+          231.3,
+          27.2,
+          224.3,
+          29.6
+         ],
+         "s": "line",
+         "f": "line"
+        },
+        {
+         "k": "B",
+         "pts": [
+          264.6,
+          27.2,
+          268.8,
+          27.2,
+          273.3,
+          27.2,
+          277.9,
+          27.2
+         ],
+         "s": "line"
+        },
+        {
+         "k": "P",
+         "pts": [
+          277.9,
+          24.7,
+          284.9,
+          27.2,
+          277.9,
+          29.6
+         ],
+         "s": "line",
+         "f": "line"
+        },
+        {
+         "k": "B",
+         "pts": [
+          442.0,
+          27.2,
+          446.1,
+          27.2,
+          450.7,
+          27.2,
+          455.2,
+          27.2
+         ],
+         "s": "line"
+        },
+        {
+         "k": "P",
+         "pts": [
+          455.3,
+          24.7,
+          462.3,
+          27.2,
+          455.3,
+          29.6
+         ],
+         "s": "line",
+         "f": "line"
+        },
+        {
+         "k": "B",
+         "pts": [
+          559.4,
+          27.2,
+          563.5,
+          27.2,
+          568.1,
+          27.2,
+          572.6,
+          27.2
+         ],
+         "s": "line"
+        },
+        {
+         "k": "P",
+         "pts": [
+          572.7,
+          24.7,
+          579.7,
+          27.2,
+          572.7,
+          29.6
+         ],
+         "s": "line",
+         "f": "line"
+        },
+        {
+         "k": "B",
+         "pts": [
+          676.5,
+          27.2,
+          680.9,
+          27.2,
+          685.6,
+          27.2,
+          690.3,
+          27.2
+         ],
+         "s": "line"
+        },
+        {
+         "k": "P",
+         "pts": [
+          690.3,
+          24.7,
+          697.3,
+          27.2,
+          690.3,
+          29.6
+         ],
+         "s": "line",
+         "f": "line"
+        },
+        {
+         "k": "B",
+         "pts": [
+          697.1,
+          40.4,
+          691.0,
+          44.8,
+          683.8,
+          49.4,
+          676.4,
+          52.2,
+          653.8,
+          60.8,
+          646.5,
+          56.8,
+          622.4,
+          59.2,
+          468.6,
+          74.2,
+          429.9,
+          82.2,
+          275.4,
+          82.2,
+          112.4,
+          82.2,
+          112.4,
+          82.2,
+          112.4,
+          82.2,
+          84.8,
+          82.2,
+          58.7,
+          62.8,
+          42.0,
+          47.1
+         ],
+         "s": "line"
+        },
+        {
+         "k": "P",
+         "pts": [
+          40.0,
+          48.6,
+          36.7,
+          41.9,
+          43.4,
+          45.1
+         ],
+         "s": "line",
+         "f": "line"
+        },
+        {
+         "k": "T",
+         "x": 368.2,
+         "y": 76.0,
+         "s": "  q7 zurück",
+         "a": "c",
+         "z": 11.0,
+         "c": "ink"
+        }
+       ]
+      },
+      {
+       "t": "p",
+       "s": "Jedes XOR bekommt als zweiten Eingang `q7`. Ist `q7 = '0'`, ändern die XORs nichts. Dann wird nur rotiert."
+      },
+      {
+       "t": "p",
+       "s": "In VHDL:"
+      },
+      {
+       "t": "code",
+       "lang": "vhdl",
+       "s": "if q(7) = '1' then\n  q := (q(6 downto 0) xor fb) & q(7);\nelse\n  q := q(6 downto 0) & q(7);\nend if;"
+      }
+     ],
+     "aufgabe": [
+      {
+       "t": "p",
+       "s": "`fb = \"0111001\"`, zum Zeitpunkt n ist q = 250 = `\"11111010\"`."
+      },
+      {
+       "t": "ol",
+       "items": [
+        "Berechne die nächsten drei Werte.",
+        "Wie verhält sich die Schaltung danach?",
+        "Was passiert bei q = 0?"
+       ]
+      }
+     ],
+     "aufgabeMd": "`fb = \"0111001\"`, zum Zeitpunkt n ist q = 250 = `\"11111010\"`.\n1. Berechne die nächsten drei Werte.\n2. Wie verhält sich die Schaltung danach?\n3. Was passiert bei q = 0?",
+     "loesung": [
+      {
+       "t": "ol",
+       "items": [
+        "Schritt für Schritt (q7 ist jeweils `1`): - `\"1111010\"` xor `\"0111001\"` = `\"1000011\"`, dazu q7 = `1` → `\"10000111\"` = **135** - `\"0000111\"` xor `\"0111001\"` = `\"0111110\"`, dazu `1` → `\"01111101\"` = **125** - q7 = `0`, nur rotieren: `\"11111010\"` = **250**",
+        "Es geht wieder bei 250 los: Der Zyklus hat nur die Länge **3** (250, 135, 125). Für Zufallszahlen ist das schlecht.",
+        "Aus 0 wird wieder 0: Ohne eine `1` ändern weder Schieben noch XOR etwas. 0 bildet einen eigenen Zyklus der Länge 1. Deshalb darf das Register nie mit 0 starten."
+       ]
+      },
+      {
+       "t": "p",
+       "s": "Jeder Zustand hat genau einen Nachfolger und genau einen Vorgänger. Das Zustandsdiagramm besteht deshalb nur aus getrennten Kreisen (Zyklen)."
+      }
+     ],
+     "loesungMd": "1. Schritt für Schritt (q7 ist jeweils `1`):\n   - `\"1111010\"` xor `\"0111001\"` = `\"1000011\"`, dazu q7 = `1` → `\"10000111\"` = **135**\n   - `\"0000111\"` xor `\"0111001\"` = `\"0111110\"`, dazu `1` → `\"01111101\"` = **125**\n   - q7 = `0`, nur rotieren: `\"11111010\"` = **250**\n2. Es geht wieder bei 250 los: Der Zyklus hat nur die Länge **3** (250, 135, 125). Für Zufallszahlen ist das schlecht.\n3. Aus 0 wird wieder 0: Ohne eine `1` ändern weder Schieben noch XOR etwas. 0 bildet einen eigenen Zyklus der Länge 1. Deshalb darf das Register nie mit 0 starten.\n\nJeder Zustand hat genau einen Nachfolger und genau einen Vorgänger. Das Zustandsdiagramm besteht deshalb nur aus getrennten Kreisen (Zyklen).",
+     "klausur": [
+      {
+       "t": "p",
+       "s": "Schaltungen von Hand simulieren (D06), LFSR (D06, CRC in F24 A1)."
+      }
+     ]
+    },
+    {
+     "id": "S10",
+     "block": "S",
+     "title": "Senso: LFSR mit einstellbarer Rückkopplung",
+     "min": 7,
+     "mode": "code",
+     "starter": "",
+     "solutionCode": "library ieee;\nuse ieee.std_logic_1164.all;\n\nentity galois_lfsr is\n  port(\n    clk, res_n : in  std_logic;\n    reset      : in  std_logic;\n    fb         : in  std_logic_vector(7 downto 1);\n    q          : out std_logic_vector(7 downto 0)\n    );\nend entity galois_lfsr;\n\narchitecture behav of galois_lfsr is\nbegin\n  process(clk, res_n) is\n    variable q_int : std_logic_vector(7 downto 0);\n  begin\n    if res_n = '0' then\n      q_int := \"00000001\";\n    else\n      if clk'event and clk = '1' then\n        if reset = '1' then\n          q_int := \"00000001\";\n        elsif q_int(7) = '1' then\n          q_int := (q_int(6 downto 0) xor fb) & q_int(7);\n        else\n          q_int := q_int(6 downto 0) & q_int(7);\n        end if;\n      end if;\n    end if;\n    q <= q_int;\n  end process;\nend architecture behav;",
+     "ziel": [
+      {
+       "t": "p",
+       "s": "Entity und Architecture für ein Schieberegister mit Muster-Eingang und synchronem Reset schreiben."
+      }
+     ],
+     "erklaerung": [
+      {
+       "t": "p",
+       "s": "Um verschiedene Rückkopplungsmuster zu untersuchen, wird das Muster ein **Eingang**:"
+      },
+      {
+       "t": "ul",
+       "items": [
+        "`fb(7 downto 1)`: Rückkopplungsmuster.",
+        "`reset`: **synchroner**, high-aktiver Reset. Er wirkt nur zur Taktflanke, anders als `res_n` (asynchron, low-aktiv).",
+        "`q(7 downto 0)`: aktueller Wert."
+       ]
+      },
+      {
+       "t": "p",
+       "s": "Startwert nach beiden Resets: `\"00000001\"`. Nicht 0 – siehe S09."
+      },
+      {
+       "t": "p",
+       "s": "Synchroner Reset steht **innerhalb** der Taktabfrage:"
+      },
+      {
+       "t": "code",
+       "lang": "vhdl",
+       "s": "if clk'event and clk = '1' then\n  if reset = '1' then\n    ...\n  else\n    ..."
+      }
+     ],
+     "aufgabe": [
+      {
+       "t": "p",
+       "s": "Schreibe Entity `galois_lfsr` und Architecture `behav`. Verwende im Prozess eine Variable `q_int` und weise `q` am Ende des Prozesses zu."
+      }
+     ],
+     "aufgabeMd": "Schreibe Entity `galois_lfsr` und Architecture `behav`. Verwende im Prozess eine Variable `q_int` und weise `q` am Ende des Prozesses zu.",
+     "loesung": [
+      {
+       "t": "code",
+       "lang": "vhdl",
+       "s": "library ieee;\nuse ieee.std_logic_1164.all;\n\nentity galois_lfsr is\n  port(\n    clk, res_n : in  std_logic;\n    reset      : in  std_logic;\n    fb         : in  std_logic_vector(7 downto 1);\n    q          : out std_logic_vector(7 downto 0)\n    );\nend entity galois_lfsr;\n\narchitecture behav of galois_lfsr is\nbegin\n  process(clk, res_n) is\n    variable q_int : std_logic_vector(7 downto 0);\n  begin\n    if res_n = '0' then\n      q_int := \"00000001\";\n    else\n      if clk'event and clk = '1' then\n        if reset = '1' then\n          q_int := \"00000001\";\n        elsif q_int(7) = '1' then\n          q_int := (q_int(6 downto 0) xor fb) & q_int(7);\n        else\n          q_int := q_int(6 downto 0) & q_int(7);\n        end if;\n      end if;\n    end if;\n    q <= q_int;\n  end process;\nend architecture behav;"
+      },
+      {
+       "t": "p",
+       "s": "Die Variable wird vor dem Schreiben gelesen (alter Wert) und behält ihren Wert bis zum nächsten Prozesslauf. Sie wird deshalb zu 8 Flipflops. `q <= q_int` hinter dem `if` macht daraus nur Drähte."
+      }
+     ],
+     "loesungMd": "```vhdl\nlibrary ieee;\nuse ieee.std_logic_1164.all;\n\nentity galois_lfsr is\n  port(\n    clk, res_n : in  std_logic;\n    reset      : in  std_logic;\n    fb         : in  std_logic_vector(7 downto 1);\n    q          : out std_logic_vector(7 downto 0)\n    );\nend entity galois_lfsr;\n\narchitecture behav of galois_lfsr is\nbegin\n  process(clk, res_n) is\n    variable q_int : std_logic_vector(7 downto 0);\n  begin\n    if res_n = '0' then\n      q_int := \"00000001\";\n    else\n      if clk'event and clk = '1' then\n        if reset = '1' then\n          q_int := \"00000001\";\n        elsif q_int(7) = '1' then\n          q_int := (q_int(6 downto 0) xor fb) & q_int(7);\n        else\n          q_int := q_int(6 downto 0) & q_int(7);\n        end if;\n      end if;\n    end if;\n    q <= q_int;\n  end process;\nend architecture behav;\n```\nDie Variable wird vor dem Schreiben gelesen (alter Wert) und behält ihren Wert bis zum nächsten Prozesslauf. Sie wird deshalb zu 8 Flipflops. `q <= q_int` hinter dem `if` macht daraus nur Drähte.",
+     "klausur": [
+      {
+       "t": "p",
+       "s": "Synchroner vs. asynchroner Reset (D01, D02), Variable als Register (D04)."
+      }
+     ]
+    },
+    {
+     "id": "S11",
+     "block": "S",
+     "title": "Senso: LFSR mit for-Schleife",
+     "min": 6,
+     "mode": "code",
+     "starter": "",
+     "solutionCode": "architecture loop_version of galois_lfsr is\n  signal q_int : std_logic_vector(7 downto 0);\nbegin\n  process(clk, res_n) is\n  begin\n    if res_n = '0' then\n      q_int <= \"00000001\";\n    else\n      if clk'event and clk = '1' then\n        if reset = '1' then\n          q_int <= \"00000001\";\n        else\n          q_int(0) <= q_int(7);\n          for i in 1 to 7 loop\n            q_int(i) <= q_int(i-1) xor (fb(i) and q_int(7));\n          end loop;\n        end if;\n      end if;\n    end if;\n  end process;\n  q <= q_int;\nend architecture loop_version;",
+     "ziel": [
+      {
+       "t": "p",
+       "s": "Dieselbe Hardware einmal mit Vektor-Operationen und einmal Bit für Bit in einer Schleife beschreiben."
+      }
+     ],
+     "erklaerung": [
+      {
+       "t": "p",
+       "s": "Eine `for`-Schleife ist synthetisierbar, wenn ihre Grenzen **Konstanten** sind (C07). Sie wird dann abgerollt, jede Iteration wird eigene Hardware."
+      },
+      {
+       "t": "p",
+       "s": "Für jedes Bit gilt:"
+      },
+      {
+       "t": "ul",
+       "items": [
+        "`q(0)` bekommt `q(7)`.",
+        "`q(i)` (für i = 1 … 7) bekommt `q(i-1) xor (fb(i) and q(7))`."
+       ]
+      },
+      {
+       "t": "p",
+       "s": "Das `and` ersetzt das `if q(7) = '1'`: Ist `q(7) = '0'`, ist das zweite XOR-Bit `'0'` und ändert nichts."
+      }
+     ],
+     "aufgabe": [
+      {
+       "t": "p",
+       "s": "Schreibe `architecture loop_version of galois_lfsr` mit einem **Signal** `q_int` und einer `for`-Schleife."
+      }
+     ],
+     "aufgabeMd": "Schreibe `architecture loop_version of galois_lfsr` mit einem **Signal** `q_int` und einer `for`-Schleife.",
+     "loesung": [
+      {
+       "t": "code",
+       "lang": "vhdl",
+       "s": "architecture loop_version of galois_lfsr is\n  signal q_int : std_logic_vector(7 downto 0);\nbegin\n  process(clk, res_n) is\n  begin\n    if res_n = '0' then\n      q_int <= \"00000001\";\n    else\n      if clk'event and clk = '1' then\n        if reset = '1' then\n          q_int <= \"00000001\";\n        else\n          q_int(0) <= q_int(7);\n          for i in 1 to 7 loop\n            q_int(i) <= q_int(i-1) xor (fb(i) and q_int(7));\n          end loop;\n        end if;\n      end if;\n    end if;\n  end process;\n  q <= q_int;\nend architecture loop_version;"
+      },
+      {
+       "t": "p",
+       "s": "Weil `q_int` hier ein Signal ist, lesen alle Iterationen die **alten** Werte. Die Reihenfolge der Schleife ist deshalb egal. Die Testbench in `am_rechner/L13` prüft nach jeder Flanke, dass beide Architectures dasselbe liefern."
+      }
+     ],
+     "loesungMd": "```vhdl\narchitecture loop_version of galois_lfsr is\n  signal q_int : std_logic_vector(7 downto 0);\nbegin\n  process(clk, res_n) is\n  begin\n    if res_n = '0' then\n      q_int <= \"00000001\";\n    else\n      if clk'event and clk = '1' then\n        if reset = '1' then\n          q_int <= \"00000001\";\n        else\n          q_int(0) <= q_int(7);\n          for i in 1 to 7 loop\n            q_int(i) <= q_int(i-1) xor (fb(i) and q_int(7));\n          end loop;\n        end if;\n      end if;\n    end if;\n  end process;\n  q <= q_int;\nend architecture loop_version;\n```\nWeil `q_int` hier ein Signal ist, lesen alle Iterationen die **alten** Werte. Die Reihenfolge der Schleife ist deshalb egal. Die Testbench in `am_rechner/L13` prüft nach jeder Flanke, dass beide Architectures dasselbe liefern.",
+     "klausur": [
+      {
+       "t": "p",
+       "s": "Synthetisierbare Schleifen (C07, J01). Zwei Architectures zu einer Entity, Auswahl mit `entity work.galois_lfsr(loop_version)` (G01)."
+      }
+     ]
+    },
+    {
+     "id": "S12",
+     "block": "S",
+     "title": "Senso: Testbench aus tester und analyzer",
+     "min": 10,
+     "mode": "code",
+     "starter": "",
+     "solutionCode": "process is\nbegin\n  reset <= '0';\n  fb <= (others => '0');\n  wait until res_n = '1';\n  for i in 0 to 127 loop\n    fb <= std_logic_vector(to_unsigned(i, 7));\n    reset <= '1';\n    wait on clk until clk = '1';\n    reset <= '0';\n    for j in 1 to 256 loop\n      wait on clk until clk = '1';\n    end loop;\n  end loop;\n  wait;\nend process;",
+     "ziel": [
+      {
+       "t": "p",
+       "s": "Eine Testbench in eigene Komponenten aufteilen: eine erzeugt Stimuli, eine wertet aus."
+      }
+     ],
+     "erklaerung": [
+      {
+       "t": "p",
+       "s": "Gesucht sind Muster `fb` mit der **maximalen Zykluslänge 255**: Alle Werte außer 0 kommen dann im Zyklus vor. Dafür werden alle 128 Muster ausprobiert."
+      },
+      {
+       "t": "ul",
+       "items": [
+        "**tester**: legt nacheinander jedes Muster an `fb`, gibt einen Takt `reset = '1'` und wartet dann 256 Takte, länger als jeder mögliche Zyklus.",
+        "**analyzer**: zählt nach jedem `reset`, wie viele Takte vergehen, bis der Startwert wiederkommt."
+       ]
+      },
+      {
+       "t": "p",
+       "s": "Neue `wait`-Form (I02):"
+      },
+      {
+       "t": "code",
+       "lang": "vhdl",
+       "s": "wait on clk until clk = '1' and reset = '1';"
+      },
+      {
+       "t": "p",
+       "s": "Wartet auf ein Ereignis an `clk`, bei dem danach die Bedingung gilt. Also: die nächste steigende Flanke, an der `reset = '1'` ist."
+      },
+      {
+       "t": "p",
+       "s": "Der analyzer, wie er im Projekt verwendet wird:"
+      },
+      {
+       "t": "code",
+       "lang": "vhdl",
+       "s": "process is\n  variable cycle_length_counter : integer;\n  variable start_value : std_logic_vector(7 downto 0);\nbegin\n  wait until res_n = '1';\n  loop\n    wait on clk until clk = '1' and reset = '1';\n    cycle_length_counter := 1;\n    wait on clk until clk = '1' and reset = '0';\n    start_value := q;\n    wait on clk until clk = '1';\n    while q /= start_value loop\n      cycle_length_counter := cycle_length_counter + 1;\n      wait on clk until clk = '1';\n    end loop;\n    report \"cycle length: \" &\n      integer'image(cycle_length_counter);\n  end loop;\nend process;"
+      }
+     ],
+     "aufgabe": [
+      {
+       "t": "p",
+       "s": "Schreibe den Prozess des **tester** (Ausgänge `reset` und `fb`, Eingänge `clk`, `res_n`). Tipp: Muster aus der Schleifenvariable mit `to_unsigned(i, 7)`."
+      }
+     ],
+     "aufgabeMd": "Schreibe den Prozess des **tester** (Ausgänge `reset` und `fb`, Eingänge `clk`, `res_n`). Tipp: Muster aus der Schleifenvariable mit `to_unsigned(i, 7)`.",
+     "loesung": [
+      {
+       "t": "code",
+       "lang": "vhdl",
+       "s": "process is\nbegin\n  reset <= '0';\n  fb <= (others => '0');\n  wait until res_n = '1';\n  for i in 0 to 127 loop\n    fb <= std_logic_vector(to_unsigned(i, 7));\n    reset <= '1';\n    wait on clk until clk = '1';\n    reset <= '0';\n    for j in 1 to 256 loop\n      wait on clk until clk = '1';\n    end loop;\n  end loop;\n  wait;\nend process;"
+      },
+      {
+       "t": "p",
+       "s": "Nicht synthetisierbar (mehrere `wait`), muss es aber auch nicht sein: Das ist reiner Testbench-Code. Für `numeric_std` gehört `use ieee.numeric_std.all;` in die Library-Klausel."
+      }
+     ],
+     "loesungMd": "```vhdl\nprocess is\nbegin\n  reset <= '0';\n  fb <= (others => '0');\n  wait until res_n = '1';\n  for i in 0 to 127 loop\n    fb <= std_logic_vector(to_unsigned(i, 7));\n    reset <= '1';\n    wait on clk until clk = '1';\n    reset <= '0';\n    for j in 1 to 256 loop\n      wait on clk until clk = '1';\n    end loop;\n  end loop;\n  wait;\nend process;\n```\nNicht synthetisierbar (mehrere `wait`), muss es aber auch nicht sein: Das ist reiner Testbench-Code. Für `numeric_std` gehört `use ieee.numeric_std.all;` in die Library-Klausel.",
+     "klausur": [
+      {
+       "t": "p",
+       "s": "`wait`-Formen und Testbench-Aufbau (I02, I03). Testbench als Strukturbeschreibung: G03."
+      }
+     ]
+    },
+    {
+     "id": "S13",
+     "block": "S",
+     "title": "Senso: Testbench verdrahten und Muster finden",
+     "min": 7,
+     "mode": "code",
+     "starter": "",
+     "solutionCode": "entity galois_lfsr_tb is\nend entity galois_lfsr_tb;\n\narchitecture struct of galois_lfsr_tb is\n  signal clk, res_n, reset : std_logic;\n  signal fb : std_logic_vector(7 downto 1);\n  signal q  : std_logic_vector(7 downto 0);\nbegin\n  gen: entity work.clk_res_gen\n    port map(clk => clk, res_n => res_n);\n  tst: entity work.tester\n    port map(clk => clk, res_n => res_n,\n             reset => reset, fb => fb);\n  dut: entity work.galois_lfsr\n    port map(clk => clk, res_n => res_n,\n             reset => reset, fb => fb, q => q);\n  ana: entity work.analyzer\n    port map(clk => clk, res_n => res_n,\n             reset => reset, q => q);\nend architecture struct;",
+     "ziel": [
+      {
+       "t": "p",
+       "s": "Eine Testbench als Strukturbeschreibung aufbauen und das Ergebnis der Simulation deuten."
+      }
+     ],
+     "erklaerung": [
+      {
+       "t": "p",
+       "s": "Die Testbench `galois_lfsr_tb` hat **keine Ports** und vier Instanzen:"
+      },
+      {
+       "t": "ul",
+       "items": [
+        "`clk_res_gen`: erzeugt `clk` und `res_n`,",
+        "`tester` → `reset`, `fb`,",
+        "`galois_lfsr` (das DUT, „device under test“),",
+        "`analyzer` liest `reset` und `q`."
+       ]
+      },
+      {
+       "t": "p",
+       "s": "Interne Signale: genau die Verbindungen dazwischen (`clk`, `res_n`, `reset`, `fb`, `q`)."
+      }
+     ],
+     "aufgabe": [
+      {
+       "t": "ol",
+       "items": [
+        "Schreibe `architecture struct of galois_lfsr_tb`.",
+        "Die Simulation findet 16 Muster mit Zykluslänge 255, darunter `\"0001110\"`, `\"0110001\"`, `\"1100001\"`. Warum findet sie kein Muster mit Länge 256?"
+       ]
+      }
+     ],
+     "aufgabeMd": "1. Schreibe `architecture struct of galois_lfsr_tb`.\n2. Die Simulation findet 16 Muster mit Zykluslänge 255, darunter `\"0001110\"`, `\"0110001\"`, `\"1100001\"`. Warum findet sie kein Muster mit Länge 256?",
+     "loesung": [
+      {
+       "t": "code",
+       "lang": "vhdl",
+       "s": "entity galois_lfsr_tb is\nend entity galois_lfsr_tb;\n\narchitecture struct of galois_lfsr_tb is\n  signal clk, res_n, reset : std_logic;\n  signal fb : std_logic_vector(7 downto 1);\n  signal q  : std_logic_vector(7 downto 0);\nbegin\n  gen: entity work.clk_res_gen\n    port map(clk => clk, res_n => res_n);\n  tst: entity work.tester\n    port map(clk => clk, res_n => res_n,\n             reset => reset, fb => fb);\n  dut: entity work.galois_lfsr\n    port map(clk => clk, res_n => res_n,\n             reset => reset, fb => fb, q => q);\n  ana: entity work.analyzer\n    port map(clk => clk, res_n => res_n,\n             reset => reset, q => q);\nend architecture struct;"
+      },
+      {
+       "t": "ol",
+       "items": [
+        "Die 0 liegt immer in ihrem eigenen Zyklus (S09). Für alle anderen Werte bleiben höchstens 255 übrig."
+       ]
+      }
+     ],
+     "loesungMd": "```vhdl\nentity galois_lfsr_tb is\nend entity galois_lfsr_tb;\n\narchitecture struct of galois_lfsr_tb is\n  signal clk, res_n, reset : std_logic;\n  signal fb : std_logic_vector(7 downto 1);\n  signal q  : std_logic_vector(7 downto 0);\nbegin\n  gen: entity work.clk_res_gen\n    port map(clk => clk, res_n => res_n);\n  tst: entity work.tester\n    port map(clk => clk, res_n => res_n,\n             reset => reset, fb => fb);\n  dut: entity work.galois_lfsr\n    port map(clk => clk, res_n => res_n,\n             reset => reset, fb => fb, q => q);\n  ana: entity work.analyzer\n    port map(clk => clk, res_n => res_n,\n             reset => reset, q => q);\nend architecture struct;\n```\n2. Die 0 liegt immer in ihrem eigenen Zyklus (S09). Für alle anderen Werte bleiben höchstens 255 übrig.",
+     "klausur": [
+      {
+       "t": "p",
+       "s": "Testbench als Strukturbeschreibung (G03, L10). Simulierbar: `STOP=1ms ./sim.sh galois_lfsr_tb am_rechner/L13/senso.vhd am_rechner/L13/lfsr_test.vhd`."
+      }
+     ]
+    },
+    {
+     "id": "S14",
+     "block": "S",
+     "title": "Senso: Zufall mit Startwert-Speicher",
+     "min": 9,
+     "mode": "code",
+     "starter": "",
+     "solutionCode": "architecture behav of random is\n  constant FB : std_logic_vector(7 downto 1) := \"0001110\";\n  signal sr, mr : std_logic_vector(7 downto 0);\nbegin\n  process(clk, res_n) is\n  begin\n    if res_n = '0' then\n      sr <= \"00000001\";\n      mr <= \"00000001\";\n    else\n      if clk'event and clk = '1' then\n        if store_rnd = '1' then\n          mr <= sr;\n        end if;\n        if restore_rnd = '1' then\n          sr <= mr;\n        elsif next_rnd = '1' then\n          if sr(7) = '1' then\n            sr <= (sr(6 downto 0) xor FB) & sr(7);\n          else\n            sr <= sr(6 downto 0) & sr(7);\n          end if;\n        end if;\n      end if;\n    end if;\n  end process;\n  rnd <= sr(1 downto 0);\nend architecture behav;",
+     "ziel": [
+      {
+       "t": "p",
+       "s": "Zwei Register mit Multiplexer und Freigabe aus einer Beschreibung auf Register-Transfer-Ebene programmieren."
+      }
+     ],
+     "erklaerung": [
+      {
+       "t": "p",
+       "s": "Senso muss dieselbe Zufallsfolge zweimal liefern: einmal zum Vorspielen, einmal zum Prüfen beim Nachspielen. Deshalb:"
+      },
+      {
+       "t": "ul",
+       "items": [
+        "Register **SR**: aktuelle Zufallszahl (LFSR mit festem, maximalem Muster).",
+        "Register **MR**: gemerkter Startwert.",
+        "`store_rnd = '1'`: MR übernimmt SR.",
+        "`restore_rnd = '1'`: SR übernimmt MR (Vorrang).",
+        "sonst `next_rnd = '1'`: SR macht einen LFSR-Schritt.",
+        "`rnd(1 downto 0)`: zwei Bits aus SR, hier die unteren."
+       ]
+      },
+      {
+       "t": "code",
+       "lang": "vhdl",
+       "s": "entity random is\n  port(\n    clk, res_n  : in  std_logic;\n    next_rnd    : in  std_logic;\n    store_rnd   : in  std_logic;\n    restore_rnd : in  std_logic;\n    rnd         : out std_logic_vector(1 downto 0)\n    );\nend entity random;"
+      },
+      {
+       "t": "p",
+       "s": "Zufall entsteht durch den Menschen: Im Startzustand läuft der Generator in jedem Takt weiter. Wann die Spielerin drückt, bestimmt den Startwert."
+      }
+     ],
+     "aufgabe": [
+      {
+       "t": "p",
+       "s": "Schreibe `architecture behav of random`. Muster als Konstante `FB = \"0001110\"`."
+      }
+     ],
+     "aufgabeMd": "Schreibe `architecture behav of random`. Muster als Konstante `FB = \"0001110\"`.",
+     "loesung": [
+      {
+       "t": "code",
+       "lang": "vhdl",
+       "s": "architecture behav of random is\n  constant FB : std_logic_vector(7 downto 1) := \"0001110\";\n  signal sr, mr : std_logic_vector(7 downto 0);\nbegin\n  process(clk, res_n) is\n  begin\n    if res_n = '0' then\n      sr <= \"00000001\";\n      mr <= \"00000001\";\n    else\n      if clk'event and clk = '1' then\n        if store_rnd = '1' then\n          mr <= sr;\n        end if;\n        if restore_rnd = '1' then\n          sr <= mr;\n        elsif next_rnd = '1' then\n          if sr(7) = '1' then\n            sr <= (sr(6 downto 0) xor FB) & sr(7);\n          else\n            sr <= sr(6 downto 0) & sr(7);\n          end if;\n        end if;\n      end if;\n    end if;\n  end process;\n  rnd <= sr(1 downto 0);\nend architecture behav;"
+      },
+      {
+       "t": "p",
+       "s": "Die „?“-Logik aus dem Blockbild steckt im `if … elsif`: Der Multiplexer wählt MR bei `restore_rnd`, die Freigabe von SR ist `restore_rnd or next_rnd`."
+      }
+     ],
+     "loesungMd": "```vhdl\narchitecture behav of random is\n  constant FB : std_logic_vector(7 downto 1) := \"0001110\";\n  signal sr, mr : std_logic_vector(7 downto 0);\nbegin\n  process(clk, res_n) is\n  begin\n    if res_n = '0' then\n      sr <= \"00000001\";\n      mr <= \"00000001\";\n    else\n      if clk'event and clk = '1' then\n        if store_rnd = '1' then\n          mr <= sr;\n        end if;\n        if restore_rnd = '1' then\n          sr <= mr;\n        elsif next_rnd = '1' then\n          if sr(7) = '1' then\n            sr <= (sr(6 downto 0) xor FB) & sr(7);\n          else\n            sr <= sr(6 downto 0) & sr(7);\n          end if;\n        end if;\n      end if;\n    end if;\n  end process;\n  rnd <= sr(1 downto 0);\nend architecture behav;\n```\nDie „?“-Logik aus dem Blockbild steckt im `if … elsif`: Der Multiplexer wählt MR bei `restore_rnd`, die Freigabe von SR ist `restore_rnd or next_rnd`.",
+     "klausur": [
+      {
+       "t": "p",
+       "s": "Register mit Enable und Multiplexer (D02, M01), RTL-Bild in VHDL übersetzen (K01)."
+      }
+     ]
+    },
+    {
+     "id": "S15",
+     "block": "S",
+     "title": "Senso: Typen für die 7-Segment-Anzeige",
+     "min": 8,
+     "mode": "code",
+     "starter": "",
+     "solutionCode": "library ieee;\nuse ieee.std_logic_1164.all;\nuse work.senso_pkg.all;\n\nentity seg7_decoder is\n  port(\n    digit : in  integer range 0 to 9;\n    seg   : out seg7_type\n    );\nend entity seg7_decoder;\n\narchitecture behav of seg7_decoder is\nbegin\n  with digit select seg <=\n  --  a    b    c    d    e    f    g\n    ('0', '0', '0', '0', '0', '0', '1') when 0,\n    ('1', '0', '0', '1', '1', '1', '1') when 1,\n    ('0', '0', '1', '0', '0', '1', '0') when 2,\n    ('0', '0', '0', '0', '1', '1', '0') when 3,\n    ('1', '0', '0', '1', '1', '0', '0') when 4,\n    ('0', '1', '0', '0', '1', '0', '0') when 5,\n    ('0', '1', '0', '0', '0', '0', '0') when 6,\n    ('0', '0', '0', '1', '1', '1', '1') when 7,\n    ('0', '0', '0', '0', '0', '0', '0') when 8,\n    ('0', '0', '0', '0', '1', '0', '0') when 9;\nend architecture behav;",
+     "ziel": [
+      {
+       "t": "p",
+       "s": "Mit eigenen Typen eine Schnittstelle schreiben, bei der man Fehler gar nicht erst machen kann."
+      }
+     ],
+     "erklaerung": [
+      {
+       "t": "p",
+       "s": "Der Punktestand wird zweistellig angezeigt. Die einfache Schnittstelle wäre `score_low : out std_logic_vector(6 downto 0)` – aber welches Bit ist welches Segment?"
+      },
+      {
+       "t": "p",
+       "s": "Besser mit dem Typsystem (E03, E04): ein Aufzählungstyp für die Segmente und ein Array, das mit ihnen indiziert wird."
+      },
+      {
+       "t": "code",
+       "lang": "vhdl",
+       "s": "package senso_pkg is\n  type segment_type is (a, b, c, d, e, f, g);\n  type seg7_type is array (segment_type) of std_logic;\nend package senso_pkg;"
+      },
+      {
+       "t": "p",
+       "s": "Jetzt heißt es `score_low(g)` statt `score_low(6)`, und ein Vertauschen mit einem anderen 7-Bit-Vektor fällt dem Compiler auf."
+      },
+      {
+       "t": "p",
+       "s": "Segmente: `a` oben, `b` rechts oben, `c` rechts unten, `d` unten, `e` links unten, `f` links oben, `g` Mitte. Die Anzeige ist **low-aktiv**: `'0'` = Segment leuchtet."
+      },
+      {
+       "t": "p",
+       "s": "**BIN2BCD**: Der Punktestand ist binär (0 … 63). Für zwei Ziffern braucht man Zehner und Einer: `score / 10` und `score mod 10`."
+      }
+     ],
+     "aufgabe": [
+      {
+       "t": "p",
+       "s": "Schreibe Entity und Architecture `behav` für `seg7_decoder` (Eingang `digit : integer range 0 to 9`, Ausgang `seg : seg7_type`) mit einer `with … select`-Zuweisung. Es reichen die Ziffern 0 bis 3, der Rest geht genauso."
+      }
+     ],
+     "aufgabeMd": "Schreibe Entity und Architecture `behav` für `seg7_decoder` (Eingang `digit : integer range 0 to 9`, Ausgang `seg : seg7_type`) mit einer `with … select`-Zuweisung. Es reichen die Ziffern 0 bis 3, der Rest geht genauso.",
+     "loesung": [
+      {
+       "t": "code",
+       "lang": "vhdl",
+       "s": "library ieee;\nuse ieee.std_logic_1164.all;\nuse work.senso_pkg.all;\n\nentity seg7_decoder is\n  port(\n    digit : in  integer range 0 to 9;\n    seg   : out seg7_type\n    );\nend entity seg7_decoder;\n\narchitecture behav of seg7_decoder is\nbegin\n  with digit select seg <=\n  --  a    b    c    d    e    f    g\n    ('0', '0', '0', '0', '0', '0', '1') when 0,\n    ('1', '0', '0', '1', '1', '1', '1') when 1,\n    ('0', '0', '1', '0', '0', '1', '0') when 2,\n    ('0', '0', '0', '0', '1', '1', '0') when 3,\n    ('1', '0', '0', '1', '1', '0', '0') when 4,\n    ('0', '1', '0', '0', '1', '0', '0') when 5,\n    ('0', '1', '0', '0', '0', '0', '0') when 6,\n    ('0', '0', '0', '1', '1', '1', '1') when 7,\n    ('0', '0', '0', '0', '0', '0', '0') when 8,\n    ('0', '0', '0', '0', '1', '0', '0') when 9;\nend architecture behav;"
+      },
+      {
+       "t": "p",
+       "s": "Die 0: alles leuchtet außer der Mitte `g`. Die 1: nur `b` und `c`. Weil `digit` nur 0 bis 9 annehmen kann, braucht es kein `when others`."
+      }
+     ],
+     "loesungMd": "```vhdl\nlibrary ieee;\nuse ieee.std_logic_1164.all;\nuse work.senso_pkg.all;\n\nentity seg7_decoder is\n  port(\n    digit : in  integer range 0 to 9;\n    seg   : out seg7_type\n    );\nend entity seg7_decoder;\n\narchitecture behav of seg7_decoder is\nbegin\n  with digit select seg <=\n  --  a    b    c    d    e    f    g\n    ('0', '0', '0', '0', '0', '0', '1') when 0,\n    ('1', '0', '0', '1', '1', '1', '1') when 1,\n    ('0', '0', '1', '0', '0', '1', '0') when 2,\n    ('0', '0', '0', '0', '1', '1', '0') when 3,\n    ('1', '0', '0', '1', '1', '0', '0') when 4,\n    ('0', '1', '0', '0', '1', '0', '0') when 5,\n    ('0', '1', '0', '0', '0', '0', '0') when 6,\n    ('0', '0', '0', '1', '1', '1', '1') when 7,\n    ('0', '0', '0', '0', '0', '0', '0') when 8,\n    ('0', '0', '0', '0', '1', '0', '0') when 9;\nend architecture behav;\n```\nDie 0: alles leuchtet außer der Mitte `g`. Die 1: nur `b` und `c`. Weil `digit` nur 0 bis 9 annehmen kann, braucht es kein `when others`.",
+     "klausur": [
+      {
+       "t": "p",
+       "s": "Eigene Typen und Arrays mit Aufzählungs-Index (E03, E04), `with … select` (B02)."
+      }
+     ]
+    },
+    {
+     "id": "S16",
+     "block": "S",
+     "title": "Senso: Zählereinheit",
+     "min": 9,
+     "mode": "code",
+     "starter": "",
+     "solutionCode": "architecture mixed of counter is\n  signal step, score : integer range 0 to 63;\n  signal tens, ones  : integer range 0 to 9;\nbegin\n  counters: process(clk, res_n) is\n  begin\n    if res_n = '0' then\n      step <= 0;\n      score <= 0;\n    else\n      if clk'event and clk = '1' then\n        if res_step = '1' then\n          step <= 0;\n        elsif inc_step = '1' then\n          step <= (step + 1) mod 64;\n        end if;\n        if res_score = '1' then\n          score <= 0;\n        elsif inc_score = '1' then\n          score <= (score + 1) mod 64;\n        end if;\n      end if;\n    end if;\n  end process counters;\n\n  step_eq_score <= '1' when step = score else '0';\n\n  tens <= score / 10;\n  ones <= score mod 10;\n\n  dec_high: entity work.seg7_decoder\n    port map(digit => tens, seg => score_high);\n  dec_low: entity work.seg7_decoder\n    port map(digit => ones, seg => score_low);\nend architecture mixed;",
+     "ziel": [
+      {
+       "t": "p",
+       "s": "Zwei Zähler, einen Vergleicher und zwei Decoder zu einer Einheit zusammenbauen und dabei abwägen: behav oder struct?"
+      }
+     ],
+     "erklaerung": [
+      {
+       "t": "p",
+       "s": "Zwei Zähler (6 Bit):"
+      },
+      {
+       "t": "ul",
+       "items": [
+        "`score`: aktuelle Sequenzlänge = Punktestand.",
+        "`step`: Schritt innerhalb der Sequenz, es gilt 0 ≤ step ≤ score."
+       ]
+      },
+      {
+       "t": "p",
+       "s": "Je Zähler gibt es `res_…` (synchron auf 0) und `inc_…` (+ 1). `step_eq_score = '1'`, wenn beide gleich sind: Die Sequenz ist zu Ende."
+      },
+      {
+       "t": "code",
+       "lang": "vhdl",
+       "s": "entity counter is\n  port(\n    clk, res_n    : in  std_logic;\n    res_step      : in  std_logic;\n    inc_step      : in  std_logic;\n    res_score     : in  std_logic;\n    inc_score     : in  std_logic;\n    step_eq_score : out std_logic;\n    score_low     : out seg7_type;\n    score_high    : out seg7_type\n    );\nend entity counter;"
+      },
+      {
+       "t": "p",
+       "s": "Modularisierung: Die Zähler sind zwei kurze `if`-Abfragen, dafür lohnen sich keine eigenen Komponenten. Den 7-Segment-Decoder gibt es aber zweimal → eigene Komponente (S15), zweimal instanziiert. Ergebnis: eine **gemischte** Architecture."
+      }
+     ],
+     "aufgabe": [
+      {
+       "t": "p",
+       "s": "Schreibe `architecture mixed of counter` mit `integer range 0 to 63` für die Zähler."
+      }
+     ],
+     "aufgabeMd": "Schreibe `architecture mixed of counter` mit `integer range 0 to 63` für die Zähler.",
+     "loesung": [
+      {
+       "t": "code",
+       "lang": "vhdl",
+       "s": "architecture mixed of counter is\n  signal step, score : integer range 0 to 63;\n  signal tens, ones  : integer range 0 to 9;\nbegin\n  counters: process(clk, res_n) is\n  begin\n    if res_n = '0' then\n      step <= 0;\n      score <= 0;\n    else\n      if clk'event and clk = '1' then\n        if res_step = '1' then\n          step <= 0;\n        elsif inc_step = '1' then\n          step <= (step + 1) mod 64;\n        end if;\n        if res_score = '1' then\n          score <= 0;\n        elsif inc_score = '1' then\n          score <= (score + 1) mod 64;\n        end if;\n      end if;\n    end if;\n  end process counters;\n\n  step_eq_score <= '1' when step = score else '0';\n\n  tens <= score / 10;\n  ones <= score mod 10;\n\n  dec_high: entity work.seg7_decoder\n    port map(digit => tens, seg => score_high);\n  dec_low: entity work.seg7_decoder\n    port map(digit => ones, seg => score_low);\nend architecture mixed;"
+      },
+      {
+       "t": "p",
+       "s": "`mod 64` verhindert, dass `integer range 0 to 63` überläuft (in der Simulation wäre das ein Fehler). In Hardware ist das einfach der Überlauf eines 6-Bit-Zählers."
+      }
+     ],
+     "loesungMd": "```vhdl\narchitecture mixed of counter is\n  signal step, score : integer range 0 to 63;\n  signal tens, ones  : integer range 0 to 9;\nbegin\n  counters: process(clk, res_n) is\n  begin\n    if res_n = '0' then\n      step <= 0;\n      score <= 0;\n    else\n      if clk'event and clk = '1' then\n        if res_step = '1' then\n          step <= 0;\n        elsif inc_step = '1' then\n          step <= (step + 1) mod 64;\n        end if;\n        if res_score = '1' then\n          score <= 0;\n        elsif inc_score = '1' then\n          score <= (score + 1) mod 64;\n        end if;\n      end if;\n    end if;\n  end process counters;\n\n  step_eq_score <= '1' when step = score else '0';\n\n  tens <= score / 10;\n  ones <= score mod 10;\n\n  dec_high: entity work.seg7_decoder\n    port map(digit => tens, seg => score_high);\n  dec_low: entity work.seg7_decoder\n    port map(digit => ones, seg => score_low);\nend architecture mixed;\n```\n`mod 64` verhindert, dass `integer range 0 to 63` überläuft (in der Simulation wäre das ein Fehler). In Hardware ist das einfach der Überlauf eines 6-Bit-Zählers.",
+     "klausur": [
+      {
+       "t": "p",
+       "s": "Behav vs. struct abwägen (L02, G01), Zähler mit Reset und Enable (D02, M03)."
+      }
+     ]
+    },
+    {
+     "id": "S17",
+     "block": "S",
+     "title": "Senso: Ausgabeeinheit",
+     "min": 6,
+     "mode": "code",
+     "starter": "",
+     "solutionCode": "library ieee;\nuse ieee.numeric_std.all;\n\narchitecture behav of output is\nbegin\n  process(led_on, all_on, color) is\n  begin\n    leds <= (others => all_on);\n    if led_on = '1' then\n      leds(to_integer(unsigned(color))) <= '1';\n    end if;\n  end process;\nend architecture behav;",
+     "ziel": [
+      {
+       "t": "p",
+       "s": "Eine rein kombinatorische Komponente einmal als Gatterschaltung und einmal abstrakt beschreiben."
+      }
+     ],
+     "erklaerung": [
+      {
+       "t": "p",
+       "s": "Die Ausgabe steuert vier LEDs:"
+      },
+      {
+       "t": "ul",
+       "items": [
+        "`led_on = '1'`: die LED mit der Farbe `color` leuchtet.",
+        "`all_on = '1'`: alle LEDs leuchten (Spiel verloren), egal was sonst anliegt."
+       ]
+      },
+      {
+       "t": "code",
+       "lang": "vhdl",
+       "s": "entity output is\n  port(\n    led_on, all_on : in  std_logic;\n    color          : in  std_logic_vector(1 downto 0);\n    leds           : out std_logic_vector(3 downto 0)\n    );\nend entity output;"
+      }
+     ],
+     "aufgabe": [
+      {
+       "t": "ol",
+       "items": [
+        "Warum hat `output` weder `clk` noch `res_n`?",
+        "Gib die Gleichung für `leds(2)` (gelb, `color = \"10\"`) nur mit Gattern an.",
+        "Schreibe eine abstrakte `architecture behav of output` mit einem Prozess."
+       ]
+      }
+     ],
+     "aufgabeMd": "1. Warum hat `output` weder `clk` noch `res_n`?\n2. Gib die Gleichung für `leds(2)` (gelb, `color = \"10\"`) nur mit Gattern an.\n3. Schreibe eine abstrakte `architecture behav of output` mit einem Prozess.",
+     "loesung": [
+      {
+       "t": "ol",
+       "items": [
+        "Die Ausgänge hängen nur von den **aktuellen** Eingängen ab, es muss nichts gespeichert werden. Ohne Speicher gibt es nichts zu takten und nichts zurückzusetzen.",
+        "`leds(2) <= all_on or (led_on and color(1) and not color(0));` – also ein Decoder 2 auf 4 mit Freigabe `led_on`, danach je ein ODER mit `all_on`.",
+        "Abstrakt:"
+       ]
+      },
+      {
+       "t": "code",
+       "lang": "vhdl",
+       "s": "library ieee;\nuse ieee.numeric_std.all;\n\narchitecture behav of output is\nbegin\n  process(led_on, all_on, color) is\n  begin\n    leds <= (others => all_on);\n    if led_on = '1' then\n      leds(to_integer(unsigned(color))) <= '1';\n    end if;\n  end process;\nend architecture behav;"
+      },
+      {
+       "t": "p",
+       "s": "`(others => all_on)` setzt alle vier Bits auf den Wert von `all_on`. Die spätere Zuweisung an ein einzelnes Bit überschreibt nur dieses Bit."
+      }
+     ],
+     "loesungMd": "1. Die Ausgänge hängen nur von den **aktuellen** Eingängen ab, es muss nichts gespeichert werden. Ohne Speicher gibt es nichts zu takten und nichts zurückzusetzen.\n2. `leds(2) <= all_on or (led_on and color(1) and not color(0));` – also ein Decoder 2 auf 4 mit Freigabe `led_on`, danach je ein ODER mit `all_on`.\n3. Abstrakt:\n```vhdl\nlibrary ieee;\nuse ieee.numeric_std.all;\n\narchitecture behav of output is\nbegin\n  process(led_on, all_on, color) is\n  begin\n    leds <= (others => all_on);\n    if led_on = '1' then\n      leds(to_integer(unsigned(color))) <= '1';\n    end if;\n  end process;\nend architecture behav;\n```\n`(others => all_on)` setzt alle vier Bits auf den Wert von `all_on`. Die spätere Zuweisung an ein einzelnes Bit überschreibt nur dieses Bit.",
+     "klausur": [
+      {
+       "t": "p",
+       "s": "Gatter aus Text ableiten (L06), Decoder mit Index (P07), letzte Zuweisung gewinnt (C02)."
+      }
+     ]
+    },
+    {
+     "id": "S18",
+     "block": "S",
+     "title": "Senso: Hauptsteuerung entwerfen",
+     "min": 12,
+     "mode": "text",
+     "starter": "",
+     "solutionCode": "",
+     "ziel": [
+      {
+       "t": "p",
+       "s": "Aus einer Ablaufbeschreibung einen Moore-Automaten mit allen Ausgängen entwerfen."
+      }
+     ],
+     "erklaerung": [
+      {
+       "t": "p",
+       "s": "Ablauf des Spiels:"
+      },
+      {
+       "t": "ol",
+       "items": [
+        "Nach dem Reset wartet der Automat auf einen Tastendruck. Dabei läuft der Zufallsgenerator, die Zähler und die Spielgeschwindigkeit werden zurückgesetzt.",
+        "Tastendruck: Startwert merken.",
+        "Startwert laden, Schrittzähler auf 0.",
+        "Sequenz vorspielen: Farbe zeigen, Pause, nächste Farbe – bis `step = score`.",
+        "Startwert wieder laden, Schrittzähler auf 0.",
+        "Auf Tasten warten und jede prüfen: - falsch: alle LEDs an, Spiel verloren, zurück zu 1, - richtig, Sequenz noch nicht zu Ende: Schritt + 1, weiter bei 6, - richtig und Sequenz zu Ende: Punkte + 1, schneller, weiter bei 3."
+       ]
+      },
+      {
+       "t": "p",
+       "s": "Wichtige Regel: Signale, die etwas **einmal** auslösen (`next_rnd`, `inc_step`, `inc_score`, `dec_duration`, `store_rnd`), dürfen nur **einen Takt** aktiv sein. Zustände, in denen sie aktiv sind, werden deshalb **unbedingt** im nächsten Takt verlassen."
+      },
+      {
+       "t": "diagram",
+       "id": "S16_steuerung",
+       "alt": "Hauptsteuerung als Moore-Automat",
+       "w": 501.0,
+       "h": 596.0,
+       "prims": [
+        {
+         "k": "B",
+         "pts": [
+          481.5,
+          6.0,
+          481.5,
+          6.0,
+          350.5,
+          6.0,
+          350.5,
+          6.0,
+          344.5,
+          6.0,
+          338.5,
+          12.0,
+          338.5,
+          18.0,
+          338.5,
+          18.0,
+          338.5,
+          41.0,
+          338.5,
+          41.0,
+          338.5,
+          47.0,
+          344.5,
+          53.0,
+          350.5,
+          53.0,
+          350.5,
+          53.0,
+          481.5,
+          53.0,
+          481.5,
+          53.0,
+          487.5,
+          53.0,
+          493.5,
+          47.0,
+          493.5,
+          41.0,
+          493.5,
+          41.0,
+          493.5,
+          18.0,
+          493.5,
+          18.0,
+          493.5,
+          12.0,
+          487.5,
+          6.0,
+          481.5,
+          6.0
+         ],
+         "s": "ink"
+        },
+        {
+         "k": "T",
+         "x": 416.0,
+         "y": 19.6,
+         "s": "init",
+         "a": "c",
+         "z": 12.0,
+         "c": "ink"
+        },
+        {
+         "k": "T",
+         "x": 416.0,
+         "y": 32.6,
+         "s": "next_rnd, res_step,",
+         "a": "c",
+         "z": 12.0,
+         "c": "ink"
+        },
+        {
+         "k": "T",
+         "x": 416.0,
+         "y": 45.6,
+         "s": "res_score, res_duration",
+         "a": "c",
+         "z": 12.0,
+         "c": "ink"
+        },
+        {
+         "k": "B",
+         "pts": [
+          394.0,
+          95.0,
+          394.0,
+          95.0,
+          346.0,
+          95.0,
+          346.0,
+          95.0,
+          340.0,
+          95.0,
+          334.0,
+          101.0,
+          334.0,
+          107.0,
+          334.0,
+          107.0,
+          334.0,
+          119.0,
+          334.0,
+          119.0,
+          334.0,
+          125.0,
+          340.0,
+          131.0,
+          346.0,
+          131.0,
+          346.0,
+          131.0,
+          394.0,
+          131.0,
+          394.0,
+          131.0,
+          400.0,
+          131.0,
+          406.0,
+          125.0,
+          406.0,
+          119.0,
+          406.0,
+          119.0,
+          406.0,
+          107.0,
+          406.0,
+          107.0,
+          406.0,
+          101.0,
+          400.0,
+          95.0,
+          394.0,
+          95.0
+         ],
+         "s": "ink"
+        },
+        {
+         "k": "T",
+         "x": 370.0,
+         "y": 109.6,
+         "s": "store",
+         "a": "c",
+         "z": 12.0,
+         "c": "ink"
+        },
+        {
+         "k": "T",
+         "x": 370.0,
+         "y": 122.6,
+         "s": "store_rnd",
+         "a": "c",
+         "z": 12.0,
+         "c": "ink"
+        },
+        {
+         "k": "B",
+         "pts": [
+          372.5,
+          162.0,
+          372.5,
+          162.0,
+          255.5,
+          162.0,
+          255.5,
+          162.0,
+          249.5,
+          162.0,
+          243.5,
+          168.0,
+          243.5,
+          174.0,
+          243.5,
+          174.0,
+          243.5,
+          186.0,
+          243.5,
+          186.0,
+          243.5,
+          192.0,
+          249.5,
+          198.0,
+          255.5,
+          198.0,
+          255.5,
+          198.0,
+          372.5,
+          198.0,
+          372.5,
+          198.0,
+          378.5,
+          198.0,
+          384.5,
+          192.0,
+          384.5,
+          186.0,
+          384.5,
+          186.0,
+          384.5,
+          174.0,
+          384.5,
+          174.0,
+          384.5,
+          168.0,
+          378.5,
+          162.0,
+          372.5,
+          162.0
+         ],
+         "s": "ink"
+        },
+        {
+         "k": "T",
+         "x": 314.0,
+         "y": 176.6,
+         "s": "load",
+         "a": "c",
+         "z": 12.0,
+         "c": "ink"
+        },
+        {
+         "k": "T",
+         "x": 314.0,
+         "y": 189.6,
+         "s": "restore_rnd, res_step",
+         "a": "c",
+         "z": 12.0,
+         "c": "ink"
+        },
+        {
+         "k": "B",
+         "pts": [
+          366.5,
+          229.0,
+          366.5,
+          229.0,
+          261.5,
+          229.0,
+          261.5,
+          229.0,
+          255.5,
+          229.0,
+          249.5,
+          235.0,
+          249.5,
+          241.0,
+          249.5,
+          241.0,
+          249.5,
+          253.0,
+          249.5,
+          253.0,
+          249.5,
+          259.0,
+          255.5,
+          265.0,
+          261.5,
+          265.0,
+          261.5,
+          265.0,
+          366.5,
+          265.0,
+          366.5,
+          265.0,
+          372.5,
+          265.0,
+          378.5,
+          259.0,
+          378.5,
+          253.0,
+          378.5,
+          253.0,
+          378.5,
+          241.0,
+          378.5,
+          241.0,
+          378.5,
+          235.0,
+          372.5,
+          229.0,
+          366.5,
+          229.0
+         ],
+         "s": "accent"
+        },
+        {
+         "k": "T",
+         "x": 314.0,
+         "y": 243.6,
+         "s": "show",
+         "a": "c",
+         "z": 12.0,
+         "c": "accent"
+        },
+        {
+         "k": "T",
+         "x": 314.0,
+         "y": 256.6,
+         "s": "led_on, start_timer",
+         "a": "c",
+         "z": 12.0,
+         "c": "accent"
+        },
+        {
+         "k": "B",
+         "pts": [
+          313.5,
+          307.0,
+          313.5,
+          307.0,
+          254.5,
+          307.0,
+          254.5,
+          307.0,
+          248.5,
+          307.0,
+          242.5,
+          313.0,
+          242.5,
+          319.0,
+          242.5,
+          319.0,
+          242.5,
+          331.0,
+          242.5,
+          331.0,
+          242.5,
+          337.0,
+          248.5,
+          343.0,
+          254.5,
+          343.0,
+          254.5,
+          343.0,
+          313.5,
+          343.0,
+          313.5,
+          343.0,
+          319.5,
+          343.0,
+          325.5,
+          337.0,
+          325.5,
+          331.0,
+          325.5,
+          331.0,
+          325.5,
+          319.0,
+          325.5,
+          319.0,
+          325.5,
+          313.0,
+          319.5,
+          307.0,
+          313.5,
+          307.0
+         ],
+         "s": "ink"
+        },
+        {
+         "k": "T",
+         "x": 284.0,
+         "y": 321.6,
+         "s": "pause",
+         "a": "c",
+         "z": 12.0,
+         "c": "ink"
+        },
+        {
+         "k": "T",
+         "x": 284.0,
+         "y": 334.6,
+         "s": "start_timer",
+         "a": "c",
+         "z": 12.0,
+         "c": "ink"
+        },
+        {
+         "k": "B",
+         "pts": [
+          402.5,
+          397.0,
+          402.5,
+          397.0,
+          301.5,
+          397.0,
+          301.5,
+          397.0,
+          295.5,
+          397.0,
+          289.5,
+          403.0,
+          289.5,
+          409.0,
+          289.5,
+          409.0,
+          289.5,
+          421.0,
+          289.5,
+          421.0,
+          289.5,
+          427.0,
+          295.5,
+          433.0,
+          301.5,
+          433.0,
+          301.5,
+          433.0,
+          402.5,
+          433.0,
+          402.5,
+          433.0,
+          408.5,
+          433.0,
+          414.5,
+          427.0,
+          414.5,
+          421.0,
+          414.5,
+          421.0,
+          414.5,
+          409.0,
+          414.5,
+          409.0,
+          414.5,
+          403.0,
+          408.5,
+          397.0,
+          402.5,
+          397.0
+         ],
+         "s": "ink"
+        },
+        {
+         "k": "T",
+         "x": 352.0,
+         "y": 411.6,
+         "s": "show_next",
+         "a": "c",
+         "z": 12.0,
+         "c": "ink"
+        },
+        {
+         "k": "T",
+         "x": 352.0,
+         "y": 424.6,
+         "s": "next_rnd, inc_step",
+         "a": "c",
+         "z": 12.0,
+         "c": "ink"
+        },
+        {
+         "k": "B",
+         "pts": [
+          252.5,
+          397.0,
+          252.5,
+          397.0,
+          135.5,
+          397.0,
+          135.5,
+          397.0,
+          129.5,
+          397.0,
+          123.5,
+          403.0,
+          123.5,
+          409.0,
+          123.5,
+          409.0,
+          123.5,
+          421.0,
+          123.5,
+          421.0,
+          123.5,
+          427.0,
+          129.5,
+          433.0,
+          135.5,
+          433.0,
+          135.5,
+          433.0,
+          252.5,
+          433.0,
+          252.5,
+          433.0,
+          258.5,
+          433.0,
+          264.5,
+          427.0,
+          264.5,
+          421.0,
+          264.5,
+          421.0,
+          264.5,
+          409.0,
+          264.5,
+          409.0,
+          264.5,
+          403.0,
+          258.5,
+          397.0,
+          252.5,
+          397.0
+         ],
+         "s": "ink"
+        },
+        {
+         "k": "T",
+         "x": 194.0,
+         "y": 411.6,
+         "s": "reload",
+         "a": "c",
+         "z": 12.0,
+         "c": "ink"
+        },
+        {
+         "k": "T",
+         "x": 194.0,
+         "y": 424.6,
+         "s": "restore_rnd, res_step",
+         "a": "c",
+         "z": 12.0,
+         "c": "ink"
+        },
+        {
+         "k": "B",
+         "pts": [
+          273.0,
+          464.0,
+          273.0,
+          464.0,
+          229.0,
+          464.0,
+          229.0,
+          464.0,
+          223.0,
+          464.0,
+          217.0,
+          470.0,
+          217.0,
+          476.0,
+          217.0,
+          476.0,
+          217.0,
+          488.0,
+          217.0,
+          488.0,
+          217.0,
+          494.0,
+          223.0,
+          500.0,
+          229.0,
+          500.0,
+          229.0,
+          500.0,
+          273.0,
+          500.0,
+          273.0,
+          500.0,
+          279.0,
+          500.0,
+          285.0,
+          494.0,
+          285.0,
+          488.0,
+          285.0,
+          488.0,
+          285.0,
+          476.0,
+          285.0,
+          476.0,
+          285.0,
+          470.0,
+          279.0,
+          464.0,
+          273.0,
+          464.0
+         ],
+         "s": "accent"
+        },
+        {
+         "k": "T",
+         "x": 251.0,
+         "y": 485.1,
+         "s": "wait_key",
+         "a": "c",
+         "z": 12.0,
+         "c": "accent"
+        },
+        {
+         "k": "B",
+         "pts": [
+          451.5,
+          554.0,
+          451.5,
+          554.0,
+          350.5,
+          554.0,
+          350.5,
+          554.0,
+          344.5,
+          554.0,
+          338.5,
+          560.0,
+          338.5,
+          566.0,
+          338.5,
+          566.0,
+          338.5,
+          578.0,
+          338.5,
+          578.0,
+          338.5,
+          584.0,
+          344.5,
+          590.0,
+          350.5,
+          590.0,
+          350.5,
+          590.0,
+          451.5,
+          590.0,
+          451.5,
+          590.0,
+          457.5,
+          590.0,
+          463.5,
+          584.0,
+          463.5,
+          578.0,
+          463.5,
+          578.0,
+          463.5,
+          566.0,
+          463.5,
+          566.0,
+          463.5,
+          560.0,
+          457.5,
+          554.0,
+          451.5,
+          554.0
+         ],
+         "s": "ink"
+        },
+        {
+         "k": "T",
+         "x": 401.0,
+         "y": 568.6,
+         "s": "key_ok",
+         "a": "c",
+         "z": 12.0,
+         "c": "ink"
+        },
+        {
+         "k": "T",
+         "x": 401.0,
+         "y": 581.6,
+         "s": "next_rnd, inc_step",
+         "a": "c",
+         "z": 12.0,
+         "c": "ink"
+        },
+        {
+         "k": "B",
+         "pts": [
+          152.0,
+          554.0,
+          152.0,
+          554.0,
+          18.0,
+          554.0,
+          18.0,
+          554.0,
+          12.0,
+          554.0,
+          6.0,
+          560.0,
+          6.0,
+          566.0,
+          6.0,
+          566.0,
+          6.0,
+          578.0,
+          6.0,
+          578.0,
+          6.0,
+          584.0,
+          12.0,
+          590.0,
+          18.0,
+          590.0,
+          18.0,
+          590.0,
+          152.0,
+          590.0,
+          152.0,
+          590.0,
+          158.0,
+          590.0,
+          164.0,
+          584.0,
+          164.0,
+          578.0,
+          164.0,
+          578.0,
+          164.0,
+          566.0,
+          164.0,
+          566.0,
+          164.0,
+          560.0,
+          158.0,
+          554.0,
+          152.0,
+          554.0
+         ],
+         "s": "ink"
+        },
+        {
+         "k": "T",
+         "x": 85.0,
+         "y": 568.6,
+         "s": "won",
+         "a": "c",
+         "z": 12.0,
+         "c": "ink"
+        },
+        {
+         "k": "T",
+         "x": 85.0,
+         "y": 581.6,
+         "s": "inc_score, dec_duration",
+         "a": "c",
+         "z": 12.0,
+         "c": "ink"
+        },
+        {
+         "k": "B",
+         "pts": [
+          301.5,
+          554.0,
+          301.5,
+          554.0,
+          200.5,
+          554.0,
+          200.5,
+          554.0,
+          194.5,
+          554.0,
+          188.5,
+          560.0,
+          188.5,
+          566.0,
+          188.5,
+          566.0,
+          188.5,
+          578.0,
+          188.5,
+          578.0,
+          188.5,
+          584.0,
+          194.5,
+          590.0,
+          200.5,
+          590.0,
+          200.5,
+          590.0,
+          301.5,
+          590.0,
+          301.5,
+          590.0,
+          307.5,
+          590.0,
+          313.5,
+          584.0,
+          313.5,
+          578.0,
+          313.5,
+          578.0,
+          313.5,
+          566.0,
+          313.5,
+          566.0,
+          313.5,
+          560.0,
+          307.5,
+          554.0,
+          301.5,
+          554.0
+         ],
+         "s": "ink"
+        },
+        {
+         "k": "T",
+         "x": 251.0,
+         "y": 568.6,
+         "s": "lost",
+         "a": "c",
+         "z": 12.0,
+         "c": "ink"
+        },
+        {
+         "k": "T",
+         "x": 251.0,
+         "y": 581.6,
+         "s": "all_on, start_timer",
+         "a": "c",
+         "z": 12.0,
+         "c": "ink"
+        },
+        {
+         "k": "B",
+         "pts": [
+          392.2,
+          53.4,
+          388.4,
+          58.0,
+          384.8,
+          62.9,
+          382.0,
+          68.0,
+          378.8,
+          73.9,
+          376.4,
+          80.6,
+          374.6,
+          87.1
+         ],
+         "s": "line"
+        },
+        {
+         "k": "P",
+         "pts": [
+          377.3,
+          87.9,
+          372.7,
+          95.0,
+          371.9,
+          86.6
+         ],
+         "s": "line",
+         "f": "line"
+        },
+        {
+         "k": "T",
+         "x": 408.0,
+         "y": 76.8,
+         "s": "key_valid",
+         "a": "c",
+         "z": 11.0,
+         "c": "ink"
+        },
+        {
+         "k": "B",
+         "pts": [
+          355.3,
+          131.1,
+          348.9,
+          138.5,
+          341.3,
+          147.3,
+          334.4,
+          155.3
+         ],
+         "s": "line"
+        },
+        {
+         "k": "P",
+         "pts": [
+          336.1,
+          157.6,
+          328.8,
+          161.8,
+          331.9,
+          153.9
+         ],
+         "s": "line",
+         "f": "line"
+        },
+        {
+         "k": "B",
+         "pts": [
+          314.0,
+          198.1,
+          314.0,
+          204.9,
+          314.0,
+          212.9,
+          314.0,
+          220.4
+         ],
+         "s": "line"
+        },
+        {
+         "k": "P",
+         "pts": [
+          316.8,
+          220.8,
+          314.0,
+          228.8,
+          311.2,
+          220.8
+         ],
+         "s": "line",
+         "f": "line"
+        },
+        {
+         "k": "B",
+         "pts": [
+          307.2,
+          265.2,
+          303.2,
+          275.2,
+          298.2,
+          288.0,
+          293.8,
+          299.1
+         ],
+         "s": "line"
+        },
+        {
+         "k": "P",
+         "pts": [
+          296.3,
+          300.4,
+          290.8,
+          306.8,
+          291.1,
+          298.4
+         ],
+         "s": "line",
+         "f": "line"
+        },
+        {
+         "k": "T",
+         "x": 322.0,
+         "y": 288.8,
+         "s": "expired",
+         "a": "c",
+         "z": 11.0,
+         "c": "ink"
+        },
+        {
+         "k": "B",
+         "pts": [
+          279.1,
+          343.0,
+          276.7,
+          354.9,
+          275.7,
+          370.5,
+          283.0,
+          382.0,
+          285.4,
+          385.8,
+          288.4,
+          389.1,
+          291.7,
+          392.0
+         ],
+         "s": "line"
+        },
+        {
+         "k": "P",
+         "pts": [
+          293.4,
+          389.8,
+          298.1,
+          396.9,
+          290.0,
+          394.3
+         ],
+         "s": "line",
+         "f": "line"
+        },
+        {
+         "k": "T",
+         "x": 333.0,
+         "y": 366.8,
+         "s": "expired and",
+         "a": "c",
+         "z": 11.0,
+         "c": "ink"
+        },
+        {
+         "k": "T",
+         "x": 333.0,
+         "y": 378.8,
+         "s": "not step_eq_score",
+         "a": "c",
+         "z": 11.0,
+         "c": "ink"
+        },
+        {
+         "k": "B",
+         "pts": [
+          242.2,
+          330.0,
+          224.0,
+          334.1,
+          204.2,
+          342.1,
+          193.0,
+          358.0,
+          186.8,
+          366.8,
+          186.1,
+          378.4,
+          187.4,
+          388.8
+         ],
+         "s": "line"
+        },
+        {
+         "k": "P",
+         "pts": [
+          190.2,
+          388.4,
+          188.7,
+          396.8,
+          184.6,
+          389.3
+         ],
+         "s": "line",
+         "f": "line"
+        },
+        {
+         "k": "T",
+         "x": 232.5,
+         "y": 366.8,
+         "s": "expired and",
+         "a": "c",
+         "z": 11.0,
+         "c": "ink"
+        },
+        {
+         "k": "T",
+         "x": 232.5,
+         "y": 378.8,
+         "s": "step_eq_score",
+         "a": "c",
+         "z": 11.0,
+         "c": "ink"
+        },
+        {
+         "k": "B",
+         "pts": [
+          374.8,
+          396.7,
+          379.0,
+          392.4,
+          382.7,
+          387.4,
+          385.0,
+          382.0,
+          389.2,
+          372.2,
+          387.3,
+          368.4,
+          385.0,
+          358.0,
+          376.8,
+          320.7,
+          371.5,
+          310.8,
+          349.0,
+          280.0,
+          346.7,
+          276.8,
+          344.0,
+          273.8,
+          341.2,
+          270.8
+         ],
+         "s": "line"
+        },
+        {
+         "k": "P",
+         "pts": [
+          339.1,
+          272.6,
+          335.4,
+          265.0,
+          343.0,
+          268.7
+         ],
+         "s": "line",
+         "f": "line"
+        },
+        {
+         "k": "B",
+         "pts": [
+          209.0,
+          433.1,
+          215.6,
+          440.6,
+          223.5,
+          449.6,
+          230.6,
+          457.8
+         ],
+         "s": "line"
+        },
+        {
+         "k": "P",
+         "pts": [
+          232.8,
+          455.9,
+          235.9,
+          463.8,
+          228.6,
+          459.6
+         ],
+         "s": "line",
+         "f": "line"
+        },
+        {
+         "k": "B",
+         "pts": [
+          270.4,
+          500.0,
+          287.9,
+          515.4,
+          311.9,
+          536.0,
+          317.0,
+          539.0,
+          324.3,
+          543.3,
+          332.3,
+          547.2,
+          340.4,
+          550.8
+         ],
+         "s": "line"
+        },
+        {
+         "k": "P",
+         "pts": [
+          341.4,
+          548.2,
+          347.7,
+          553.9,
+          339.3,
+          553.3
+         ],
+         "s": "line",
+         "f": "line"
+        },
+        {
+         "k": "T",
+         "x": 347.5,
+         "y": 523.8,
+         "s": "richtig,",
+         "a": "c",
+         "z": 11.0,
+         "c": "ink"
+        },
+        {
+         "k": "T",
+         "x": 347.5,
+         "y": 535.8,
+         "s": "nicht fertig",
+         "a": "c",
+         "z": 11.0,
+         "c": "ink"
+        },
+        {
+         "k": "B",
+         "pts": [
+          218.6,
+          500.2,
+          191.6,
+          514.5,
+          153.2,
+          534.9,
+          124.4,
+          550.1
+         ],
+         "s": "line"
+        },
+        {
+         "k": "P",
+         "pts": [
+          125.7,
+          552.6,
+          117.3,
+          553.9,
+          123.1,
+          547.6
+         ],
+         "s": "line",
+         "f": "line"
+        },
+        {
+         "k": "T",
+         "x": 215.0,
+         "y": 523.8,
+         "s": "richtig",
+         "a": "c",
+         "z": 11.0,
+         "c": "ink"
+        },
+        {
+         "k": "T",
+         "x": 215.0,
+         "y": 535.8,
+         "s": "und fertig",
+         "a": "c",
+         "z": 11.0,
+         "c": "ink"
+        },
+        {
+         "k": "B",
+         "pts": [
+          251.0,
+          500.4,
+          251.0,
+          513.4,
+          251.0,
+          531.3,
+          251.0,
+          545.8
+         ],
+         "s": "line"
+        },
+        {
+         "k": "P",
+         "pts": [
+          253.8,
+          546.0,
+          251.0,
+          554.0,
+          248.2,
+          546.0
+         ],
+         "s": "line",
+         "f": "line"
+        },
+        {
+         "k": "T",
+         "x": 267.5,
+         "y": 529.8,
+         "s": "falsch",
+         "a": "c",
+         "z": 11.0,
+         "c": "ink"
+        },
+        {
+         "k": "B",
+         "pts": [
+          398.9,
+          553.9,
+          396.4,
+          541.4,
+          391.2,
+          524.9,
+          380.0,
+          515.0,
+          356.4,
+          494.0,
+          321.2,
+          486.3,
+          293.5,
+          483.7
+         ],
+         "s": "line"
+        },
+        {
+         "k": "P",
+         "pts": [
+          292.9,
+          486.5,
+          285.2,
+          483.0,
+          293.4,
+          480.9
+         ],
+         "s": "line",
+         "f": "line"
+        },
+        {
+         "k": "B",
+         "pts": [
+          85.0,
+          553.8,
+          85.0,
+          536.1,
+          85.0,
+          507.6,
+          85.0,
+          483.0,
+          85.0,
+          246.0,
+          85.0,
+          246.0,
+          85.0,
+          246.0,
+          85.0,
+          213.9,
+          169.2,
+          196.9,
+          235.4,
+          188.4
+         ],
+         "s": "line"
+        },
+        {
+         "k": "P",
+         "pts": [
+          235.1,
+          185.6,
+          243.4,
+          187.4,
+          235.8,
+          191.1
+         ],
+         "s": "line",
+         "f": "line"
+        },
+        {
+         "k": "B",
+         "pts": [
+          313.8,
+          556.5,
+          346.6,
+          548.9,
+          380.6,
+          540.7,
+          384.0,
+          539.0,
+          419.4,
+          521.5,
+          453.0,
+          522.5,
+          453.0,
+          483.0,
+          453.0,
+          112.0,
+          453.0,
+          112.0,
+          453.0,
+          112.0,
+          453.0,
+          93.7,
+          445.2,
+          75.0,
+          436.7,
+          60.1
+         ],
+         "s": "line"
+        },
+        {
+         "k": "P",
+         "pts": [
+          434.2,
+          61.5,
+          432.6,
+          53.2,
+          439.1,
+          58.6
+         ],
+         "s": "line",
+         "f": "line"
+        },
+        {
+         "k": "T",
+         "x": 474.0,
+         "y": 288.8,
+         "s": "expired",
+         "a": "c",
+         "z": 11.0,
+         "c": "ink"
+        }
+       ]
+      }
+     ],
+     "aufgabe": [
+      {
+       "t": "p",
+       "s": "Ordne zu, welcher Zustand welchen Schritt umsetzt. Warum braucht man die Zustände `show_next` und `key_ok`, statt direkt in `show` bzw. `wait_key` die Zähler zu erhöhen?"
+      }
+     ],
+     "aufgabeMd": "Ordne zu, welcher Zustand welchen Schritt umsetzt. Warum braucht man die Zustände `show_next` und `key_ok`, statt direkt in `show` bzw. `wait_key` die Zähler zu erhöhen?",
+     "loesung": [
+      {
+       "t": "ul",
+       "items": [
+        "1 → `init`, 2 → `store`, 3 → `load`, 4 → `show`, `pause`, `show_next`, 5 → `reload`, 6 → `wait_key`, `key_ok`, `won`, `lost`.",
+        "In `show` und `wait_key` bleibt der Automat viele Takte. Stünde dort `inc_step = '1'`, würde der Zähler in **jedem** dieser Takte hochzählen. `show_next` und `key_ok` dauern genau einen Takt und lösen die Aktion genau einmal aus.",
+        "Gleiches gilt für `won`: `inc_score` und `dec_duration` genau einmal."
+       ]
+      }
+     ],
+     "loesungMd": "- 1 → `init`, 2 → `store`, 3 → `load`, 4 → `show`, `pause`, `show_next`, 5 → `reload`, 6 → `wait_key`, `key_ok`, `won`, `lost`.\n- In `show` und `wait_key` bleibt der Automat viele Takte. Stünde dort `inc_step = '1'`, würde der Zähler in **jedem** dieser Takte hochzählen. `show_next` und `key_ok` dauern genau einen Takt und lösen die Aktion genau einmal aus.\n- Gleiches gilt für `won`: `inc_score` und `dec_duration` genau einmal.",
+     "klausur": [
+      {
+       "t": "p",
+       "s": "Steuerwerk aus Ablaufbeschreibung (F06, K02), Moore-Ausgänge pro Zustand angeben (F02)."
+      }
+     ]
+    },
+    {
+     "id": "S19",
+     "block": "S",
+     "title": "Senso: Hauptsteuerung programmieren",
+     "min": 14,
+     "mode": "code",
+     "starter": "",
+     "solutionCode": "type state_type is (init, store, load, show, pause,\n  show_next, reload, wait_key, key_ok, won, lost);\n\ntransition_function: process(current_state, key_valid,\n    key_color, rnd, timer_expired, step_eq_score) is\nbegin\n  next_state <= current_state;\n  case current_state is\n    when init =>\n      if key_valid = '1' then next_state <= store; end if;\n    when store     => next_state <= load;\n    when load      => next_state <= show;\n    when show =>\n      if timer_expired = '1' then next_state <= pause; end if;\n    when pause =>\n      if timer_expired = '1' then\n        if step_eq_score = '1' then\n          next_state <= reload;\n        else\n          next_state <= show_next;\n        end if;\n      end if;\n    when show_next => next_state <= show;\n    when reload    => next_state <= wait_key;\n    when wait_key =>\n      if key_valid = '1' then\n        if key_color /= rnd then\n          next_state <= lost;\n        elsif step_eq_score = '1' then\n          next_state <= won;\n        else\n          next_state <= key_ok;\n        end if;\n      end if;\n    when key_ok => next_state <= wait_key;\n    when won    => next_state <= load;\n    when lost =>\n      if timer_expired = '1' then next_state <= init; end if;\n  end case;\nend process transition_function;\n\noutput_function: process(current_state) is\nbegin\n  next_rnd <= '0'; store_rnd <= '0'; restore_rnd <= '0';\n  res_step <= '0'; inc_step <= '0';\n  res_score <= '0'; inc_score <= '0';\n  start_timer <= '0'; dec_duration <= '0';\n  res_duration <= '0'; led_on <= '0'; all_on <= '0';\n  case current_state is\n    when init =>\n      next_rnd <= '1'; res_step <= '1';\n      res_score <= '1'; res_duration <= '1';\n    when store     => store_rnd <= '1';\n    when load      => restore_rnd <= '1'; res_step <= '1';\n    when show      => led_on <= '1'; start_timer <= '1';\n    when pause     => start_timer <= '1';\n    when show_next => next_rnd <= '1'; inc_step <= '1';\n    when reload    => restore_rnd <= '1'; res_step <= '1';\n    when wait_key  => null;\n    when key_ok    => next_rnd <= '1'; inc_step <= '1';\n    when won       => inc_score <= '1'; dec_duration <= '1';\n    when lost      => all_on <= '1'; start_timer <= '1';\n  end case;\nend process output_function;",
+     "ziel": [
+      {
+       "t": "p",
+       "s": "Einen Moore-Automaten mit 11 Zuständen und 12 Ausgängen sauber nach Schema schreiben."
+      }
+     ],
+     "erklaerung": [
+      {
+       "t": "diagram",
+       "id": "S16_steuerung",
+       "alt": "Hauptsteuerung als Moore-Automat",
+       "w": 501.0,
+       "h": 596.0,
+       "prims": [
+        {
+         "k": "B",
+         "pts": [
+          481.5,
+          6.0,
+          481.5,
+          6.0,
+          350.5,
+          6.0,
+          350.5,
+          6.0,
+          344.5,
+          6.0,
+          338.5,
+          12.0,
+          338.5,
+          18.0,
+          338.5,
+          18.0,
+          338.5,
+          41.0,
+          338.5,
+          41.0,
+          338.5,
+          47.0,
+          344.5,
+          53.0,
+          350.5,
+          53.0,
+          350.5,
+          53.0,
+          481.5,
+          53.0,
+          481.5,
+          53.0,
+          487.5,
+          53.0,
+          493.5,
+          47.0,
+          493.5,
+          41.0,
+          493.5,
+          41.0,
+          493.5,
+          18.0,
+          493.5,
+          18.0,
+          493.5,
+          12.0,
+          487.5,
+          6.0,
+          481.5,
+          6.0
+         ],
+         "s": "ink"
+        },
+        {
+         "k": "T",
+         "x": 416.0,
+         "y": 19.6,
+         "s": "init",
+         "a": "c",
+         "z": 12.0,
+         "c": "ink"
+        },
+        {
+         "k": "T",
+         "x": 416.0,
+         "y": 32.6,
+         "s": "next_rnd, res_step,",
+         "a": "c",
+         "z": 12.0,
+         "c": "ink"
+        },
+        {
+         "k": "T",
+         "x": 416.0,
+         "y": 45.6,
+         "s": "res_score, res_duration",
+         "a": "c",
+         "z": 12.0,
+         "c": "ink"
+        },
+        {
+         "k": "B",
+         "pts": [
+          394.0,
+          95.0,
+          394.0,
+          95.0,
+          346.0,
+          95.0,
+          346.0,
+          95.0,
+          340.0,
+          95.0,
+          334.0,
+          101.0,
+          334.0,
+          107.0,
+          334.0,
+          107.0,
+          334.0,
+          119.0,
+          334.0,
+          119.0,
+          334.0,
+          125.0,
+          340.0,
+          131.0,
+          346.0,
+          131.0,
+          346.0,
+          131.0,
+          394.0,
+          131.0,
+          394.0,
+          131.0,
+          400.0,
+          131.0,
+          406.0,
+          125.0,
+          406.0,
+          119.0,
+          406.0,
+          119.0,
+          406.0,
+          107.0,
+          406.0,
+          107.0,
+          406.0,
+          101.0,
+          400.0,
+          95.0,
+          394.0,
+          95.0
+         ],
+         "s": "ink"
+        },
+        {
+         "k": "T",
+         "x": 370.0,
+         "y": 109.6,
+         "s": "store",
+         "a": "c",
+         "z": 12.0,
+         "c": "ink"
+        },
+        {
+         "k": "T",
+         "x": 370.0,
+         "y": 122.6,
+         "s": "store_rnd",
+         "a": "c",
+         "z": 12.0,
+         "c": "ink"
+        },
+        {
+         "k": "B",
+         "pts": [
+          372.5,
+          162.0,
+          372.5,
+          162.0,
+          255.5,
+          162.0,
+          255.5,
+          162.0,
+          249.5,
+          162.0,
+          243.5,
+          168.0,
+          243.5,
+          174.0,
+          243.5,
+          174.0,
+          243.5,
+          186.0,
+          243.5,
+          186.0,
+          243.5,
+          192.0,
+          249.5,
+          198.0,
+          255.5,
+          198.0,
+          255.5,
+          198.0,
+          372.5,
+          198.0,
+          372.5,
+          198.0,
+          378.5,
+          198.0,
+          384.5,
+          192.0,
+          384.5,
+          186.0,
+          384.5,
+          186.0,
+          384.5,
+          174.0,
+          384.5,
+          174.0,
+          384.5,
+          168.0,
+          378.5,
+          162.0,
+          372.5,
+          162.0
+         ],
+         "s": "ink"
+        },
+        {
+         "k": "T",
+         "x": 314.0,
+         "y": 176.6,
+         "s": "load",
+         "a": "c",
+         "z": 12.0,
+         "c": "ink"
+        },
+        {
+         "k": "T",
+         "x": 314.0,
+         "y": 189.6,
+         "s": "restore_rnd, res_step",
+         "a": "c",
+         "z": 12.0,
+         "c": "ink"
+        },
+        {
+         "k": "B",
+         "pts": [
+          366.5,
+          229.0,
+          366.5,
+          229.0,
+          261.5,
+          229.0,
+          261.5,
+          229.0,
+          255.5,
+          229.0,
+          249.5,
+          235.0,
+          249.5,
+          241.0,
+          249.5,
+          241.0,
+          249.5,
+          253.0,
+          249.5,
+          253.0,
+          249.5,
+          259.0,
+          255.5,
+          265.0,
+          261.5,
+          265.0,
+          261.5,
+          265.0,
+          366.5,
+          265.0,
+          366.5,
+          265.0,
+          372.5,
+          265.0,
+          378.5,
+          259.0,
+          378.5,
+          253.0,
+          378.5,
+          253.0,
+          378.5,
+          241.0,
+          378.5,
+          241.0,
+          378.5,
+          235.0,
+          372.5,
+          229.0,
+          366.5,
+          229.0
+         ],
+         "s": "accent"
+        },
+        {
+         "k": "T",
+         "x": 314.0,
+         "y": 243.6,
+         "s": "show",
+         "a": "c",
+         "z": 12.0,
+         "c": "accent"
+        },
+        {
+         "k": "T",
+         "x": 314.0,
+         "y": 256.6,
+         "s": "led_on, start_timer",
+         "a": "c",
+         "z": 12.0,
+         "c": "accent"
+        },
+        {
+         "k": "B",
+         "pts": [
+          313.5,
+          307.0,
+          313.5,
+          307.0,
+          254.5,
+          307.0,
+          254.5,
+          307.0,
+          248.5,
+          307.0,
+          242.5,
+          313.0,
+          242.5,
+          319.0,
+          242.5,
+          319.0,
+          242.5,
+          331.0,
+          242.5,
+          331.0,
+          242.5,
+          337.0,
+          248.5,
+          343.0,
+          254.5,
+          343.0,
+          254.5,
+          343.0,
+          313.5,
+          343.0,
+          313.5,
+          343.0,
+          319.5,
+          343.0,
+          325.5,
+          337.0,
+          325.5,
+          331.0,
+          325.5,
+          331.0,
+          325.5,
+          319.0,
+          325.5,
+          319.0,
+          325.5,
+          313.0,
+          319.5,
+          307.0,
+          313.5,
+          307.0
+         ],
+         "s": "ink"
+        },
+        {
+         "k": "T",
+         "x": 284.0,
+         "y": 321.6,
+         "s": "pause",
+         "a": "c",
+         "z": 12.0,
+         "c": "ink"
+        },
+        {
+         "k": "T",
+         "x": 284.0,
+         "y": 334.6,
+         "s": "start_timer",
+         "a": "c",
+         "z": 12.0,
+         "c": "ink"
+        },
+        {
+         "k": "B",
+         "pts": [
+          402.5,
+          397.0,
+          402.5,
+          397.0,
+          301.5,
+          397.0,
+          301.5,
+          397.0,
+          295.5,
+          397.0,
+          289.5,
+          403.0,
+          289.5,
+          409.0,
+          289.5,
+          409.0,
+          289.5,
+          421.0,
+          289.5,
+          421.0,
+          289.5,
+          427.0,
+          295.5,
+          433.0,
+          301.5,
+          433.0,
+          301.5,
+          433.0,
+          402.5,
+          433.0,
+          402.5,
+          433.0,
+          408.5,
+          433.0,
+          414.5,
+          427.0,
+          414.5,
+          421.0,
+          414.5,
+          421.0,
+          414.5,
+          409.0,
+          414.5,
+          409.0,
+          414.5,
+          403.0,
+          408.5,
+          397.0,
+          402.5,
+          397.0
+         ],
+         "s": "ink"
+        },
+        {
+         "k": "T",
+         "x": 352.0,
+         "y": 411.6,
+         "s": "show_next",
+         "a": "c",
+         "z": 12.0,
+         "c": "ink"
+        },
+        {
+         "k": "T",
+         "x": 352.0,
+         "y": 424.6,
+         "s": "next_rnd, inc_step",
+         "a": "c",
+         "z": 12.0,
+         "c": "ink"
+        },
+        {
+         "k": "B",
+         "pts": [
+          252.5,
+          397.0,
+          252.5,
+          397.0,
+          135.5,
+          397.0,
+          135.5,
+          397.0,
+          129.5,
+          397.0,
+          123.5,
+          403.0,
+          123.5,
+          409.0,
+          123.5,
+          409.0,
+          123.5,
+          421.0,
+          123.5,
+          421.0,
+          123.5,
+          427.0,
+          129.5,
+          433.0,
+          135.5,
+          433.0,
+          135.5,
+          433.0,
+          252.5,
+          433.0,
+          252.5,
+          433.0,
+          258.5,
+          433.0,
+          264.5,
+          427.0,
+          264.5,
+          421.0,
+          264.5,
+          421.0,
+          264.5,
+          409.0,
+          264.5,
+          409.0,
+          264.5,
+          403.0,
+          258.5,
+          397.0,
+          252.5,
+          397.0
+         ],
+         "s": "ink"
+        },
+        {
+         "k": "T",
+         "x": 194.0,
+         "y": 411.6,
+         "s": "reload",
+         "a": "c",
+         "z": 12.0,
+         "c": "ink"
+        },
+        {
+         "k": "T",
+         "x": 194.0,
+         "y": 424.6,
+         "s": "restore_rnd, res_step",
+         "a": "c",
+         "z": 12.0,
+         "c": "ink"
+        },
+        {
+         "k": "B",
+         "pts": [
+          273.0,
+          464.0,
+          273.0,
+          464.0,
+          229.0,
+          464.0,
+          229.0,
+          464.0,
+          223.0,
+          464.0,
+          217.0,
+          470.0,
+          217.0,
+          476.0,
+          217.0,
+          476.0,
+          217.0,
+          488.0,
+          217.0,
+          488.0,
+          217.0,
+          494.0,
+          223.0,
+          500.0,
+          229.0,
+          500.0,
+          229.0,
+          500.0,
+          273.0,
+          500.0,
+          273.0,
+          500.0,
+          279.0,
+          500.0,
+          285.0,
+          494.0,
+          285.0,
+          488.0,
+          285.0,
+          488.0,
+          285.0,
+          476.0,
+          285.0,
+          476.0,
+          285.0,
+          470.0,
+          279.0,
+          464.0,
+          273.0,
+          464.0
+         ],
+         "s": "accent"
+        },
+        {
+         "k": "T",
+         "x": 251.0,
+         "y": 485.1,
+         "s": "wait_key",
+         "a": "c",
+         "z": 12.0,
+         "c": "accent"
+        },
+        {
+         "k": "B",
+         "pts": [
+          451.5,
+          554.0,
+          451.5,
+          554.0,
+          350.5,
+          554.0,
+          350.5,
+          554.0,
+          344.5,
+          554.0,
+          338.5,
+          560.0,
+          338.5,
+          566.0,
+          338.5,
+          566.0,
+          338.5,
+          578.0,
+          338.5,
+          578.0,
+          338.5,
+          584.0,
+          344.5,
+          590.0,
+          350.5,
+          590.0,
+          350.5,
+          590.0,
+          451.5,
+          590.0,
+          451.5,
+          590.0,
+          457.5,
+          590.0,
+          463.5,
+          584.0,
+          463.5,
+          578.0,
+          463.5,
+          578.0,
+          463.5,
+          566.0,
+          463.5,
+          566.0,
+          463.5,
+          560.0,
+          457.5,
+          554.0,
+          451.5,
+          554.0
+         ],
+         "s": "ink"
+        },
+        {
+         "k": "T",
+         "x": 401.0,
+         "y": 568.6,
+         "s": "key_ok",
+         "a": "c",
+         "z": 12.0,
+         "c": "ink"
+        },
+        {
+         "k": "T",
+         "x": 401.0,
+         "y": 581.6,
+         "s": "next_rnd, inc_step",
+         "a": "c",
+         "z": 12.0,
+         "c": "ink"
+        },
+        {
+         "k": "B",
+         "pts": [
+          152.0,
+          554.0,
+          152.0,
+          554.0,
+          18.0,
+          554.0,
+          18.0,
+          554.0,
+          12.0,
+          554.0,
+          6.0,
+          560.0,
+          6.0,
+          566.0,
+          6.0,
+          566.0,
+          6.0,
+          578.0,
+          6.0,
+          578.0,
+          6.0,
+          584.0,
+          12.0,
+          590.0,
+          18.0,
+          590.0,
+          18.0,
+          590.0,
+          152.0,
+          590.0,
+          152.0,
+          590.0,
+          158.0,
+          590.0,
+          164.0,
+          584.0,
+          164.0,
+          578.0,
+          164.0,
+          578.0,
+          164.0,
+          566.0,
+          164.0,
+          566.0,
+          164.0,
+          560.0,
+          158.0,
+          554.0,
+          152.0,
+          554.0
+         ],
+         "s": "ink"
+        },
+        {
+         "k": "T",
+         "x": 85.0,
+         "y": 568.6,
+         "s": "won",
+         "a": "c",
+         "z": 12.0,
+         "c": "ink"
+        },
+        {
+         "k": "T",
+         "x": 85.0,
+         "y": 581.6,
+         "s": "inc_score, dec_duration",
+         "a": "c",
+         "z": 12.0,
+         "c": "ink"
+        },
+        {
+         "k": "B",
+         "pts": [
+          301.5,
+          554.0,
+          301.5,
+          554.0,
+          200.5,
+          554.0,
+          200.5,
+          554.0,
+          194.5,
+          554.0,
+          188.5,
+          560.0,
+          188.5,
+          566.0,
+          188.5,
+          566.0,
+          188.5,
+          578.0,
+          188.5,
+          578.0,
+          188.5,
+          584.0,
+          194.5,
+          590.0,
+          200.5,
+          590.0,
+          200.5,
+          590.0,
+          301.5,
+          590.0,
+          301.5,
+          590.0,
+          307.5,
+          590.0,
+          313.5,
+          584.0,
+          313.5,
+          578.0,
+          313.5,
+          578.0,
+          313.5,
+          566.0,
+          313.5,
+          566.0,
+          313.5,
+          560.0,
+          307.5,
+          554.0,
+          301.5,
+          554.0
+         ],
+         "s": "ink"
+        },
+        {
+         "k": "T",
+         "x": 251.0,
+         "y": 568.6,
+         "s": "lost",
+         "a": "c",
+         "z": 12.0,
+         "c": "ink"
+        },
+        {
+         "k": "T",
+         "x": 251.0,
+         "y": 581.6,
+         "s": "all_on, start_timer",
+         "a": "c",
+         "z": 12.0,
+         "c": "ink"
+        },
+        {
+         "k": "B",
+         "pts": [
+          392.2,
+          53.4,
+          388.4,
+          58.0,
+          384.8,
+          62.9,
+          382.0,
+          68.0,
+          378.8,
+          73.9,
+          376.4,
+          80.6,
+          374.6,
+          87.1
+         ],
+         "s": "line"
+        },
+        {
+         "k": "P",
+         "pts": [
+          377.3,
+          87.9,
+          372.7,
+          95.0,
+          371.9,
+          86.6
+         ],
+         "s": "line",
+         "f": "line"
+        },
+        {
+         "k": "T",
+         "x": 408.0,
+         "y": 76.8,
+         "s": "key_valid",
+         "a": "c",
+         "z": 11.0,
+         "c": "ink"
+        },
+        {
+         "k": "B",
+         "pts": [
+          355.3,
+          131.1,
+          348.9,
+          138.5,
+          341.3,
+          147.3,
+          334.4,
+          155.3
+         ],
+         "s": "line"
+        },
+        {
+         "k": "P",
+         "pts": [
+          336.1,
+          157.6,
+          328.8,
+          161.8,
+          331.9,
+          153.9
+         ],
+         "s": "line",
+         "f": "line"
+        },
+        {
+         "k": "B",
+         "pts": [
+          314.0,
+          198.1,
+          314.0,
+          204.9,
+          314.0,
+          212.9,
+          314.0,
+          220.4
+         ],
+         "s": "line"
+        },
+        {
+         "k": "P",
+         "pts": [
+          316.8,
+          220.8,
+          314.0,
+          228.8,
+          311.2,
+          220.8
+         ],
+         "s": "line",
+         "f": "line"
+        },
+        {
+         "k": "B",
+         "pts": [
+          307.2,
+          265.2,
+          303.2,
+          275.2,
+          298.2,
+          288.0,
+          293.8,
+          299.1
+         ],
+         "s": "line"
+        },
+        {
+         "k": "P",
+         "pts": [
+          296.3,
+          300.4,
+          290.8,
+          306.8,
+          291.1,
+          298.4
+         ],
+         "s": "line",
+         "f": "line"
+        },
+        {
+         "k": "T",
+         "x": 322.0,
+         "y": 288.8,
+         "s": "expired",
+         "a": "c",
+         "z": 11.0,
+         "c": "ink"
+        },
+        {
+         "k": "B",
+         "pts": [
+          279.1,
+          343.0,
+          276.7,
+          354.9,
+          275.7,
+          370.5,
+          283.0,
+          382.0,
+          285.4,
+          385.8,
+          288.4,
+          389.1,
+          291.7,
+          392.0
+         ],
+         "s": "line"
+        },
+        {
+         "k": "P",
+         "pts": [
+          293.4,
+          389.8,
+          298.1,
+          396.9,
+          290.0,
+          394.3
+         ],
+         "s": "line",
+         "f": "line"
+        },
+        {
+         "k": "T",
+         "x": 333.0,
+         "y": 366.8,
+         "s": "expired and",
+         "a": "c",
+         "z": 11.0,
+         "c": "ink"
+        },
+        {
+         "k": "T",
+         "x": 333.0,
+         "y": 378.8,
+         "s": "not step_eq_score",
+         "a": "c",
+         "z": 11.0,
+         "c": "ink"
+        },
+        {
+         "k": "B",
+         "pts": [
+          242.2,
+          330.0,
+          224.0,
+          334.1,
+          204.2,
+          342.1,
+          193.0,
+          358.0,
+          186.8,
+          366.8,
+          186.1,
+          378.4,
+          187.4,
+          388.8
+         ],
+         "s": "line"
+        },
+        {
+         "k": "P",
+         "pts": [
+          190.2,
+          388.4,
+          188.7,
+          396.8,
+          184.6,
+          389.3
+         ],
+         "s": "line",
+         "f": "line"
+        },
+        {
+         "k": "T",
+         "x": 232.5,
+         "y": 366.8,
+         "s": "expired and",
+         "a": "c",
+         "z": 11.0,
+         "c": "ink"
+        },
+        {
+         "k": "T",
+         "x": 232.5,
+         "y": 378.8,
+         "s": "step_eq_score",
+         "a": "c",
+         "z": 11.0,
+         "c": "ink"
+        },
+        {
+         "k": "B",
+         "pts": [
+          374.8,
+          396.7,
+          379.0,
+          392.4,
+          382.7,
+          387.4,
+          385.0,
+          382.0,
+          389.2,
+          372.2,
+          387.3,
+          368.4,
+          385.0,
+          358.0,
+          376.8,
+          320.7,
+          371.5,
+          310.8,
+          349.0,
+          280.0,
+          346.7,
+          276.8,
+          344.0,
+          273.8,
+          341.2,
+          270.8
+         ],
+         "s": "line"
+        },
+        {
+         "k": "P",
+         "pts": [
+          339.1,
+          272.6,
+          335.4,
+          265.0,
+          343.0,
+          268.7
+         ],
+         "s": "line",
+         "f": "line"
+        },
+        {
+         "k": "B",
+         "pts": [
+          209.0,
+          433.1,
+          215.6,
+          440.6,
+          223.5,
+          449.6,
+          230.6,
+          457.8
+         ],
+         "s": "line"
+        },
+        {
+         "k": "P",
+         "pts": [
+          232.8,
+          455.9,
+          235.9,
+          463.8,
+          228.6,
+          459.6
+         ],
+         "s": "line",
+         "f": "line"
+        },
+        {
+         "k": "B",
+         "pts": [
+          270.4,
+          500.0,
+          287.9,
+          515.4,
+          311.9,
+          536.0,
+          317.0,
+          539.0,
+          324.3,
+          543.3,
+          332.3,
+          547.2,
+          340.4,
+          550.8
+         ],
+         "s": "line"
+        },
+        {
+         "k": "P",
+         "pts": [
+          341.4,
+          548.2,
+          347.7,
+          553.9,
+          339.3,
+          553.3
+         ],
+         "s": "line",
+         "f": "line"
+        },
+        {
+         "k": "T",
+         "x": 347.5,
+         "y": 523.8,
+         "s": "richtig,",
+         "a": "c",
+         "z": 11.0,
+         "c": "ink"
+        },
+        {
+         "k": "T",
+         "x": 347.5,
+         "y": 535.8,
+         "s": "nicht fertig",
+         "a": "c",
+         "z": 11.0,
+         "c": "ink"
+        },
+        {
+         "k": "B",
+         "pts": [
+          218.6,
+          500.2,
+          191.6,
+          514.5,
+          153.2,
+          534.9,
+          124.4,
+          550.1
+         ],
+         "s": "line"
+        },
+        {
+         "k": "P",
+         "pts": [
+          125.7,
+          552.6,
+          117.3,
+          553.9,
+          123.1,
+          547.6
+         ],
+         "s": "line",
+         "f": "line"
+        },
+        {
+         "k": "T",
+         "x": 215.0,
+         "y": 523.8,
+         "s": "richtig",
+         "a": "c",
+         "z": 11.0,
+         "c": "ink"
+        },
+        {
+         "k": "T",
+         "x": 215.0,
+         "y": 535.8,
+         "s": "und fertig",
+         "a": "c",
+         "z": 11.0,
+         "c": "ink"
+        },
+        {
+         "k": "B",
+         "pts": [
+          251.0,
+          500.4,
+          251.0,
+          513.4,
+          251.0,
+          531.3,
+          251.0,
+          545.8
+         ],
+         "s": "line"
+        },
+        {
+         "k": "P",
+         "pts": [
+          253.8,
+          546.0,
+          251.0,
+          554.0,
+          248.2,
+          546.0
+         ],
+         "s": "line",
+         "f": "line"
+        },
+        {
+         "k": "T",
+         "x": 267.5,
+         "y": 529.8,
+         "s": "falsch",
+         "a": "c",
+         "z": 11.0,
+         "c": "ink"
+        },
+        {
+         "k": "B",
+         "pts": [
+          398.9,
+          553.9,
+          396.4,
+          541.4,
+          391.2,
+          524.9,
+          380.0,
+          515.0,
+          356.4,
+          494.0,
+          321.2,
+          486.3,
+          293.5,
+          483.7
+         ],
+         "s": "line"
+        },
+        {
+         "k": "P",
+         "pts": [
+          292.9,
+          486.5,
+          285.2,
+          483.0,
+          293.4,
+          480.9
+         ],
+         "s": "line",
+         "f": "line"
+        },
+        {
+         "k": "B",
+         "pts": [
+          85.0,
+          553.8,
+          85.0,
+          536.1,
+          85.0,
+          507.6,
+          85.0,
+          483.0,
+          85.0,
+          246.0,
+          85.0,
+          246.0,
+          85.0,
+          246.0,
+          85.0,
+          213.9,
+          169.2,
+          196.9,
+          235.4,
+          188.4
+         ],
+         "s": "line"
+        },
+        {
+         "k": "P",
+         "pts": [
+          235.1,
+          185.6,
+          243.4,
+          187.4,
+          235.8,
+          191.1
+         ],
+         "s": "line",
+         "f": "line"
+        },
+        {
+         "k": "B",
+         "pts": [
+          313.8,
+          556.5,
+          346.6,
+          548.9,
+          380.6,
+          540.7,
+          384.0,
+          539.0,
+          419.4,
+          521.5,
+          453.0,
+          522.5,
+          453.0,
+          483.0,
+          453.0,
+          112.0,
+          453.0,
+          112.0,
+          453.0,
+          112.0,
+          453.0,
+          93.7,
+          445.2,
+          75.0,
+          436.7,
+          60.1
+         ],
+         "s": "line"
+        },
+        {
+         "k": "P",
+         "pts": [
+          434.2,
+          61.5,
+          432.6,
+          53.2,
+          439.1,
+          58.6
+         ],
+         "s": "line",
+         "f": "line"
+        },
+        {
+         "k": "T",
+         "x": 474.0,
+         "y": 288.8,
+         "s": "expired",
+         "a": "c",
+         "z": 11.0,
+         "c": "ink"
+        }
+       ]
+      },
+      {
+       "t": "code",
+       "lang": "vhdl",
+       "s": "entity control is\n  port(\n    clk, res_n    : in  std_logic;\n    key_valid     : in  std_logic;\n    key_color     : in  color_type;\n    rnd           : in  color_type;\n    timer_expired : in  std_logic;\n    step_eq_score : in  std_logic;\n    next_rnd, store_rnd, restore_rnd : out std_logic;\n    res_step, inc_step               : out std_logic;\n    res_score, inc_score             : out std_logic;\n    start_timer, dec_duration, res_duration : out std_logic;\n    led_on, all_on                   : out std_logic\n    );\nend entity control;"
+      },
+      {
+       "t": "p",
+       "s": "`color_type` ist `std_logic_vector(1 downto 0)` aus `senso_pkg`."
+      },
+      {
+       "t": "p",
+       "s": "Bei so vielen Ausgängen hilft ein Trick in der `output_function`: **alle** Ausgänge zuerst auf `'0'`, im `case` nur die setzen, die `'1'` werden. Das ist kurz und verhindert Latches."
+      }
+     ],
+     "aufgabe": [
+      {
+       "t": "p",
+       "s": "Schreibe `transition_function` und `output_function` (der Prozess `state` ist wie immer)."
+      }
+     ],
+     "aufgabeMd": "Schreibe `transition_function` und `output_function` (der Prozess `state` ist wie immer).",
+     "loesung": [
+      {
+       "t": "code",
+       "lang": "vhdl",
+       "s": "type state_type is (init, store, load, show, pause,\n  show_next, reload, wait_key, key_ok, won, lost);\n\ntransition_function: process(current_state, key_valid,\n    key_color, rnd, timer_expired, step_eq_score) is\nbegin\n  next_state <= current_state;\n  case current_state is\n    when init =>\n      if key_valid = '1' then next_state <= store; end if;\n    when store     => next_state <= load;\n    when load      => next_state <= show;\n    when show =>\n      if timer_expired = '1' then next_state <= pause; end if;\n    when pause =>\n      if timer_expired = '1' then\n        if step_eq_score = '1' then\n          next_state <= reload;\n        else\n          next_state <= show_next;\n        end if;\n      end if;\n    when show_next => next_state <= show;\n    when reload    => next_state <= wait_key;\n    when wait_key =>\n      if key_valid = '1' then\n        if key_color /= rnd then\n          next_state <= lost;\n        elsif step_eq_score = '1' then\n          next_state <= won;\n        else\n          next_state <= key_ok;\n        end if;\n      end if;\n    when key_ok => next_state <= wait_key;\n    when won    => next_state <= load;\n    when lost =>\n      if timer_expired = '1' then next_state <= init; end if;\n  end case;\nend process transition_function;\n\noutput_function: process(current_state) is\nbegin\n  next_rnd <= '0'; store_rnd <= '0'; restore_rnd <= '0';\n  res_step <= '0'; inc_step <= '0';\n  res_score <= '0'; inc_score <= '0';\n  start_timer <= '0'; dec_duration <= '0';\n  res_duration <= '0'; led_on <= '0'; all_on <= '0';\n  case current_state is\n    when init =>\n      next_rnd <= '1'; res_step <= '1';\n      res_score <= '1'; res_duration <= '1';\n    when store     => store_rnd <= '1';\n    when load      => restore_rnd <= '1'; res_step <= '1';\n    when show      => led_on <= '1'; start_timer <= '1';\n    when pause     => start_timer <= '1';\n    when show_next => next_rnd <= '1'; inc_step <= '1';\n    when reload    => restore_rnd <= '1'; res_step <= '1';\n    when wait_key  => null;\n    when key_ok    => next_rnd <= '1'; inc_step <= '1';\n    when won       => inc_score <= '1'; dec_duration <= '1';\n    when lost      => all_on <= '1'; start_timer <= '1';\n  end case;\nend process output_function;"
+      },
+      {
+       "t": "p",
+       "s": "Die Farbe an den LEDs kommt direkt aus `random` (`rnd` an `output`). Der Automat schaltet nur `led_on` ein und bleibt damit ein Moore-Automat."
+      }
+     ],
+     "loesungMd": "```vhdl\ntype state_type is (init, store, load, show, pause,\n  show_next, reload, wait_key, key_ok, won, lost);\n\ntransition_function: process(current_state, key_valid,\n    key_color, rnd, timer_expired, step_eq_score) is\nbegin\n  next_state <= current_state;\n  case current_state is\n    when init =>\n      if key_valid = '1' then next_state <= store; end if;\n    when store     => next_state <= load;\n    when load      => next_state <= show;\n    when show =>\n      if timer_expired = '1' then next_state <= pause; end if;\n    when pause =>\n      if timer_expired = '1' then\n        if step_eq_score = '1' then\n          next_state <= reload;\n        else\n          next_state <= show_next;\n        end if;\n      end if;\n    when show_next => next_state <= show;\n    when reload    => next_state <= wait_key;\n    when wait_key =>\n      if key_valid = '1' then\n        if key_color /= rnd then\n          next_state <= lost;\n        elsif step_eq_score = '1' then\n          next_state <= won;\n        else\n          next_state <= key_ok;\n        end if;\n      end if;\n    when key_ok => next_state <= wait_key;\n    when won    => next_state <= load;\n    when lost =>\n      if timer_expired = '1' then next_state <= init; end if;\n  end case;\nend process transition_function;\n\noutput_function: process(current_state) is\nbegin\n  next_rnd <= '0'; store_rnd <= '0'; restore_rnd <= '0';\n  res_step <= '0'; inc_step <= '0';\n  res_score <= '0'; inc_score <= '0';\n  start_timer <= '0'; dec_duration <= '0';\n  res_duration <= '0'; led_on <= '0'; all_on <= '0';\n  case current_state is\n    when init =>\n      next_rnd <= '1'; res_step <= '1';\n      res_score <= '1'; res_duration <= '1';\n    when store     => store_rnd <= '1';\n    when load      => restore_rnd <= '1'; res_step <= '1';\n    when show      => led_on <= '1'; start_timer <= '1';\n    when pause     => start_timer <= '1';\n    when show_next => next_rnd <= '1'; inc_step <= '1';\n    when reload    => restore_rnd <= '1'; res_step <= '1';\n    when wait_key  => null;\n    when key_ok    => next_rnd <= '1'; inc_step <= '1';\n    when won       => inc_score <= '1'; dec_duration <= '1';\n    when lost      => all_on <= '1'; start_timer <= '1';\n  end case;\nend process output_function;\n```\nDie Farbe an den LEDs kommt direkt aus `random` (`rnd` an `output`). Der Automat schaltet nur `led_on` ein und bleibt damit ein Moore-Automat.",
+     "klausur": [
+      {
+       "t": "p",
+       "s": "Großer Automat nach Schema (F02, F05, K02, P03). Simulierbar in `am_rechner/L13/senso.vhd`."
+      }
+     ]
+    },
+    {
+     "id": "S20",
+     "block": "S",
+     "title": "Senso: alles verbinden und das Spiel testen",
+     "min": 12,
+     "mode": "code",
+     "starter": "",
+     "solutionCode": "architecture struct of senso is\n  signal key_valid, timer_expired : std_logic;\n  signal step_eq_score : std_logic;\n  signal key_color, rnd : color_type;\n  signal next_rnd, store_rnd, restore_rnd : std_logic;\n  signal res_step, inc_step : std_logic;\n  signal res_score, inc_score : std_logic;\n  signal start_timer, dec_duration : std_logic;\n  signal res_duration, led_on, all_on : std_logic;\nbegin\n  i_input: entity work.input\n    port map(clk => clk, res_n => res_n,\n             key_in_n => key_in_n,\n             key_valid => key_valid, key_color => key_color);\n  i_control: entity work.control\n    port map(clk => clk, res_n => res_n,\n             key_valid => key_valid, key_color => key_color,\n             rnd => rnd, timer_expired => timer_expired,\n             step_eq_score => step_eq_score,\n             next_rnd => next_rnd, store_rnd => store_rnd,\n             restore_rnd => restore_rnd,\n             res_step => res_step, inc_step => inc_step,\n             res_score => res_score, inc_score => inc_score,\n             start_timer => start_timer,\n             dec_duration => dec_duration,\n             res_duration => res_duration,\n             led_on => led_on, all_on => all_on);\n  i_timer: entity work.timer\n    generic map(D_INIT => D_INIT, D_STEP => D_STEP,\n                D_MIN => D_MIN)\n    port map(clk => clk, res_n => res_n,\n             start_timer => start_timer,\n             dec_duration => dec_duration,\n             res_duration => res_duration,\n             timer_expired => timer_expired);\n  i_counter: entity work.counter\n    port map(clk => clk, res_n => res_n,\n             res_step => res_step, inc_step => inc_step,\n             res_score => res_score, inc_score => inc_score,\n             step_eq_score => step_eq_score,\n             score_low => score_low, score_high => score_high);\n  i_random: entity work.random\n    port map(clk => clk, res_n => res_n,\n             next_rnd => next_rnd, store_rnd => store_rnd,\n             restore_rnd => restore_rnd, rnd => rnd);\n  i_output: entity work.output\n    port map(led_on => led_on, all_on => all_on,\n             color => rnd, leds => leds);\nend architecture struct;",
+     "ziel": [
+      {
+       "t": "p",
+       "s": "Ein komplettes System verdrahten und mit einer Testbench „spielen“."
+      }
+     ],
+     "erklaerung": [
+      {
+       "t": "diagram",
+       "id": "S01_senso",
+       "alt": "Senso als Blockschaltbild",
+       "w": 845.0,
+       "h": 295.2,
+       "prims": [
+        {
+         "k": "P",
+         "pts": [
+          75.0,
+          137.0,
+          6.0,
+          137.0,
+          6.0,
+          173.0,
+          75.0,
+          173.0
+         ],
+         "s": "ink"
+        },
+        {
+         "k": "T",
+         "x": 40.5,
+         "y": 158.4,
+         "s": "4 Taster",
+         "a": "c",
+         "z": 13.0,
+         "c": "ink"
+        },
+        {
+         "k": "P",
+         "pts": [
+          216.0,
+          137.0,
+          162.0,
+          137.0,
+          162.0,
+          173.0,
+          216.0,
+          173.0
+         ],
+         "s": "ink"
+        },
+        {
+         "k": "T",
+         "x": 189.0,
+         "y": 158.4,
+         "s": "input",
+         "a": "c",
+         "z": 13.0,
+         "c": "ink"
+        },
+        {
+         "k": "P",
+         "pts": [
+          392.0,
+          137.0,
+          308.0,
+          137.0,
+          308.0,
+          173.0,
+          392.0,
+          173.0
+         ],
+         "s": "accent"
+        },
+        {
+         "k": "T",
+         "x": 350.0,
+         "y": 151.4,
+         "s": "control",
+         "a": "c",
+         "z": 13.0,
+         "c": "accent"
+        },
+        {
+         "k": "T",
+         "x": 350.0,
+         "y": 165.4,
+         "s": "(Automat)",
+         "a": "c",
+         "z": 13.0,
+         "c": "accent"
+        },
+        {
+         "k": "P",
+         "pts": [
+          572.0,
+          20.0,
+          518.0,
+          20.0,
+          518.0,
+          56.0,
+          572.0,
+          56.0
+         ],
+         "s": "ink"
+        },
+        {
+         "k": "T",
+         "x": 545.0,
+         "y": 41.4,
+         "s": "timer",
+         "a": "c",
+         "z": 13.0,
+         "c": "ink"
+        },
+        {
+         "k": "P",
+         "pts": [
+          579.0,
+          120.0,
+          511.0,
+          120.0,
+          511.0,
+          156.0,
+          579.0,
+          156.0
+         ],
+         "s": "ink"
+        },
+        {
+         "k": "T",
+         "x": 545.0,
+         "y": 141.4,
+         "s": "counter",
+         "a": "c",
+         "z": 13.0,
+         "c": "ink"
+        },
+        {
+         "k": "P",
+         "pts": [
+          579.0,
+          209.0,
+          511.0,
+          209.0,
+          511.0,
+          245.0,
+          579.0,
+          245.0
+         ],
+         "s": "ink"
+        },
+        {
+         "k": "T",
+         "x": 545.0,
+         "y": 230.4,
+         "s": "random",
+         "a": "c",
+         "z": 13.0,
+         "c": "ink"
+        },
+        {
+         "k": "P",
+         "pts": [
+          721.5,
+          248.0,
+          661.5,
+          248.0,
+          661.5,
+          284.0,
+          721.5,
+          284.0
+         ],
+         "s": "ink"
+        },
+        {
+         "k": "T",
+         "x": 691.5,
+         "y": 269.4,
+         "s": "output",
+         "a": "c",
+         "z": 13.0,
+         "c": "ink"
+        },
+        {
+         "k": "P",
+         "pts": [
+          839.0,
+          248.0,
+          777.0,
+          248.0,
+          777.0,
+          284.0,
+          839.0,
+          284.0
+         ],
+         "s": "ink"
+        },
+        {
+         "k": "T",
+         "x": 808.0,
+         "y": 269.4,
+         "s": "4 LEDs",
+         "a": "c",
+         "z": 13.0,
+         "c": "ink"
+        },
+        {
+         "k": "P",
+         "pts": [
+          736.0,
+          120.0,
+          647.0,
+          120.0,
+          647.0,
+          156.0,
+          736.0,
+          156.0
+         ],
+         "s": "ink"
+        },
+        {
+         "k": "T",
+         "x": 691.5,
+         "y": 134.4,
+         "s": "7-Segment",
+         "a": "c",
+         "z": 13.0,
+         "c": "ink"
+        },
+        {
+         "k": "T",
+         "x": 691.5,
+         "y": 148.4,
+         "s": "2 Stellen",
+         "a": "c",
+         "z": 13.0,
+         "c": "ink"
+        },
+        {
+         "k": "B",
+         "pts": [
+          75.1,
+          155.0,
+          98.7,
+          155.0,
+          130.1,
+          155.0,
+          153.8,
+          155.0
+         ],
+         "s": "line"
+        },
+        {
+         "k": "P",
+         "pts": [
+          153.8,
+          152.2,
+          161.8,
+          155.0,
+          153.8,
+          157.8
+         ],
+         "s": "line",
+         "f": "line"
+        },
+        {
+         "k": "T",
+         "x": 118.5,
+         "y": 151.8,
+         "s": "key_in_n",
+         "a": "c",
+         "z": 11.0,
+         "c": "ink"
+        },
+        {
+         "k": "B",
+         "pts": [
+          216.3,
+          155.0,
+          238.8,
+          155.0,
+          271.9,
+          155.0,
+          299.4,
+          155.0
+         ],
+         "s": "line"
+        },
+        {
+         "k": "P",
+         "pts": [
+          299.8,
+          152.2,
+          307.8,
+          155.0,
+          299.8,
+          157.8
+         ],
+         "s": "line",
+         "f": "line"
+        },
+        {
+         "k": "T",
+         "x": 262.0,
+         "y": 139.8,
+         "s": "key_valid",
+         "a": "c",
+         "z": 11.0,
+         "c": "ink"
+        },
+        {
+         "k": "T",
+         "x": 262.0,
+         "y": 151.8,
+         "s": "key_color",
+         "a": "c",
+         "z": 11.0,
+         "c": "ink"
+        },
+        {
+         "k": "B",
+         "pts": [
+          355.3,
+          137.0,
+          362.4,
+          111.7,
+          379.1,
+          66.6,
+          412.0,
+          46.0,
+          441.2,
+          27.7,
+          481.6,
+          28.1,
+          509.9,
+          31.6
+         ],
+         "s": "line"
+        },
+        {
+         "k": "P",
+         "pts": [
+          510.4,
+          28.8,
+          518.0,
+          32.7,
+          509.7,
+          34.4
+         ],
+         "s": "line",
+         "f": "line"
+        },
+        {
+         "k": "T",
+         "x": 451.5,
+         "y": 14.8,
+         "s": "start, dec,",
+         "a": "c",
+         "z": 11.0,
+         "c": "ink"
+        },
+        {
+         "k": "T",
+         "x": 451.5,
+         "y": 26.8,
+         "s": "res_duration",
+         "a": "c",
+         "z": 11.0,
+         "c": "ink"
+        },
+        {
+         "k": "B",
+         "pts": [
+          392.2,
+          145.2,
+          398.8,
+          143.9,
+          405.6,
+          142.8,
+          412.0,
+          142.0,
+          442.2,
+          138.4,
+          476.5,
+          137.4,
+          502.6,
+          137.4
+         ],
+         "s": "line"
+        },
+        {
+         "k": "P",
+         "pts": [
+          502.8,
+          134.6,
+          510.8,
+          137.4,
+          502.8,
+          140.2
+         ],
+         "s": "line",
+         "f": "line"
+        },
+        {
+         "k": "T",
+         "x": 451.5,
+         "y": 122.8,
+         "s": "res/inc",
+         "a": "c",
+         "z": 11.0,
+         "c": "ink"
+        },
+        {
+         "k": "T",
+         "x": 451.5,
+         "y": 134.8,
+         "s": "step, score",
+         "a": "c",
+         "z": 11.0,
+         "c": "ink"
+        },
+        {
+         "k": "B",
+         "pts": [
+          377.1,
+          173.1,
+          387.6,
+          179.8,
+          400.0,
+          186.9,
+          412.0,
+          192.0,
+          441.4,
+          204.5,
+          476.3,
+          213.5,
+          502.9,
+          219.3
+         ],
+         "s": "line"
+        },
+        {
+         "k": "P",
+         "pts": [
+          503.6,
+          216.6,
+          510.9,
+          221.0,
+          502.4,
+          222.0
+         ],
+         "s": "line",
+         "f": "line"
+        },
+        {
+         "k": "T",
+         "x": 451.5,
+         "y": 176.8,
+         "s": "next, store,",
+         "a": "c",
+         "z": 11.0,
+         "c": "ink"
+        },
+        {
+         "k": "T",
+         "x": 451.5,
+         "y": 188.8,
+         "s": "restore",
+         "a": "c",
+         "z": 11.0,
+         "c": "ink"
+        },
+        {
+         "k": "B",
+         "pts": [
+          358.0,
+          173.4,
+          367.1,
+          195.0,
+          385.3,
+          230.7,
+          412.0,
+          251.0,
+          482.9,
+          304.8,
+          595.6,
+          289.1,
+          653.5,
+          275.9
+         ],
+         "s": "line"
+        },
+        {
+         "k": "P",
+         "pts": [
+          652.9,
+          273.2,
+          661.3,
+          274.1,
+          654.1,
+          278.7
+         ],
+         "s": "line",
+         "f": "line"
+        },
+        {
+         "k": "T",
+         "x": 545.0,
+         "y": 271.8,
+         "s": "led_on",
+         "a": "c",
+         "z": 11.0,
+         "c": "ink"
+        },
+        {
+         "k": "T",
+         "x": 545.0,
+         "y": 283.8,
+         "s": "all_on",
+         "a": "c",
+         "z": 11.0,
+         "c": "ink"
+        },
+        {
+         "k": "B",
+         "pts": [
+          518.0,
+          50.2,
+          490.8,
+          63.3,
+          447.3,
+          85.3,
+          412.0,
+          108.0,
+          400.8,
+          115.2,
+          389.2,
+          123.9,
+          379.1,
+          131.8
+         ],
+         "s": "line"
+        },
+        {
+         "k": "P",
+         "pts": [
+          380.7,
+          134.1,
+          372.6,
+          136.9,
+          377.2,
+          129.7
+         ],
+         "s": "line",
+         "f": "line"
+        },
+        {
+         "k": "T",
+         "x": 451.5,
+         "y": 61.8,
+         "s": "expired",
+         "a": "c",
+         "z": 11.0,
+         "c": "ink"
+        },
+        {
+         "k": "B",
+         "pts": [
+          510.8,
+          151.9,
+          504.4,
+          154.0,
+          497.6,
+          155.9,
+          491.0,
+          157.0,
+          461.2,
+          162.2,
+          427.2,
+          161.9,
+          400.2,
+          160.1
+         ],
+         "s": "line"
+        },
+        {
+         "k": "P",
+         "pts": [
+          399.8,
+          162.9,
+          392.1,
+          159.6,
+          400.2,
+          157.3
+         ],
+         "s": "line",
+         "f": "line"
+        },
+        {
+         "k": "T",
+         "x": 451.5,
+         "y": 153.8,
+         "s": "step_eq_score",
+         "a": "c",
+         "z": 11.0,
+         "c": "ink"
+        },
+        {
+         "k": "B",
+         "pts": [
+          579.1,
+          138.0,
+          596.8,
+          138.0,
+          618.9,
+          138.0,
+          638.8,
+          138.0
+         ],
+         "s": "line"
+        },
+        {
+         "k": "P",
+         "pts": [
+          638.8,
+          135.2,
+          646.8,
+          138.0,
+          638.8,
+          140.8
+         ],
+         "s": "line",
+         "f": "line"
+        },
+        {
+         "k": "B",
+         "pts": [
+          510.7,
+          237.8,
+          482.9,
+          244.9,
+          442.9,
+          250.3,
+          412.0,
+          235.0,
+          389.2,
+          223.7,
+          372.6,
+          199.4,
+          362.5,
+          180.5
+         ],
+         "s": "line"
+        },
+        {
+         "k": "P",
+         "pts": [
+          360.0,
+          181.7,
+          358.9,
+          173.3,
+          365.0,
+          179.2
+         ],
+         "s": "line",
+         "f": "line"
+        },
+        {
+         "k": "T",
+         "x": 451.5,
+         "y": 231.8,
+         "s": "rnd",
+         "a": "c",
+         "z": 11.0,
+         "c": "ink"
+        },
+        {
+         "k": "B",
+         "pts": [
+          579.1,
+          236.0,
+          601.4,
+          241.9,
+          630.6,
+          249.8,
+          653.6,
+          256.0
+         ],
+         "s": "line"
+        },
+        {
+         "k": "P",
+         "pts": [
+          654.4,
+          253.4,
+          661.4,
+          258.2,
+          653.0,
+          258.8
+         ],
+         "s": "line",
+         "f": "line"
+        },
+        {
+         "k": "T",
+         "x": 613.0,
+         "y": 238.8,
+         "s": "color",
+         "a": "c",
+         "z": 11.0,
+         "c": "ink"
+        },
+        {
+         "k": "B",
+         "pts": [
+          721.7,
+          266.0,
+          735.9,
+          266.0,
+          753.1,
+          266.0,
+          768.4,
+          266.0
+         ],
+         "s": "line"
+        },
+        {
+         "k": "P",
+         "pts": [
+          768.7,
+          263.2,
+          776.7,
+          266.0,
+          768.7,
+          268.8
+         ],
+         "s": "line",
+         "f": "line"
+        }
+       ]
+      },
+      {
+       "t": "p",
+       "s": "Top-Level `senso`:"
+      },
+      {
+       "t": "code",
+       "lang": "vhdl",
+       "s": "entity senso is\n  generic(\n    D_INIT : positive := 25_000_000;\n    D_STEP : positive := 2_500_000;\n    D_MIN  : positive := 5_000_000\n    );\n  port(\n    clk, res_n : in  std_logic;\n    key_in_n   : in  std_logic_vector(3 downto 0);\n    leds       : out std_logic_vector(3 downto 0);\n    score_low, score_high : out seg7_type\n    );\nend entity senso;"
+      },
+      {
+       "t": "p",
+       "s": "Die Generics reicht `senso` an `timer` durch. So läuft die Simulation mit `D_INIT => 12` statt 25 Millionen Takten."
+      },
+      {
+       "t": "p",
+       "s": "Die Testbench spielt wie ein Mensch:"
+      },
+      {
+       "t": "ol",
+       "items": [
+        "`zuschauen(n)`: wartet, bis eine LED leuchtet, merkt sich die Farbe, wartet bis sie ausgeht – n Mal.",
+        "Die Pause abwarten, dann die gemerkten Farben drücken.",
+        "Nach jeder Runde den Punktestand an der 7-Segment-Anzeige prüfen.",
+        "Zum Schluss absichtlich falsch drücken: Alle LEDs müssen leuchten, danach steht der Punktestand wieder auf 0."
+       ]
+      }
+     ],
+     "aufgabe": [
+      {
+       "t": "p",
+       "s": "Schreibe `architecture struct of senso` mit den Instanzen `input`, `control`, `timer`, `counter`, `random`, `output`."
+      }
+     ],
+     "aufgabeMd": "Schreibe `architecture struct of senso` mit den Instanzen `input`, `control`, `timer`, `counter`, `random`, `output`.",
+     "loesung": [
+      {
+       "t": "code",
+       "lang": "vhdl",
+       "s": "architecture struct of senso is\n  signal key_valid, timer_expired : std_logic;\n  signal step_eq_score : std_logic;\n  signal key_color, rnd : color_type;\n  signal next_rnd, store_rnd, restore_rnd : std_logic;\n  signal res_step, inc_step : std_logic;\n  signal res_score, inc_score : std_logic;\n  signal start_timer, dec_duration : std_logic;\n  signal res_duration, led_on, all_on : std_logic;\nbegin\n  i_input: entity work.input\n    port map(clk => clk, res_n => res_n,\n             key_in_n => key_in_n,\n             key_valid => key_valid, key_color => key_color);\n  i_control: entity work.control\n    port map(clk => clk, res_n => res_n,\n             key_valid => key_valid, key_color => key_color,\n             rnd => rnd, timer_expired => timer_expired,\n             step_eq_score => step_eq_score,\n             next_rnd => next_rnd, store_rnd => store_rnd,\n             restore_rnd => restore_rnd,\n             res_step => res_step, inc_step => inc_step,\n             res_score => res_score, inc_score => inc_score,\n             start_timer => start_timer,\n             dec_duration => dec_duration,\n             res_duration => res_duration,\n             led_on => led_on, all_on => all_on);\n  i_timer: entity work.timer\n    generic map(D_INIT => D_INIT, D_STEP => D_STEP,\n                D_MIN => D_MIN)\n    port map(clk => clk, res_n => res_n,\n             start_timer => start_timer,\n             dec_duration => dec_duration,\n             res_duration => res_duration,\n             timer_expired => timer_expired);\n  i_counter: entity work.counter\n    port map(clk => clk, res_n => res_n,\n             res_step => res_step, inc_step => inc_step,\n             res_score => res_score, inc_score => inc_score,\n             step_eq_score => step_eq_score,\n             score_low => score_low, score_high => score_high);\n  i_random: entity work.random\n    port map(clk => clk, res_n => res_n,\n             next_rnd => next_rnd, store_rnd => store_rnd,\n             restore_rnd => restore_rnd, rnd => rnd);\n  i_output: entity work.output\n    port map(led_on => led_on, all_on => all_on,\n             color => rnd, leds => leds);\nend architecture struct;"
+      },
+      {
+       "t": "p",
+       "s": "Zählt man die Signale: Jede Verbindung zwischen **zwei Instanzen** braucht ein internes Signal. Ports von `senso` werden direkt angeschlossen."
+      }
+     ],
+     "loesungMd": "```vhdl\narchitecture struct of senso is\n  signal key_valid, timer_expired : std_logic;\n  signal step_eq_score : std_logic;\n  signal key_color, rnd : color_type;\n  signal next_rnd, store_rnd, restore_rnd : std_logic;\n  signal res_step, inc_step : std_logic;\n  signal res_score, inc_score : std_logic;\n  signal start_timer, dec_duration : std_logic;\n  signal res_duration, led_on, all_on : std_logic;\nbegin\n  i_input: entity work.input\n    port map(clk => clk, res_n => res_n,\n             key_in_n => key_in_n,\n             key_valid => key_valid, key_color => key_color);\n  i_control: entity work.control\n    port map(clk => clk, res_n => res_n,\n             key_valid => key_valid, key_color => key_color,\n             rnd => rnd, timer_expired => timer_expired,\n             step_eq_score => step_eq_score,\n             next_rnd => next_rnd, store_rnd => store_rnd,\n             restore_rnd => restore_rnd,\n             res_step => res_step, inc_step => inc_step,\n             res_score => res_score, inc_score => inc_score,\n             start_timer => start_timer,\n             dec_duration => dec_duration,\n             res_duration => res_duration,\n             led_on => led_on, all_on => all_on);\n  i_timer: entity work.timer\n    generic map(D_INIT => D_INIT, D_STEP => D_STEP,\n                D_MIN => D_MIN)\n    port map(clk => clk, res_n => res_n,\n             start_timer => start_timer,\n             dec_duration => dec_duration,\n             res_duration => res_duration,\n             timer_expired => timer_expired);\n  i_counter: entity work.counter\n    port map(clk => clk, res_n => res_n,\n             res_step => res_step, inc_step => inc_step,\n             res_score => res_score, inc_score => inc_score,\n             step_eq_score => step_eq_score,\n             score_low => score_low, score_high => score_high);\n  i_random: entity work.random\n    port map(clk => clk, res_n => res_n,\n             next_rnd => next_rnd, store_rnd => store_rnd,\n             restore_rnd => restore_rnd, rnd => rnd);\n  i_output: entity work.output\n    port map(led_on => led_on, all_on => all_on,\n             color => rnd, leds => leds);\nend architecture struct;\n```\nZählt man die Signale: Jede Verbindung zwischen **zwei Instanzen** braucht ein internes Signal. Ports von `senso` werden direkt angeschlossen.",
+     "klausur": [
+      {
+       "t": "p",
+       "s": "Top-Level verdrahten (G01, P10, L10). Das ganze Spiel simulierst du mit `./sim.sh tb_senso am_rechner/L13/senso.vhd am_rechner/L13/tb_senso.vhd`."
       }
      ]
     }

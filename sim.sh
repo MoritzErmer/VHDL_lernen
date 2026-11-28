@@ -15,4 +15,4 @@ tb=$1; shift
 w="build/$tb"; rm -rf "$w"; mkdir -p "$w"
 ghdl -a --std=08 --workdir="$w" "$@"
 ghdl -e --std=08 --workdir="$w" "$tb"
-ghdl -r --std=08 --workdir="$w" "$tb" --stop-time=100us --ieee-asserts=disable-at-0 --wave="$w/$tb.ghw"
+ghdl -r --std=08 --workdir="$w" "$tb" --stop-time=${STOP:-100us} --ieee-asserts=disable-at-0 --wave="$w/$tb.ghw"

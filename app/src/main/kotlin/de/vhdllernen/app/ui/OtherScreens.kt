@@ -137,11 +137,13 @@ private fun ToggleRow(label: String, checked: Boolean, onChange: (Boolean) -> Un
     }
 }
 
+private data class ResetTarget(val courseId: String?, val label: String)
+
 @Composable
 fun InfoScreen(state: AppState) {
     val p = LocalPalette.current
     val uri = LocalUriHandler.current
-    var confirmReset by remember { mutableStateOf(false) }
+    var confirmReset by remember { mutableStateOf<ResetTarget?>(null) }
     val fmt = remember { SimpleDateFormat("dd.MM.yyyy, HH:mm", Locale.GERMANY) }
     Column(Modifier.fillMaxSize()) {
         TopBar("Einstellungen", onBack = { state.back() })
@@ -202,16 +204,26 @@ fun InfoScreen(state: AppState) {
                 )
             }
 
-            SectionLabel("Fortschritt", Modifier.padding(top = 10.dp))
-            if (!confirmReset) {
-                SecondaryButton("Alle Antworten und Bewertungen löschen", { confirmReset = true }, Modifier.fillMaxWidth())
+            SectionLabel("Von vorn beginnen", Modifier.padding(top = 10.dp))
+            Text(
+                "Löscht Antworten, Fragen und Bewertungen. Die Inhalte bleiben. " +
+                    "Einzelne Häppchen startest du unten im Häppchen neu.",
+                style = Type.small, color = p.muted,
+            )
+            val targets = state.content.courses.map { it.id to "${it.name} neu starten" } + (null to "Alles neu starten")
+            val pending = confirmReset
+            if (pending == null) {
+                targets.forEach { (id, label) ->
+                    SecondaryButton(label, { confirmReset = ResetTarget(id, label) }, Modifier.fillMaxWidth())
+                }
             } else {
-                Text("Wirklich alles löschen? Das lässt sich nicht rückgängig machen.", style = Type.body, color = p.bad)
+                Text("${pending.label}? Das lässt sich nicht rückgängig machen.", style = Type.body, color = p.bad)
                 Row(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
-                    SecondaryButton("Abbrechen", { confirmReset = false }, Modifier.weight(1f))
+                    SecondaryButton("Abbrechen", { confirmReset = null }, Modifier.weight(1f))
                     Box(
                         Modifier.weight(1f).background(p.bad, Corner).clickable {
-                            state.progress.reset(); confirmReset = false
+                            if (pending.courseId == null) state.progress.reset() else state.progress.resetCourse(pending.courseId)
+                            confirmReset = null
                         }.padding(vertical = 12.dp),
                         contentAlignment = Alignment.Center,
                     ) { Text("Löschen", style = Type.body.copy(fontWeight = FontWeight.SemiBold), color = p.surface) }

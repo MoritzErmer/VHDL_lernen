@@ -1,0 +1,3 @@
+@title Zeitgeber mit d = 4 Takten: start_timer startet, nach d Takten ist timer_expired genau einen Takt lang 1 (ein Zeichen = ein Takt)
+start_timer:   0111111100
+timer_expired: 0000010000

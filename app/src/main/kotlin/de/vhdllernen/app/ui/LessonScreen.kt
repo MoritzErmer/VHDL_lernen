@@ -124,6 +124,7 @@ private fun AnswerArea(state: AppState, course: Course, lesson: Lesson, key: Str
             code = code,
             lang = course.lang,
             placeholder = if (code) "Code hier eintippen …" else "Antwort in Stichworten …",
+            historyKey = key,
         )
         if (!prog.revealed) {
             PrimaryButton(
@@ -135,7 +136,16 @@ private fun AnswerArea(state: AppState, course: Course, lesson: Lesson, key: Str
     }
 
     if (prog.revealed) {
+        val hide = { state.progress.update(key) { it.copy(revealed = false) } }
         Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                SectionLabel("Lösung", Modifier.weight(1f))
+                Text(
+                    "Ausblenden", style = Type.small.copy(fontWeight = FontWeight.SemiBold), color = p.accent,
+                    modifier = Modifier.border(1.dp, p.line, Corner).clickable { hide() }
+                        .padding(horizontal = 12.dp, vertical = 7.dp),
+                )
+            }
             if (code && lesson.solutionCode.isNotBlank()) {
                 Segmented(SolutionTab.entries, tab, { it.label }, { tab = it }, Modifier.fillMaxWidth())
             }
@@ -150,10 +160,7 @@ private fun AnswerArea(state: AppState, course: Course, lesson: Lesson, key: Str
                 }
                 Nodes(lesson.loesung, { state.open(Screen.Lesson(course.id, it)) }, lang = course.lang)
             }
-            Text(
-                "Lösung ausblenden", style = Type.small, color = p.muted,
-                modifier = Modifier.clickable { state.progress.update(key) { it.copy(revealed = false) } }.padding(vertical = 4.dp),
-            )
+            SecondaryButton("Lösung ausblenden", { hide() }, Modifier.fillMaxWidth())
         }
     }
 
@@ -188,7 +195,28 @@ private fun AnswerArea(state: AppState, course: Course, lesson: Lesson, key: Str
             code = false,
             placeholder = "Was ist dir unklar?",
             title = "Frage an Claude",
+            historyKey = key + "#frage",
         )
+        if (prog.touched || prog.revealed) {
+            var confirm by remember(key) { mutableStateOf(false) }
+            if (!confirm) {
+                Text(
+                    "Häppchen neu starten", style = Type.small, color = p.muted,
+                    modifier = Modifier.clickable { confirm = true }.padding(vertical = 6.dp),
+                )
+            } else {
+                Text("Antwort, Frage und Bewertung dieses Häppchens löschen?", style = Type.small, color = p.ink)
+                Row(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
+                    SecondaryButton("Abbrechen", { confirm = false }, Modifier.weight(1f))
+                    SecondaryButton("Neu starten", {
+                        state.progress.remove(key)
+                        answer = TextFieldValue(lesson.starter, TextRange(lesson.starter.length))
+                        question = TextFieldValue("")
+                        confirm = false
+                    }, Modifier.weight(1f))
+                }
+            }
+        }
     }
 }
 

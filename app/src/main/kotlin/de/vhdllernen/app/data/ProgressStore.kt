@@ -50,6 +50,18 @@ class ProgressStore(context: Context) {
         scheduleSave()
     }
 
+    /** Starts one lesson from scratch: answer, rating, question and the shown solution are dropped. */
+    fun remove(id: String) {
+        _state.update { it - id }
+        scheduleSave(delayMs = 0)
+    }
+
+    /** Starts a whole course from scratch (keys look like "courseId:lessonId"). */
+    fun resetCourse(courseId: String) {
+        _state.update { all -> all.filterKeys { !it.startsWith("$courseId:") } }
+        scheduleSave(delayMs = 0)
+    }
+
     fun reset() {
         _state.value = emptyMap()
         scheduleSave(delayMs = 0)

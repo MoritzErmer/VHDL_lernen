@@ -62,7 +62,8 @@ fun DiagramView(d: Node.Diagram, modifier: Modifier = Modifier) {
     ) {
         val inner = maxWidth - 16.dp
         val scale = (inner.value / d.width).coerceIn(MIN_SCALE, 1.4f)
-        Box(Modifier.horizontalScroll(rememberScrollState()).padding(8.dp)) {
+        val h = rememberScrollState()
+        Box(Modifier.scrollbars(h, null, p.line.copy(alpha = 0.5f), p.muted).horizontalScroll(h).padding(start = 8.dp, end = 8.dp, top = 8.dp, bottom = 12.dp)) {
             Canvas(Modifier.size((d.width * scale).dp, (d.height * scale).dp)) {
                 val f = scale * density
                 d.prims.forEach { prim -> draw(prim, f, p, fontScale, measurer) }

@@ -13,6 +13,12 @@ import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.OpenInFull
+import androidx.compose.material.icons.automirrored.filled.Undo
+import androidx.compose.material.icons.automirrored.filled.Redo
+import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.runtime.mutableIntStateOf
+import de.vhdllernen.app.logic.EditHistory
+import de.vhdllernen.app.logic.Snapshot
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -102,7 +108,11 @@ fun Modifier.bleed(each: Dp) = layout { measurable, constraints ->
 @Composable
 private fun KeyBar(value: TextFieldValue, onChange: (TextFieldValue) -> Unit, lang: String, modifier: Modifier = Modifier) {
     val p = LocalPalette.current
-    Row(modifier.horizontalScroll(rememberScrollState()), horizontalArrangement = Arrangement.spacedBy(6.dp)) {
+    val h = rememberScrollState()
+    Row(
+        modifier.scrollbars(h, null, p.line.copy(alpha = 0.5f), p.muted).horizontalScroll(h).padding(bottom = 8.dp),
+        horizontalArrangement = Arrangement.spacedBy(6.dp),
+    ) {
         (if (lang == "ikr") ikrKeys else vhdlKeys).forEach { (label, insert) ->
             Box(
                 Modifier.background(p.surface, Corner).border(1.dp, p.line, Corner)
@@ -134,7 +144,10 @@ private fun EditorField(
         val minH = minHeight
         val vertical = rememberScrollState()
         val horizontal = rememberScrollState()
-        Box(Modifier.verticalScroll(vertical).then(if (code) Modifier.horizontalScroll(horizontal) else Modifier)) {
+        Box(
+            Modifier.scrollbars(if (code) horizontal else null, vertical, p.line.copy(alpha = 0.5f), p.muted)
+                .verticalScroll(vertical).then(if (code) Modifier.horizontalScroll(horizontal) else Modifier)
+        ) {
             BasicTextField(
                 value = value,
                 onValueChange = { onChange(if (code && lang == "vhdl") autoIndent(value, it) else it) },
@@ -147,7 +160,7 @@ private fun EditorField(
                 ),
                 modifier = (if (code) Modifier.widthIn(min = minW) else Modifier.width(minW))
                     .heightIn(min = minH)
-                    .padding(horizontal = 10.dp, vertical = 10.dp),
+                    .padding(start = 10.dp, end = 14.dp, top = 10.dp, bottom = 14.dp),
                 decorationBox = { inner ->
                     Box {
                         if (value.text.isEmpty()) Text(placeholder, style = if (code) Type.code else Type.body, color = p.muted)
@@ -157,6 +170,24 @@ private fun EditorField(
             )
         }
     }
+}
+
+@Composable
+private fun EditorButton(icon: ImageVector, description: String, enabled: Boolean, onClick: () -> Unit) {
+    val p = LocalPalette.current
+    Box(
+        Modifier.padding(start = 6.dp).size(38.dp).border(1.dp, p.line, Corner)
+            .clickable(enabled = enabled, onClick = onClick),
+        contentAlignment = Alignment.Center,
+    ) { Icon(icon, contentDescription = description, tint = if (enabled) p.ink else p.line, modifier = Modifier.size(18.dp)) }
+}
+
+/** Undo and redo buttons; [version] only forces a recomposition after each step. */
+@Composable
+private fun UndoRedo(history: EditHistory, version: Int, apply: (Snapshot) -> Unit) {
+    check(version >= 0)
+    EditorButton(Icons.AutoMirrored.Filled.Undo, "Rückgängig", history.canUndo) { history.undo()?.let(apply) }
+    EditorButton(Icons.AutoMirrored.Filled.Redo, "Wiederholen", history.canRedo) { history.redo()?.let(apply) }
 }
 
 /**
@@ -172,19 +203,30 @@ fun AnswerEditor(
     lang: String = "vhdl",
     modifier: Modifier = Modifier,
     title: String = if (code) "Deine Lösung" else "Deine Antwort",
+    historyKey: Any = Unit,
 ) {
     val p = LocalPalette.current
     var fullscreen by remember { mutableStateOf(false) }
+    val history = remember(historyKey) { EditHistory(Snapshot(value.text, value.selection.end)) }
+    var version by remember(historyKey) { mutableIntStateOf(0) }
+    // Every change goes through the history, so undo also covers the extra keys and auto-indent.
+    val edit: (TextFieldValue) -> Unit = { v ->
+        history.record(v.text, v.selection.end)
+        version++
+        onChange(v)
+    }
+    val apply: (Snapshot) -> Unit = { s ->
+        version++
+        onChange(TextFieldValue(s.text, TextRange(s.cursor.coerceIn(0, s.text.length))))
+    }
     Column(modifier.bleed(10.dp), verticalArrangement = Arrangement.spacedBy(6.dp)) {
-        Row(verticalAlignment = Alignment.CenterVertically) {
-            if (code) KeyBar(value, onChange, lang, Modifier.weight(1f)) else Spacer(Modifier.weight(1f))
-            Box(
-                Modifier.padding(start = 6.dp).size(38.dp).border(1.dp, p.line, Corner).clickable { fullscreen = true },
-                contentAlignment = Alignment.Center,
-            ) { Icon(Icons.Filled.OpenInFull, contentDescription = "Im Vollbild bearbeiten", tint = p.ink, modifier = Modifier.size(18.dp)) }
+        Row(verticalAlignment = Alignment.Top) {
+            if (code) KeyBar(value, edit, lang, Modifier.weight(1f)) else Spacer(Modifier.weight(1f))
+            UndoRedo(history, version, apply)
+            EditorButton(Icons.Filled.OpenInFull, "Im Vollbild bearbeiten", true) { fullscreen = true }
         }
         EditorField(
-            value, onChange, code, placeholder, lang,
+            value, edit, code, placeholder, lang,
             Modifier.fillMaxWidth().heightIn(min = if (code) 200.dp else 110.dp, max = if (code) 420.dp else 300.dp),
         )
     }
@@ -199,13 +241,14 @@ fun AnswerEditor(
             ) {
                 Row(Modifier.fillMaxWidth().height(52.dp), verticalAlignment = Alignment.CenterVertically) {
                     Text(title, style = Type.body.copy(fontWeight = FontWeight.SemiBold), color = p.ink, modifier = Modifier.weight(1f))
+                    UndoRedo(history, version, apply)
                     Text(
                         "Fertig", style = Type.body.copy(fontWeight = FontWeight.SemiBold), color = p.accent,
                         modifier = Modifier.clickable { fullscreen = false }.padding(12.dp),
                     )
                 }
-                if (code) KeyBar(value, onChange, lang)
-                EditorField(value, onChange, code, placeholder, lang, Modifier.fillMaxWidth().weight(1f).padding(bottom = 8.dp))
+                if (code) KeyBar(value, edit, lang)
+                EditorField(value, edit, code, placeholder, lang, Modifier.fillMaxWidth().weight(1f).padding(bottom = 8.dp))
             }
         }
     }

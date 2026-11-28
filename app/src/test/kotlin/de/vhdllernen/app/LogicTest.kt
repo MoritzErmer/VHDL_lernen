@@ -5,6 +5,8 @@ import de.vhdllernen.app.data.ContentParser
 import de.vhdllernen.app.data.Progress
 import de.vhdllernen.app.data.Rating
 import de.vhdllernen.app.logic.Compare
+import de.vhdllernen.app.logic.EditHistory
+import de.vhdllernen.app.logic.Snapshot
 import de.vhdllernen.app.logic.Export
 import de.vhdllernen.app.logic.ExportOptions
 import de.vhdllernen.app.logic.ExportScope
@@ -177,5 +179,25 @@ class LogicTest {
         val review = Export.build(course, progress, ExportOptions(scope = ExportScope.REVIEW), "27.11.2026")
         assertFalse(review.contains("## A01 · "))
         assertTrue(review.contains("## A03 · "))
+    }
+
+    @Test
+    fun undoGroupsTypingAndRestoresDeletes() {
+        val h = EditHistory(Snapshot("", 0))
+        var t = ""
+        for (c in "signal a;") { t += c; h.record(t, t.length) }
+        // "signal", " ", "a;" are three steps
+        assertEquals("signal ", h.undo()!!.text)
+        assertEquals("signal", h.undo()!!.text)
+        assertEquals("", h.undo()!!.text)
+        assertFalse(h.canUndo)
+        assertEquals("signal", h.redo()!!.text)
+        // deleting is its own step and can be undone
+        h.record("sig", 3)
+        assertFalse(h.canRedo)
+        assertEquals("signal", h.undo()!!.text)
+        // moving the cursor alone is no step
+        h.record("signal", 2)
+        assertEquals("", h.undo()!!.text)
     }
 }

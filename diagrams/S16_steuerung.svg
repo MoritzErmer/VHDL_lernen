@@ -1,0 +1,77 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 501.0 596.0" width="501.0" height="596.0" role="img" aria-label="S16_steuerung">
+<style>.s-ink{stroke:#151A22}.f-ink{fill:#151A22}.s-line{stroke:#5A6474}.f-line{fill:#5A6474}.s-accent{stroke:#1F45C4}.f-accent{fill:#1F45C4}.s-soft{stroke:#E3E9FB}.f-soft{fill:#E3E9FB}.s-surface{stroke:#FFFFFF}.f-surface{fill:#FFFFFF}.s-grid{stroke:#D9DEE7}.f-grid{fill:#D9DEE7}@media (prefers-color-scheme: dark){.s-ink{stroke:#E5E9F0}.f-ink{fill:#E5E9F0}.s-line{stroke:#97A1B0}.f-line{fill:#97A1B0}.s-accent{stroke:#8CA6FF}.f-accent{fill:#8CA6FF}.s-soft{stroke:#1E2848}.f-soft{fill:#1E2848}.s-surface{stroke:#161A21}.f-surface{fill:#161A21}.s-grid{stroke:#283040}.f-grid{fill:#283040}}text{font-family:Helvetica,Arial,sans-serif}.m{font-family:Menlo,Consolas,monospace}</style>
+<rect width="100%" height="100%" class="f-surface"/>
+<path d="M481.5,6.0 C481.5,6.0 350.5,6.0 350.5,6.0 C344.5,6.0 338.5,12.0 338.5,18.0 C338.5,18.0 338.5,41.0 338.5,41.0 C338.5,47.0 344.5,53.0 350.5,53.0 C350.5,53.0 481.5,53.0 481.5,53.0 C487.5,53.0 493.5,47.0 493.5,41.0 C493.5,41.0 493.5,18.0 493.5,18.0 C493.5,12.0 487.5,6.0 481.5,6.0" stroke-width="1.4" class="s-ink" fill="none"/>
+<text x="416.0" y="19.6" font-size="12.0" text-anchor="middle" class="f-ink">init</text>
+<text x="416.0" y="32.6" font-size="12.0" text-anchor="middle" class="f-ink">next_rnd, res_step,</text>
+<text x="416.0" y="45.6" font-size="12.0" text-anchor="middle" class="f-ink">res_score, res_duration</text>
+<path d="M394.0,95.0 C394.0,95.0 346.0,95.0 346.0,95.0 C340.0,95.0 334.0,101.0 334.0,107.0 C334.0,107.0 334.0,119.0 334.0,119.0 C334.0,125.0 340.0,131.0 346.0,131.0 C346.0,131.0 394.0,131.0 394.0,131.0 C400.0,131.0 406.0,125.0 406.0,119.0 C406.0,119.0 406.0,107.0 406.0,107.0 C406.0,101.0 400.0,95.0 394.0,95.0" stroke-width="1.4" class="s-ink" fill="none"/>
+<text x="370.0" y="109.6" font-size="12.0" text-anchor="middle" class="f-ink">store</text>
+<text x="370.0" y="122.6" font-size="12.0" text-anchor="middle" class="f-ink">store_rnd</text>
+<path d="M372.5,162.0 C372.5,162.0 255.5,162.0 255.5,162.0 C249.5,162.0 243.5,168.0 243.5,174.0 C243.5,174.0 243.5,186.0 243.5,186.0 C243.5,192.0 249.5,198.0 255.5,198.0 C255.5,198.0 372.5,198.0 372.5,198.0 C378.5,198.0 384.5,192.0 384.5,186.0 C384.5,186.0 384.5,174.0 384.5,174.0 C384.5,168.0 378.5,162.0 372.5,162.0" stroke-width="1.4" class="s-ink" fill="none"/>
+<text x="314.0" y="176.6" font-size="12.0" text-anchor="middle" class="f-ink">load</text>
+<text x="314.0" y="189.6" font-size="12.0" text-anchor="middle" class="f-ink">restore_rnd, res_step</text>
+<path d="M366.5,229.0 C366.5,229.0 261.5,229.0 261.5,229.0 C255.5,229.0 249.5,235.0 249.5,241.0 C249.5,241.0 249.5,253.0 249.5,253.0 C249.5,259.0 255.5,265.0 261.5,265.0 C261.5,265.0 366.5,265.0 366.5,265.0 C372.5,265.0 378.5,259.0 378.5,253.0 C378.5,253.0 378.5,241.0 378.5,241.0 C378.5,235.0 372.5,229.0 366.5,229.0" stroke-width="1.4" class="s-accent" fill="none"/>
+<text x="314.0" y="243.6" font-size="12.0" text-anchor="middle" class="f-accent">show</text>
+<text x="314.0" y="256.6" font-size="12.0" text-anchor="middle" class="f-accent">led_on, start_timer</text>
+<path d="M313.5,307.0 C313.5,307.0 254.5,307.0 254.5,307.0 C248.5,307.0 242.5,313.0 242.5,319.0 C242.5,319.0 242.5,331.0 242.5,331.0 C242.5,337.0 248.5,343.0 254.5,343.0 C254.5,343.0 313.5,343.0 313.5,343.0 C319.5,343.0 325.5,337.0 325.5,331.0 C325.5,331.0 325.5,319.0 325.5,319.0 C325.5,313.0 319.5,307.0 313.5,307.0" stroke-width="1.4" class="s-ink" fill="none"/>
+<text x="284.0" y="321.6" font-size="12.0" text-anchor="middle" class="f-ink">pause</text>
+<text x="284.0" y="334.6" font-size="12.0" text-anchor="middle" class="f-ink">start_timer</text>
+<path d="M402.5,397.0 C402.5,397.0 301.5,397.0 301.5,397.0 C295.5,397.0 289.5,403.0 289.5,409.0 C289.5,409.0 289.5,421.0 289.5,421.0 C289.5,427.0 295.5,433.0 301.5,433.0 C301.5,433.0 402.5,433.0 402.5,433.0 C408.5,433.0 414.5,427.0 414.5,421.0 C414.5,421.0 414.5,409.0 414.5,409.0 C414.5,403.0 408.5,397.0 402.5,397.0" stroke-width="1.4" class="s-ink" fill="none"/>
+<text x="352.0" y="411.6" font-size="12.0" text-anchor="middle" class="f-ink">show_next</text>
+<text x="352.0" y="424.6" font-size="12.0" text-anchor="middle" class="f-ink">next_rnd, inc_step</text>
+<path d="M252.5,397.0 C252.5,397.0 135.5,397.0 135.5,397.0 C129.5,397.0 123.5,403.0 123.5,409.0 C123.5,409.0 123.5,421.0 123.5,421.0 C123.5,427.0 129.5,433.0 135.5,433.0 C135.5,433.0 252.5,433.0 252.5,433.0 C258.5,433.0 264.5,427.0 264.5,421.0 C264.5,421.0 264.5,409.0 264.5,409.0 C264.5,403.0 258.5,397.0 252.5,397.0" stroke-width="1.4" class="s-ink" fill="none"/>
+<text x="194.0" y="411.6" font-size="12.0" text-anchor="middle" class="f-ink">reload</text>
+<text x="194.0" y="424.6" font-size="12.0" text-anchor="middle" class="f-ink">restore_rnd, res_step</text>
+<path d="M273.0,464.0 C273.0,464.0 229.0,464.0 229.0,464.0 C223.0,464.0 217.0,470.0 217.0,476.0 C217.0,476.0 217.0,488.0 217.0,488.0 C217.0,494.0 223.0,500.0 229.0,500.0 C229.0,500.0 273.0,500.0 273.0,500.0 C279.0,500.0 285.0,494.0 285.0,488.0 C285.0,488.0 285.0,476.0 285.0,476.0 C285.0,470.0 279.0,464.0 273.0,464.0" stroke-width="1.4" class="s-accent" fill="none"/>
+<text x="251.0" y="485.1" font-size="12.0" text-anchor="middle" class="f-accent">wait_key</text>
+<path d="M451.5,554.0 C451.5,554.0 350.5,554.0 350.5,554.0 C344.5,554.0 338.5,560.0 338.5,566.0 C338.5,566.0 338.5,578.0 338.5,578.0 C338.5,584.0 344.5,590.0 350.5,590.0 C350.5,590.0 451.5,590.0 451.5,590.0 C457.5,590.0 463.5,584.0 463.5,578.0 C463.5,578.0 463.5,566.0 463.5,566.0 C463.5,560.0 457.5,554.0 451.5,554.0" stroke-width="1.4" class="s-ink" fill="none"/>
+<text x="401.0" y="568.6" font-size="12.0" text-anchor="middle" class="f-ink">key_ok</text>
+<text x="401.0" y="581.6" font-size="12.0" text-anchor="middle" class="f-ink">next_rnd, inc_step</text>
+<path d="M152.0,554.0 C152.0,554.0 18.0,554.0 18.0,554.0 C12.0,554.0 6.0,560.0 6.0,566.0 C6.0,566.0 6.0,578.0 6.0,578.0 C6.0,584.0 12.0,590.0 18.0,590.0 C18.0,590.0 152.0,590.0 152.0,590.0 C158.0,590.0 164.0,584.0 164.0,578.0 C164.0,578.0 164.0,566.0 164.0,566.0 C164.0,560.0 158.0,554.0 152.0,554.0" stroke-width="1.4" class="s-ink" fill="none"/>
+<text x="85.0" y="568.6" font-size="12.0" text-anchor="middle" class="f-ink">won</text>
+<text x="85.0" y="581.6" font-size="12.0" text-anchor="middle" class="f-ink">inc_score, dec_duration</text>
+<path d="M301.5,554.0 C301.5,554.0 200.5,554.0 200.5,554.0 C194.5,554.0 188.5,560.0 188.5,566.0 C188.5,566.0 188.5,578.0 188.5,578.0 C188.5,584.0 194.5,590.0 200.5,590.0 C200.5,590.0 301.5,590.0 301.5,590.0 C307.5,590.0 313.5,584.0 313.5,578.0 C313.5,578.0 313.5,566.0 313.5,566.0 C313.5,560.0 307.5,554.0 301.5,554.0" stroke-width="1.4" class="s-ink" fill="none"/>
+<text x="251.0" y="568.6" font-size="12.0" text-anchor="middle" class="f-ink">lost</text>
+<text x="251.0" y="581.6" font-size="12.0" text-anchor="middle" class="f-ink">all_on, start_timer</text>
+<path d="M392.2,53.4 C388.4,58.0 384.8,62.9 382.0,68.0 C378.8,73.9 376.4,80.6 374.6,87.1" stroke-width="1.4" class="s-line" fill="none"/>
+<polygon points="377.3,87.9 372.7,95.0 371.9,86.6" stroke-width="1.4" class="s-line f-line"/>
+<text x="408.0" y="76.8" font-size="11.0" text-anchor="middle" class="f-ink">key_valid</text>
+<path d="M355.3,131.1 C348.9,138.5 341.3,147.3 334.4,155.3" stroke-width="1.4" class="s-line" fill="none"/>
+<polygon points="336.1,157.6 328.8,161.8 331.9,153.9" stroke-width="1.4" class="s-line f-line"/>
+<path d="M314.0,198.1 C314.0,204.9 314.0,212.9 314.0,220.4" stroke-width="1.4" class="s-line" fill="none"/>
+<polygon points="316.8,220.8 314.0,228.8 311.2,220.8" stroke-width="1.4" class="s-line f-line"/>
+<path d="M307.2,265.2 C303.2,275.2 298.2,288.0 293.8,299.1" stroke-width="1.4" class="s-line" fill="none"/>
+<polygon points="296.3,300.4 290.8,306.8 291.1,298.4" stroke-width="1.4" class="s-line f-line"/>
+<text x="322.0" y="288.8" font-size="11.0" text-anchor="middle" class="f-ink">expired</text>
+<path d="M279.1,343.0 C276.7,354.9 275.7,370.5 283.0,382.0 C285.4,385.8 288.4,389.1 291.7,392.0" stroke-width="1.4" class="s-line" fill="none"/>
+<polygon points="293.4,389.8 298.1,396.9 290.0,394.3" stroke-width="1.4" class="s-line f-line"/>
+<text x="333.0" y="366.8" font-size="11.0" text-anchor="middle" class="f-ink">expired and</text>
+<text x="333.0" y="378.8" font-size="11.0" text-anchor="middle" class="f-ink">not step_eq_score</text>
+<path d="M242.2,330.0 C224.0,334.1 204.2,342.1 193.0,358.0 C186.8,366.8 186.1,378.4 187.4,388.8" stroke-width="1.4" class="s-line" fill="none"/>
+<polygon points="190.2,388.4 188.7,396.8 184.6,389.3" stroke-width="1.4" class="s-line f-line"/>
+<text x="232.5" y="366.8" font-size="11.0" text-anchor="middle" class="f-ink">expired and</text>
+<text x="232.5" y="378.8" font-size="11.0" text-anchor="middle" class="f-ink">step_eq_score</text>
+<path d="M374.8,396.7 C379.0,392.4 382.7,387.4 385.0,382.0 C389.2,372.2 387.3,368.4 385.0,358.0 C376.8,320.7 371.5,310.8 349.0,280.0 C346.7,276.8 344.0,273.8 341.2,270.8" stroke-width="1.4" class="s-line" fill="none"/>
+<polygon points="339.1,272.6 335.4,265.0 343.0,268.7" stroke-width="1.4" class="s-line f-line"/>
+<path d="M209.0,433.1 C215.6,440.6 223.5,449.6 230.6,457.8" stroke-width="1.4" class="s-line" fill="none"/>
+<polygon points="232.8,455.9 235.9,463.8 228.6,459.6" stroke-width="1.4" class="s-line f-line"/>
+<path d="M270.4,500.0 C287.9,515.4 311.9,536.0 317.0,539.0 C324.3,543.3 332.3,547.2 340.4,550.8" stroke-width="1.4" class="s-line" fill="none"/>
+<polygon points="341.4,548.2 347.7,553.9 339.3,553.3" stroke-width="1.4" class="s-line f-line"/>
+<text x="347.5" y="523.8" font-size="11.0" text-anchor="middle" class="f-ink">richtig,</text>
+<text x="347.5" y="535.8" font-size="11.0" text-anchor="middle" class="f-ink">nicht fertig</text>
+<path d="M218.6,500.2 C191.6,514.5 153.2,534.9 124.4,550.1" stroke-width="1.4" class="s-line" fill="none"/>
+<polygon points="125.7,552.6 117.3,553.9 123.1,547.6" stroke-width="1.4" class="s-line f-line"/>
+<text x="215.0" y="523.8" font-size="11.0" text-anchor="middle" class="f-ink">richtig</text>
+<text x="215.0" y="535.8" font-size="11.0" text-anchor="middle" class="f-ink">und fertig</text>
+<path d="M251.0,500.4 C251.0,513.4 251.0,531.3 251.0,545.8" stroke-width="1.4" class="s-line" fill="none"/>
+<polygon points="253.8,546.0 251.0,554.0 248.2,546.0" stroke-width="1.4" class="s-line f-line"/>
+<text x="267.5" y="529.8" font-size="11.0" text-anchor="middle" class="f-ink">falsch</text>
+<path d="M398.9,553.9 C396.4,541.4 391.2,524.9 380.0,515.0 C356.4,494.0 321.2,486.3 293.5,483.7" stroke-width="1.4" class="s-line" fill="none"/>
+<polygon points="292.9,486.5 285.2,483.0 293.4,480.9" stroke-width="1.4" class="s-line f-line"/>
+<path d="M85.0,553.8 C85.0,536.1 85.0,507.6 85.0,483.0 C85.0,246.0 85.0,246.0 85.0,246.0 C85.0,213.9 169.2,196.9 235.4,188.4" stroke-width="1.4" class="s-line" fill="none"/>
+<polygon points="235.1,185.6 243.4,187.4 235.8,191.1" stroke-width="1.4" class="s-line f-line"/>
+<path d="M313.8,556.5 C346.6,548.9 380.6,540.7 384.0,539.0 C419.4,521.5 453.0,522.5 453.0,483.0 C453.0,112.0 453.0,112.0 453.0,112.0 C453.0,93.7 445.2,75.0 436.7,60.1" stroke-width="1.4" class="s-line" fill="none"/>
+<polygon points="434.2,61.5 432.6,53.2 439.1,58.6" stroke-width="1.4" class="s-line f-line"/>
+<text x="474.0" y="288.8" font-size="11.0" text-anchor="middle" class="f-ink">expired</text>
+</svg>

@@ -25,5 +25,7 @@ r=am_rechner
 ./sim.sh tb_bausteine          $r/L11/bausteine.vhd $r/L11/tb_bausteine.vhd
 ./sim.sh tb_klausur            $r/L09/crc.vhd $r/L09/mult.vhd $r/L09/tb_klausur.vhd
 ./sim.sh tb_projekte           $r/L12/projekte_fsm.vhd $r/L12/projekte_klausur.vhd $r/L12/tb_projekte.vhd
+./sim.sh tb_senso              $r/L13/senso.vhd $r/L13/tb_senso.vhd
+STOP=1ms ./sim.sh galois_lfsr_tb $r/L13/senso.vhd $r/L13/lfsr_test.vhd
 mkdir -p build/extra && ghdl -a --std=08 --workdir=build/extra $r/L01/and_2.vhd $r/L05/d_ff.vhd
 echo "Alle Beispiele erfolgreich simuliert."

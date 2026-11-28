@@ -1,6 +1,6 @@
 # P18 · Klausur F24: Kellerautomat für Klammerausdrücke
 
-14 min · zurück: [P17](P17_stack.md) · weiter: [Übersicht](../README.md)
+14 min · zurück: [P17](P17_stack.md) · weiter: [S01](S01_senso_ueberblick.md)
 
 ## Ziel
 Einen Mealy-Automaten schreiben, der zusammen mit dem Stack verschachtelte Ausdrücke prüft.

@@ -39,7 +39,7 @@ Erklärung** – Wiederholung ist der eigentliche Lerneffekt.
 | A02 | [Die Entity](haeppchen/A02_entity.md) | Ports, Richtungen, `;`-Regel |
 | A03 | [Die Architecture](haeppchen/A03_architecture.md) | Schaltbild → Code |
 | A04 | [std_logic](haeppchen/A04_std_logic.md) | 9 Werte, `'U'`, `'-'` |
-| A05 | [Vektoren](haeppchen/A05_vektoren.md) | Index, Slice, `&`, `others` |
+| A05 | [Vektoren](haeppchen/A05_vektoren.md) | Index, Slice, `&`, `and`, `others` |
 | A06 | [Syntax-Fallen](haeppchen/A06_fallen_library.md) | Fehlersuche |
 
 ## Block B – Nebenläufige Anweisungen
@@ -200,6 +200,32 @@ Komplett selbst programmieren: Automaten, Steuer- und Rechenwerke, nach Altklaus
 | P16 | [Klausur F23: Perioden-ROM und Synthesizer verdrahten](haeppchen/P16_perioden_rom.md) | 8 min |
 | P17 | [Klausur F24: Stapelspeicher (Stack)](haeppchen/P17_stack.md) | 10 min |
 | P18 | [Klausur F24: Kellerautomat für Klammerausdrücke](haeppchen/P18_kellerautomat.md) | 14 min |
+
+## Block S – Projekt Senso
+Das Merkspiel Senso komplett in VHDL, Komponente für Komponente (nach Übung 2 „Senso“): Zeitgeber, Taster, Zufall, Zähler, Anzeige, Steuerung.
+
+| | Häppchen | Dauer |
+|---|---|---|
+| S01 | [Projekt Senso: das ganze System im Überblick](haeppchen/S01_senso_ueberblick.md) | 5 min |
+| S02 | [Senso: Zeitgeber mit fester Dauer](haeppchen/S02_timer_konstant.md) | 8 min |
+| S03 | [Senso: Zeitgeber testen](haeppchen/S03_timer_testen.md) | 7 min |
+| S04 | [Senso: Zeitgeber wird schneller](haeppchen/S04_timer_variabel.md) | 7 min |
+| S05 | [Senso: Synchronisierer – vier Schreibweisen](haeppchen/S05_synchronisierer_varianten.md) | 8 min |
+| S06 | [Senso: Impulsverkürzer als Moore-Automat](haeppchen/S06_impulsverkuerzer.md) | 9 min |
+| S07 | [Senso: Taster testen](haeppchen/S07_button_testen.md) | 5 min |
+| S08 | [Senso: Eingabeeinheit mit vier Tastern](haeppchen/S08_input.md) | 8 min |
+| S09 | [Senso: rückgekoppeltes Schieberegister von Hand](haeppchen/S09_lfsr_verstehen.md) | 8 min |
+| S10 | [Senso: LFSR mit einstellbarer Rückkopplung](haeppchen/S10_lfsr_code.md) | 7 min |
+| S11 | [Senso: LFSR mit for-Schleife](haeppchen/S11_lfsr_schleife.md) | 6 min |
+| S12 | [Senso: Testbench aus tester und analyzer](haeppchen/S12_tester_analyzer.md) | 10 min |
+| S13 | [Senso: Testbench verdrahten und Muster finden](haeppchen/S13_lfsr_testbench.md) | 7 min |
+| S14 | [Senso: Zufall mit Startwert-Speicher](haeppchen/S14_random.md) | 9 min |
+| S15 | [Senso: Typen für die 7-Segment-Anzeige](haeppchen/S15_counter_typen.md) | 8 min |
+| S16 | [Senso: Zählereinheit](haeppchen/S16_counter.md) | 9 min |
+| S17 | [Senso: Ausgabeeinheit](haeppchen/S17_output.md) | 6 min |
+| S18 | [Senso: Hauptsteuerung entwerfen](haeppchen/S18_steuerung_entwurf.md) | 12 min |
+| S19 | [Senso: Hauptsteuerung programmieren](haeppchen/S19_steuerung_code.md) | 14 min |
+| S20 | [Senso: alles verbinden und das Spiel testen](haeppchen/S20_senso_gesamt.md) | 12 min |
 
 ---
 
