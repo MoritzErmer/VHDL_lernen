@@ -73,6 +73,20 @@ jobs:
           ./am_rechner/alle_testen.sh 2>&1 | tee /tmp/sim.log
           if grep -q "(assertion error)" /tmp/sim.log; then echo "::error::Assertion fehlgeschlagen"; exit 1; fi
 
+  ra-programme:
+    # Every IKR RISC II program in ra/am_rechner/ must pass its test cases in the simulator of the
+    # Rechnerarchitektur repository.
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: Programme im IKR-RISC-II-Simulator testen
+        run: |
+          git clone --depth 1 https://github.com/MoritzErmer/Rechnerarchtektur_Lernen "$RUNNER_TEMP/ra"
+          node ra/am_rechner/alle_testen.js "$RUNNER_TEMP/ra"
+
   screenshots:
     # Renders the app screens (Robolectric, no emulator) and commits them to docs/screenshots on the
     # default branch, so layout changes can be reviewed without a phone. Pushes made with the workflow

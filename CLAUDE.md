@@ -6,6 +6,8 @@ nach dem Muster von DesignLanguages.
 
 - `haeppchen/`: die Lerneinheiten (Markdown, Format siehe vorhandene Dateien; Reihenfolge/Blöcke aus `README.md`).
 - `am_rechner/`: VHDL-Beispiele mit Testbenches, alle mit GHDL geprüft (`./am_rechner/alle_testen.sh`).
+- `ra/`: zusätzliche Häppchen fürs Fach Rechnerarchitektur (Blöcke U, W; die App hängt sie hinter die Blöcke aus dem RA-Repo).
+  Programme in `ra/am_rechner/*.s` mit `; @test`-Zeilen, geprüft mit `node ra/am_rechner/alle_testen.js` (Simulator aus dem RA-Repo).
 - `content/haeppchen.json`: von `tools/build_content.py` erzeugt (beide Fächer), wird in die APK gepackt.
 - `app/`: Android-App (Kotlin/Compose). Inhalte werden nativ gerendert, nie als HTML/WebView.
 

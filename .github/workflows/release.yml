@@ -10,7 +10,7 @@ on:
   push:
     branches-ignore: ["dependabot/**"]
     # Lesson texts only (haeppchen/*.md, README) are published by content.yml without a new APK.
-    paths-ignore: ["**.md", "docs/**", "am_rechner/**", "meine_dateien/**", "sim.sh"]
+    paths-ignore: ["**.md", "docs/**", "am_rechner/**", "ra/am_rechner/**", "meine_dateien/**", "sim.sh"]
   workflow_dispatch:
 
 permissions: {}

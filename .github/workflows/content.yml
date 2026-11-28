@@ -7,7 +7,7 @@ name: Inhalte veröffentlichen
 on:
   push:
     branches-ignore: ["dependabot/**"]
-    paths: ["haeppchen/**", "README.md", "tools/build_content.py", "tools/stamp_content.py"]
+    paths: ["haeppchen/**", "README.md", "ra/haeppchen/**", "ra/README.md", "tools/build_content.py", "tools/stamp_content.py"]
   schedule:
     - cron: "17 4 * * *"
   workflow_dispatch:

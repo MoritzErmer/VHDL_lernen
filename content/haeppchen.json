@@ -1,6 +1,6 @@
 {
  "schema": 1,
- "version": "3b664b17ff8d",
+ "version": "161ae3ddf69b",
  "revision": 0,
  "courses": [
   {
@@ -32721,6 +32721,14 @@
     {
      "id": "C",
      "name": "Unterprogramme und Tracen"
+    },
+    {
+     "id": "U",
+     "name": "Übungen nachgebaut"
+    },
+    {
+     "id": "W",
+     "name": "Werkstatt: komplett selbst programmieren"
     }
    ],
    "items": [
@@ -34124,6 +34132,2152 @@
       {
        "t": "p",
        "s": "**F26 A1 F7–F10**, die ganze zweite Hälfte von Aufgabe 1. Im Simulator: `branchless.s` (zeigt 13 Takte pro Durchlauf mit idealer Sprungvorhersage)."
+      }
+     ]
+    },
+    {
+     "id": "U01",
+     "block": "U",
+     "title": "Warum Unterprogramme einen Stapel brauchen",
+     "min": 5,
+     "mode": "text",
+     "starter": "",
+     "solutionCode": "",
+     "ziel": [
+      {
+       "t": "p",
+       "s": "Begründen, warum Parameter, Rücksprungadresse und lokale Variablen auf einen Stapel gehören, und ihn Schritt für Schritt zeichnen."
+      }
+     ],
+     "erklaerung": [
+      {
+       "t": "p",
+       "s": "Nach **Übung 0, Aufgabe 0.1** (sinngemäß): Eine Maschine hat nur einen Stapelzeiger `SP` und ein Datenregister. Ein Aufruf `sum(7, 5)` legt die Parameter auf den Stapel, springt mit `bsr` ins Unterprogramm (Rücksprungadresse kommt ebenfalls auf den Stapel) und räumt nach der Rückkehr auf."
+      },
+      {
+       "t": "p",
+       "s": "Warum nicht einfach feste Speicherstellen?"
+      },
+      {
+       "t": "ul",
+       "items": [
+        "Ruft ein Unterprogramm sich selbst (Rekursion) oder ein anderes auf, das wieder dasselbe aufruft, würden die festen Stellen **überschrieben**, solange der erste Aufruf noch läuft.",
+        "Die Daten müssen genau **so lange** leben wie der Aufruf: beim Aufruf anlegen, bei der Rückkehr freigeben – in umgekehrter Reihenfolge. Das ist **LIFO**, also ein Stapel."
+       ]
+      },
+      {
+       "t": "p",
+       "s": "Ablauf für `sum(7, 5)` (Stapel wächst nach unten, `SP` zeigt aufs oberste Element):"
+      },
+      {
+       "t": "ol",
+       "items": [
+        "`move #7,-(sp)`: 7 liegt oben.",
+        "`move #5,-(sp)`, `bsr sum`: 5 und die Rücksprungadresse RA kommen dazu.",
+        "Im Unterprogramm: Parameter über `SP`-relative Adressen lesen, `(2,sp)` und `(4,sp)`.",
+        "`rts` holt RA vom Stapel.",
+        "`add #4,sp` gibt die beiden Parameter frei."
+       ]
+      }
+     ],
+     "aufgabe": [
+      {
+       "t": "ol",
+       "items": [
+        "Zeichne den Stapel nach Schritt 2 und nach Schritt 5.",
+        "Warum steht in Schritt 3 `(2,sp)` für den **zweiten** Parameter (5) und `(4,sp)` für den ersten (7)?"
+       ]
+      }
+     ],
+     "aufgabeMd": "1. Zeichne den Stapel nach Schritt 2 und nach Schritt 5.\n2. Warum steht in Schritt 3 `(2,sp)` für den **zweiten** Parameter (5) und `(4,sp)` für den ersten (7)?",
+     "loesung": [
+      {
+       "t": "ol",
+       "items": [
+        "Nach Schritt 2, von oben (SP) nach unten: **RA**, **5**, **7**. Nach Schritt 5 ist der Stapel wieder wie vorher, SP zeigt auf den alten Wert.",
+        "Direkt an SP liegt die Rücksprungadresse, die `bsr` zuletzt abgelegt hat. Darunter liegt der **zuletzt** abgelegte Parameter 5, noch tiefer die 7. Je später ein Wert auf den Stapel kam, desto näher liegt er an SP und desto kleiner ist sein Offset."
+       ]
+      }
+     ],
+     "loesungMd": "1. Nach Schritt 2, von oben (SP) nach unten: **RA**, **5**, **7**. Nach Schritt 5 ist der Stapel wieder wie vorher, SP zeigt auf den alten Wert.\n2. Direkt an SP liegt die Rücksprungadresse, die `bsr` zuletzt abgelegt hat. Darunter liegt der **zuletzt** abgelegte Parameter 5, noch tiefer die 7. Je später ein Wert auf den Stapel kam, desto näher liegt er an SP und desto kleiner ist sein Offset.",
+     "klausur": [
+      {
+       "t": "p",
+       "s": "Stapel und Unterprogrammaufrufe sind Grundlage für C01/C02. Im IKR RISC II landet die Rücksprungadresse in `r31`, auf den Stapel muss sie erst bei verschachtelten Aufrufen (U04)."
+      }
+     ]
+    },
+    {
+     "id": "U02",
+     "block": "U",
+     "title": "Wer sichert die Register?",
+     "min": 5,
+     "mode": "text",
+     "starter": "",
+     "solutionCode": "",
+     "ziel": [
+      {
+       "t": "p",
+       "s": "Die Vor- und Nachteile von Caller-Save und Callee-Save erklären und die Calling Convention des IKR RISC II anwenden."
+      }
+     ],
+     "erklaerung": [
+      {
+       "t": "p",
+       "s": "Nach **Übung 0, Aufgabe 0.1 F3/F4** (sinngemäß): Aufrufer und Unterprogramm nutzen dieselben Register. Wer rettet die Werte?"
+      },
+      {
+       "t": "ul",
+       "items": [
+        "**Nur das Unterprogramm sichert** (Callee-Save) jedes Register, das es ändert: Es weiß nicht, ob der Wert für den Aufrufer noch wichtig ist, und sichert deshalb oft unnötig.",
+        "**Nur der Aufrufer sichert** (Caller-Save) alle Werte, die er nach dem Aufruf noch braucht: Er muss alles in den Speicher retten und verliert den Vorteil, Werte in Registern zu halten."
+       ]
+      },
+      {
+       "t": "p",
+       "s": "Lösung „best of both worlds“: Die Register werden per **Konvention** aufgeteilt. Calling Convention des IKR RISC II (wie in der praktischen Übung): `r1`–`r9` caller-save, `r10`–`r31` callee-save, Parameter in `r1`, `r2`, …, Rückgabe in `r1`, Stapelzeiger `r30` zeigt auf die zuletzt belegte Position (der Stapel wächst nach unten)."
+      },
+      {
+       "t": "p",
+       "s": "Faustregeln:"
+      },
+      {
+       "t": "ul",
+       "items": [
+        "Werte, die einen Aufruf **überleben** müssen (Schleifenzähler, Zeiger): in `r10` und höher. Dann musst du diese Register zu Beginn deines eigenen Unterprogramms sichern.",
+        "Kurzlebige Zwischenwerte: in `r1`–`r9`, die darf jedes aufgerufene Unterprogramm zerstören.",
+        "Ein Unterprogramm, das selbst `bsr`/`jsr` ausführt, muss `r31` sichern."
+       ]
+      }
+     ],
+     "aufgabe": [
+      {
+       "t": "p",
+       "s": "Ein Unterprogramm `f` nutzt die Register `r1`, `r4`, `r12` und ruft selbst `g` auf. Welche Register muss `f` auf dem Stapel sichern?"
+      }
+     ],
+     "aufgabeMd": "Ein Unterprogramm `f` nutzt die Register `r1`, `r4`, `r12` und ruft selbst `g` auf. Welche Register muss `f` auf dem Stapel sichern?",
+     "loesung": [
+      {
+       "t": "p",
+       "s": "**`r12`** (callee-save, `f` verändert es) und **`r31`** (wird durch `bsr g` überschrieben). `r1` und `r4` sind caller-save: Die darf `f` frei verändern. Wenn `f` deren Wert nach dem Aufruf von `g` noch braucht, gehört er besser gleich in ein callee-save Register."
+      }
+     ],
+     "loesungMd": "**`r12`** (callee-save, `f` verändert es) und **`r31`** (wird durch `bsr g` überschrieben). `r1` und `r4` sind caller-save: Die darf `f` frei verändern. Wenn `f` deren Wert nach dem Aufruf von `g` noch braucht, gehört er besser gleich in ein callee-save Register.",
+     "klausur": [
+      {
+       "t": "p",
+       "s": "Caller- vs. Callee-Save ist ein Dauerbrenner (C02)."
+      }
+     ]
+    },
+    {
+     "id": "U03",
+     "block": "U",
+     "title": "streq: zwei Strings vergleichen",
+     "min": 10,
+     "mode": "code",
+     "starter": ".mem $100: 65, 66, 67, 0          ; \"ABC\"\n.mem $110: 65, 66, 67, 0          ; \"ABC\"\n.mem $120: 65, 66, 68, 0          ; \"ABD\"\n.mem $130: 65, 66, 0              ; \"AB\"",
+     "solutionCode": "; U03: streq(r1 = Adresse s0, r2 = Adresse s1) -> r1 = 1 bei Gleichheit, sonst 0\n; Strings: ein Zeichen pro Wort (ASCII-Code), Ende = 0\n.mem $100: 65, 66, 67, 0          ; \"ABC\"\n.mem $110: 65, 66, 67, 0          ; \"ABC\"\n.mem $120: 65, 66, 68, 0          ; \"ABD\"\n.mem $130: 65, 66, 0              ; \"AB\"\n\nstreq:    ldd  r3 := (r1,0)        ; Zeichen aus s0\n          ldd  r4 := (r2,0)        ; Zeichen aus s1\n          sub  r5 := r3,r4\n          bne  r5,ungleich         ; verschieden -> false\n          beq  r3,gleich           ; beide 0 -> Ende erreicht, true\n          addi r1 := r1,#1\n          addi r2 := r2,#1\n          bra  streq\nungleich: add  r1 := r0,r0\n          jmp  r31\ngleich:   addi r1 := r0,#1\n          jmp  r31",
+     "ziel": [
+      {
+       "t": "p",
+       "s": "Ein kleines Unterprogramm von C nach IKR-RISC-II-Assembler übersetzen."
+      }
+     ],
+     "erklaerung": [
+      {
+       "t": "p",
+       "s": "Nach **Übung 0, Aufgabe 0.2** (dort für den IKR CISC, hier für den IKR RISC II): `streq` prüft zwei nullterminierte Strings auf Gleichheit."
+      },
+      {
+       "t": "p",
+       "s": "In C:"
+      },
+      {
+       "t": "code",
+       "lang": "c",
+       "s": "bool streq(const char *s0, const char *s1) {\n    while (1) {\n        if (*s0 != *s1) return false;\n        if (*s0 == '\\0') return true;\n        s0++;\n        s1++;\n    }\n}"
+      },
+      {
+       "t": "p",
+       "s": "Besonderheit des IKR RISC II: Der Speicher ist **wortadressiert**. Hier steht deshalb ein Zeichen pro Wort (ASCII-Code), das Ende ist 0."
+      },
+      {
+       "t": "p",
+       "s": "Schnittstelle: `r1` = Adresse von s0, `r2` = Adresse von s1, Rückgabe `r1` = 1 (gleich) oder 0."
+      }
+     ],
+     "aufgabe": [
+      {
+       "t": "p",
+       "s": "Schreibe `streq` in IKR-RISC-II-Assembler. Beide Zeichen laden, vergleichen, bei Ungleichheit sofort 0 zurückgeben, bei Stringende 1."
+      },
+      {
+       "t": "p",
+       "s": "Startdaten zum Testen (im Editor schon eingetragen, dein Code kommt darunter):"
+      },
+      {
+       "t": "code",
+       "lang": "ikr",
+       "s": ".mem $100: 65, 66, 67, 0          ; \"ABC\"\n.mem $110: 65, 66, 67, 0          ; \"ABC\"\n.mem $120: 65, 66, 68, 0          ; \"ABD\"\n.mem $130: 65, 66, 0              ; \"AB\""
+      }
+     ],
+     "aufgabeMd": "Schreibe `streq` in IKR-RISC-II-Assembler. Beide Zeichen laden, vergleichen, bei Ungleichheit sofort 0 zurückgeben, bei Stringende 1.\n\nStartdaten zum Testen (im Editor schon eingetragen, dein Code kommt darunter):\n```ikr\n.mem $100: 65, 66, 67, 0          ; \"ABC\"\n.mem $110: 65, 66, 67, 0          ; \"ABC\"\n.mem $120: 65, 66, 68, 0          ; \"ABD\"\n.mem $130: 65, 66, 0              ; \"AB\"\n```",
+     "loesung": [
+      {
+       "t": "code",
+       "lang": "ikr",
+       "s": "; U03: streq(r1 = Adresse s0, r2 = Adresse s1) -> r1 = 1 bei Gleichheit, sonst 0\n; Strings: ein Zeichen pro Wort (ASCII-Code), Ende = 0\n.mem $100: 65, 66, 67, 0          ; \"ABC\"\n.mem $110: 65, 66, 67, 0          ; \"ABC\"\n.mem $120: 65, 66, 68, 0          ; \"ABD\"\n.mem $130: 65, 66, 0              ; \"AB\"\n\nstreq:    ldd  r3 := (r1,0)        ; Zeichen aus s0\n          ldd  r4 := (r2,0)        ; Zeichen aus s1\n          sub  r5 := r3,r4\n          bne  r5,ungleich         ; verschieden -> false\n          beq  r3,gleich           ; beide 0 -> Ende erreicht, true\n          addi r1 := r1,#1\n          addi r2 := r2,#1\n          bra  streq\nungleich: add  r1 := r0,r0\n          jmp  r31\ngleich:   addi r1 := r0,#1\n          jmp  r31"
+      },
+      {
+       "t": "p",
+       "s": "Die Reihenfolge der Abfragen zählt: Erst auf Ungleichheit prüfen, dann aufs Ende. Ist s0 zu Ende, s1 aber nicht, sind die Zeichen verschieden, und das Ergebnis ist richtig 0."
+      }
+     ],
+     "loesungMd": "```ikr\n; U03: streq(r1 = Adresse s0, r2 = Adresse s1) -> r1 = 1 bei Gleichheit, sonst 0\n; Strings: ein Zeichen pro Wort (ASCII-Code), Ende = 0\n.mem $100: 65, 66, 67, 0          ; \"ABC\"\n.mem $110: 65, 66, 67, 0          ; \"ABC\"\n.mem $120: 65, 66, 68, 0          ; \"ABD\"\n.mem $130: 65, 66, 0              ; \"AB\"\n\nstreq:    ldd  r3 := (r1,0)        ; Zeichen aus s0\n          ldd  r4 := (r2,0)        ; Zeichen aus s1\n          sub  r5 := r3,r4\n          bne  r5,ungleich         ; verschieden -> false\n          beq  r3,gleich           ; beide 0 -> Ende erreicht, true\n          addi r1 := r1,#1\n          addi r2 := r2,#1\n          bra  streq\nungleich: add  r1 := r0,r0\n          jmp  r31\ngleich:   addi r1 := r0,#1\n          jmp  r31\n```\nDie Reihenfolge der Abfragen zählt: Erst auf Ungleichheit prüfen, dann aufs Ende. Ist s0 zu Ende, s1 aber nicht, sind die Zeichen verschieden, und das Ergebnis ist richtig 0.",
+     "klausur": [
+      {
+       "t": "p",
+       "s": "Übersetzen C → Assembler (B06, C03). Als Unterprogramm ohne weitere Aufrufe braucht `streq` nichts zu sichern."
+      }
+     ]
+    },
+    {
+     "id": "U04",
+     "block": "U",
+     "title": "Unterprogramm ruft Unterprogramm",
+     "min": 12,
+     "mode": "code",
+     "starter": ".reg r30 = $1000\n.mem $100: 3, -4, 5, -6",
+     "solutionCode": "; U04: absum(r1 = Adresse, r2 = Laenge) -> r1 = Summe der Betraege\n; ruft fuer jedes Element das Unterprogramm abs auf (verschachtelter Aufruf)\n.reg r30 = $1000\n.mem $100: 3, -4, 5, -6\n\nabsum:    addi r30 := r30,#-4      ; Platz fuer 4 Woerter auf dem Stapel\n          std  (r30,0) := r31      ; Ruecksprungadresse sichern\n          std  (r30,1) := r10      ; callee-save Register sichern, die wir benutzen\n          std  (r30,2) := r11\n          std  (r30,3) := r12\n          add  r10 := r1,r0        ; Zeiger    (ueberlebt den Aufruf von abs)\n          add  r11 := r2,r0        ; Zaehler\n          add  r12 := r0,r0        ; Summe\nloop:     beq  r11,fertig\n          ldd  r1 := (r10,0)       ; Parameter fuer abs\n          bsr  abs\n          add  r12 := r12,r1\n          addi r10 := r10,#1\n          addi r11 := r11,#-1\n          bra  loop\nfertig:   add  r1 := r12,r0\n          ldd  r31 := (r30,0)\n          ldd  r10 := (r30,1)\n          ldd  r11 := (r30,2)\n          ldd  r12 := (r30,3)\n          addi r30 := r30,#4\n          jmp  r31\n\nabs:      bge  r1,abs_ende         ; Blatt-Unterprogramm: braucht nichts zu sichern\n          sub  r1 := r0,r1\nabs_ende: jmp  r31",
+     "ziel": [
+      {
+       "t": "p",
+       "s": "Den Stapel im IKR RISC II selbst verwalten: Rücksprungadresse und callee-save Register sichern."
+      }
+     ],
+     "erklaerung": [
+      {
+       "t": "p",
+       "s": "Beim IKR RISC II legt `bsr` die Rücksprungadresse in `r31`, nicht auf den Stapel. Ruft ein Unterprogramm selbst ein anderes auf, würde `r31` überschrieben. Also:"
+      },
+      {
+       "t": "code",
+       "lang": "ikr",
+       "s": "up:  addi r30 := r30,#-2     ; Platz fuer 2 Woerter\n     std  (r30,0) := r31     ; Ruecksprungadresse sichern\n     std  (r30,1) := r10     ; callee-save Register sichern\n     ...                     ; hier darf up andere aufrufen\n     ldd  r31 := (r30,0)\n     ldd  r10 := (r30,1)\n     addi r30 := r30,#2\n     jmp  r31"
+      },
+      {
+       "t": "p",
+       "s": "Calling Convention des IKR RISC II (wie in der praktischen Übung): `r1`–`r9` caller-save, `r10`–`r31` callee-save, Parameter in `r1`, `r2`, …, Rückgabe in `r1`, Stapelzeiger `r30` zeigt auf die zuletzt belegte Position (der Stapel wächst nach unten)."
+      },
+      {
+       "t": "p",
+       "s": "Aufgabe: `absum(r1 = Adresse, r2 = Länge)` liefert die Summe der Beträge eines Arrays. Für jedes Element ruft es `abs(r1)` auf, das den Betrag in `r1` zurückgibt."
+      }
+     ],
+     "aufgabe": [
+      {
+       "t": "p",
+       "s": "Schreibe `absum` und `abs`. Zeiger, Zähler und Summe müssen den Aufruf von `abs` überleben, gehören also in `r10`, `r11`, `r12`."
+      },
+      {
+       "t": "p",
+       "s": "Startdaten zum Testen (im Editor schon eingetragen, dein Code kommt darunter):"
+      },
+      {
+       "t": "code",
+       "lang": "ikr",
+       "s": ".reg r30 = $1000\n.mem $100: 3, -4, 5, -6"
+      }
+     ],
+     "aufgabeMd": "Schreibe `absum` und `abs`. Zeiger, Zähler und Summe müssen den Aufruf von `abs` überleben, gehören also in `r10`, `r11`, `r12`.\n\nStartdaten zum Testen (im Editor schon eingetragen, dein Code kommt darunter):\n```ikr\n.reg r30 = $1000\n.mem $100: 3, -4, 5, -6\n```",
+     "loesung": [
+      {
+       "t": "code",
+       "lang": "ikr",
+       "s": "; U04: absum(r1 = Adresse, r2 = Laenge) -> r1 = Summe der Betraege\n; ruft fuer jedes Element das Unterprogramm abs auf (verschachtelter Aufruf)\n.reg r30 = $1000\n.mem $100: 3, -4, 5, -6\n\nabsum:    addi r30 := r30,#-4      ; Platz fuer 4 Woerter auf dem Stapel\n          std  (r30,0) := r31      ; Ruecksprungadresse sichern\n          std  (r30,1) := r10      ; callee-save Register sichern, die wir benutzen\n          std  (r30,2) := r11\n          std  (r30,3) := r12\n          add  r10 := r1,r0        ; Zeiger    (ueberlebt den Aufruf von abs)\n          add  r11 := r2,r0        ; Zaehler\n          add  r12 := r0,r0        ; Summe\nloop:     beq  r11,fertig\n          ldd  r1 := (r10,0)       ; Parameter fuer abs\n          bsr  abs\n          add  r12 := r12,r1\n          addi r10 := r10,#1\n          addi r11 := r11,#-1\n          bra  loop\nfertig:   add  r1 := r12,r0\n          ldd  r31 := (r30,0)\n          ldd  r10 := (r30,1)\n          ldd  r11 := (r30,2)\n          ldd  r12 := (r30,3)\n          addi r30 := r30,#4\n          jmp  r31\n\nabs:      bge  r1,abs_ende         ; Blatt-Unterprogramm: braucht nichts zu sichern\n          sub  r1 := r0,r1\nabs_ende: jmp  r31"
+      },
+      {
+       "t": "p",
+       "s": "`abs` ist ein **Blatt-Unterprogramm** (ruft nichts auf) und nutzt nur `r1`. Es muss nichts sichern. Die Testfälle prüfen auch, dass `r10`–`r12` und `r30` nach dem Aufruf wieder ihre alten Werte haben."
+      }
+     ],
+     "loesungMd": "```ikr\n; U04: absum(r1 = Adresse, r2 = Laenge) -> r1 = Summe der Betraege\n; ruft fuer jedes Element das Unterprogramm abs auf (verschachtelter Aufruf)\n.reg r30 = $1000\n.mem $100: 3, -4, 5, -6\n\nabsum:    addi r30 := r30,#-4      ; Platz fuer 4 Woerter auf dem Stapel\n          std  (r30,0) := r31      ; Ruecksprungadresse sichern\n          std  (r30,1) := r10      ; callee-save Register sichern, die wir benutzen\n          std  (r30,2) := r11\n          std  (r30,3) := r12\n          add  r10 := r1,r0        ; Zeiger    (ueberlebt den Aufruf von abs)\n          add  r11 := r2,r0        ; Zaehler\n          add  r12 := r0,r0        ; Summe\nloop:     beq  r11,fertig\n          ldd  r1 := (r10,0)       ; Parameter fuer abs\n          bsr  abs\n          add  r12 := r12,r1\n          addi r10 := r10,#1\n          addi r11 := r11,#-1\n          bra  loop\nfertig:   add  r1 := r12,r0\n          ldd  r31 := (r30,0)\n          ldd  r10 := (r30,1)\n          ldd  r11 := (r30,2)\n          ldd  r12 := (r30,3)\n          addi r30 := r30,#4\n          jmp  r31\n\nabs:      bge  r1,abs_ende         ; Blatt-Unterprogramm: braucht nichts zu sichern\n          sub  r1 := r0,r1\nabs_ende: jmp  r31\n```\n`abs` ist ein **Blatt-Unterprogramm** (ruft nichts auf) und nutzt nur `r1`. Es muss nichts sichern. Die Testfälle prüfen auch, dass `r10`–`r12` und `r30` nach dem Aufruf wieder ihre alten Werte haben.",
+     "klausur": [
+      {
+       "t": "p",
+       "s": "Calling Convention und Stapel (C01, C02), verschachtelte Aufrufe."
+      }
+     ]
+    },
+    {
+     "id": "U05",
+     "block": "U",
+     "title": "Game of Life: eine Zelle",
+     "min": 12,
+     "mode": "code",
+     "starter": ".mem $100: 0,0,0,0,0,0, 0,0,1,0,0,0, 0,0,0,1,0,0, 0,1,1,1,0,0, 0,0,0,0,0,0, 0,0,0,0,0,0\n.mem $200: 9,9,9,9,9,9, 9,9,9,9,9,9, 9,9,9,9,9,9, 9,9,9,9,9,9, 9,9,9,9,9,9, 9,9,9,9,9,9",
+     "solutionCode": "; U05: zelle(r1 = Istfeld, r2 = Folgefeld, r3 = Index) - ein Schritt fuer eine Zelle\n; Spielfeld 6 x 6 (SIZE = 6), ein Wort pro Zelle, Nachbarn bei -7 -6 -5 -1 +1 +5 +6 +7\n; Gleiter: Zeile 1 Spalte 2, Zeile 2 Spalte 3, Zeile 3 Spalten 1-3\n.mem $100: 0,0,0,0,0,0, 0,0,1,0,0,0, 0,0,0,1,0,0, 0,1,1,1,0,0, 0,0,0,0,0,0, 0,0,0,0,0,0\n.mem $200: 9,9,9,9,9,9, 9,9,9,9,9,9, 9,9,9,9,9,9, 9,9,9,9,9,9, 9,9,9,9,9,9, 9,9,9,9,9,9\n\nzelle:    add  r5 := r1,r3         ; Adresse der Zelle im Istfeld\n          ldd  r6 := (r5,-7)       ; links oben\n          ldd  r7 := (r5,-6)       ; oben\n          add  r6 := r6,r7\n          ldd  r7 := (r5,-5)       ; rechts oben\n          add  r6 := r6,r7\n          ldd  r7 := (r5,-1)       ; links\n          add  r6 := r6,r7\n          ldd  r7 := (r5,1)        ; rechts\n          add  r6 := r6,r7\n          ldd  r7 := (r5,5)        ; links unten\n          add  r6 := r6,r7\n          ldd  r7 := (r5,6)        ; unten\n          add  r6 := r6,r7\n          ldd  r7 := (r5,7)        ; rechts unten\n          add  r6 := r6,r7\n          add  r8 := r2,r3         ; Adresse der Zelle im Folgefeld\n          cmpsi r9 := r6,#3\n          beq  r9,lebt             ; genau 3 Nachbarn\n          cmpsi r9 := r6,#2\n          beq  r9,bleibt           ; genau 2 Nachbarn\n          std  (r8,0) := r0        ; sonst tot\n          jmp  r31\nlebt:     addi r9 := r0,#1\n          std  (r8,0) := r9\n          jmp  r31\nbleibt:   ldd  r9 := (r5,0)\n          std  (r8,0) := r9\n          jmp  r31",
+     "ziel": [
+      {
+       "t": "p",
+       "s": "Ein zweidimensionales Feld im Speicher ablegen und Nachbarn über feste Abstände adressieren."
+      }
+     ],
+     "erklaerung": [
+      {
+       "t": "p",
+       "s": "Nach **Praktischer Übung 0** (sinngemäß, dort IKR CISC und 16 × 16): Conway's Game of Life. Jede Zelle ist tot (0) oder lebendig (1). Für den Folgezustand zählen die acht Nachbarn:"
+      },
+      {
+       "t": "ul",
+       "items": [
+        "genau **3** lebende Nachbarn: lebt,",
+        "genau **2**: behält ihren Zustand,",
+        "sonst: tot."
+       ]
+      },
+      {
+       "t": "p",
+       "s": "Das Feld liegt zeilenweise im Speicher (row-major), hier 6 × 6 Felder, ein Wort pro Zelle. Zelle (Zeile z, Spalte s) liegt bei `Feld + 6·z + s`. Die acht Nachbarn haben deshalb feste Abstände:"
+      },
+      {
+       "t": "table",
+       "rows": [
+        [
+         "",
+         "links",
+         "Mitte",
+         "rechts"
+        ],
+        [
+         "oben",
+         "−7",
+         "−6",
+         "−5"
+        ],
+        [
+         "gleiche Zeile",
+         "−1",
+         "",
+         "+1"
+        ],
+        [
+         "unten",
+         "+5",
+         "+6",
+         "+7"
+        ]
+       ]
+      },
+      {
+       "t": "p",
+       "s": "Ist- und Folgezustand liegen in **zwei** Feldern. So sieht jede Zelle die alten Werte ihrer Nachbarn, alle Zellen werden „gleichzeitig“ aktualisiert. Randzellen werden nie berechnet."
+      },
+      {
+       "t": "p",
+       "s": "Schnittstelle: `zelle(r1 = Istfeld, r2 = Folgefeld, r3 = Index)`."
+      }
+     ],
+     "aufgabe": [
+      {
+       "t": "p",
+       "s": "Schreibe `zelle`. Tipp: Erst die Adresse der Zelle ausrechnen (`r5 = r1 + r3`), dann alle Nachbarn mit `ldd` und festem Offset laden."
+      },
+      {
+       "t": "p",
+       "s": "Startdaten zum Testen (im Editor schon eingetragen, dein Code kommt darunter):"
+      },
+      {
+       "t": "code",
+       "lang": "ikr",
+       "s": ".mem $100: 0,0,0,0,0,0, 0,0,1,0,0,0, 0,0,0,1,0,0, 0,1,1,1,0,0, 0,0,0,0,0,0, 0,0,0,0,0,0\n.mem $200: 9,9,9,9,9,9, 9,9,9,9,9,9, 9,9,9,9,9,9, 9,9,9,9,9,9, 9,9,9,9,9,9, 9,9,9,9,9,9"
+      }
+     ],
+     "aufgabeMd": "Schreibe `zelle`. Tipp: Erst die Adresse der Zelle ausrechnen (`r5 = r1 + r3`), dann alle Nachbarn mit `ldd` und festem Offset laden.\n\nStartdaten zum Testen (im Editor schon eingetragen, dein Code kommt darunter):\n```ikr\n.mem $100: 0,0,0,0,0,0, 0,0,1,0,0,0, 0,0,0,1,0,0, 0,1,1,1,0,0, 0,0,0,0,0,0, 0,0,0,0,0,0\n.mem $200: 9,9,9,9,9,9, 9,9,9,9,9,9, 9,9,9,9,9,9, 9,9,9,9,9,9, 9,9,9,9,9,9, 9,9,9,9,9,9\n```",
+     "loesung": [
+      {
+       "t": "code",
+       "lang": "ikr",
+       "s": "; U05: zelle(r1 = Istfeld, r2 = Folgefeld, r3 = Index) - ein Schritt fuer eine Zelle\n; Spielfeld 6 x 6 (SIZE = 6), ein Wort pro Zelle, Nachbarn bei -7 -6 -5 -1 +1 +5 +6 +7\n; Gleiter: Zeile 1 Spalte 2, Zeile 2 Spalte 3, Zeile 3 Spalten 1-3\n.mem $100: 0,0,0,0,0,0, 0,0,1,0,0,0, 0,0,0,1,0,0, 0,1,1,1,0,0, 0,0,0,0,0,0, 0,0,0,0,0,0\n.mem $200: 9,9,9,9,9,9, 9,9,9,9,9,9, 9,9,9,9,9,9, 9,9,9,9,9,9, 9,9,9,9,9,9, 9,9,9,9,9,9\n\nzelle:    add  r5 := r1,r3         ; Adresse der Zelle im Istfeld\n          ldd  r6 := (r5,-7)       ; links oben\n          ldd  r7 := (r5,-6)       ; oben\n          add  r6 := r6,r7\n          ldd  r7 := (r5,-5)       ; rechts oben\n          add  r6 := r6,r7\n          ldd  r7 := (r5,-1)       ; links\n          add  r6 := r6,r7\n          ldd  r7 := (r5,1)        ; rechts\n          add  r6 := r6,r7\n          ldd  r7 := (r5,5)        ; links unten\n          add  r6 := r6,r7\n          ldd  r7 := (r5,6)        ; unten\n          add  r6 := r6,r7\n          ldd  r7 := (r5,7)        ; rechts unten\n          add  r6 := r6,r7\n          add  r8 := r2,r3         ; Adresse der Zelle im Folgefeld\n          cmpsi r9 := r6,#3\n          beq  r9,lebt             ; genau 3 Nachbarn\n          cmpsi r9 := r6,#2\n          beq  r9,bleibt           ; genau 2 Nachbarn\n          std  (r8,0) := r0        ; sonst tot\n          jmp  r31\nlebt:     addi r9 := r0,#1\n          std  (r8,0) := r9\n          jmp  r31\nbleibt:   ldd  r9 := (r5,0)\n          std  (r8,0) := r9\n          jmp  r31"
+      },
+      {
+       "t": "p",
+       "s": "`ldd r7 := (r5,-7)` nutzt den 16-Bit-Offset des Ladebefehls: kein eigener Additionsbefehl pro Nachbar nötig. Das ist das Gegenstück zur Adressierungsart „Register indirekt mit Index und Offset“ beim IKR CISC."
+      }
+     ],
+     "loesungMd": "```ikr\n; U05: zelle(r1 = Istfeld, r2 = Folgefeld, r3 = Index) - ein Schritt fuer eine Zelle\n; Spielfeld 6 x 6 (SIZE = 6), ein Wort pro Zelle, Nachbarn bei -7 -6 -5 -1 +1 +5 +6 +7\n; Gleiter: Zeile 1 Spalte 2, Zeile 2 Spalte 3, Zeile 3 Spalten 1-3\n.mem $100: 0,0,0,0,0,0, 0,0,1,0,0,0, 0,0,0,1,0,0, 0,1,1,1,0,0, 0,0,0,0,0,0, 0,0,0,0,0,0\n.mem $200: 9,9,9,9,9,9, 9,9,9,9,9,9, 9,9,9,9,9,9, 9,9,9,9,9,9, 9,9,9,9,9,9, 9,9,9,9,9,9\n\nzelle:    add  r5 := r1,r3         ; Adresse der Zelle im Istfeld\n          ldd  r6 := (r5,-7)       ; links oben\n          ldd  r7 := (r5,-6)       ; oben\n          add  r6 := r6,r7\n          ldd  r7 := (r5,-5)       ; rechts oben\n          add  r6 := r6,r7\n          ldd  r7 := (r5,-1)       ; links\n          add  r6 := r6,r7\n          ldd  r7 := (r5,1)        ; rechts\n          add  r6 := r6,r7\n          ldd  r7 := (r5,5)        ; links unten\n          add  r6 := r6,r7\n          ldd  r7 := (r5,6)        ; unten\n          add  r6 := r6,r7\n          ldd  r7 := (r5,7)        ; rechts unten\n          add  r6 := r6,r7\n          add  r8 := r2,r3         ; Adresse der Zelle im Folgefeld\n          cmpsi r9 := r6,#3\n          beq  r9,lebt             ; genau 3 Nachbarn\n          cmpsi r9 := r6,#2\n          beq  r9,bleibt           ; genau 2 Nachbarn\n          std  (r8,0) := r0        ; sonst tot\n          jmp  r31\nlebt:     addi r9 := r0,#1\n          std  (r8,0) := r9\n          jmp  r31\nbleibt:   ldd  r9 := (r5,0)\n          std  (r8,0) := r9\n          jmp  r31\n```\n`ldd r7 := (r5,-7)` nutzt den 16-Bit-Offset des Ladebefehls: kein eigener Additionsbefehl pro Nachbar nötig. Das ist das Gegenstück zur Adressierungsart „Register indirekt mit Index und Offset“ beim IKR CISC.",
+     "klausur": [
+      {
+       "t": "p",
+       "s": "Speicherzugriffe auflisten (B02), Adressrechnung im wortadressierten Speicher (A03)."
+      }
+     ]
+    },
+    {
+     "id": "U06",
+     "block": "U",
+     "title": "Game of Life: ganze Runden",
+     "min": 15,
+     "mode": "code",
+     "starter": ".reg r30 = $1000\n.mem $100: 0,0,0,0,0,0, 0,0,1,0,0,0, 0,0,0,1,0,0, 0,1,1,1,0,0, 0,0,0,0,0,0, 0,0,0,0,0,0\n.mem $200: 0,0,0,0,0,0, 0,0,0,0,0,0, 0,0,0,0,0,0, 0,0,0,0,0,0, 0,0,0,0,0,0, 0,0,0,0,0,0",
+     "solutionCode": "; U06: vier Generationen Game of Life, Ist- und Folgefeld werden abwechselnd vertauscht\n; step(r1 = Istfeld, r2 = Folgefeld) rechnet alle inneren Zellen (SIZE = 6, innen 4 x 4)\n.reg r30 = $1000\n.mem $100: 0,0,0,0,0,0, 0,0,1,0,0,0, 0,0,0,1,0,0, 0,1,1,1,0,0, 0,0,0,0,0,0, 0,0,0,0,0,0\n.mem $200: 0,0,0,0,0,0, 0,0,0,0,0,0, 0,0,0,0,0,0, 0,0,0,0,0,0, 0,0,0,0,0,0, 0,0,0,0,0,0\n; nach 4 Generationen ist der Gleiter eine Zeile tiefer und eine Spalte weiter rechts\n\nstart:    addi r30 := r30,#-2\n          std  (r30,0) := r31\n          std  (r30,1) := r15\n          addi r15 := r0,#2        ; 2 x (hin und zurueck) = 4 Generationen\nrunde:    beq  r15,ende\n          addi r1 := r0,#$100\n          addi r2 := r0,#$200\n          bsr  step\n          addi r1 := r0,#$200      ; Zeiger tauschen statt kopieren\n          addi r2 := r0,#$100\n          bsr  step\n          addi r15 := r15,#-1\n          bra  runde\nende:     ldd  r31 := (r30,0)\n          ldd  r15 := (r30,1)\n          addi r30 := r30,#2\n          jmp  r31\n\nstep:     addi r30 := r30,#-6\n          std  (r30,0) := r31\n          std  (r30,1) := r10\n          std  (r30,2) := r11\n          std  (r30,3) := r12\n          std  (r30,4) := r13\n          std  (r30,5) := r14\n          add  r10 := r1,r0        ; Istfeld\n          add  r11 := r2,r0        ; Folgefeld\n          addi r12 := r0,#7        ; Index der ersten inneren Zelle (SIZE + 1)\n          addi r13 := r0,#4        ; Zeilen (SIZE - 2)\nzeile:    beq  r13,step_ende\n          addi r14 := r0,#4        ; Spalten (SIZE - 2)\nspalte:   beq  r14,zeile_ende\n          add  r1 := r10,r0\n          add  r2 := r11,r0\n          add  r3 := r12,r0\n          bsr  zelle\n          addi r12 := r12,#1\n          addi r14 := r14,#-1\n          bra  spalte\nzeile_ende: addi r12 := r12,#2     ; Randzellen ueberspringen\n          addi r13 := r13,#-1\n          bra  zeile\nstep_ende: ldd r31 := (r30,0)\n          ldd  r10 := (r30,1)\n          ldd  r11 := (r30,2)\n          ldd  r12 := (r30,3)\n          ldd  r13 := (r30,4)\n          ldd  r14 := (r30,5)\n          addi r30 := r30,#6\n          jmp  r31\n\nzelle:    add  r5 := r1,r3\n          ldd  r6 := (r5,-7)\n          ldd  r7 := (r5,-6)\n          add  r6 := r6,r7\n          ldd  r7 := (r5,-5)\n          add  r6 := r6,r7\n          ldd  r7 := (r5,-1)\n          add  r6 := r6,r7\n          ldd  r7 := (r5,1)\n          add  r6 := r6,r7\n          ldd  r7 := (r5,5)\n          add  r6 := r6,r7\n          ldd  r7 := (r5,6)\n          add  r6 := r6,r7\n          ldd  r7 := (r5,7)\n          add  r6 := r6,r7\n          add  r8 := r2,r3\n          cmpsi r9 := r6,#3\n          beq  r9,lebt\n          cmpsi r9 := r6,#2\n          beq  r9,bleibt\n          std  (r8,0) := r0\n          jmp  r31\nlebt:     addi r9 := r0,#1\n          std  (r8,0) := r9\n          jmp  r31\nbleibt:   ldd  r9 := (r5,0)\n          std  (r8,0) := r9\n          jmp  r31",
+     "ziel": [
+      {
+       "t": "p",
+       "s": "Zwei verschachtelte Schleifen, Unterprogrammaufrufe und Zeigertausch zu einem vollständigen Programm verbinden."
+      }
+     ],
+     "erklaerung": [
+      {
+       "t": "p",
+       "s": "`step(r1 = Istfeld, r2 = Folgefeld)` rechnet alle **inneren** Zellen: Zeilen und Spalten 1 bis 4 bei 6 × 6. Nach jeder Zeile springt der Index um 2 weiter, um die beiden Randzellen zu überspringen."
+      },
+      {
+       "t": "p",
+       "s": "Statt den Folgezustand nach jeder Runde ins Istfeld zu **kopieren** (16 × 16 = 256 Kopien), werden einfach die **Zeiger getauscht**: Runde 1 rechnet von Feld 1 nach Feld 2, Runde 2 von Feld 2 nach Feld 1."
+      },
+      {
+       "t": "p",
+       "s": "Das Hauptprogramm `start` rechnet vier Generationen. Ein Gleiter ist danach eine Zeile tiefer und eine Spalte weiter rechts."
+      }
+     ],
+     "aufgabe": [
+      {
+       "t": "p",
+       "s": "Schreibe `start` und `step`. `zelle` aus U05 darfst du übernehmen. `step` muss `r31` und alle benutzten callee-save Register sichern."
+      },
+      {
+       "t": "p",
+       "s": "Startdaten zum Testen (im Editor schon eingetragen, dein Code kommt darunter):"
+      },
+      {
+       "t": "code",
+       "lang": "ikr",
+       "s": ".reg r30 = $1000\n.mem $100: 0,0,0,0,0,0, 0,0,1,0,0,0, 0,0,0,1,0,0, 0,1,1,1,0,0, 0,0,0,0,0,0, 0,0,0,0,0,0\n.mem $200: 0,0,0,0,0,0, 0,0,0,0,0,0, 0,0,0,0,0,0, 0,0,0,0,0,0, 0,0,0,0,0,0, 0,0,0,0,0,0"
+      }
+     ],
+     "aufgabeMd": "Schreibe `start` und `step`. `zelle` aus U05 darfst du übernehmen. `step` muss `r31` und alle benutzten callee-save Register sichern.\n\nStartdaten zum Testen (im Editor schon eingetragen, dein Code kommt darunter):\n```ikr\n.reg r30 = $1000\n.mem $100: 0,0,0,0,0,0, 0,0,1,0,0,0, 0,0,0,1,0,0, 0,1,1,1,0,0, 0,0,0,0,0,0, 0,0,0,0,0,0\n.mem $200: 0,0,0,0,0,0, 0,0,0,0,0,0, 0,0,0,0,0,0, 0,0,0,0,0,0, 0,0,0,0,0,0, 0,0,0,0,0,0\n```",
+     "loesung": [
+      {
+       "t": "code",
+       "lang": "ikr",
+       "s": "; U06: vier Generationen Game of Life, Ist- und Folgefeld werden abwechselnd vertauscht\n; step(r1 = Istfeld, r2 = Folgefeld) rechnet alle inneren Zellen (SIZE = 6, innen 4 x 4)\n.reg r30 = $1000\n.mem $100: 0,0,0,0,0,0, 0,0,1,0,0,0, 0,0,0,1,0,0, 0,1,1,1,0,0, 0,0,0,0,0,0, 0,0,0,0,0,0\n.mem $200: 0,0,0,0,0,0, 0,0,0,0,0,0, 0,0,0,0,0,0, 0,0,0,0,0,0, 0,0,0,0,0,0, 0,0,0,0,0,0\n; nach 4 Generationen ist der Gleiter eine Zeile tiefer und eine Spalte weiter rechts\n\nstart:    addi r30 := r30,#-2\n          std  (r30,0) := r31\n          std  (r30,1) := r15\n          addi r15 := r0,#2        ; 2 x (hin und zurueck) = 4 Generationen\nrunde:    beq  r15,ende\n          addi r1 := r0,#$100\n          addi r2 := r0,#$200\n          bsr  step\n          addi r1 := r0,#$200      ; Zeiger tauschen statt kopieren\n          addi r2 := r0,#$100\n          bsr  step\n          addi r15 := r15,#-1\n          bra  runde\nende:     ldd  r31 := (r30,0)\n          ldd  r15 := (r30,1)\n          addi r30 := r30,#2\n          jmp  r31\n\nstep:     addi r30 := r30,#-6\n          std  (r30,0) := r31\n          std  (r30,1) := r10\n          std  (r30,2) := r11\n          std  (r30,3) := r12\n          std  (r30,4) := r13\n          std  (r30,5) := r14\n          add  r10 := r1,r0        ; Istfeld\n          add  r11 := r2,r0        ; Folgefeld\n          addi r12 := r0,#7        ; Index der ersten inneren Zelle (SIZE + 1)\n          addi r13 := r0,#4        ; Zeilen (SIZE - 2)\nzeile:    beq  r13,step_ende\n          addi r14 := r0,#4        ; Spalten (SIZE - 2)\nspalte:   beq  r14,zeile_ende\n          add  r1 := r10,r0\n          add  r2 := r11,r0\n          add  r3 := r12,r0\n          bsr  zelle\n          addi r12 := r12,#1\n          addi r14 := r14,#-1\n          bra  spalte\nzeile_ende: addi r12 := r12,#2     ; Randzellen ueberspringen\n          addi r13 := r13,#-1\n          bra  zeile\nstep_ende: ldd r31 := (r30,0)\n          ldd  r10 := (r30,1)\n          ldd  r11 := (r30,2)\n          ldd  r12 := (r30,3)\n          ldd  r13 := (r30,4)\n          ldd  r14 := (r30,5)\n          addi r30 := r30,#6\n          jmp  r31\n\nzelle:    add  r5 := r1,r3\n          ldd  r6 := (r5,-7)\n          ldd  r7 := (r5,-6)\n          add  r6 := r6,r7\n          ldd  r7 := (r5,-5)\n          add  r6 := r6,r7\n          ldd  r7 := (r5,-1)\n          add  r6 := r6,r7\n          ldd  r7 := (r5,1)\n          add  r6 := r6,r7\n          ldd  r7 := (r5,5)\n          add  r6 := r6,r7\n          ldd  r7 := (r5,6)\n          add  r6 := r6,r7\n          ldd  r7 := (r5,7)\n          add  r6 := r6,r7\n          add  r8 := r2,r3\n          cmpsi r9 := r6,#3\n          beq  r9,lebt\n          cmpsi r9 := r6,#2\n          beq  r9,bleibt\n          std  (r8,0) := r0\n          jmp  r31\nlebt:     addi r9 := r0,#1\n          std  (r8,0) := r9\n          jmp  r31\nbleibt:   ldd  r9 := (r5,0)\n          std  (r8,0) := r9\n          jmp  r31"
+      },
+      {
+       "t": "p",
+       "s": "Index, Zeilen- und Spaltenzähler stehen in `r12`–`r14`, weil `zelle` die Register `r1`–`r9` verändert. Am Ende prüft der Test, dass der Gleiter an der richtigen Stelle steht."
+      }
+     ],
+     "loesungMd": "```ikr\n; U06: vier Generationen Game of Life, Ist- und Folgefeld werden abwechselnd vertauscht\n; step(r1 = Istfeld, r2 = Folgefeld) rechnet alle inneren Zellen (SIZE = 6, innen 4 x 4)\n.reg r30 = $1000\n.mem $100: 0,0,0,0,0,0, 0,0,1,0,0,0, 0,0,0,1,0,0, 0,1,1,1,0,0, 0,0,0,0,0,0, 0,0,0,0,0,0\n.mem $200: 0,0,0,0,0,0, 0,0,0,0,0,0, 0,0,0,0,0,0, 0,0,0,0,0,0, 0,0,0,0,0,0, 0,0,0,0,0,0\n; nach 4 Generationen ist der Gleiter eine Zeile tiefer und eine Spalte weiter rechts\n\nstart:    addi r30 := r30,#-2\n          std  (r30,0) := r31\n          std  (r30,1) := r15\n          addi r15 := r0,#2        ; 2 x (hin und zurueck) = 4 Generationen\nrunde:    beq  r15,ende\n          addi r1 := r0,#$100\n          addi r2 := r0,#$200\n          bsr  step\n          addi r1 := r0,#$200      ; Zeiger tauschen statt kopieren\n          addi r2 := r0,#$100\n          bsr  step\n          addi r15 := r15,#-1\n          bra  runde\nende:     ldd  r31 := (r30,0)\n          ldd  r15 := (r30,1)\n          addi r30 := r30,#2\n          jmp  r31\n\nstep:     addi r30 := r30,#-6\n          std  (r30,0) := r31\n          std  (r30,1) := r10\n          std  (r30,2) := r11\n          std  (r30,3) := r12\n          std  (r30,4) := r13\n          std  (r30,5) := r14\n          add  r10 := r1,r0        ; Istfeld\n          add  r11 := r2,r0        ; Folgefeld\n          addi r12 := r0,#7        ; Index der ersten inneren Zelle (SIZE + 1)\n          addi r13 := r0,#4        ; Zeilen (SIZE - 2)\nzeile:    beq  r13,step_ende\n          addi r14 := r0,#4        ; Spalten (SIZE - 2)\nspalte:   beq  r14,zeile_ende\n          add  r1 := r10,r0\n          add  r2 := r11,r0\n          add  r3 := r12,r0\n          bsr  zelle\n          addi r12 := r12,#1\n          addi r14 := r14,#-1\n          bra  spalte\nzeile_ende: addi r12 := r12,#2     ; Randzellen ueberspringen\n          addi r13 := r13,#-1\n          bra  zeile\nstep_ende: ldd r31 := (r30,0)\n          ldd  r10 := (r30,1)\n          ldd  r11 := (r30,2)\n          ldd  r12 := (r30,3)\n          ldd  r13 := (r30,4)\n          ldd  r14 := (r30,5)\n          addi r30 := r30,#6\n          jmp  r31\n\nzelle:    add  r5 := r1,r3\n          ldd  r6 := (r5,-7)\n          ldd  r7 := (r5,-6)\n          add  r6 := r6,r7\n          ldd  r7 := (r5,-5)\n          add  r6 := r6,r7\n          ldd  r7 := (r5,-1)\n          add  r6 := r6,r7\n          ldd  r7 := (r5,1)\n          add  r6 := r6,r7\n          ldd  r7 := (r5,5)\n          add  r6 := r6,r7\n          ldd  r7 := (r5,6)\n          add  r6 := r6,r7\n          ldd  r7 := (r5,7)\n          add  r6 := r6,r7\n          add  r8 := r2,r3\n          cmpsi r9 := r6,#3\n          beq  r9,lebt\n          cmpsi r9 := r6,#2\n          beq  r9,bleibt\n          std  (r8,0) := r0\n          jmp  r31\nlebt:     addi r9 := r0,#1\n          std  (r8,0) := r9\n          jmp  r31\nbleibt:   ldd  r9 := (r5,0)\n          std  (r8,0) := r9\n          jmp  r31\n```\nIndex, Zeilen- und Spaltenzähler stehen in `r12`–`r14`, weil `zelle` die Register `r1`–`r9` verändert. Am Ende prüft der Test, dass der Gleiter an der richtigen Stelle steht.",
+     "klausur": [
+      {
+       "t": "p",
+       "s": "Schleifen (B05, B06), Unterprogramme (C01, C02)."
+      }
+     ]
+    },
+    {
+     "id": "U07",
+     "block": "U",
+     "title": "Datenabhängigkeiten im FIR-Filter",
+     "min": 10,
+     "mode": "text",
+     "starter": "",
+     "solutionCode": "",
+     "ziel": [
+      {
+       "t": "p",
+       "s": "Direkte Datenabhängigkeiten finden und entscheiden, ob sie in der 5-stufigen Pipeline stören."
+      }
+     ],
+     "erklaerung": [
+      {
+       "t": "p",
+       "s": "Nach **Übung 1, Aufgabe 1.1** (sinngemäß): Der IKR RISC II bekommt einen Befehl `mulu rc := rb,ra` (vorzeichenlose Multiplikation, untere Hälfte des Produkts). Er passt ins Format der anderen Dreiregister-Befehle wie `add`: neuer Opcode bzw. Funktionscode, sonst Felder für `rc`, `rb`, `ra` an denselben Stellen."
+      },
+      {
+       "t": "p",
+       "s": "Programmausschnitt (Teil eines FIR-Filters):"
+      },
+      {
+       "t": "code",
+       "lang": "ikr",
+       "s": "1  ldd  r6 := (r1,0)\n2  ldd  r7 := (r2,0)\n3  mulu r6 := r6,r7\n4  add  r4 := r4,r6\n5  ldd  r6 := (r1,1)\n6  ldd  r7 := (r2,1)\n7  mulu r6 := r6,r7\n8  add  r4 := r4,r6\n9  ldd  r6 := (r1,2)\n10 ldd  r7 := (r2,2)\n11 mulu r6 := r6,r7\n12 add  r4 := r4,r6"
+      },
+      {
+       "t": "p",
+       "s": "Pipeline-Modell wie im Spickzettel: Ergebnisse von ALU-Befehlen werden geforwardet (kein Verlust). Braucht ein Befehl ein Ladeergebnis direkt im nächsten Befehl (Read after Load), gibt es **1 Bubble**. `mulu` braucht wie alle ALU-Befehle einen Takt."
+      }
+     ],
+     "aufgabe": [
+      {
+       "t": "ol",
+       "items": [
+        "Gib alle direkten Datenabhängigkeiten an (Register, schreibende Zeile, lesende Zeile).",
+        "Welche führen zu einer Blockierung?",
+        "Wie viele Takte braucht der Ausschnitt (Caches ideal, 4 Takte Pipeline-Auslauf mitgezählt)?"
+       ]
+      }
+     ],
+     "aufgabeMd": "1. Gib alle direkten Datenabhängigkeiten an (Register, schreibende Zeile, lesende Zeile).\n2. Welche führen zu einer Blockierung?\n3. Wie viele Takte braucht der Ausschnitt (Caches ideal, 4 Takte Pipeline-Auslauf mitgezählt)?",
+     "loesung": [
+      {
+       "t": "ol",
+       "items": [
+        "Pro Block gleich, also dreimal:"
+       ]
+      },
+      {
+       "t": "table",
+       "rows": [
+        [
+         "Register",
+         "schreibt",
+         "liest"
+        ],
+        [
+         "r6",
+         "1",
+         "3"
+        ],
+        [
+         "r7",
+         "2",
+         "3"
+        ],
+        [
+         "r6",
+         "3",
+         "4"
+        ],
+        [
+         "r6",
+         "5",
+         "7"
+        ],
+        [
+         "r7",
+         "6",
+         "7"
+        ],
+        [
+         "r6",
+         "7",
+         "8"
+        ],
+        [
+         "r6",
+         "9",
+         "11"
+        ],
+        [
+         "r7",
+         "10",
+         "11"
+        ],
+        [
+         "r6",
+         "11",
+         "12"
+        ],
+        [
+         "r4",
+         "4",
+         "8"
+        ],
+        [
+         "r4",
+         "8",
+         "12"
+        ]
+       ]
+      },
+      {
+       "t": "ol",
+       "items": [
+        "Nur **r7 von 2 nach 3**, 6 nach 7 und 10 nach 11: Das Ladeergebnis wird direkt im nächsten Befehl gebraucht (Read after Load), je **1 Bubble**. r6 von 1 nach 3 hat einen Befehl Abstand und wird geforwardet. `mulu` → `add` ist ALU → ALU, also Forwarding ohne Verlust.",
+        "12 Befehle + 3 Bubbles + 4 = **19 Takte**."
+       ]
+      }
+     ],
+     "loesungMd": "1. Pro Block gleich, also dreimal:\n\n| Register | schreibt | liest |\n|---|---|---|\n| r6 | 1 | 3 |\n| r7 | 2 | 3 |\n| r6 | 3 | 4 |\n| r6 | 5 | 7 |\n| r7 | 6 | 7 |\n| r6 | 7 | 8 |\n| r6 | 9 | 11 |\n| r7 | 10 | 11 |\n| r6 | 11 | 12 |\n| r4 | 4 | 8 |\n| r4 | 8 | 12 |\n\n2. Nur **r7 von 2 nach 3**, 6 nach 7 und 10 nach 11: Das Ladeergebnis wird direkt im nächsten Befehl gebraucht (Read after Load), je **1 Bubble**. r6 von 1 nach 3 hat einen Befehl Abstand und wird geforwardet. `mulu` → `add` ist ALU → ALU, also Forwarding ohne Verlust.\n3. 12 Befehle + 3 Bubbles + 4 = **19 Takte**.",
+     "klausur": [
+      {
+       "t": "p",
+       "s": "**Ü1 A1.1 F2/F3.** Abhängigkeiten tabellarisch angeben ist ein häufiger Klausurtyp. Prüfe es im Simulator mit `add` statt `mulu`."
+      }
+     ]
+    },
+    {
+     "id": "U08",
+     "block": "U",
+     "title": "Superpipeline: schneller getaktet, mehr Wartezeit",
+     "min": 12,
+     "mode": "text",
+     "starter": "",
+     "solutionCode": "",
+     "ziel": [
+      {
+       "t": "p",
+       "s": "Abschätzen, was das Aufteilen von Pipeline-Stufen an Wartetakten kostet."
+      }
+     ],
+     "erklaerung": [
+      {
+       "t": "p",
+       "s": "Nach **Übung 1, Aufgabe 1.1 F4–F8** (sinngemäß): Um höher takten zu können, wird die Pipeline auf 8 Stufen verlängert:"
+      },
+      {
+       "t": "ul",
+       "items": [
+        "Befehls-Cache auf 2 Stufen, Daten-Cache auf **3** Stufen aufgeteilt,",
+        "ein Multiplizierwerk mit **3** Stufen parallel zur ALU (Stufe 4)."
+       ]
+      },
+      {
+       "t": "p",
+       "s": "Folgen für die Latenzen (Abstand, ab dem ein abhängiger Befehl ohne Warten folgen kann):"
+      },
+      {
+       "t": "ul",
+       "items": [
+        "ALU-Ergebnis: nach Stufe 4 → direkt nachfolgender Befehl, kein Wartetakt.",
+        "Multiplikation: Ergebnis nach Stufe 6 → ein direkt abhängiger Befehl wartet **2** Takte.",
+        "Load: Ergebnis nach Stufe 7 → ein direkt abhängiger Befehl wartet **3** Takte.",
+        "Zwei Stufen beim Holen: Sprünge werden später erkannt → mehr Straftakte bei falsch vorhergesagten Sprüngen."
+       ]
+      }
+     ],
+     "aufgabe": [
+      {
+       "t": "ol",
+       "items": [
+        "Gib eine Folge von `mulu`-Befehlen mit 1 Takt pro Befehl an und eine mit 3 Takten pro Befehl.",
+        "Wie viele Takte braucht der FIR-Ausschnitt aus U07 in der 8-stufigen Pipeline (7 Takte Auslauf)?",
+        "Um wie viel Prozent muss die Superpipeline höher getaktet werden, damit sie genauso schnell ist wie die 5-stufige Pipeline (19 Takte)?"
+       ]
+      }
+     ],
+     "aufgabeMd": "1. Gib eine Folge von `mulu`-Befehlen mit 1 Takt pro Befehl an und eine mit 3 Takten pro Befehl.\n2. Wie viele Takte braucht der FIR-Ausschnitt aus U07 in der 8-stufigen Pipeline (7 Takte Auslauf)?\n3. Um wie viel Prozent muss die Superpipeline höher getaktet werden, damit sie genauso schnell ist wie die 5-stufige Pipeline (19 Takte)?",
+     "loesung": [
+      {
+       "t": "ol",
+       "items": [
+        "Unabhängig: `mulu r1 := r2,r3`, `mulu r4 := r5,r6`, `mulu r7 := r8,r9` → 1 Takt pro Befehl. Abhängige Kette: `mulu r1 := r1,r2`, `mulu r1 := r1,r3`, … → jeder wartet 2 Takte auf den Vorgänger, also 3 Takte pro Befehl.",
+        "Pro Block: `ldd r7` → `mulu`: 3 Wartetakte, `mulu` → `add`: 2 Wartetakte, zusammen 5. Drei Blöcke: 15 Wartetakte. 12 + 15 + 7 = **34 Takte**.",
+        "34 / 19 ≈ 1,79 → etwa **79 % höher** takten, nur um gleichzuziehen. Superpipelining lohnt sich nur, wenn der Code genug unabhängige Befehle zwischen Erzeuger und Verbraucher hat oder der Compiler entsprechend umsortiert."
+       ]
+      }
+     ],
+     "loesungMd": "1. Unabhängig: `mulu r1 := r2,r3`, `mulu r4 := r5,r6`, `mulu r7 := r8,r9` → 1 Takt pro Befehl. Abhängige Kette: `mulu r1 := r1,r2`, `mulu r1 := r1,r3`, … → jeder wartet 2 Takte auf den Vorgänger, also 3 Takte pro Befehl.\n2. Pro Block: `ldd r7` → `mulu`: 3 Wartetakte, `mulu` → `add`: 2 Wartetakte, zusammen 5. Drei Blöcke: 15 Wartetakte. 12 + 15 + 7 = **34 Takte**.\n3. 34 / 19 ≈ 1,79 → etwa **79 % höher** takten, nur um gleichzuziehen. Superpipelining lohnt sich nur, wenn der Code genug unabhängige Befehle zwischen Erzeuger und Verbraucher hat oder der Compiler entsprechend umsortiert.",
+     "klausur": [
+      {
+       "t": "p",
+       "s": "**Ü1 A1.1 F4, F5, F8.** Pipeline-Latenzen und Takte ausrechnen. Das Modell (Latenzen je Einheit) steht in der Klausur immer im Aufgabentext. Erst lesen, dann rechnen."
+      }
+     ]
+    },
+    {
+     "id": "U09",
+     "block": "U",
+     "title": "LRU-Liste von Hand",
+     "min": 6,
+     "mode": "text",
+     "starter": "",
+     "solutionCode": "",
+     "ziel": [
+      {
+       "t": "p",
+       "s": "Verstehen, wie eine LRU-Liste bei jedem Zugriff umsortiert wird."
+      }
+     ],
+     "erklaerung": [
+      {
+       "t": "p",
+       "s": "Nach **Übung 1, Aufgabe 1.2** (sinngemäß): Eine Liste ordnet die Elemente 0 … N−1 danach, wann zuletzt auf sie zugegriffen wurde: vorne das zuletzt benutzte, hinten das am längsten nicht benutzte (Least Recently Used). Das braucht man z.B. für die Ersetzungsstrategie in Caches."
+      },
+      {
+       "t": "p",
+       "s": "Bei einem Zugriff auf `element`:"
+      },
+      {
+       "t": "ol",
+       "items": [
+        "Das Element in der Liste suchen (von hinten).",
+        "Alle Elemente **davor** um eine Stelle nach hinten schieben.",
+        "`element` ganz vorne eintragen.",
+        "Rückgabe: das letzte Element der Liste (der nächste Kandidat zum Ersetzen)."
+       ]
+      },
+      {
+       "t": "code",
+       "lang": "c",
+       "s": "char lru(char *LIST, char element, int N) {\n    int ret_val = 0;\n    for (int i = N - 1; i >= 0; i--) {\n        if (LIST[i] == element) {\n            for (int j = i - 1; j >= 0; j--)\n                LIST[j + 1] = LIST[j];\n            LIST[0] = element;\n            ret_val = LIST[N - 1];\n            break;\n        }\n    }\n    return ret_val;\n}"
+      }
+     ],
+     "aufgabe": [
+      {
+       "t": "p",
+       "s": "N = 8, Liste anfangs (0, 1, 2, 3, 4, 5, 6, 7)."
+      },
+      {
+       "t": "ol",
+       "items": [
+        "Liste und Rückgabewert nach einem Zugriff auf 5?",
+        "Danach ein Zugriff auf 7?",
+        "Und wieder von vorn: Zugriffe auf 4, 2, 7 nacheinander?"
+       ]
+      }
+     ],
+     "aufgabeMd": "N = 8, Liste anfangs (0, 1, 2, 3, 4, 5, 6, 7).\n1. Liste und Rückgabewert nach einem Zugriff auf 5?\n2. Danach ein Zugriff auf 7?\n3. Und wieder von vorn: Zugriffe auf 4, 2, 7 nacheinander?",
+     "loesung": [
+      {
+       "t": "ol",
+       "items": [
+        "(5, 0, 1, 2, 3, 4, 6, 7), Rückgabe **7**.",
+        "(7, 5, 0, 1, 2, 3, 4, 6), Rückgabe **6**.",
+        "Nach 4: (4, 0, 1, 2, 3, 5, 6, 7), Rückgabe 7. Nach 2: (2, 4, 0, 1, 3, 5, 6, 7), Rückgabe 7. Nach 7: (7, 2, 4, 0, 1, 3, 5, 6), Rückgabe **6**."
+       ]
+      },
+      {
+       "t": "p",
+       "s": "Ausgehend von der Anfangsliste liefert ein Zugriff auf 7 direkt (7, 0, 1, 2, 3, 4, 5, 6) und Rückgabe 6."
+      }
+     ],
+     "loesungMd": "1. (5, 0, 1, 2, 3, 4, 6, 7), Rückgabe **7**.\n2. (7, 5, 0, 1, 2, 3, 4, 6), Rückgabe **6**.\n3. Nach 4: (4, 0, 1, 2, 3, 5, 6, 7), Rückgabe 7. Nach 2: (2, 4, 0, 1, 3, 5, 6, 7), Rückgabe 7. Nach 7: (7, 2, 4, 0, 1, 3, 5, 6), Rückgabe **6**.\n\nAusgehend von der Anfangsliste liefert ein Zugriff auf 7 direkt (7, 0, 1, 2, 3, 4, 5, 6) und Rückgabe 6.",
+     "klausur": [
+      {
+       "t": "p",
+       "s": "**Ü1 A1.2 F1.** LRU begegnet dir wieder bei Caches."
+      }
+     ]
+    },
+    {
+     "id": "U10",
+     "block": "U",
+     "title": "LRU in Assembler",
+     "min": 15,
+     "mode": "code",
+     "starter": ".mem $100: 0, 1, 2, 3, 4, 5, 6, 7",
+     "solutionCode": "; U10: lru(r1 = LIST, r2 = N, r3 = element) -> r1 = am laengsten nicht benutztes Element\n.mem $100: 0, 1, 2, 3, 4, 5, 6, 7\n\nlru:      add  r4 := r0,r0         ; ret_val = 0\n          addi r5 := r2,#-1        ; i = N - 1\nsuche:    blt  r5,ende             ; i < 0: nicht gefunden\n          ldr  r6 := (r1,r5)       ; LIST[i]\n          sub  r7 := r6,r3\n          beq  r7,gefunden\n          addi r5 := r5,#-1\n          bra  suche\ngefunden: addi r8 := r5,#-1        ; j = i - 1\nschieben: blt  r8,vorne\n          ldr  r6 := (r1,r8)       ; tmp = LIST[j]\n          add  r9 := r1,r8\n          std  (r9,1) := r6        ; LIST[j + 1] = tmp\n          addi r8 := r8,#-1\n          bra  schieben\nvorne:    std  (r1,0) := r3        ; LIST[0] = element\n          add  r9 := r1,r2\n          ldd  r4 := (r9,-1)       ; ret_val = LIST[N - 1]\nende:     add  r1 := r4,r0\n          jmp  r31",
+     "ziel": [
+      {
+       "t": "p",
+       "s": "Zwei verschachtelte Schleifen mit indizierten Speicherzugriffen übersetzen."
+      }
+     ],
+     "erklaerung": [
+      {
+       "t": "p",
+       "s": "Übersetze `lru` aus U09. In der Übung ist das Ziel RISC-V, hier der IKR RISC II."
+      },
+      {
+       "t": "p",
+       "s": "Schnittstelle: `r1` = LIST, `r2` = N, `r3` = element, Rückgabe in `r1`."
+      },
+      {
+       "t": "p",
+       "s": "Hilfreich:"
+      },
+      {
+       "t": "ul",
+       "items": [
+        "`ldr r6 := (r1,r5)` lädt `LIST[i]` mit `i` in `r5`. Indizierter Zugriff, ohne vorher eine Adresse auszurechnen.",
+        "`LIST[j + 1] = tmp`: Adresse `r9 = r1 + j` ausrechnen, dann `std (r9,1) := r6`.",
+        "`for (i = N-1; i >= 0; i--)` wird zu `blt r5,ende` am Schleifenkopf."
+       ]
+      },
+      {
+       "t": "p",
+       "s": "Unterschiede zu RISC-V: dort `lw`/`sw` mit Byte-Adressen (char: `lb`/`sb`), Parameter in `a0`–`a2`, Sprünge vergleichen zwei Register direkt (`beq a1,a2,ziel`). Der IKR RISC II vergleicht immer ein Register mit 0."
+      }
+     ],
+     "aufgabe": [
+      {
+       "t": "p",
+       "s": "Schreibe `lru` in IKR-RISC-II-Assembler."
+      },
+      {
+       "t": "p",
+       "s": "Startdaten zum Testen (im Editor schon eingetragen, dein Code kommt darunter):"
+      },
+      {
+       "t": "code",
+       "lang": "ikr",
+       "s": ".mem $100: 0, 1, 2, 3, 4, 5, 6, 7"
+      }
+     ],
+     "aufgabeMd": "Schreibe `lru` in IKR-RISC-II-Assembler.\n\nStartdaten zum Testen (im Editor schon eingetragen, dein Code kommt darunter):\n```ikr\n.mem $100: 0, 1, 2, 3, 4, 5, 6, 7\n```",
+     "loesung": [
+      {
+       "t": "code",
+       "lang": "ikr",
+       "s": "; U10: lru(r1 = LIST, r2 = N, r3 = element) -> r1 = am laengsten nicht benutztes Element\n.mem $100: 0, 1, 2, 3, 4, 5, 6, 7\n\nlru:      add  r4 := r0,r0         ; ret_val = 0\n          addi r5 := r2,#-1        ; i = N - 1\nsuche:    blt  r5,ende             ; i < 0: nicht gefunden\n          ldr  r6 := (r1,r5)       ; LIST[i]\n          sub  r7 := r6,r3\n          beq  r7,gefunden\n          addi r5 := r5,#-1\n          bra  suche\ngefunden: addi r8 := r5,#-1        ; j = i - 1\nschieben: blt  r8,vorne\n          ldr  r6 := (r1,r8)       ; tmp = LIST[j]\n          add  r9 := r1,r8\n          std  (r9,1) := r6        ; LIST[j + 1] = tmp\n          addi r8 := r8,#-1\n          bra  schieben\nvorne:    std  (r1,0) := r3        ; LIST[0] = element\n          add  r9 := r1,r2\n          ldd  r4 := (r9,-1)       ; ret_val = LIST[N - 1]\nende:     add  r1 := r4,r0\n          jmp  r31"
+      },
+      {
+       "t": "p",
+       "s": "Die Testfälle prüfen die Beispiele aus U09 (5 und 7) und den Fall, dass schon das erste Element gesucht ist (dann wird nichts verschoben)."
+      }
+     ],
+     "loesungMd": "```ikr\n; U10: lru(r1 = LIST, r2 = N, r3 = element) -> r1 = am laengsten nicht benutztes Element\n.mem $100: 0, 1, 2, 3, 4, 5, 6, 7\n\nlru:      add  r4 := r0,r0         ; ret_val = 0\n          addi r5 := r2,#-1        ; i = N - 1\nsuche:    blt  r5,ende             ; i < 0: nicht gefunden\n          ldr  r6 := (r1,r5)       ; LIST[i]\n          sub  r7 := r6,r3\n          beq  r7,gefunden\n          addi r5 := r5,#-1\n          bra  suche\ngefunden: addi r8 := r5,#-1        ; j = i - 1\nschieben: blt  r8,vorne\n          ldr  r6 := (r1,r8)       ; tmp = LIST[j]\n          add  r9 := r1,r8\n          std  (r9,1) := r6        ; LIST[j + 1] = tmp\n          addi r8 := r8,#-1\n          bra  schieben\nvorne:    std  (r1,0) := r3        ; LIST[0] = element\n          add  r9 := r1,r2\n          ldd  r4 := (r9,-1)       ; ret_val = LIST[N - 1]\nende:     add  r1 := r4,r0\n          jmp  r31\n```\nDie Testfälle prüfen die Beispiele aus U09 (5 und 7) und den Fall, dass schon das erste Element gesucht ist (dann wird nichts verschoben).",
+     "klausur": [
+      {
+       "t": "p",
+       "s": "**Ü1 A1.2 F2.** Schleifen mit indiziertem Zugriff (B01, B06)."
+      }
+     ]
+    },
+    {
+     "id": "U11",
+     "block": "U",
+     "title": "init und test_lru",
+     "min": 12,
+     "mode": "code",
+     "starter": ".reg r30 = $1000",
+     "solutionCode": "; U11: test_lru: Liste mit 8 Elementen anlegen, dann Zugriffe auf 4, 2, 7 melden\n.reg r30 = $1000\n\ntest_lru: addi r30 := r30,#-1\n          std  (r30,0) := r31\n          addi r1 := r0,#$100      ; LIST\n          addi r2 := r0,#8         ; N\n          bsr  init\n          addi r1 := r0,#$100\n          addi r2 := r0,#8\n          addi r3 := r0,#4\n          bsr  lru\n          addi r1 := r0,#$100      ; r1 - r9 sind caller-save: neu laden\n          addi r2 := r0,#8\n          addi r3 := r0,#2\n          bsr  lru\n          addi r1 := r0,#$100\n          addi r2 := r0,#8\n          addi r3 := r0,#7\n          bsr  lru\n          ldd  r31 := (r30,0)\n          addi r30 := r30,#1\n          jmp  r31\n\n; init(r1 = LIST, r2 = N): LIST[i] = i\ninit:     add  r4 := r0,r0\ninit_l:   sub  r5 := r4,r2\n          bge  r5,init_e\n          str  (r1,r4) := r4\n          addi r4 := r4,#1\n          bra  init_l\ninit_e:   jmp  r31\n\nlru:      add  r4 := r0,r0\n          addi r5 := r2,#-1\nsuche:    blt  r5,ende\n          ldr  r6 := (r1,r5)\n          sub  r7 := r6,r3\n          beq  r7,gefunden\n          addi r5 := r5,#-1\n          bra  suche\ngefunden: addi r8 := r5,#-1\nschieben: blt  r8,vorne\n          ldr  r6 := (r1,r8)\n          add  r9 := r1,r8\n          std  (r9,1) := r6\n          addi r8 := r8,#-1\n          bra  schieben\nvorne:    std  (r1,0) := r3\n          add  r9 := r1,r2\n          ldd  r4 := (r9,-1)\nende:     add  r1 := r4,r0\n          jmp  r31",
+     "ziel": [
+      {
+       "t": "p",
+       "s": "Eine Testroutine schreiben, die andere Unterprogramme nach Konvention aufruft."
+      }
+     ],
+     "erklaerung": [
+      {
+       "t": "ul",
+       "items": [
+        "`init(r1 = LIST, r2 = N)` schreibt `LIST[i] = i` für alle i.",
+        "`test_lru` legt eine Liste mit 8 Elementen ab `$100` an, ruft `init` auf und meldet danach Zugriffe auf 4, 2 und 7 per `lru`."
+       ]
+      },
+      {
+       "t": "p",
+       "s": "Achtung Konvention: Nach jedem `bsr` sind `r1`–`r9` möglicherweise zerstört. Die Parameter für den nächsten Aufruf müssen also neu geladen werden. `test_lru` ruft andere auf und muss deshalb `r31` sichern."
+      }
+     ],
+     "aufgabe": [
+      {
+       "t": "p",
+       "s": "Schreibe `test_lru` und `init`. `lru` aus U10 hängst du unten an."
+      },
+      {
+       "t": "p",
+       "s": "Startdaten zum Testen (im Editor schon eingetragen, dein Code kommt darunter):"
+      },
+      {
+       "t": "code",
+       "lang": "ikr",
+       "s": ".reg r30 = $1000"
+      }
+     ],
+     "aufgabeMd": "Schreibe `test_lru` und `init`. `lru` aus U10 hängst du unten an.\n\nStartdaten zum Testen (im Editor schon eingetragen, dein Code kommt darunter):\n```ikr\n.reg r30 = $1000\n```",
+     "loesung": [
+      {
+       "t": "code",
+       "lang": "ikr",
+       "s": "; U11: test_lru: Liste mit 8 Elementen anlegen, dann Zugriffe auf 4, 2, 7 melden\n.reg r30 = $1000\n\ntest_lru: addi r30 := r30,#-1\n          std  (r30,0) := r31\n          addi r1 := r0,#$100      ; LIST\n          addi r2 := r0,#8         ; N\n          bsr  init\n          addi r1 := r0,#$100\n          addi r2 := r0,#8\n          addi r3 := r0,#4\n          bsr  lru\n          addi r1 := r0,#$100      ; r1 - r9 sind caller-save: neu laden\n          addi r2 := r0,#8\n          addi r3 := r0,#2\n          bsr  lru\n          addi r1 := r0,#$100\n          addi r2 := r0,#8\n          addi r3 := r0,#7\n          bsr  lru\n          ldd  r31 := (r30,0)\n          addi r30 := r30,#1\n          jmp  r31\n\n; init(r1 = LIST, r2 = N): LIST[i] = i\ninit:     add  r4 := r0,r0\ninit_l:   sub  r5 := r4,r2\n          bge  r5,init_e\n          str  (r1,r4) := r4\n          addi r4 := r4,#1\n          bra  init_l\ninit_e:   jmp  r31\n\nlru:      add  r4 := r0,r0\n          addi r5 := r2,#-1\nsuche:    blt  r5,ende\n          ldr  r6 := (r1,r5)\n          sub  r7 := r6,r3\n          beq  r7,gefunden\n          addi r5 := r5,#-1\n          bra  suche\ngefunden: addi r8 := r5,#-1\nschieben: blt  r8,vorne\n          ldr  r6 := (r1,r8)\n          add  r9 := r1,r8\n          std  (r9,1) := r6\n          addi r8 := r8,#-1\n          bra  schieben\nvorne:    std  (r1,0) := r3\n          add  r9 := r1,r2\n          ldd  r4 := (r9,-1)\nende:     add  r1 := r4,r0\n          jmp  r31"
+      },
+      {
+       "t": "p",
+       "s": "Am Ende steht in der Liste (7, 2, 4, 0, 1, 3, 5, 6), und `r1` ist 6 – genau wie in U09 von Hand gerechnet."
+      }
+     ],
+     "loesungMd": "```ikr\n; U11: test_lru: Liste mit 8 Elementen anlegen, dann Zugriffe auf 4, 2, 7 melden\n.reg r30 = $1000\n\ntest_lru: addi r30 := r30,#-1\n          std  (r30,0) := r31\n          addi r1 := r0,#$100      ; LIST\n          addi r2 := r0,#8         ; N\n          bsr  init\n          addi r1 := r0,#$100\n          addi r2 := r0,#8\n          addi r3 := r0,#4\n          bsr  lru\n          addi r1 := r0,#$100      ; r1 - r9 sind caller-save: neu laden\n          addi r2 := r0,#8\n          addi r3 := r0,#2\n          bsr  lru\n          addi r1 := r0,#$100\n          addi r2 := r0,#8\n          addi r3 := r0,#7\n          bsr  lru\n          ldd  r31 := (r30,0)\n          addi r30 := r30,#1\n          jmp  r31\n\n; init(r1 = LIST, r2 = N): LIST[i] = i\ninit:     add  r4 := r0,r0\ninit_l:   sub  r5 := r4,r2\n          bge  r5,init_e\n          str  (r1,r4) := r4\n          addi r4 := r4,#1\n          bra  init_l\ninit_e:   jmp  r31\n\nlru:      add  r4 := r0,r0\n          addi r5 := r2,#-1\nsuche:    blt  r5,ende\n          ldr  r6 := (r1,r5)\n          sub  r7 := r6,r3\n          beq  r7,gefunden\n          addi r5 := r5,#-1\n          bra  suche\ngefunden: addi r8 := r5,#-1\nschieben: blt  r8,vorne\n          ldr  r6 := (r1,r8)\n          add  r9 := r1,r8\n          std  (r9,1) := r6\n          addi r8 := r8,#-1\n          bra  schieben\nvorne:    std  (r1,0) := r3\n          add  r9 := r1,r2\n          ldd  r4 := (r9,-1)\nende:     add  r1 := r4,r0\n          jmp  r31\n```\nAm Ende steht in der Liste (7, 2, 4, 0, 1, 3, 5, 6), und `r1` ist 6 – genau wie in U09 von Hand gerechnet.",
+     "klausur": [
+      {
+       "t": "p",
+       "s": "**Ü1 A1.2 F3/F4.**"
+      }
+     ]
+    },
+    {
+     "id": "U12",
+     "block": "U",
+     "title": "2048: Spielfeld zeichnen",
+     "min": 12,
+     "mode": "code",
+     "starter": ".mem $100: 0, 3, 2, 0,  4, 0, 0, 0,  4, 0, 0, 2,  1, 2, 0, 0\n.mem $200: $FFCDC1B4, $FFEEE4DA, $FFEDE0C8, $FFF2B179, $FFF59563, $FFF67C5F",
+     "solutionCode": "; U12: draw(r1 = board, r2 = Farbtabelle): 4 x 4 Spielfeld in den Bildspeicher ab $80000000\n; ein Pixel = ein 32-Bit-Wort, Farbe = Farbtabelle[Exponent]\n.mem $100: 0, 3, 2, 0,  4, 0, 0, 0,  4, 0, 0, 2,  1, 2, 0, 0\n.mem $200: $FFCDC1B4, $FFEEE4DA, $FFEDE0C8, $FFF2B179, $FFF59563, $FFF67C5F\n\ndraw:     addhi r5 := r0,#$8000    ; VRAM-Basisadresse $80000000\n          addi r6 := r0,#16        ; 16 Felder\n          add  r7 := r0,r0         ; Index\nloop:     beq  r6,fertig\n          ldr  r8 := (r1,r7)       ; Exponent des Steins\n          ldr  r9 := (r2,r8)       ; Farbe aus der Tabelle\n          str  (r5,r7) := r9       ; Pixel schreiben\n          addi r7 := r7,#1\n          addi r6 := r6,#-1\n          bra  loop\nfertig:   jmp  r31",
+     "ziel": [
+      {
+       "t": "p",
+       "s": "Ein Spielfeld per Memory-Mapped I/O in einen Bildspeicher schreiben, mit einer Farbtabelle statt vieler Sprünge."
+      }
+     ],
+     "erklaerung": [
+      {
+       "t": "p",
+       "s": "Nach **Praktischer Übung 1** (sinngemäß): das Spiel 2048 auf dem IKR RISC II. Das Spielbrett hat 4 × 4 Felder, als Array mit 16 Wörtern ab `board`, zeilenweise. Jedes Wort enthält den **Exponenten** des Steins (Stein 8 = 2³ → 3), 0 heißt leer."
+      },
+      {
+       "t": "p",
+       "s": "Ein Feld reservierst du mit `board: .skip 16`. Im Simulator liegt es bei `$100`."
+      },
+      {
+       "t": "p",
+       "s": "**Memory-Mapped I/O**: Die Grafikeinheit hat Adressen im normalen Adressraum, ab `$80000000`. Ein Pixel ist ein 32-Bit-Wort im Format ARGB (`$FFFF0000` = Rot). Beim IKR RISC II ist das genau **ein** `std`/`str` pro Pixel."
+      },
+      {
+       "t": "p",
+       "s": "Trick: Eine **Farbtabelle** mit einer Farbe pro Exponent. `Farbe = Tabelle[Exponent]` braucht keinen einzigen bedingten Sprung."
+      },
+      {
+       "t": "p",
+       "s": "Schnittstelle: `draw(r1 = board, r2 = Farbtabelle)`, ein Pixel pro Feld."
+      }
+     ],
+     "aufgabe": [
+      {
+       "t": "p",
+       "s": "Schreibe `draw`. Die Basisadresse `$80000000` erzeugst du mit `addhi`."
+      },
+      {
+       "t": "p",
+       "s": "Startdaten zum Testen (im Editor schon eingetragen, dein Code kommt darunter):"
+      },
+      {
+       "t": "code",
+       "lang": "ikr",
+       "s": ".mem $100: 0, 3, 2, 0,  4, 0, 0, 0,  4, 0, 0, 2,  1, 2, 0, 0\n.mem $200: $FFCDC1B4, $FFEEE4DA, $FFEDE0C8, $FFF2B179, $FFF59563, $FFF67C5F"
+      }
+     ],
+     "aufgabeMd": "Schreibe `draw`. Die Basisadresse `$80000000` erzeugst du mit `addhi`.\n\nStartdaten zum Testen (im Editor schon eingetragen, dein Code kommt darunter):\n```ikr\n.mem $100: 0, 3, 2, 0,  4, 0, 0, 0,  4, 0, 0, 2,  1, 2, 0, 0\n.mem $200: $FFCDC1B4, $FFEEE4DA, $FFEDE0C8, $FFF2B179, $FFF59563, $FFF67C5F\n```",
+     "loesung": [
+      {
+       "t": "code",
+       "lang": "ikr",
+       "s": "; U12: draw(r1 = board, r2 = Farbtabelle): 4 x 4 Spielfeld in den Bildspeicher ab $80000000\n; ein Pixel = ein 32-Bit-Wort, Farbe = Farbtabelle[Exponent]\n.mem $100: 0, 3, 2, 0,  4, 0, 0, 0,  4, 0, 0, 2,  1, 2, 0, 0\n.mem $200: $FFCDC1B4, $FFEEE4DA, $FFEDE0C8, $FFF2B179, $FFF59563, $FFF67C5F\n\ndraw:     addhi r5 := r0,#$8000    ; VRAM-Basisadresse $80000000\n          addi r6 := r0,#16        ; 16 Felder\n          add  r7 := r0,r0         ; Index\nloop:     beq  r6,fertig\n          ldr  r8 := (r1,r7)       ; Exponent des Steins\n          ldr  r9 := (r2,r8)       ; Farbe aus der Tabelle\n          str  (r5,r7) := r9       ; Pixel schreiben\n          addi r7 := r7,#1\n          addi r6 := r6,#-1\n          bra  loop\nfertig:   jmp  r31"
+      },
+      {
+       "t": "p",
+       "s": "`addhi r5 := r0,#$8000` schreibt die Konstante in die obere Hälfte: `$80000000`. Mit `ldr`/`str` und Index sparst du die Adressrechnung."
+      }
+     ],
+     "loesungMd": "```ikr\n; U12: draw(r1 = board, r2 = Farbtabelle): 4 x 4 Spielfeld in den Bildspeicher ab $80000000\n; ein Pixel = ein 32-Bit-Wort, Farbe = Farbtabelle[Exponent]\n.mem $100: 0, 3, 2, 0,  4, 0, 0, 0,  4, 0, 0, 2,  1, 2, 0, 0\n.mem $200: $FFCDC1B4, $FFEEE4DA, $FFEDE0C8, $FFF2B179, $FFF59563, $FFF67C5F\n\ndraw:     addhi r5 := r0,#$8000    ; VRAM-Basisadresse $80000000\n          addi r6 := r0,#16        ; 16 Felder\n          add  r7 := r0,r0         ; Index\nloop:     beq  r6,fertig\n          ldr  r8 := (r1,r7)       ; Exponent des Steins\n          ldr  r9 := (r2,r8)       ; Farbe aus der Tabelle\n          str  (r5,r7) := r9       ; Pixel schreiben\n          addi r7 := r7,#1\n          addi r6 := r6,#-1\n          bra  loop\nfertig:   jmp  r31\n```\n`addhi r5 := r0,#$8000` schreibt die Konstante in die obere Hälfte: `$80000000`. Mit `ldr`/`str` und Index sparst du die Adressrechnung.",
+     "klausur": [
+      {
+       "t": "p",
+       "s": "Konstanten erweitern (A05), indizierte Zugriffe (B01)."
+      }
+     ]
+    },
+    {
+     "id": "U13",
+     "block": "U",
+     "title": "2048: Zufall ohne Sprünge",
+     "min": 10,
+     "mode": "code",
+     "starter": ".mem $300: 1",
+     "solutionCode": "; U13: lfsr() -> r1 = herausgeschobenes Bit; Zustand r steht fest im Speicher bei $300\n; r = (r >> 1) xor (-b and $C3308398), ohne bedingten Sprung\n.mem $300: 1\n\nlfsr:     addi r2 := r0,#$300      ; Adresse von r (statisch, nicht auf dem Stapel)\n          ldd  r3 := (r2,0)        ; r\n          and0i r1 := r3,#1        ; b = r and 1\n          lsr  r3 := r3            ; r >> 1\n          sub  r4 := r0,r1         ; -b: alle Bits 1, wenn b = 1\n          addhi r5 := r0,#$C330\n          addli r5 := r5,#$8398    ; Generatorpolynom $C3308398\n          and  r4 := r4,r5\n          xor  r3 := r3,r4\n          std  (r2,0) := r3\n          jmp  r31",
+     "ziel": [
+      {
+       "t": "p",
+       "s": "Einen Pseudozufallsgenerator (LFSR) branchless in Assembler schreiben."
+      }
+     ],
+     "erklaerung": [
+      {
+       "t": "p",
+       "s": "Neue Steine erscheinen an zufälligen Stellen. Dafür ein linear rückgekoppeltes Schieberegister (wie S09 im VHDL-Teil), in C:"
+      },
+      {
+       "t": "code",
+       "lang": "c",
+       "s": "unsigned lfsr() {\n    static unsigned r = 1;\n    unsigned b = r & 1;\n    r = (r >> 1) ^ (-b & 0xc3308398);\n    return b;\n}"
+      },
+      {
+       "t": "p",
+       "s": "`-b` ist bei b = 1 die Maske mit lauter Einsen, bei b = 0 lauter Nullen (C04). So wird das Polynom nur dann eingemischt, wenn eine 1 herausgeschoben wurde – ohne bedingten Sprung."
+      },
+      {
+       "t": "p",
+       "s": "`r` ist `static`: Es muss **zwischen zwei Aufrufen** erhalten bleiben. Auf dem Stapel ginge das nicht, weil der Stapelbereich nach der Rückkehr freigegeben und vom nächsten Aufruf überschrieben wird. `r` liegt deshalb an einer festen Adresse, hier `$300`."
+      }
+     ],
+     "aufgabe": [
+      {
+       "t": "p",
+       "s": "Schreibe `lfsr` (Rückgabe b in `r1`). Die 32-Bit-Konstante baust du mit `addhi` und `addli` zusammen."
+      },
+      {
+       "t": "p",
+       "s": "Startdaten zum Testen (im Editor schon eingetragen, dein Code kommt darunter):"
+      },
+      {
+       "t": "code",
+       "lang": "ikr",
+       "s": ".mem $300: 1"
+      }
+     ],
+     "aufgabeMd": "Schreibe `lfsr` (Rückgabe b in `r1`). Die 32-Bit-Konstante baust du mit `addhi` und `addli` zusammen.\n\nStartdaten zum Testen (im Editor schon eingetragen, dein Code kommt darunter):\n```ikr\n.mem $300: 1\n```",
+     "loesung": [
+      {
+       "t": "code",
+       "lang": "ikr",
+       "s": "; U13: lfsr() -> r1 = herausgeschobenes Bit; Zustand r steht fest im Speicher bei $300\n; r = (r >> 1) xor (-b and $C3308398), ohne bedingten Sprung\n.mem $300: 1\n\nlfsr:     addi r2 := r0,#$300      ; Adresse von r (statisch, nicht auf dem Stapel)\n          ldd  r3 := (r2,0)        ; r\n          and0i r1 := r3,#1        ; b = r and 1\n          lsr  r3 := r3            ; r >> 1\n          sub  r4 := r0,r1         ; -b: alle Bits 1, wenn b = 1\n          addhi r5 := r0,#$C330\n          addli r5 := r5,#$8398    ; Generatorpolynom $C3308398\n          and  r4 := r4,r5\n          xor  r3 := r3,r4\n          std  (r2,0) := r3\n          jmp  r31"
+      },
+      {
+       "t": "p",
+       "s": "`lsr` (logisch) statt `asr`: Von links muss eine 0 nachrücken, weil `r` vorzeichenlos ist. Die Tests prüfen die ersten Schritte gegen das C-Programm."
+      }
+     ],
+     "loesungMd": "```ikr\n; U13: lfsr() -> r1 = herausgeschobenes Bit; Zustand r steht fest im Speicher bei $300\n; r = (r >> 1) xor (-b and $C3308398), ohne bedingten Sprung\n.mem $300: 1\n\nlfsr:     addi r2 := r0,#$300      ; Adresse von r (statisch, nicht auf dem Stapel)\n          ldd  r3 := (r2,0)        ; r\n          and0i r1 := r3,#1        ; b = r and 1\n          lsr  r3 := r3            ; r >> 1\n          sub  r4 := r0,r1         ; -b: alle Bits 1, wenn b = 1\n          addhi r5 := r0,#$C330\n          addli r5 := r5,#$8398    ; Generatorpolynom $C3308398\n          and  r4 := r4,r5\n          xor  r3 := r3,r4\n          std  (r2,0) := r3\n          jmp  r31\n```\n`lsr` (logisch) statt `asr`: Von links muss eine 0 nachrücken, weil `r` vorzeichenlos ist. Die Tests prüfen die ersten Schritte gegen das C-Programm.",
+     "klausur": [
+      {
+       "t": "p",
+       "s": "**PÜ1 F4** (warum nicht auf dem Stapel). Branchless mit Masken (C04)."
+      }
+     ]
+    },
+    {
+     "id": "U14",
+     "block": "U",
+     "title": "2048: Steine aufrücken",
+     "min": 12,
+     "mode": "code",
+     "starter": ".mem $100: 0, 3, 2, 0,  4, 0, 0, 0,  4, 0, 0, 2,  1, 2, 0, 0",
+     "solutionCode": "; U14: compact(r1 = Startadresse, r2 = Schrittweite) -> r1 = 1, wenn sich etwas bewegt hat\n; linke Spalte des Beispiels, Zug nach oben: Start = board, Schrittweite = 4\n.mem $100: 0, 3, 2, 0,  4, 0, 0, 0,  4, 0, 0, 2,  1, 2, 0, 0\n\ncompact:  add  r3 := r1,r0         ; Ziel: naechste freie Stelle\n          add  r4 := r1,r0         ; Quelle\n          addi r5 := r0,#4         ; 4 Felder\n          add  r9 := r0,r0         ; bewegt = false\nloop:     beq  r5,fertig\n          ldd  r6 := (r4,0)\n          beq  r6,weiter           ; leeres Feld: nur Quelle weiter\n          sub  r7 := r4,r3\n          beq  r7,passt            ; Stein steht schon richtig\n          std  (r3,0) := r6        ; aufruecken\n          std  (r4,0) := r0\n          addi r9 := r0,#1\npasst:    add  r3 := r3,r2         ; naechste freie Stelle\nweiter:   add  r4 := r4,r2\n          addi r5 := r5,#-1\n          bra  loop\nfertig:   add  r1 := r9,r0\n          jmp  r31",
+     "ziel": [
+      {
+       "t": "p",
+       "s": "Ein Unterprogramm mit Startadresse und Schrittweite so schreiben, dass es für alle vier Zugrichtungen passt."
+      }
+     ],
+     "erklaerung": [
+      {
+       "t": "p",
+       "s": "Bei einem Zug rücken alle Steine in Zugrichtung so weit wie möglich auf. `compact` bearbeitet **eine Zeile oder Spalte**:"
+      },
+      {
+       "t": "ul",
+       "items": [
+        "`r1` = Adresse des Feldes, das in Zugrichtung am Rand liegt,",
+        "`r2` = Schrittweite zum Nachbarfeld **entgegen** der Zugrichtung."
+       ]
+      },
+      {
+       "t": "p",
+       "s": "Beispiele: Zug nach oben, linke Spalte: Start = `board`, Schritt = 4. Zug nach rechts, unterste Zeile: Start = `board + 15`, Schritt = −1."
+      },
+      {
+       "t": "p",
+       "s": "Idee: zwei Zeiger. `Ziel` zeigt auf die nächste freie Stelle, `Quelle` läuft über alle 4 Felder. Jeder Stein an der Quelle wird zum Ziel geschoben, dann rückt das Ziel weiter."
+      },
+      {
+       "t": "p",
+       "s": "Rückgabe in `r1`: 1, wenn sich etwas bewegt hat (dann darf ein neuer Stein erscheinen), sonst 0."
+      }
+     ],
+     "aufgabe": [
+      {
+       "t": "p",
+       "s": "Schreibe `compact`."
+      },
+      {
+       "t": "p",
+       "s": "Startdaten zum Testen (im Editor schon eingetragen, dein Code kommt darunter):"
+      },
+      {
+       "t": "code",
+       "lang": "ikr",
+       "s": ".mem $100: 0, 3, 2, 0,  4, 0, 0, 0,  4, 0, 0, 2,  1, 2, 0, 0"
+      }
+     ],
+     "aufgabeMd": "Schreibe `compact`.\n\nStartdaten zum Testen (im Editor schon eingetragen, dein Code kommt darunter):\n```ikr\n.mem $100: 0, 3, 2, 0,  4, 0, 0, 0,  4, 0, 0, 2,  1, 2, 0, 0\n```",
+     "loesung": [
+      {
+       "t": "code",
+       "lang": "ikr",
+       "s": "; U14: compact(r1 = Startadresse, r2 = Schrittweite) -> r1 = 1, wenn sich etwas bewegt hat\n; linke Spalte des Beispiels, Zug nach oben: Start = board, Schrittweite = 4\n.mem $100: 0, 3, 2, 0,  4, 0, 0, 0,  4, 0, 0, 2,  1, 2, 0, 0\n\ncompact:  add  r3 := r1,r0         ; Ziel: naechste freie Stelle\n          add  r4 := r1,r0         ; Quelle\n          addi r5 := r0,#4         ; 4 Felder\n          add  r9 := r0,r0         ; bewegt = false\nloop:     beq  r5,fertig\n          ldd  r6 := (r4,0)\n          beq  r6,weiter           ; leeres Feld: nur Quelle weiter\n          sub  r7 := r4,r3\n          beq  r7,passt            ; Stein steht schon richtig\n          std  (r3,0) := r6        ; aufruecken\n          std  (r4,0) := r0\n          addi r9 := r0,#1\npasst:    add  r3 := r3,r2         ; naechste freie Stelle\nweiter:   add  r4 := r4,r2\n          addi r5 := r5,#-1\n          bra  loop\nfertig:   add  r1 := r9,r0\n          jmp  r31"
+      },
+      {
+       "t": "p",
+       "s": "Steht ein Stein schon am Ziel (`Quelle = Ziel`), wird nichts geschrieben und nichts als bewegt gezählt. Durch die Schrittweite funktioniert dasselbe Unterprogramm für alle vier Richtungen."
+      }
+     ],
+     "loesungMd": "```ikr\n; U14: compact(r1 = Startadresse, r2 = Schrittweite) -> r1 = 1, wenn sich etwas bewegt hat\n; linke Spalte des Beispiels, Zug nach oben: Start = board, Schrittweite = 4\n.mem $100: 0, 3, 2, 0,  4, 0, 0, 0,  4, 0, 0, 2,  1, 2, 0, 0\n\ncompact:  add  r3 := r1,r0         ; Ziel: naechste freie Stelle\n          add  r4 := r1,r0         ; Quelle\n          addi r5 := r0,#4         ; 4 Felder\n          add  r9 := r0,r0         ; bewegt = false\nloop:     beq  r5,fertig\n          ldd  r6 := (r4,0)\n          beq  r6,weiter           ; leeres Feld: nur Quelle weiter\n          sub  r7 := r4,r3\n          beq  r7,passt            ; Stein steht schon richtig\n          std  (r3,0) := r6        ; aufruecken\n          std  (r4,0) := r0\n          addi r9 := r0,#1\npasst:    add  r3 := r3,r2         ; naechste freie Stelle\nweiter:   add  r4 := r4,r2\n          addi r5 := r5,#-1\n          bra  loop\nfertig:   add  r1 := r9,r0\n          jmp  r31\n```\nSteht ein Stein schon am Ziel (`Quelle = Ziel`), wird nichts geschrieben und nichts als bewegt gezählt. Durch die Schrittweite funktioniert dasselbe Unterprogramm für alle vier Richtungen.",
+     "klausur": [
+      {
+       "t": "p",
+       "s": "**PÜ1 F6.** Zeiger und Schrittweite als Parameter."
+      }
+     ]
+    },
+    {
+     "id": "U15",
+     "block": "U",
+     "title": "2048: Vereinigen und ganzer Zug",
+     "min": 18,
+     "mode": "code",
+     "starter": ".reg r30 = $1000\n.mem $100: 0, 3, 2, 0,  4, 0, 0, 0,  4, 0, 0, 2,  1, 2, 0, 0",
+     "solutionCode": "; U15: zug_oben(r1 = board): fuer jede Spalte compact, merge, compact\n.reg r30 = $1000\n.mem $100: 0, 3, 2, 0,  4, 0, 0, 0,  4, 0, 0, 2,  1, 2, 0, 0\n; Ergebnis wie im Beispiel: oben 32 8 4 4, darunter 2 4\n\nzug_oben: addi r30 := r30,#-4\n          std  (r30,0) := r31\n          std  (r30,1) := r10\n          std  (r30,2) := r11\n          std  (r30,3) := r12\n          add  r10 := r1,r0        ; Adresse der aktuellen Spalte (oben)\n          addi r11 := r0,#4        ; 4 Spalten\n          add  r12 := r0,r0        ; hat sich irgendetwas veraendert?\nspalte:   beq  r11,zug_ende\n          add  r1 := r10,r0\n          addi r2 := r0,#4\n          bsr  compact\n          or   r12 := r12,r1\n          add  r1 := r10,r0\n          addi r2 := r0,#4\n          bsr  merge\n          or   r12 := r12,r1\n          add  r1 := r10,r0\n          addi r2 := r0,#4\n          bsr  compact             ; durch merge entstandene Luecken schliessen\n          addi r10 := r10,#1\n          addi r11 := r11,#-1\n          bra  spalte\nzug_ende: add  r1 := r12,r0\n          ldd  r31 := (r30,0)\n          ldd  r10 := (r30,1)\n          ldd  r11 := (r30,2)\n          ldd  r12 := (r30,3)\n          addi r30 := r30,#4\n          jmp  r31\n\n; merge(r1 = Startadresse, r2 = Schrittweite) -> r1 = 1, wenn vereinigt wurde\nmerge:    add  r3 := r1,r0         ; aktuelles Feld\n          addi r5 := r0,#3         ; noch zu pruefende Paare\n          add  r9 := r0,r0\nm_loop:   ble  r5,m_fertig\n          ldd  r6 := (r3,0)\n          add  r4 := r3,r2         ; Nachbar entgegen der Zugrichtung\n          ldd  r7 := (r4,0)\n          beq  r6,m_weiter         ; leeres Feld\n          sub  r8 := r6,r7\n          bne  r8,m_weiter         ; verschiedene Steine\n          addi r6 := r6,#1         ; doppelter Wert = Exponent + 1\n          std  (r3,0) := r6\n          std  (r4,0) := r0\n          addi r9 := r0,#1\n          add  r3 := r4,r2         ; neuer Stein darf nicht nochmal vereinigt werden\n          addi r5 := r5,#-2\n          bra  m_loop\nm_weiter: add  r3 := r4,r0\n          addi r5 := r5,#-1\n          bra  m_loop\nm_fertig: add  r1 := r9,r0\n          jmp  r31\n\ncompact:  add  r3 := r1,r0\n          add  r4 := r1,r0\n          addi r5 := r0,#4\n          add  r9 := r0,r0\nc_loop:   beq  r5,c_fertig\n          ldd  r6 := (r4,0)\n          beq  r6,c_weiter\n          sub  r7 := r4,r3\n          beq  r7,c_passt\n          std  (r3,0) := r6\n          std  (r4,0) := r0\n          addi r9 := r0,#1\nc_passt:  add  r3 := r3,r2\nc_weiter: add  r4 := r4,r2\n          addi r5 := r5,#-1\n          bra  c_loop\nc_fertig: add  r1 := r9,r0\n          jmp  r31",
+     "ziel": [
+      {
+       "t": "p",
+       "s": "Mehrere Unterprogramme zu einem vollständigen Spielzug verbinden."
+      }
+     ],
+     "erklaerung": [
+      {
+       "t": "p",
+       "s": "`merge(r1 = Start, r2 = Schritt)` vereinigt gleiche Nachbarn: Zwei gleiche Exponenten werden zu einem Stein mit Exponent + 1, das zweite Feld wird leer. Ein so entstandener Stein darf im selben Zug **nicht noch einmal** vereinigt werden: Nach einer Vereinigung geht es zwei Felder weiter."
+      },
+      {
+       "t": "p",
+       "s": "Ein ganzer Zug für eine Spalte: `compact`, `merge`, `compact` (das zweite `compact` schließt die Lücken, die `merge` gerissen hat)."
+      },
+      {
+       "t": "p",
+       "s": "`zug_oben(r1 = board)` macht das für alle 4 Spalten (Start = `board + Spalte`, Schritt = 4) und gibt zurück, ob sich irgendetwas verändert hat."
+      },
+      {
+       "t": "p",
+       "s": "Beispiel aus der Übung: vor dem Zug (Exponenten) Zeilen `0 3 2 0`, `4 0 0 0`, `4 0 0 2`, `1 2 0 0`. Nach dem Zug nach oben: `5 3 2 2` und `1 2 0 0`, also Steine 32, 8, 4, 4 und darunter 2, 4."
+      }
+     ],
+     "aufgabe": [
+      {
+       "t": "p",
+       "s": "Schreibe `merge` und `zug_oben`. `compact` aus U14 hängst du an."
+      },
+      {
+       "t": "p",
+       "s": "Startdaten zum Testen (im Editor schon eingetragen, dein Code kommt darunter):"
+      },
+      {
+       "t": "code",
+       "lang": "ikr",
+       "s": ".reg r30 = $1000\n.mem $100: 0, 3, 2, 0,  4, 0, 0, 0,  4, 0, 0, 2,  1, 2, 0, 0"
+      }
+     ],
+     "aufgabeMd": "Schreibe `merge` und `zug_oben`. `compact` aus U14 hängst du an.\n\nStartdaten zum Testen (im Editor schon eingetragen, dein Code kommt darunter):\n```ikr\n.reg r30 = $1000\n.mem $100: 0, 3, 2, 0,  4, 0, 0, 0,  4, 0, 0, 2,  1, 2, 0, 0\n```",
+     "loesung": [
+      {
+       "t": "code",
+       "lang": "ikr",
+       "s": "; U15: zug_oben(r1 = board): fuer jede Spalte compact, merge, compact\n.reg r30 = $1000\n.mem $100: 0, 3, 2, 0,  4, 0, 0, 0,  4, 0, 0, 2,  1, 2, 0, 0\n; Ergebnis wie im Beispiel: oben 32 8 4 4, darunter 2 4\n\nzug_oben: addi r30 := r30,#-4\n          std  (r30,0) := r31\n          std  (r30,1) := r10\n          std  (r30,2) := r11\n          std  (r30,3) := r12\n          add  r10 := r1,r0        ; Adresse der aktuellen Spalte (oben)\n          addi r11 := r0,#4        ; 4 Spalten\n          add  r12 := r0,r0        ; hat sich irgendetwas veraendert?\nspalte:   beq  r11,zug_ende\n          add  r1 := r10,r0\n          addi r2 := r0,#4\n          bsr  compact\n          or   r12 := r12,r1\n          add  r1 := r10,r0\n          addi r2 := r0,#4\n          bsr  merge\n          or   r12 := r12,r1\n          add  r1 := r10,r0\n          addi r2 := r0,#4\n          bsr  compact             ; durch merge entstandene Luecken schliessen\n          addi r10 := r10,#1\n          addi r11 := r11,#-1\n          bra  spalte\nzug_ende: add  r1 := r12,r0\n          ldd  r31 := (r30,0)\n          ldd  r10 := (r30,1)\n          ldd  r11 := (r30,2)\n          ldd  r12 := (r30,3)\n          addi r30 := r30,#4\n          jmp  r31\n\n; merge(r1 = Startadresse, r2 = Schrittweite) -> r1 = 1, wenn vereinigt wurde\nmerge:    add  r3 := r1,r0         ; aktuelles Feld\n          addi r5 := r0,#3         ; noch zu pruefende Paare\n          add  r9 := r0,r0\nm_loop:   ble  r5,m_fertig\n          ldd  r6 := (r3,0)\n          add  r4 := r3,r2         ; Nachbar entgegen der Zugrichtung\n          ldd  r7 := (r4,0)\n          beq  r6,m_weiter         ; leeres Feld\n          sub  r8 := r6,r7\n          bne  r8,m_weiter         ; verschiedene Steine\n          addi r6 := r6,#1         ; doppelter Wert = Exponent + 1\n          std  (r3,0) := r6\n          std  (r4,0) := r0\n          addi r9 := r0,#1\n          add  r3 := r4,r2         ; neuer Stein darf nicht nochmal vereinigt werden\n          addi r5 := r5,#-2\n          bra  m_loop\nm_weiter: add  r3 := r4,r0\n          addi r5 := r5,#-1\n          bra  m_loop\nm_fertig: add  r1 := r9,r0\n          jmp  r31\n\ncompact:  add  r3 := r1,r0\n          add  r4 := r1,r0\n          addi r5 := r0,#4\n          add  r9 := r0,r0\nc_loop:   beq  r5,c_fertig\n          ldd  r6 := (r4,0)\n          beq  r6,c_weiter\n          sub  r7 := r4,r3\n          beq  r7,c_passt\n          std  (r3,0) := r6\n          std  (r4,0) := r0\n          addi r9 := r0,#1\nc_passt:  add  r3 := r3,r2\nc_weiter: add  r4 := r4,r2\n          addi r5 := r5,#-1\n          bra  c_loop\nc_fertig: add  r1 := r9,r0\n          jmp  r31"
+      },
+      {
+       "t": "p",
+       "s": "`zug_oben` hält Spaltenadresse, Zähler und das Ergebnis in `r10`–`r12`, weil `compact` und `merge` die Register `r1`–`r9` benutzen. Die Ergebnisse von drei Aufrufen werden mit `or` gesammelt."
+      }
+     ],
+     "loesungMd": "```ikr\n; U15: zug_oben(r1 = board): fuer jede Spalte compact, merge, compact\n.reg r30 = $1000\n.mem $100: 0, 3, 2, 0,  4, 0, 0, 0,  4, 0, 0, 2,  1, 2, 0, 0\n; Ergebnis wie im Beispiel: oben 32 8 4 4, darunter 2 4\n\nzug_oben: addi r30 := r30,#-4\n          std  (r30,0) := r31\n          std  (r30,1) := r10\n          std  (r30,2) := r11\n          std  (r30,3) := r12\n          add  r10 := r1,r0        ; Adresse der aktuellen Spalte (oben)\n          addi r11 := r0,#4        ; 4 Spalten\n          add  r12 := r0,r0        ; hat sich irgendetwas veraendert?\nspalte:   beq  r11,zug_ende\n          add  r1 := r10,r0\n          addi r2 := r0,#4\n          bsr  compact\n          or   r12 := r12,r1\n          add  r1 := r10,r0\n          addi r2 := r0,#4\n          bsr  merge\n          or   r12 := r12,r1\n          add  r1 := r10,r0\n          addi r2 := r0,#4\n          bsr  compact             ; durch merge entstandene Luecken schliessen\n          addi r10 := r10,#1\n          addi r11 := r11,#-1\n          bra  spalte\nzug_ende: add  r1 := r12,r0\n          ldd  r31 := (r30,0)\n          ldd  r10 := (r30,1)\n          ldd  r11 := (r30,2)\n          ldd  r12 := (r30,3)\n          addi r30 := r30,#4\n          jmp  r31\n\n; merge(r1 = Startadresse, r2 = Schrittweite) -> r1 = 1, wenn vereinigt wurde\nmerge:    add  r3 := r1,r0         ; aktuelles Feld\n          addi r5 := r0,#3         ; noch zu pruefende Paare\n          add  r9 := r0,r0\nm_loop:   ble  r5,m_fertig\n          ldd  r6 := (r3,0)\n          add  r4 := r3,r2         ; Nachbar entgegen der Zugrichtung\n          ldd  r7 := (r4,0)\n          beq  r6,m_weiter         ; leeres Feld\n          sub  r8 := r6,r7\n          bne  r8,m_weiter         ; verschiedene Steine\n          addi r6 := r6,#1         ; doppelter Wert = Exponent + 1\n          std  (r3,0) := r6\n          std  (r4,0) := r0\n          addi r9 := r0,#1\n          add  r3 := r4,r2         ; neuer Stein darf nicht nochmal vereinigt werden\n          addi r5 := r5,#-2\n          bra  m_loop\nm_weiter: add  r3 := r4,r0\n          addi r5 := r5,#-1\n          bra  m_loop\nm_fertig: add  r1 := r9,r0\n          jmp  r31\n\ncompact:  add  r3 := r1,r0\n          add  r4 := r1,r0\n          addi r5 := r0,#4\n          add  r9 := r0,r0\nc_loop:   beq  r5,c_fertig\n          ldd  r6 := (r4,0)\n          beq  r6,c_weiter\n          sub  r7 := r4,r3\n          beq  r7,c_passt\n          std  (r3,0) := r6\n          std  (r4,0) := r0\n          addi r9 := r0,#1\nc_passt:  add  r3 := r3,r2\nc_weiter: add  r4 := r4,r2\n          addi r5 := r5,#-1\n          bra  c_loop\nc_fertig: add  r1 := r9,r0\n          jmp  r31\n```\n`zug_oben` hält Spaltenadresse, Zähler und das Ergebnis in `r10`–`r12`, weil `compact` und `merge` die Register `r1`–`r9` benutzen. Die Ergebnisse von drei Aufrufen werden mit `or` gesammelt.",
+     "klausur": [
+      {
+       "t": "p",
+       "s": "**PÜ1 F6/F8.** Unterprogramme kombinieren (C01, C02)."
+      }
+     ]
+    },
+    {
+     "id": "U16",
+     "block": "U",
+     "title": "2048: neuen Stein setzen",
+     "min": 15,
+     "mode": "code",
+     "starter": ".reg r30 = $1000\n.mem $100: 0, 3, 2, 0,  4, 0, 0, 0,  4, 0, 0, 2,  1, 2, 0, 0\n.mem $300: 1",
+     "solutionCode": "; U16: spawn(r1 = board): neuen Stein (Exponent 1 in 3/4 der Faelle, sonst 2) auf ein freies Feld\n; 6 Zufallsbits aus lfsr: die unteren 2 bestimmen den Wert, die oberen 4 die Position\n.reg r30 = $1000\n.mem $100: 0, 3, 2, 0,  4, 0, 0, 0,  4, 0, 0, 2,  1, 2, 0, 0\n.mem $300: 1\n\nspawn:    addi r30 := r30,#-4\n          std  (r30,0) := r31\n          std  (r30,1) := r10\n          std  (r30,2) := r11\n          std  (r30,3) := r12\n          add  r10 := r1,r0        ; board (ueberlebt die lfsr-Aufrufe)\n          add  r12 := r0,r0        ; Zufallszahl\n          addi r11 := r0,#6        ; 6 Bits holen\nbits:     beq  r11,auswerten\n          bsr  lfsr\n          lsl  r12 := r12\n          or   r12 := r12,r1\n          addi r11 := r11,#-1\n          bra  bits\nauswerten: and0i r3 := r12,#3      ; Wert-Bits\n          addi r4 := r0,#1         ; Exponent 1 (Stein 2)\n          bne  r3,pos\n          addi r4 := r0,#2         ; nur bei 00: Exponent 2 (Stein 4)\npos:      lsr  r5 := r12\n          lsr  r5 := r5\n          and0i r5 := r5,#15       ; Positions-Index 0..15\nfrei:     ldr  r6 := (r10,r5)\n          beq  r6,setzen           ; Feld frei\n          addi r5 := r5,#1         ; sonst naechstes Feld\n          and0i r5 := r5,#15\n          bra  frei\nsetzen:   str  (r10,r5) := r4\n          add  r1 := r5,r0         ; Rueckgabe: Index\n          ldd  r31 := (r30,0)\n          ldd  r10 := (r30,1)\n          ldd  r11 := (r30,2)\n          ldd  r12 := (r30,3)\n          addi r30 := r30,#4\n          jmp  r31\n\nlfsr:     addi r2 := r0,#$300\n          ldd  r3 := (r2,0)\n          and0i r1 := r3,#1\n          lsr  r3 := r3\n          sub  r4 := r0,r1\n          addhi r5 := r0,#$C330\n          addli r5 := r5,#$8398\n          and  r4 := r4,r5\n          xor  r3 := r3,r4\n          std  (r2,0) := r3\n          jmp  r31",
+     "ziel": [
+      {
+       "t": "p",
+       "s": "Zufallsbits sammeln, auswerten und ein freies Feld suchen."
+      }
+     ],
+     "erklaerung": [
+      {
+       "t": "p",
+       "s": "Nach jedem Zug setzt `spawn(r1 = board)` einen neuen Stein:"
+      },
+      {
+       "t": "ul",
+       "items": [
+        "6 Bit aus `lfsr` holen (6 Aufrufe, Bits von rechts hineinschieben).",
+        "Die unteren 2 Bit bestimmen den Wert: `00` (1 von 4 Fällen) → Stein 4 (Exponent 2), sonst Stein 2 (Exponent 1). Also in drei Vierteln der Fälle eine 2.",
+        "Die oberen 4 Bit sind der Index. Ist das Feld belegt, so lange `Index + 1` (modulo 16), bis ein freies Feld kommt.",
+        "Rückgabe: der Index des neuen Steins."
+       ]
+      },
+      {
+       "t": "p",
+       "s": "Es muss mindestens ein Feld frei sein, sonst endet die Suche nie. Das stellt der Aufrufer sicher, weil `spawn` nur nach einem Zug mit Bewegung aufgerufen wird."
+      }
+     ],
+     "aufgabe": [
+      {
+       "t": "p",
+       "s": "Schreibe `spawn`. `lfsr` aus U13 hängst du an. Modulo 16 geht mit `and0i … #15`."
+      },
+      {
+       "t": "p",
+       "s": "Startdaten zum Testen (im Editor schon eingetragen, dein Code kommt darunter):"
+      },
+      {
+       "t": "code",
+       "lang": "ikr",
+       "s": ".reg r30 = $1000\n.mem $100: 0, 3, 2, 0,  4, 0, 0, 0,  4, 0, 0, 2,  1, 2, 0, 0\n.mem $300: 1"
+      }
+     ],
+     "aufgabeMd": "Schreibe `spawn`. `lfsr` aus U13 hängst du an. Modulo 16 geht mit `and0i … #15`.\n\nStartdaten zum Testen (im Editor schon eingetragen, dein Code kommt darunter):\n```ikr\n.reg r30 = $1000\n.mem $100: 0, 3, 2, 0,  4, 0, 0, 0,  4, 0, 0, 2,  1, 2, 0, 0\n.mem $300: 1\n```",
+     "loesung": [
+      {
+       "t": "code",
+       "lang": "ikr",
+       "s": "; U16: spawn(r1 = board): neuen Stein (Exponent 1 in 3/4 der Faelle, sonst 2) auf ein freies Feld\n; 6 Zufallsbits aus lfsr: die unteren 2 bestimmen den Wert, die oberen 4 die Position\n.reg r30 = $1000\n.mem $100: 0, 3, 2, 0,  4, 0, 0, 0,  4, 0, 0, 2,  1, 2, 0, 0\n.mem $300: 1\n\nspawn:    addi r30 := r30,#-4\n          std  (r30,0) := r31\n          std  (r30,1) := r10\n          std  (r30,2) := r11\n          std  (r30,3) := r12\n          add  r10 := r1,r0        ; board (ueberlebt die lfsr-Aufrufe)\n          add  r12 := r0,r0        ; Zufallszahl\n          addi r11 := r0,#6        ; 6 Bits holen\nbits:     beq  r11,auswerten\n          bsr  lfsr\n          lsl  r12 := r12\n          or   r12 := r12,r1\n          addi r11 := r11,#-1\n          bra  bits\nauswerten: and0i r3 := r12,#3      ; Wert-Bits\n          addi r4 := r0,#1         ; Exponent 1 (Stein 2)\n          bne  r3,pos\n          addi r4 := r0,#2         ; nur bei 00: Exponent 2 (Stein 4)\npos:      lsr  r5 := r12\n          lsr  r5 := r5\n          and0i r5 := r5,#15       ; Positions-Index 0..15\nfrei:     ldr  r6 := (r10,r5)\n          beq  r6,setzen           ; Feld frei\n          addi r5 := r5,#1         ; sonst naechstes Feld\n          and0i r5 := r5,#15\n          bra  frei\nsetzen:   str  (r10,r5) := r4\n          add  r1 := r5,r0         ; Rueckgabe: Index\n          ldd  r31 := (r30,0)\n          ldd  r10 := (r30,1)\n          ldd  r11 := (r30,2)\n          ldd  r12 := (r30,3)\n          addi r30 := r30,#4\n          jmp  r31\n\nlfsr:     addi r2 := r0,#$300\n          ldd  r3 := (r2,0)\n          and0i r1 := r3,#1\n          lsr  r3 := r3\n          sub  r4 := r0,r1\n          addhi r5 := r0,#$C330\n          addli r5 := r5,#$8398\n          and  r4 := r4,r5\n          xor  r3 := r3,r4\n          std  (r2,0) := r3\n          jmp  r31"
+      },
+      {
+       "t": "p",
+       "s": "`board` und die Zufallszahl stehen in callee-save Registern, weil `lfsr` dazwischen aufgerufen wird. Die Testfälle sind mit dem C-Programm aus der Übung nachgerechnet."
+      }
+     ],
+     "loesungMd": "```ikr\n; U16: spawn(r1 = board): neuen Stein (Exponent 1 in 3/4 der Faelle, sonst 2) auf ein freies Feld\n; 6 Zufallsbits aus lfsr: die unteren 2 bestimmen den Wert, die oberen 4 die Position\n.reg r30 = $1000\n.mem $100: 0, 3, 2, 0,  4, 0, 0, 0,  4, 0, 0, 2,  1, 2, 0, 0\n.mem $300: 1\n\nspawn:    addi r30 := r30,#-4\n          std  (r30,0) := r31\n          std  (r30,1) := r10\n          std  (r30,2) := r11\n          std  (r30,3) := r12\n          add  r10 := r1,r0        ; board (ueberlebt die lfsr-Aufrufe)\n          add  r12 := r0,r0        ; Zufallszahl\n          addi r11 := r0,#6        ; 6 Bits holen\nbits:     beq  r11,auswerten\n          bsr  lfsr\n          lsl  r12 := r12\n          or   r12 := r12,r1\n          addi r11 := r11,#-1\n          bra  bits\nauswerten: and0i r3 := r12,#3      ; Wert-Bits\n          addi r4 := r0,#1         ; Exponent 1 (Stein 2)\n          bne  r3,pos\n          addi r4 := r0,#2         ; nur bei 00: Exponent 2 (Stein 4)\npos:      lsr  r5 := r12\n          lsr  r5 := r5\n          and0i r5 := r5,#15       ; Positions-Index 0..15\nfrei:     ldr  r6 := (r10,r5)\n          beq  r6,setzen           ; Feld frei\n          addi r5 := r5,#1         ; sonst naechstes Feld\n          and0i r5 := r5,#15\n          bra  frei\nsetzen:   str  (r10,r5) := r4\n          add  r1 := r5,r0         ; Rueckgabe: Index\n          ldd  r31 := (r30,0)\n          ldd  r10 := (r30,1)\n          ldd  r11 := (r30,2)\n          ldd  r12 := (r30,3)\n          addi r30 := r30,#4\n          jmp  r31\n\nlfsr:     addi r2 := r0,#$300\n          ldd  r3 := (r2,0)\n          and0i r1 := r3,#1\n          lsr  r3 := r3\n          sub  r4 := r0,r1\n          addhi r5 := r0,#$C330\n          addli r5 := r5,#$8398\n          and  r4 := r4,r5\n          xor  r3 := r3,r4\n          std  (r2,0) := r3\n          jmp  r31\n```\n`board` und die Zufallszahl stehen in callee-save Registern, weil `lfsr` dazwischen aufgerufen wird. Die Testfälle sind mit dem C-Programm aus der Übung nachgerechnet.",
+     "klausur": [
+      {
+       "t": "p",
+       "s": "**PÜ1 F5.** Unterprogramm mit Zustand (U13), Schleifen."
+      }
+     ]
+    },
+    {
+     "id": "W01",
+     "block": "W",
+     "title": "Werkstatt: Programme komplett selbst schreiben",
+     "min": 5,
+     "mode": "text",
+     "starter": "",
+     "solutionCode": "",
+     "ziel": [
+      {
+       "t": "p",
+       "s": "Wissen, wie du in Block W arbeitest: Aus einer Beschreibung wird ein vollständiges, lauffähiges Unterprogramm."
+      }
+     ],
+     "erklaerung": [
+      {
+       "t": "p",
+       "s": "In Block W bekommst du nur eine **Schnittstelle** (welche Register rein, was raus) und eine Beschreibung. Das Programm schreibst du komplett selbst."
+      },
+      {
+       "t": "p",
+       "s": "So gehst du vor:"
+      },
+      {
+       "t": "ol",
+       "items": [
+        "**Erst in C oder Pseudocode** hinschreiben, was passieren soll.",
+        "**Register festlegen**: Welcher Wert liegt wo? Schreib es als Kommentar oben hin.",
+        "**Schleifen** nach Muster: Kopf mit Abbruchtest (`beq`/`blt`/…), Rumpf, Zähler/Zeiger weiter, `bra` zurück.",
+        "**Aufrufe anderer Unterprogramme**: `r31` und benutzte callee-save Register sichern (U04).",
+        "**Testen**: Im Editor stehen schon Testdaten (`.reg`, `.mem`). Am Rechner läuft der Simulator: `./sim.sh datei.s` im Repo Rechnerarchtektur_Lernen. Alle Musterlösungen liegen mit Testfällen in `ra/am_rechner` im Repo VHDL_lernen."
+       ]
+      },
+      {
+       "t": "p",
+       "s": "Calling Convention des IKR RISC II (wie in der praktischen Übung): `r1`–`r9` caller-save, `r10`–`r31` callee-save, Parameter in `r1`, `r2`, …, Rückgabe in `r1`, Stapelzeiger `r30` zeigt auf die zuletzt belegte Position (der Stapel wächst nach unten)."
+      }
+     ],
+     "aufgabe": [
+      {
+       "t": "p",
+       "s": "Schreibe für `maximum(r1 = Adresse, r2 = Länge)` (W02) zuerst nur den C-Code."
+      }
+     ],
+     "aufgabeMd": "Schreibe für `maximum(r1 = Adresse, r2 = Länge)` (W02) zuerst nur den C-Code.",
+     "loesung": [
+      {
+       "t": "code",
+       "lang": "c",
+       "s": "int maximum(int *a, int n) {\n    int max = a[0];\n    for (int i = 1; i < n; i++)\n        if (a[i] > max) max = a[i];\n    return max;\n}"
+      },
+      {
+       "t": "p",
+       "s": "Daraus wird in W02 eine Schleife mit `cmps` und `ble`."
+      }
+     ],
+     "loesungMd": "```c\nint maximum(int *a, int n) {\n    int max = a[0];\n    for (int i = 1; i < n; i++)\n        if (a[i] > max) max = a[i];\n    return max;\n}\n```\nDaraus wird in W02 eine Schleife mit `cmps` und `ble`.",
+     "klausur": [
+      {
+       "t": "p",
+       "s": "In der Klausur werden fast immer kleine Unterprogramme verlangt (B06, C03)."
+      }
+     ]
+    },
+    {
+     "id": "W02",
+     "block": "W",
+     "title": "Maximum eines Arrays",
+     "min": 8,
+     "mode": "code",
+     "starter": ".mem $100: 3, -7, 12, 5, 12, -1",
+     "solutionCode": "; V01: maximum(r1 = Adresse, r2 = Laenge > 0) -> r1 = groesstes Element (mit Vorzeichen)\n.mem $100: 3, -7, 12, 5, 12, -1\n\nmaximum:  ldd  r3 := (r1,0)        ; max = erstes Element\n          addi r1 := r1,#1\n          addi r2 := r2,#-1\nloop:     beq  r2,fertig\n          ldd  r4 := (r1,0)\n          cmps r5 := r4,r3\n          ble  r5,kleiner          ; nicht groesser\n          add  r3 := r4,r0\nkleiner:  addi r1 := r1,#1\n          addi r2 := r2,#-1\n          bra  loop\nfertig:   add  r1 := r3,r0\n          jmp  r31",
+     "ziel": [
+      {
+       "t": "p",
+       "s": "Eine Schleife mit Vergleich und bedingter Übernahme schreiben."
+      }
+     ],
+     "erklaerung": [
+      {
+       "t": "p",
+       "s": "`maximum(r1 = Adresse, r2 = Länge > 0)` gibt das größte Element zurück (Zahlen mit Vorzeichen). `cmps` liefert +1, 0 oder −1."
+      }
+     ],
+     "aufgabe": [
+      {
+       "t": "p",
+       "s": "Schreibe `maximum`."
+      },
+      {
+       "t": "p",
+       "s": "Startdaten zum Testen (im Editor schon eingetragen, dein Code kommt darunter):"
+      },
+      {
+       "t": "code",
+       "lang": "ikr",
+       "s": ".mem $100: 3, -7, 12, 5, 12, -1"
+      }
+     ],
+     "aufgabeMd": "Schreibe `maximum`.\n\nStartdaten zum Testen (im Editor schon eingetragen, dein Code kommt darunter):\n```ikr\n.mem $100: 3, -7, 12, 5, 12, -1\n```",
+     "loesung": [
+      {
+       "t": "code",
+       "lang": "ikr",
+       "s": "; V01: maximum(r1 = Adresse, r2 = Laenge > 0) -> r1 = groesstes Element (mit Vorzeichen)\n.mem $100: 3, -7, 12, 5, 12, -1\n\nmaximum:  ldd  r3 := (r1,0)        ; max = erstes Element\n          addi r1 := r1,#1\n          addi r2 := r2,#-1\nloop:     beq  r2,fertig\n          ldd  r4 := (r1,0)\n          cmps r5 := r4,r3\n          ble  r5,kleiner          ; nicht groesser\n          add  r3 := r4,r0\nkleiner:  addi r1 := r1,#1\n          addi r2 := r2,#-1\n          bra  loop\nfertig:   add  r1 := r3,r0\n          jmp  r31"
+      },
+      {
+       "t": "p",
+       "s": "`ble r5,kleiner` überspringt die Übernahme, wenn das neue Element nicht größer ist. Gleiche Werte ändern nichts."
+      }
+     ],
+     "loesungMd": "```ikr\n; V01: maximum(r1 = Adresse, r2 = Laenge > 0) -> r1 = groesstes Element (mit Vorzeichen)\n.mem $100: 3, -7, 12, 5, 12, -1\n\nmaximum:  ldd  r3 := (r1,0)        ; max = erstes Element\n          addi r1 := r1,#1\n          addi r2 := r2,#-1\nloop:     beq  r2,fertig\n          ldd  r4 := (r1,0)\n          cmps r5 := r4,r3\n          ble  r5,kleiner          ; nicht groesser\n          add  r3 := r4,r0\nkleiner:  addi r1 := r1,#1\n          addi r2 := r2,#-1\n          bra  loop\nfertig:   add  r1 := r3,r0\n          jmp  r31\n```\n`ble r5,kleiner` überspringt die Übernahme, wenn das neue Element nicht größer ist. Gleiche Werte ändern nichts.",
+     "klausur": [
+      {
+       "t": "p",
+       "s": "Vergleichen (A06), Schleifen (B06)."
+      }
+     ]
+    },
+    {
+     "id": "W03",
+     "block": "W",
+     "title": "Länge eines Strings",
+     "min": 6,
+     "mode": "code",
+     "starter": ".mem $100: 72, 97, 108, 108, 111, 0      ; \"Hallo\"\n.mem $110: 0",
+     "solutionCode": "; V02: strlen(r1 = Adresse) -> r1 = Anzahl Zeichen vor der 0\n.mem $100: 72, 97, 108, 108, 111, 0      ; \"Hallo\"\n.mem $110: 0\n\nstrlen:   add  r2 := r1,r0         ; Zeiger merken\nloop:     ldd  r3 := (r2,0)\n          beq  r3,fertig\n          addi r2 := r2,#1\n          bra  loop\nfertig:   sub  r1 := r2,r1         ; Ende - Anfang\n          jmp  r31",
+     "ziel": [
+      {
+       "t": "p",
+       "s": "Mit einem Zeiger bis zur Endmarke laufen."
+      }
+     ],
+     "erklaerung": [
+      {
+       "t": "p",
+       "s": "`strlen(r1 = Adresse)` liefert die Anzahl der Zeichen vor der abschließenden 0. Tipp: Statt mitzuzählen, Zeiger am Ende minus Zeiger am Anfang."
+      }
+     ],
+     "aufgabe": [
+      {
+       "t": "p",
+       "s": "Schreibe `strlen`."
+      },
+      {
+       "t": "p",
+       "s": "Startdaten zum Testen (im Editor schon eingetragen, dein Code kommt darunter):"
+      },
+      {
+       "t": "code",
+       "lang": "ikr",
+       "s": ".mem $100: 72, 97, 108, 108, 111, 0      ; \"Hallo\"\n.mem $110: 0"
+      }
+     ],
+     "aufgabeMd": "Schreibe `strlen`.\n\nStartdaten zum Testen (im Editor schon eingetragen, dein Code kommt darunter):\n```ikr\n.mem $100: 72, 97, 108, 108, 111, 0      ; \"Hallo\"\n.mem $110: 0\n```",
+     "loesung": [
+      {
+       "t": "code",
+       "lang": "ikr",
+       "s": "; V02: strlen(r1 = Adresse) -> r1 = Anzahl Zeichen vor der 0\n.mem $100: 72, 97, 108, 108, 111, 0      ; \"Hallo\"\n.mem $110: 0\n\nstrlen:   add  r2 := r1,r0         ; Zeiger merken\nloop:     ldd  r3 := (r2,0)\n          beq  r3,fertig\n          addi r2 := r2,#1\n          bra  loop\nfertig:   sub  r1 := r2,r1         ; Ende - Anfang\n          jmp  r31"
+      },
+      {
+       "t": "p",
+       "s": "Ein Befehl weniger pro Durchlauf als mit eigenem Zähler."
+      }
+     ],
+     "loesungMd": "```ikr\n; V02: strlen(r1 = Adresse) -> r1 = Anzahl Zeichen vor der 0\n.mem $100: 72, 97, 108, 108, 111, 0      ; \"Hallo\"\n.mem $110: 0\n\nstrlen:   add  r2 := r1,r0         ; Zeiger merken\nloop:     ldd  r3 := (r2,0)\n          beq  r3,fertig\n          addi r2 := r2,#1\n          bra  loop\nfertig:   sub  r1 := r2,r1         ; Ende - Anfang\n          jmp  r31\n```\nEin Befehl weniger pro Durchlauf als mit eigenem Zähler.",
+     "klausur": [
+      {
+       "t": "p",
+       "s": "Zeiger (B01)."
+      }
+     ]
+    },
+    {
+     "id": "W04",
+     "block": "W",
+     "title": "Zeichen in einem String zählen",
+     "min": 7,
+     "mode": "code",
+     "starter": ".mem $100: 98, 97, 110, 97, 110, 97, 0   ; \"banana\"",
+     "solutionCode": "; V02 b: zaehle(r1 = Adresse, r2 = Zeichen) -> r1 = wie oft das Zeichen im String vorkommt\n.mem $100: 98, 97, 110, 97, 110, 97, 0   ; \"banana\"\n\nzaehle:   add  r4 := r0,r0\nloop:     ldd  r3 := (r1,0)\n          beq  r3,fertig\n          sub  r5 := r3,r2\n          bne  r5,weiter\n          addi r4 := r4,#1\nweiter:   addi r1 := r1,#1\n          bra  loop\nfertig:   add  r1 := r4,r0\n          jmp  r31",
+     "ziel": [
+      {
+       "t": "p",
+       "s": "Schleife mit Vergleich und Zähler kombinieren."
+      }
+     ],
+     "erklaerung": [
+      {
+       "t": "p",
+       "s": "`zaehle(r1 = Adresse, r2 = Zeichen)` zählt, wie oft das Zeichen im String vorkommt (z.B. „a“ = 97 in „banana“ → 3)."
+      }
+     ],
+     "aufgabe": [
+      {
+       "t": "p",
+       "s": "Schreibe `zaehle`."
+      },
+      {
+       "t": "p",
+       "s": "Startdaten zum Testen (im Editor schon eingetragen, dein Code kommt darunter):"
+      },
+      {
+       "t": "code",
+       "lang": "ikr",
+       "s": ".mem $100: 98, 97, 110, 97, 110, 97, 0   ; \"banana\""
+      }
+     ],
+     "aufgabeMd": "Schreibe `zaehle`.\n\nStartdaten zum Testen (im Editor schon eingetragen, dein Code kommt darunter):\n```ikr\n.mem $100: 98, 97, 110, 97, 110, 97, 0   ; \"banana\"\n```",
+     "loesung": [
+      {
+       "t": "code",
+       "lang": "ikr",
+       "s": "; V02 b: zaehle(r1 = Adresse, r2 = Zeichen) -> r1 = wie oft das Zeichen im String vorkommt\n.mem $100: 98, 97, 110, 97, 110, 97, 0   ; \"banana\"\n\nzaehle:   add  r4 := r0,r0\nloop:     ldd  r3 := (r1,0)\n          beq  r3,fertig\n          sub  r5 := r3,r2\n          bne  r5,weiter\n          addi r4 := r4,#1\nweiter:   addi r1 := r1,#1\n          bra  loop\nfertig:   add  r1 := r4,r0\n          jmp  r31"
+      },
+      {
+       "t": "p",
+       "s": "Vergleich auf Gleichheit: `sub` und `bne`. Beim IKR RISC II vergleicht ein Sprung immer mit 0."
+      }
+     ],
+     "loesungMd": "```ikr\n; V02 b: zaehle(r1 = Adresse, r2 = Zeichen) -> r1 = wie oft das Zeichen im String vorkommt\n.mem $100: 98, 97, 110, 97, 110, 97, 0   ; \"banana\"\n\nzaehle:   add  r4 := r0,r0\nloop:     ldd  r3 := (r1,0)\n          beq  r3,fertig\n          sub  r5 := r3,r2\n          bne  r5,weiter\n          addi r4 := r4,#1\nweiter:   addi r1 := r1,#1\n          bra  loop\nfertig:   add  r1 := r4,r0\n          jmp  r31\n```\nVergleich auf Gleichheit: `sub` und `bne`. Beim IKR RISC II vergleicht ein Sprung immer mit 0.",
+     "klausur": [
+      {
+       "t": "p",
+       "s": "Bedingte Sprünge (B03)."
+      }
+     ]
+    },
+    {
+     "id": "W05",
+     "block": "W",
+     "title": "Array umdrehen",
+     "min": 10,
+     "mode": "code",
+     "starter": ".mem $100: 1, 2, 3, 4, 5\n.mem $110: 10, 20, 30, 40",
+     "solutionCode": "; V03: umdrehen(r1 = Adresse, r2 = Laenge): Array an Ort und Stelle umkehren\n.mem $100: 1, 2, 3, 4, 5\n.mem $110: 10, 20, 30, 40\n\numdrehen: add  r3 := r1,r2\n          addi r3 := r3,#-1        ; Zeiger auf das letzte Element\nloop:     cmpu r4 := r1,r3\n          bge  r4,fertig           ; Zeiger haben sich getroffen\n          ldd  r5 := (r1,0)\n          ldd  r6 := (r3,0)\n          std  (r1,0) := r6\n          std  (r3,0) := r5\n          addi r1 := r1,#1\n          addi r3 := r3,#-1\n          bra  loop\nfertig:   jmp  r31",
+     "ziel": [
+      {
+       "t": "p",
+       "s": "Mit zwei Zeigern von außen nach innen arbeiten."
+      }
+     ],
+     "erklaerung": [
+      {
+       "t": "p",
+       "s": "`umdrehen(r1 = Adresse, r2 = Länge)` kehrt die Reihenfolge an Ort und Stelle um. Ein Zeiger startet vorne, einer hinten. Tauschen, dann aufeinander zu, bis sie sich treffen."
+      }
+     ],
+     "aufgabe": [
+      {
+       "t": "p",
+       "s": "Schreibe `umdrehen`. Zeiger vergleichst du mit `cmpu` (Adressen sind vorzeichenlos)."
+      },
+      {
+       "t": "p",
+       "s": "Startdaten zum Testen (im Editor schon eingetragen, dein Code kommt darunter):"
+      },
+      {
+       "t": "code",
+       "lang": "ikr",
+       "s": ".mem $100: 1, 2, 3, 4, 5\n.mem $110: 10, 20, 30, 40"
+      }
+     ],
+     "aufgabeMd": "Schreibe `umdrehen`. Zeiger vergleichst du mit `cmpu` (Adressen sind vorzeichenlos).\n\nStartdaten zum Testen (im Editor schon eingetragen, dein Code kommt darunter):\n```ikr\n.mem $100: 1, 2, 3, 4, 5\n.mem $110: 10, 20, 30, 40\n```",
+     "loesung": [
+      {
+       "t": "code",
+       "lang": "ikr",
+       "s": "; V03: umdrehen(r1 = Adresse, r2 = Laenge): Array an Ort und Stelle umkehren\n.mem $100: 1, 2, 3, 4, 5\n.mem $110: 10, 20, 30, 40\n\numdrehen: add  r3 := r1,r2\n          addi r3 := r3,#-1        ; Zeiger auf das letzte Element\nloop:     cmpu r4 := r1,r3\n          bge  r4,fertig           ; Zeiger haben sich getroffen\n          ldd  r5 := (r1,0)\n          ldd  r6 := (r3,0)\n          std  (r1,0) := r6\n          std  (r3,0) := r5\n          addi r1 := r1,#1\n          addi r3 := r3,#-1\n          bra  loop\nfertig:   jmp  r31"
+      },
+      {
+       "t": "p",
+       "s": "Länge 0: Der hintere Zeiger steht vor dem vorderen, die Schleife endet sofort."
+      }
+     ],
+     "loesungMd": "```ikr\n; V03: umdrehen(r1 = Adresse, r2 = Laenge): Array an Ort und Stelle umkehren\n.mem $100: 1, 2, 3, 4, 5\n.mem $110: 10, 20, 30, 40\n\numdrehen: add  r3 := r1,r2\n          addi r3 := r3,#-1        ; Zeiger auf das letzte Element\nloop:     cmpu r4 := r1,r3\n          bge  r4,fertig           ; Zeiger haben sich getroffen\n          ldd  r5 := (r1,0)\n          ldd  r6 := (r3,0)\n          std  (r1,0) := r6\n          std  (r3,0) := r5\n          addi r1 := r1,#1\n          addi r3 := r3,#-1\n          bra  loop\nfertig:   jmp  r31\n```\nLänge 0: Der hintere Zeiger steht vor dem vorderen, die Schleife endet sofort.",
+     "klausur": [
+      {
+       "t": "p",
+       "s": "Speicherzugriffe (B02)."
+      }
+     ]
+    },
+    {
+     "id": "W06",
+     "block": "W",
+     "title": "Multiplizieren ohne Multiplizierbefehl",
+     "min": 10,
+     "mode": "code",
+     "starter": "",
+     "solutionCode": "; V04: mulu(r1, r2) -> r1 = r1 * r2 (untere 32 Bit), nur mit Schieben und Addieren\n\nmulu:     add  r3 := r0,r0         ; Produkt\nloop:     beq  r2,fertig           ; keine Bits mehr im Multiplikator\n          and0i r4 := r2,#1\n          beq  r4,schieben\n          add  r3 := r3,r1         ; Bit gesetzt: Multiplikand addieren\nschieben: lsl  r1 := r1            ; Multiplikand mal 2\n          lsr  r2 := r2            ; naechstes Bit\n          bra  loop\nfertig:   add  r1 := r3,r0\n          jmp  r31",
+     "ziel": [
+      {
+       "t": "p",
+       "s": "Die Schulmethode mit Schieben und Addieren schreiben."
+      }
+     ],
+     "erklaerung": [
+      {
+       "t": "p",
+       "s": "Der IKR RISC II hat keinen Multiplizierbefehl. `mulu(r1, r2)` rechnet `r1 · r2` (untere 32 Bit):"
+      },
+      {
+       "t": "ul",
+       "items": [
+        "Ist das unterste Bit von `r2` gesetzt, `r1` zum Ergebnis addieren.",
+        "`r1` nach links, `r2` nach rechts schieben.",
+        "Fertig, sobald `r2` = 0 ist."
+       ]
+      }
+     ],
+     "aufgabe": [
+      {
+       "t": "p",
+       "s": "Schreibe `mulu`."
+      }
+     ],
+     "aufgabeMd": "Schreibe `mulu`.",
+     "loesung": [
+      {
+       "t": "code",
+       "lang": "ikr",
+       "s": "; V04: mulu(r1, r2) -> r1 = r1 * r2 (untere 32 Bit), nur mit Schieben und Addieren\n\nmulu:     add  r3 := r0,r0         ; Produkt\nloop:     beq  r2,fertig           ; keine Bits mehr im Multiplikator\n          and0i r4 := r2,#1\n          beq  r4,schieben\n          add  r3 := r3,r1         ; Bit gesetzt: Multiplikand addieren\nschieben: lsl  r1 := r1            ; Multiplikand mal 2\n          lsr  r2 := r2            ; naechstes Bit\n          bra  loop\nfertig:   add  r1 := r3,r0\n          jmp  r31"
+      },
+      {
+       "t": "p",
+       "s": "Die Schleife läuft nur so oft, wie `r2` Bits hat. Bei kleinem Multiplikator also schnell. 65535 · 65537 = 2³² − 1 zeigt, dass nur die unteren 32 Bit übrig bleiben."
+      }
+     ],
+     "loesungMd": "```ikr\n; V04: mulu(r1, r2) -> r1 = r1 * r2 (untere 32 Bit), nur mit Schieben und Addieren\n\nmulu:     add  r3 := r0,r0         ; Produkt\nloop:     beq  r2,fertig           ; keine Bits mehr im Multiplikator\n          and0i r4 := r2,#1\n          beq  r4,schieben\n          add  r3 := r3,r1         ; Bit gesetzt: Multiplikand addieren\nschieben: lsl  r1 := r1            ; Multiplikand mal 2\n          lsr  r2 := r2            ; naechstes Bit\n          bra  loop\nfertig:   add  r1 := r3,r0\n          jmp  r31\n```\nDie Schleife läuft nur so oft, wie `r2` Bits hat. Bei kleinem Multiplikator also schnell. 65535 · 65537 = 2³² − 1 zeigt, dass nur die unteren 32 Bit übrig bleiben.",
+     "klausur": [
+      {
+       "t": "p",
+       "s": "Schieben (A06), Multiplizierer im VHDL-Teil (W11)."
+      }
+     ]
+    },
+    {
+     "id": "W07",
+     "block": "W",
+     "title": "Division mit Rest",
+     "min": 14,
+     "mode": "code",
+     "starter": "",
+     "solutionCode": "; V05: divu(r1 = a, r2 = b > 0) -> r1 = a / b, r2 = a mod b (vorzeichenlos, 32 Schritte)\n\ndivu:     add  r3 := r0,r0         ; Rest\n          add  r4 := r0,r0         ; Quotient\n          addi r5 := r0,#32\nloop:     beq  r5,fertig\n          lsl  r3 := r3            ; Rest nach links ...\n          bge  r1,null             ; ... und oberstes Bit von a hinein\n          ori  r3 := r3,#1\nnull:     lsl  r1 := r1\n          lsl  r4 := r4\n          cmpu r6 := r3,r2\n          blt  r6,kleiner          ; Rest < b: Quotientenbit 0\n          sub  r3 := r3,r2\n          ori  r4 := r4,#1\nkleiner:  addi r5 := r5,#-1\n          bra  loop\nfertig:   add  r1 := r4,r0\n          add  r2 := r3,r0\n          jmp  r31",
+     "ziel": [
+      {
+       "t": "p",
+       "s": "Die Schulmethode der Division Bit für Bit umsetzen."
+      }
+     ],
+     "erklaerung": [
+      {
+       "t": "p",
+       "s": "`divu(r1 = a, r2 = b > 0)` liefert `r1 = a / b` und `r2 = a mod b`, vorzeichenlos. 32 Schritte:"
+      },
+      {
+       "t": "ol",
+       "items": [
+        "Rest eine Stelle nach links, oberstes Bit von `a` hinein (`a` dann nach links).",
+        "Quotient nach links.",
+        "Ist Rest ≥ b (`cmpu`!), dann Rest − b und Quotientenbit 1."
+       ]
+      }
+     ],
+     "aufgabe": [
+      {
+       "t": "p",
+       "s": "Schreibe `divu`. Das oberste Bit von `a` testest du mit `bge r1,…` (Vorzeichenbit)."
+      }
+     ],
+     "aufgabeMd": "Schreibe `divu`. Das oberste Bit von `a` testest du mit `bge r1,…` (Vorzeichenbit).",
+     "loesung": [
+      {
+       "t": "code",
+       "lang": "ikr",
+       "s": "; V05: divu(r1 = a, r2 = b > 0) -> r1 = a / b, r2 = a mod b (vorzeichenlos, 32 Schritte)\n\ndivu:     add  r3 := r0,r0         ; Rest\n          add  r4 := r0,r0         ; Quotient\n          addi r5 := r0,#32\nloop:     beq  r5,fertig\n          lsl  r3 := r3            ; Rest nach links ...\n          bge  r1,null             ; ... und oberstes Bit von a hinein\n          ori  r3 := r3,#1\nnull:     lsl  r1 := r1\n          lsl  r4 := r4\n          cmpu r6 := r3,r2\n          blt  r6,kleiner          ; Rest < b: Quotientenbit 0\n          sub  r3 := r3,r2\n          ori  r4 := r4,#1\nkleiner:  addi r5 := r5,#-1\n          bra  loop\nfertig:   add  r1 := r4,r0\n          add  r2 := r3,r0\n          jmp  r31"
+      },
+      {
+       "t": "p",
+       "s": "`cmpu` statt `cmps`: Rest und b sind vorzeichenlos. Mit `cmps` wäre $FFFFFFFF / 16 falsch."
+      }
+     ],
+     "loesungMd": "```ikr\n; V05: divu(r1 = a, r2 = b > 0) -> r1 = a / b, r2 = a mod b (vorzeichenlos, 32 Schritte)\n\ndivu:     add  r3 := r0,r0         ; Rest\n          add  r4 := r0,r0         ; Quotient\n          addi r5 := r0,#32\nloop:     beq  r5,fertig\n          lsl  r3 := r3            ; Rest nach links ...\n          bge  r1,null             ; ... und oberstes Bit von a hinein\n          ori  r3 := r3,#1\nnull:     lsl  r1 := r1\n          lsl  r4 := r4\n          cmpu r6 := r3,r2\n          blt  r6,kleiner          ; Rest < b: Quotientenbit 0\n          sub  r3 := r3,r2\n          ori  r4 := r4,#1\nkleiner:  addi r5 := r5,#-1\n          bra  loop\nfertig:   add  r1 := r4,r0\n          add  r2 := r3,r0\n          jmp  r31\n```\n`cmpu` statt `cmps`: Rest und b sind vorzeichenlos. Mit `cmps` wäre $FFFFFFFF / 16 falsch.",
+     "klausur": [
+      {
+       "t": "p",
+       "s": "Gleiche Idee wie das Dividierwerk aus F22 im VHDL-Teil (P13)."
+      }
+     ]
+    },
+    {
+     "id": "W08",
+     "block": "W",
+     "title": "Bits zählen und Parität",
+     "min": 7,
+     "mode": "code",
+     "starter": "",
+     "solutionCode": "; V06: popcount(r1) -> r1 = Anzahl gesetzter Bits, r2 = Paritaet (1 bei ungerader Anzahl)\n\npopcount: add  r3 := r0,r0\nloop:     beq  r1,fertig           ; keine Einsen mehr: fertig (spart Durchlaeufe)\n          and0i r4 := r1,#1\n          add  r3 := r3,r4\n          lsr  r1 := r1            ; logisch: von links kommt 0\n          bra  loop\nfertig:   add  r1 := r3,r0\n          and0i r2 := r3,#1\n          jmp  r31",
+     "ziel": [
+      {
+       "t": "p",
+       "s": "Ein Wort Bit für Bit auswerten."
+      }
+     ],
+     "erklaerung": [
+      {
+       "t": "p",
+       "s": "`popcount(r1)` liefert in `r1` die Anzahl der gesetzten Bits und in `r2` die Parität (1, wenn die Anzahl ungerade ist)."
+      }
+     ],
+     "aufgabe": [
+      {
+       "t": "p",
+       "s": "Schreibe `popcount`. Abbrechen, sobald keine Einsen mehr übrig sind."
+      }
+     ],
+     "aufgabeMd": "Schreibe `popcount`. Abbrechen, sobald keine Einsen mehr übrig sind.",
+     "loesung": [
+      {
+       "t": "code",
+       "lang": "ikr",
+       "s": "; V06: popcount(r1) -> r1 = Anzahl gesetzter Bits, r2 = Paritaet (1 bei ungerader Anzahl)\n\npopcount: add  r3 := r0,r0\nloop:     beq  r1,fertig           ; keine Einsen mehr: fertig (spart Durchlaeufe)\n          and0i r4 := r1,#1\n          add  r3 := r3,r4\n          lsr  r1 := r1            ; logisch: von links kommt 0\n          bra  loop\nfertig:   add  r1 := r3,r0\n          and0i r2 := r3,#1\n          jmp  r31"
+      },
+      {
+       "t": "p",
+       "s": "`lsr` (logisch) ist wichtig: Mit `asr` würde bei negativen Zahlen von links immer wieder eine 1 nachkommen, die Schleife endet nie."
+      }
+     ],
+     "loesungMd": "```ikr\n; V06: popcount(r1) -> r1 = Anzahl gesetzter Bits, r2 = Paritaet (1 bei ungerader Anzahl)\n\npopcount: add  r3 := r0,r0\nloop:     beq  r1,fertig           ; keine Einsen mehr: fertig (spart Durchlaeufe)\n          and0i r4 := r1,#1\n          add  r3 := r3,r4\n          lsr  r1 := r1            ; logisch: von links kommt 0\n          bra  loop\nfertig:   add  r1 := r3,r0\n          and0i r2 := r3,#1\n          jmp  r31\n```\n`lsr` (logisch) ist wichtig: Mit `asr` würde bei negativen Zahlen von links immer wieder eine 1 nachkommen, die Schleife endet nie.",
+     "klausur": [
+      {
+       "t": "p",
+       "s": "Schieben (A06)."
+      }
+     ]
+    },
+    {
+     "id": "W09",
+     "block": "W",
+     "title": "Bubble Sort",
+     "min": 15,
+     "mode": "code",
+     "starter": ".mem $100: 5, -3, 9, 0, 9, 2, -8",
+     "solutionCode": "; V07: bubblesort(r1 = Adresse, r2 = Laenge): aufsteigend sortieren (mit Vorzeichen)\n.mem $100: 5, -3, 9, 0, 9, 2, -8\n\nbubblesort: addi r3 := r2,#-1      ; Anzahl Vergleiche im aktuellen Durchlauf\naussen:   ble  r3,fertig\n          add  r4 := r1,r0         ; Zeiger\n          add  r5 := r3,r0         ; Zaehler innen\n          add  r9 := r0,r0         ; getauscht?\ninnen:    beq  r5,innen_ende\n          ldd  r6 := (r4,0)\n          ldd  r7 := (r4,1)\n          cmps r8 := r6,r7\n          ble  r8,kein_tausch\n          std  (r4,0) := r7\n          std  (r4,1) := r6\n          addi r9 := r0,#1\nkein_tausch: addi r4 := r4,#1\n          addi r5 := r5,#-1\n          bra  innen\ninnen_ende: beq r9,fertig          ; nichts getauscht: schon sortiert\n          addi r3 := r3,#-1        ; das Groesste steht jetzt hinten\n          bra  aussen\nfertig:   jmp  r31",
+     "ziel": [
+      {
+       "t": "p",
+       "s": "Zwei verschachtelte Schleifen mit Tausch und vorzeitigem Abbruch."
+      }
+     ],
+     "erklaerung": [
+      {
+       "t": "p",
+       "s": "`bubblesort(r1 = Adresse, r2 = Länge)` sortiert aufsteigend (mit Vorzeichen):"
+      },
+      {
+       "t": "ul",
+       "items": [
+        "Ein Durchlauf vergleicht benachbarte Elemente und tauscht, wenn das linke größer ist. Danach steht das größte ganz hinten.",
+        "Jeder weitere Durchlauf braucht einen Vergleich weniger.",
+        "Wurde in einem Durchlauf nichts getauscht, ist das Array sortiert: abbrechen."
+       ]
+      }
+     ],
+     "aufgabe": [
+      {
+       "t": "p",
+       "s": "Schreibe `bubblesort`."
+      },
+      {
+       "t": "p",
+       "s": "Startdaten zum Testen (im Editor schon eingetragen, dein Code kommt darunter):"
+      },
+      {
+       "t": "code",
+       "lang": "ikr",
+       "s": ".mem $100: 5, -3, 9, 0, 9, 2, -8"
+      }
+     ],
+     "aufgabeMd": "Schreibe `bubblesort`.\n\nStartdaten zum Testen (im Editor schon eingetragen, dein Code kommt darunter):\n```ikr\n.mem $100: 5, -3, 9, 0, 9, 2, -8\n```",
+     "loesung": [
+      {
+       "t": "code",
+       "lang": "ikr",
+       "s": "; V07: bubblesort(r1 = Adresse, r2 = Laenge): aufsteigend sortieren (mit Vorzeichen)\n.mem $100: 5, -3, 9, 0, 9, 2, -8\n\nbubblesort: addi r3 := r2,#-1      ; Anzahl Vergleiche im aktuellen Durchlauf\naussen:   ble  r3,fertig\n          add  r4 := r1,r0         ; Zeiger\n          add  r5 := r3,r0         ; Zaehler innen\n          add  r9 := r0,r0         ; getauscht?\ninnen:    beq  r5,innen_ende\n          ldd  r6 := (r4,0)\n          ldd  r7 := (r4,1)\n          cmps r8 := r6,r7\n          ble  r8,kein_tausch\n          std  (r4,0) := r7\n          std  (r4,1) := r6\n          addi r9 := r0,#1\nkein_tausch: addi r4 := r4,#1\n          addi r5 := r5,#-1\n          bra  innen\ninnen_ende: beq r9,fertig          ; nichts getauscht: schon sortiert\n          addi r3 := r3,#-1        ; das Groesste steht jetzt hinten\n          bra  aussen\nfertig:   jmp  r31"
+      },
+      {
+       "t": "p",
+       "s": "`ldd r7 := (r4,1)` lädt den rechten Nachbarn mit Offset 1. Kein zweiter Zeiger nötig."
+      }
+     ],
+     "loesungMd": "```ikr\n; V07: bubblesort(r1 = Adresse, r2 = Laenge): aufsteigend sortieren (mit Vorzeichen)\n.mem $100: 5, -3, 9, 0, 9, 2, -8\n\nbubblesort: addi r3 := r2,#-1      ; Anzahl Vergleiche im aktuellen Durchlauf\naussen:   ble  r3,fertig\n          add  r4 := r1,r0         ; Zeiger\n          add  r5 := r3,r0         ; Zaehler innen\n          add  r9 := r0,r0         ; getauscht?\ninnen:    beq  r5,innen_ende\n          ldd  r6 := (r4,0)\n          ldd  r7 := (r4,1)\n          cmps r8 := r6,r7\n          ble  r8,kein_tausch\n          std  (r4,0) := r7\n          std  (r4,1) := r6\n          addi r9 := r0,#1\nkein_tausch: addi r4 := r4,#1\n          addi r5 := r5,#-1\n          bra  innen\ninnen_ende: beq r9,fertig          ; nichts getauscht: schon sortiert\n          addi r3 := r3,#-1        ; das Groesste steht jetzt hinten\n          bra  aussen\nfertig:   jmp  r31\n```\n`ldd r7 := (r4,1)` lädt den rechten Nachbarn mit Offset 1. Kein zweiter Zeiger nötig.",
+     "klausur": [
+      {
+       "t": "p",
+       "s": "Schleifen und Speicherzugriffe (B02, B05)."
+      }
+     ]
+    },
+    {
+     "id": "W10",
+     "block": "W",
+     "title": "Binäre Suche",
+     "min": 12,
+     "mode": "code",
+     "starter": ".mem $100: -5, 1, 4, 8, 13, 21, 34, 55",
+     "solutionCode": "; V08: binsuche(r1 = Adresse, r2 = Laenge, r3 = Wert) -> r1 = Index oder -1\n; das Array ist aufsteigend sortiert\n.mem $100: -5, 1, 4, 8, 13, 21, 34, 55\n\nbinsuche: add  r4 := r0,r0         ; links\n          addi r5 := r2,#-1        ; rechts\nloop:     cmps r6 := r4,r5\n          bgt  r6,nicht            ; links > rechts: leer\n          add  r7 := r4,r5\n          asr  r7 := r7            ; Mitte = (links + rechts) / 2\n          ldr  r8 := (r1,r7)\n          cmps r9 := r8,r3\n          beq  r9,gefunden\n          blt  r9,rechts_weiter\n          addi r5 := r7,#-1        ; Wert liegt links\n          bra  loop\nrechts_weiter: addi r4 := r7,#1    ; Wert liegt rechts\n          bra  loop\ngefunden: add  r1 := r7,r0\n          jmp  r31\nnicht:    addi r1 := r0,#-1\n          jmp  r31",
+     "ziel": [
+      {
+       "t": "p",
+       "s": "Ein Suchintervall halbieren, bis der Wert gefunden ist."
+      }
+     ],
+     "erklaerung": [
+      {
+       "t": "p",
+       "s": "`binsuche(r1 = Adresse, r2 = Länge, r3 = Wert)` sucht in einem **aufsteigend sortierten** Array und gibt den Index zurück, sonst −1."
+      },
+      {
+       "t": "ul",
+       "items": [
+        "links = 0, rechts = Länge − 1",
+        "solange links ≤ rechts: Mitte = (links + rechts) / 2, vergleichen, eine Hälfte verwerfen."
+       ]
+      }
+     ],
+     "aufgabe": [
+      {
+       "t": "p",
+       "s": "Schreibe `binsuche`. Durch 2 teilen = einmal nach rechts schieben."
+      },
+      {
+       "t": "p",
+       "s": "Startdaten zum Testen (im Editor schon eingetragen, dein Code kommt darunter):"
+      },
+      {
+       "t": "code",
+       "lang": "ikr",
+       "s": ".mem $100: -5, 1, 4, 8, 13, 21, 34, 55"
+      }
+     ],
+     "aufgabeMd": "Schreibe `binsuche`. Durch 2 teilen = einmal nach rechts schieben.\n\nStartdaten zum Testen (im Editor schon eingetragen, dein Code kommt darunter):\n```ikr\n.mem $100: -5, 1, 4, 8, 13, 21, 34, 55\n```",
+     "loesung": [
+      {
+       "t": "code",
+       "lang": "ikr",
+       "s": "; V08: binsuche(r1 = Adresse, r2 = Laenge, r3 = Wert) -> r1 = Index oder -1\n; das Array ist aufsteigend sortiert\n.mem $100: -5, 1, 4, 8, 13, 21, 34, 55\n\nbinsuche: add  r4 := r0,r0         ; links\n          addi r5 := r2,#-1        ; rechts\nloop:     cmps r6 := r4,r5\n          bgt  r6,nicht            ; links > rechts: leer\n          add  r7 := r4,r5\n          asr  r7 := r7            ; Mitte = (links + rechts) / 2\n          ldr  r8 := (r1,r7)\n          cmps r9 := r8,r3\n          beq  r9,gefunden\n          blt  r9,rechts_weiter\n          addi r5 := r7,#-1        ; Wert liegt links\n          bra  loop\nrechts_weiter: addi r4 := r7,#1    ; Wert liegt rechts\n          bra  loop\ngefunden: add  r1 := r7,r0\n          jmp  r31\nnicht:    addi r1 := r0,#-1\n          jmp  r31"
+      },
+      {
+       "t": "p",
+       "s": "`asr` teilt durch 2. Weil links und rechts nie negativ werden, ginge auch `lsr`."
+      }
+     ],
+     "loesungMd": "```ikr\n; V08: binsuche(r1 = Adresse, r2 = Laenge, r3 = Wert) -> r1 = Index oder -1\n; das Array ist aufsteigend sortiert\n.mem $100: -5, 1, 4, 8, 13, 21, 34, 55\n\nbinsuche: add  r4 := r0,r0         ; links\n          addi r5 := r2,#-1        ; rechts\nloop:     cmps r6 := r4,r5\n          bgt  r6,nicht            ; links > rechts: leer\n          add  r7 := r4,r5\n          asr  r7 := r7            ; Mitte = (links + rechts) / 2\n          ldr  r8 := (r1,r7)\n          cmps r9 := r8,r3\n          beq  r9,gefunden\n          blt  r9,rechts_weiter\n          addi r5 := r7,#-1        ; Wert liegt links\n          bra  loop\nrechts_weiter: addi r4 := r7,#1    ; Wert liegt rechts\n          bra  loop\ngefunden: add  r1 := r7,r0\n          jmp  r31\nnicht:    addi r1 := r0,#-1\n          jmp  r31\n```\n`asr` teilt durch 2. Weil links und rechts nie negativ werden, ginge auch `lsr`.",
+     "klausur": [
+      {
+       "t": "p",
+       "s": "Vergleichen (A06), Sprünge (B03)."
+      }
+     ]
+    },
+    {
+     "id": "W11",
+     "block": "W",
+     "title": "Rekursion: Fibonacci",
+     "min": 15,
+     "mode": "code",
+     "starter": ".reg r30 = $1000",
+     "solutionCode": "; V09: fib(r1 = n) -> r1 = Fibonacci-Zahl, rekursiv mit Stapel (r30)\n.reg r30 = $1000\n\nfib:      addi r2 := r1,#-2\n          bge  r2,rekursion        ; n >= 2\n          jmp  r31                 ; fib(0) = 0, fib(1) = 1: r1 ist schon richtig\nrekursion: addi r30 := r30,#-3\n          std  (r30,0) := r31\n          std  (r30,1) := r10\n          std  (r30,2) := r11\n          add  r10 := r1,r0        ; n merken\n          addi r1 := r10,#-1\n          bsr  fib                 ; fib(n - 1)\n          add  r11 := r1,r0\n          addi r1 := r10,#-2\n          bsr  fib                 ; fib(n - 2)\n          add  r1 := r1,r11\n          ldd  r31 := (r30,0)\n          ldd  r10 := (r30,1)\n          ldd  r11 := (r30,2)\n          addi r30 := r30,#3\n          jmp  r31",
+     "ziel": [
+      {
+       "t": "p",
+       "s": "Ein rekursives Unterprogramm mit Stapel schreiben."
+      }
+     ],
+     "erklaerung": [
+      {
+       "t": "p",
+       "s": "`fib(r1 = n)` mit fib(0) = 0, fib(1) = 1, fib(n) = fib(n − 1) + fib(n − 2)."
+      },
+      {
+       "t": "p",
+       "s": "Bei jedem rekursiven Aufruf muss gesichert werden:"
+      },
+      {
+       "t": "ul",
+       "items": [
+        "`r31` (wird durch `bsr` überschrieben),",
+        "`n` (braucht man nach dem ersten Aufruf noch),",
+        "das Zwischenergebnis fib(n − 1) (braucht man nach dem zweiten Aufruf)."
+       ]
+      },
+      {
+       "t": "p",
+       "s": "Diese Werte gehören in callee-save Register (`r10`, `r11`), deren alte Werte auf den Stapel."
+      }
+     ],
+     "aufgabe": [
+      {
+       "t": "p",
+       "s": "Schreibe `fib` rekursiv."
+      },
+      {
+       "t": "p",
+       "s": "Startdaten zum Testen (im Editor schon eingetragen, dein Code kommt darunter):"
+      },
+      {
+       "t": "code",
+       "lang": "ikr",
+       "s": ".reg r30 = $1000"
+      }
+     ],
+     "aufgabeMd": "Schreibe `fib` rekursiv.\n\nStartdaten zum Testen (im Editor schon eingetragen, dein Code kommt darunter):\n```ikr\n.reg r30 = $1000\n```",
+     "loesung": [
+      {
+       "t": "code",
+       "lang": "ikr",
+       "s": "; V09: fib(r1 = n) -> r1 = Fibonacci-Zahl, rekursiv mit Stapel (r30)\n.reg r30 = $1000\n\nfib:      addi r2 := r1,#-2\n          bge  r2,rekursion        ; n >= 2\n          jmp  r31                 ; fib(0) = 0, fib(1) = 1: r1 ist schon richtig\nrekursion: addi r30 := r30,#-3\n          std  (r30,0) := r31\n          std  (r30,1) := r10\n          std  (r30,2) := r11\n          add  r10 := r1,r0        ; n merken\n          addi r1 := r10,#-1\n          bsr  fib                 ; fib(n - 1)\n          add  r11 := r1,r0\n          addi r1 := r10,#-2\n          bsr  fib                 ; fib(n - 2)\n          add  r1 := r1,r11\n          ldd  r31 := (r30,0)\n          ldd  r10 := (r30,1)\n          ldd  r11 := (r30,2)\n          addi r30 := r30,#3\n          jmp  r31"
+      },
+      {
+       "t": "p",
+       "s": "Für n < 2 ist `r1` schon das Ergebnis: sofort zurück, ohne den Stapel anzufassen. fib(15) braucht fast 2000 Aufrufe, das zeigt, warum man Fibonacci besser iterativ rechnet."
+      }
+     ],
+     "loesungMd": "```ikr\n; V09: fib(r1 = n) -> r1 = Fibonacci-Zahl, rekursiv mit Stapel (r30)\n.reg r30 = $1000\n\nfib:      addi r2 := r1,#-2\n          bge  r2,rekursion        ; n >= 2\n          jmp  r31                 ; fib(0) = 0, fib(1) = 1: r1 ist schon richtig\nrekursion: addi r30 := r30,#-3\n          std  (r30,0) := r31\n          std  (r30,1) := r10\n          std  (r30,2) := r11\n          add  r10 := r1,r0        ; n merken\n          addi r1 := r10,#-1\n          bsr  fib                 ; fib(n - 1)\n          add  r11 := r1,r0\n          addi r1 := r10,#-2\n          bsr  fib                 ; fib(n - 2)\n          add  r1 := r1,r11\n          ldd  r31 := (r30,0)\n          ldd  r10 := (r30,1)\n          ldd  r11 := (r30,2)\n          addi r30 := r30,#3\n          jmp  r31\n```\nFür n < 2 ist `r1` schon das Ergebnis: sofort zurück, ohne den Stapel anzufassen. fib(15) braucht fast 2000 Aufrufe, das zeigt, warum man Fibonacci besser iterativ rechnet.",
+     "klausur": [
+      {
+       "t": "p",
+       "s": "Stapel (U01, U04), Calling Convention (C02)."
+      }
+     ]
+    },
+    {
+     "id": "W12",
+     "block": "W",
+     "title": "kgV aus drei Unterprogrammen",
+     "min": 18,
+     "mode": "code",
+     "starter": ".reg r30 = $1000",
+     "solutionCode": "; V10: kgv(r1 = a, r2 = b) -> r1 = kleinstes gemeinsames Vielfaches = a / ggt(a, b) * b\n; nutzt ggt, divu und mulu als Unterprogramme\n.reg r30 = $1000\n\nkgv:      addi r30 := r30,#-3\n          std  (r30,0) := r31\n          std  (r30,1) := r10\n          std  (r30,2) := r11\n          add  r10 := r1,r0        ; a\n          add  r11 := r2,r0        ; b\n          bsr  ggt                 ; r1 = ggt(a, b)\n          add  r2 := r1,r0\n          add  r1 := r10,r0\n          bsr  divu                ; r1 = a / ggt\n          add  r2 := r11,r0\n          bsr  mulu                ; r1 = (a / ggt) * b\n          ldd  r31 := (r30,0)\n          ldd  r10 := (r30,1)\n          ldd  r11 := (r30,2)\n          addi r30 := r30,#3\n          jmp  r31\n\n; ggt(r1, r2 > 0) -> r1, Subtraktionsverfahren\nggt:      sub  r3 := r1,r2\n          beq  r3,ggt_ende\n          blt  r3,ggt_b\n          add  r1 := r3,r0         ; a := a - b\n          bra  ggt\nggt_b:    sub  r2 := r2,r1         ; b := b - a\n          bra  ggt\nggt_ende: jmp  r31\n\ndivu:     add  r3 := r0,r0\n          add  r4 := r0,r0\n          addi r5 := r0,#32\nd_loop:   beq  r5,d_fertig\n          lsl  r3 := r3\n          bge  r1,d_null\n          ori  r3 := r3,#1\nd_null:   lsl  r1 := r1\n          lsl  r4 := r4\n          cmpu r6 := r3,r2\n          blt  r6,d_klein\n          sub  r3 := r3,r2\n          ori  r4 := r4,#1\nd_klein:  addi r5 := r5,#-1\n          bra  d_loop\nd_fertig: add  r1 := r4,r0\n          add  r2 := r3,r0\n          jmp  r31\n\nmulu:     add  r3 := r0,r0\nm_loop:   beq  r2,m_fertig\n          and0i r4 := r2,#1\n          beq  r4,m_schieben\n          add  r3 := r3,r1\nm_schieben: lsl r1 := r1\n          lsr  r2 := r2\n          bra  m_loop\nm_fertig: add  r1 := r3,r0\n          jmp  r31",
+     "ziel": [
+      {
+       "t": "p",
+       "s": "Mehrere eigene Unterprogramme zu einem neuen kombinieren."
+      }
+     ],
+     "erklaerung": [
+      {
+       "t": "p",
+       "s": "`kgv(r1 = a, r2 = b)` liefert das kleinste gemeinsame Vielfache: kgV(a, b) = a / ggT(a, b) · b."
+      },
+      {
+       "t": "p",
+       "s": "Unterprogramme:"
+      },
+      {
+       "t": "ul",
+       "items": [
+        "`ggt(r1, r2)` mit dem Subtraktionsverfahren (wie W10 im VHDL-Teil),",
+        "`divu` aus W07,",
+        "`mulu` aus W06."
+       ]
+      },
+      {
+       "t": "p",
+       "s": "`a` und `b` müssen die Aufrufe überleben."
+      }
+     ],
+     "aufgabe": [
+      {
+       "t": "p",
+       "s": "Schreibe `kgv` und `ggt`. `divu` und `mulu` hängst du an."
+      },
+      {
+       "t": "p",
+       "s": "Startdaten zum Testen (im Editor schon eingetragen, dein Code kommt darunter):"
+      },
+      {
+       "t": "code",
+       "lang": "ikr",
+       "s": ".reg r30 = $1000"
+      }
+     ],
+     "aufgabeMd": "Schreibe `kgv` und `ggt`. `divu` und `mulu` hängst du an.\n\nStartdaten zum Testen (im Editor schon eingetragen, dein Code kommt darunter):\n```ikr\n.reg r30 = $1000\n```",
+     "loesung": [
+      {
+       "t": "code",
+       "lang": "ikr",
+       "s": "; V10: kgv(r1 = a, r2 = b) -> r1 = kleinstes gemeinsames Vielfaches = a / ggt(a, b) * b\n; nutzt ggt, divu und mulu als Unterprogramme\n.reg r30 = $1000\n\nkgv:      addi r30 := r30,#-3\n          std  (r30,0) := r31\n          std  (r30,1) := r10\n          std  (r30,2) := r11\n          add  r10 := r1,r0        ; a\n          add  r11 := r2,r0        ; b\n          bsr  ggt                 ; r1 = ggt(a, b)\n          add  r2 := r1,r0\n          add  r1 := r10,r0\n          bsr  divu                ; r1 = a / ggt\n          add  r2 := r11,r0\n          bsr  mulu                ; r1 = (a / ggt) * b\n          ldd  r31 := (r30,0)\n          ldd  r10 := (r30,1)\n          ldd  r11 := (r30,2)\n          addi r30 := r30,#3\n          jmp  r31\n\n; ggt(r1, r2 > 0) -> r1, Subtraktionsverfahren\nggt:      sub  r3 := r1,r2\n          beq  r3,ggt_ende\n          blt  r3,ggt_b\n          add  r1 := r3,r0         ; a := a - b\n          bra  ggt\nggt_b:    sub  r2 := r2,r1         ; b := b - a\n          bra  ggt\nggt_ende: jmp  r31\n\ndivu:     add  r3 := r0,r0\n          add  r4 := r0,r0\n          addi r5 := r0,#32\nd_loop:   beq  r5,d_fertig\n          lsl  r3 := r3\n          bge  r1,d_null\n          ori  r3 := r3,#1\nd_null:   lsl  r1 := r1\n          lsl  r4 := r4\n          cmpu r6 := r3,r2\n          blt  r6,d_klein\n          sub  r3 := r3,r2\n          ori  r4 := r4,#1\nd_klein:  addi r5 := r5,#-1\n          bra  d_loop\nd_fertig: add  r1 := r4,r0\n          add  r2 := r3,r0\n          jmp  r31\n\nmulu:     add  r3 := r0,r0\nm_loop:   beq  r2,m_fertig\n          and0i r4 := r2,#1\n          beq  r4,m_schieben\n          add  r3 := r3,r1\nm_schieben: lsl r1 := r1\n          lsr  r2 := r2\n          bra  m_loop\nm_fertig: add  r1 := r3,r0\n          jmp  r31"
+      },
+      {
+       "t": "p",
+       "s": "Erst teilen, dann multiplizieren: So bleibt das Zwischenergebnis klein und läuft nicht so schnell über."
+      }
+     ],
+     "loesungMd": "```ikr\n; V10: kgv(r1 = a, r2 = b) -> r1 = kleinstes gemeinsames Vielfaches = a / ggt(a, b) * b\n; nutzt ggt, divu und mulu als Unterprogramme\n.reg r30 = $1000\n\nkgv:      addi r30 := r30,#-3\n          std  (r30,0) := r31\n          std  (r30,1) := r10\n          std  (r30,2) := r11\n          add  r10 := r1,r0        ; a\n          add  r11 := r2,r0        ; b\n          bsr  ggt                 ; r1 = ggt(a, b)\n          add  r2 := r1,r0\n          add  r1 := r10,r0\n          bsr  divu                ; r1 = a / ggt\n          add  r2 := r11,r0\n          bsr  mulu                ; r1 = (a / ggt) * b\n          ldd  r31 := (r30,0)\n          ldd  r10 := (r30,1)\n          ldd  r11 := (r30,2)\n          addi r30 := r30,#3\n          jmp  r31\n\n; ggt(r1, r2 > 0) -> r1, Subtraktionsverfahren\nggt:      sub  r3 := r1,r2\n          beq  r3,ggt_ende\n          blt  r3,ggt_b\n          add  r1 := r3,r0         ; a := a - b\n          bra  ggt\nggt_b:    sub  r2 := r2,r1         ; b := b - a\n          bra  ggt\nggt_ende: jmp  r31\n\ndivu:     add  r3 := r0,r0\n          add  r4 := r0,r0\n          addi r5 := r0,#32\nd_loop:   beq  r5,d_fertig\n          lsl  r3 := r3\n          bge  r1,d_null\n          ori  r3 := r3,#1\nd_null:   lsl  r1 := r1\n          lsl  r4 := r4\n          cmpu r6 := r3,r2\n          blt  r6,d_klein\n          sub  r3 := r3,r2\n          ori  r4 := r4,#1\nd_klein:  addi r5 := r5,#-1\n          bra  d_loop\nd_fertig: add  r1 := r4,r0\n          add  r2 := r3,r0\n          jmp  r31\n\nmulu:     add  r3 := r0,r0\nm_loop:   beq  r2,m_fertig\n          and0i r4 := r2,#1\n          beq  r4,m_schieben\n          add  r3 := r3,r1\nm_schieben: lsl r1 := r1\n          lsr  r2 := r2\n          bra  m_loop\nm_fertig: add  r1 := r3,r0\n          jmp  r31\n```\nErst teilen, dann multiplizieren: So bleibt das Zwischenergebnis klein und läuft nicht so schnell über.",
+     "klausur": [
+      {
+       "t": "p",
+       "s": "Unterprogramme und Konvention (C01, C02)."
+      }
+     ]
+    },
+    {
+     "id": "W13",
+     "block": "W",
+     "title": "64-Bit-Addition",
+     "min": 6,
+     "mode": "code",
+     "starter": "",
+     "solutionCode": "; V11: add64: (r1:r2) + (r3:r4) -> (r1:r2), r1/r3 = obere 32 Bit, r2/r4 = untere 32 Bit\n\nadd64:    addx r5 := r2,r4         ; Uebertrag der unteren Haelfte (0 oder 1)\n          add  r2 := r2,r4         ; untere Haelfte\n          add  r1 := r1,r3         ; obere Haelfte\n          add  r1 := r1,r5         ; plus Uebertrag\n          jmp  r31",
+     "ziel": [
+      {
+       "t": "p",
+       "s": "Mit dem Übertrag zwei 32-Bit-Hälften korrekt addieren."
+      }
+     ],
+     "erklaerung": [
+      {
+       "t": "p",
+       "s": "`add64` addiert `(r1:r2) + (r3:r4)`. `r1`/`r3` sind die oberen, `r2`/`r4` die unteren 32 Bit, das Ergebnis steht in `(r1:r2)`."
+      },
+      {
+       "t": "p",
+       "s": "`addx rc := rb,ra` liefert **nur** den Übertrag (0 oder 1) der vorzeichenlosen Addition rb + ra."
+      }
+     ],
+     "aufgabe": [
+      {
+       "t": "p",
+       "s": "Schreibe `add64`."
+      }
+     ],
+     "aufgabeMd": "Schreibe `add64`.",
+     "loesung": [
+      {
+       "t": "code",
+       "lang": "ikr",
+       "s": "; V11: add64: (r1:r2) + (r3:r4) -> (r1:r2), r1/r3 = obere 32 Bit, r2/r4 = untere 32 Bit\n\nadd64:    addx r5 := r2,r4         ; Uebertrag der unteren Haelfte (0 oder 1)\n          add  r2 := r2,r4         ; untere Haelfte\n          add  r1 := r1,r3         ; obere Haelfte\n          add  r1 := r1,r5         ; plus Uebertrag\n          jmp  r31"
+      },
+      {
+       "t": "p",
+       "s": "Den Übertrag **vor** der eigentlichen Addition der unteren Hälfte berechnen, sonst ist `r2` schon überschrieben."
+      }
+     ],
+     "loesungMd": "```ikr\n; V11: add64: (r1:r2) + (r3:r4) -> (r1:r2), r1/r3 = obere 32 Bit, r2/r4 = untere 32 Bit\n\nadd64:    addx r5 := r2,r4         ; Uebertrag der unteren Haelfte (0 oder 1)\n          add  r2 := r2,r4         ; untere Haelfte\n          add  r1 := r1,r3         ; obere Haelfte\n          add  r1 := r1,r5         ; plus Uebertrag\n          jmp  r31\n```\nDen Übertrag **vor** der eigentlichen Addition der unteren Hälfte berechnen, sonst ist `r2` schon überschrieben.",
+     "klausur": [
+      {
+       "t": "p",
+       "s": "`addx` (Spickzettel), Zweierkomplement (A04)."
+      }
+     ]
+    },
+    {
+     "id": "W14",
+     "block": "W",
+     "title": "Text in Zahl umwandeln",
+     "min": 12,
+     "mode": "code",
+     "starter": ".mem $100: 49, 50, 51, 0           ; \"123\"\n.mem $110: 45, 52, 48, 55, 0       ; \"-407\"\n.mem $120: 48, 0                   ; \"0\"",
+     "solutionCode": "; V12: atoi(r1 = Adresse) -> r1 = Zahl aus einem String mit Ziffern, optional mit '-' davor\n; ASCII: '0' = 48 ... '9' = 57, '-' = 45; mal 10 = mal 8 plus mal 2\n.mem $100: 49, 50, 51, 0           ; \"123\"\n.mem $110: 45, 52, 48, 55, 0       ; \"-407\"\n.mem $120: 48, 0                   ; \"0\"\n\natoi:     add  r2 := r0,r0         ; Ergebnis\n          add  r6 := r0,r0         ; negativ?\n          ldd  r3 := (r1,0)\n          cmpsi r4 := r3,#45\n          bne  r4,ziffern\n          addi r6 := r0,#1\n          addi r1 := r1,#1\nziffern:  ldd  r3 := (r1,0)\n          beq  r3,fertig\n          lsl  r4 := r2            ; 2 * x\n          lsl  r5 := r4\n          lsl  r5 := r5            ; 8 * x\n          add  r2 := r4,r5         ; 10 * x\n          addi r3 := r3,#-48       ; Ziffernwert\n          add  r2 := r2,r3\n          addi r1 := r1,#1\n          bra  ziffern\nfertig:   beq  r6,positiv\n          sub  r2 := r0,r2\npositiv:  add  r1 := r2,r0\n          jmp  r31",
+     "ziel": [
+      {
+       "t": "p",
+       "s": "Ziffern eines Strings in eine Zahl umrechnen, ohne Multiplizierbefehl."
+      }
+     ],
+     "erklaerung": [
+      {
+       "t": "p",
+       "s": "`atoi(r1 = Adresse)` wandelt einen String aus Ziffern in eine Zahl um, optional mit „-“ davor."
+      },
+      {
+       "t": "ul",
+       "items": [
+        "ASCII: '0' = 48 … '9' = 57, '-' = 45.",
+        "Für jede Ziffer: Ergebnis = Ergebnis · 10 + Ziffernwert.",
+        "Mal 10 ohne Multiplikation: x · 10 = x · 8 + x · 2."
+       ]
+      }
+     ],
+     "aufgabe": [
+      {
+       "t": "p",
+       "s": "Schreibe `atoi`."
+      },
+      {
+       "t": "p",
+       "s": "Startdaten zum Testen (im Editor schon eingetragen, dein Code kommt darunter):"
+      },
+      {
+       "t": "code",
+       "lang": "ikr",
+       "s": ".mem $100: 49, 50, 51, 0           ; \"123\"\n.mem $110: 45, 52, 48, 55, 0       ; \"-407\"\n.mem $120: 48, 0                   ; \"0\""
+      }
+     ],
+     "aufgabeMd": "Schreibe `atoi`.\n\nStartdaten zum Testen (im Editor schon eingetragen, dein Code kommt darunter):\n```ikr\n.mem $100: 49, 50, 51, 0           ; \"123\"\n.mem $110: 45, 52, 48, 55, 0       ; \"-407\"\n.mem $120: 48, 0                   ; \"0\"\n```",
+     "loesung": [
+      {
+       "t": "code",
+       "lang": "ikr",
+       "s": "; V12: atoi(r1 = Adresse) -> r1 = Zahl aus einem String mit Ziffern, optional mit '-' davor\n; ASCII: '0' = 48 ... '9' = 57, '-' = 45; mal 10 = mal 8 plus mal 2\n.mem $100: 49, 50, 51, 0           ; \"123\"\n.mem $110: 45, 52, 48, 55, 0       ; \"-407\"\n.mem $120: 48, 0                   ; \"0\"\n\natoi:     add  r2 := r0,r0         ; Ergebnis\n          add  r6 := r0,r0         ; negativ?\n          ldd  r3 := (r1,0)\n          cmpsi r4 := r3,#45\n          bne  r4,ziffern\n          addi r6 := r0,#1\n          addi r1 := r1,#1\nziffern:  ldd  r3 := (r1,0)\n          beq  r3,fertig\n          lsl  r4 := r2            ; 2 * x\n          lsl  r5 := r4\n          lsl  r5 := r5            ; 8 * x\n          add  r2 := r4,r5         ; 10 * x\n          addi r3 := r3,#-48       ; Ziffernwert\n          add  r2 := r2,r3\n          addi r1 := r1,#1\n          bra  ziffern\nfertig:   beq  r6,positiv\n          sub  r2 := r0,r2\npositiv:  add  r1 := r2,r0\n          jmp  r31"
+      },
+      {
+       "t": "p",
+       "s": "Das Vorzeichen wird erst am Ende angewendet. So rechnet die Schleife nur mit positiven Zahlen."
+      }
+     ],
+     "loesungMd": "```ikr\n; V12: atoi(r1 = Adresse) -> r1 = Zahl aus einem String mit Ziffern, optional mit '-' davor\n; ASCII: '0' = 48 ... '9' = 57, '-' = 45; mal 10 = mal 8 plus mal 2\n.mem $100: 49, 50, 51, 0           ; \"123\"\n.mem $110: 45, 52, 48, 55, 0       ; \"-407\"\n.mem $120: 48, 0                   ; \"0\"\n\natoi:     add  r2 := r0,r0         ; Ergebnis\n          add  r6 := r0,r0         ; negativ?\n          ldd  r3 := (r1,0)\n          cmpsi r4 := r3,#45\n          bne  r4,ziffern\n          addi r6 := r0,#1\n          addi r1 := r1,#1\nziffern:  ldd  r3 := (r1,0)\n          beq  r3,fertig\n          lsl  r4 := r2            ; 2 * x\n          lsl  r5 := r4\n          lsl  r5 := r5            ; 8 * x\n          add  r2 := r4,r5         ; 10 * x\n          addi r3 := r3,#-48       ; Ziffernwert\n          add  r2 := r2,r3\n          addi r1 := r1,#1\n          bra  ziffern\nfertig:   beq  r6,positiv\n          sub  r2 := r0,r2\npositiv:  add  r1 := r2,r0\n          jmp  r31\n```\nDas Vorzeichen wird erst am Ende angewendet. So rechnet die Schleife nur mit positiven Zahlen.",
+     "klausur": [
+      {
+       "t": "p",
+       "s": "Schieben (A06), Konstanten (A05)."
+      }
+     ]
+    },
+    {
+     "id": "W15",
+     "block": "W",
+     "title": "Sieb des Eratosthenes",
+     "min": 15,
+     "mode": "code",
+     "starter": "",
+     "solutionCode": "; V13: sieb(r1 = Adresse, r2 = N): Sieb des Eratosthenes, danach Mem[Adresse + i] = 1 genau fuer Primzahlen i < N\n; ohne Multiplikation: Vielfache durch fortgesetztes Addieren\n\nsieb:     addi r3 := r0,#2         ; zuerst alle ab 2 als \"prim\" markieren\n          std  (r1,0) := r0\n          std  (r1,1) := r0\n          addi r9 := r0,#1\ninit:     sub  r4 := r3,r2\n          bge  r4,init_ende\n          str  (r1,r3) := r9\n          addi r3 := r3,#1\n          bra  init\ninit_ende: addi r3 := r0,#2        ; p = 2\naussen:   sub  r4 := r3,r2\n          bge  r4,fertig\n          ldr  r5 := (r1,r3)\n          beq  r5,naechstes        ; schon gestrichen: keine Primzahl\n          add  r6 := r3,r3         ; erstes Vielfaches 2p\nstreichen: sub r4 := r6,r2\n          bge  r4,naechstes\n          str  (r1,r6) := r0\n          add  r6 := r6,r3         ; naechstes Vielfaches\n          bra  streichen\nnaechstes: addi r3 := r3,#1\n          bra  aussen\nfertig:   jmp  r31",
+     "ziel": [
+      {
+       "t": "p",
+       "s": "Ein Feld im Speicher als Markierungstabelle nutzen."
+      }
+     ],
+     "erklaerung": [
+      {
+       "t": "p",
+       "s": "`sieb(r1 = Adresse, r2 = N)`: Danach gilt Mem[Adresse + i] = 1 genau dann, wenn i eine Primzahl ist (i < N)."
+      },
+      {
+       "t": "ol",
+       "items": [
+        "Alle Einträge ab 2 auf 1 setzen, 0 und 1 auf 0.",
+        "Für jedes p, das noch 1 ist: alle Vielfachen 2p, 3p, … auf 0 setzen."
+       ]
+      },
+      {
+       "t": "p",
+       "s": "Vielfache ohne Multiplikation: immer wieder p addieren."
+      }
+     ],
+     "aufgabe": [
+      {
+       "t": "p",
+       "s": "Schreibe `sieb`."
+      }
+     ],
+     "aufgabeMd": "Schreibe `sieb`.",
+     "loesung": [
+      {
+       "t": "code",
+       "lang": "ikr",
+       "s": "; V13: sieb(r1 = Adresse, r2 = N): Sieb des Eratosthenes, danach Mem[Adresse + i] = 1 genau fuer Primzahlen i < N\n; ohne Multiplikation: Vielfache durch fortgesetztes Addieren\n\nsieb:     addi r3 := r0,#2         ; zuerst alle ab 2 als \"prim\" markieren\n          std  (r1,0) := r0\n          std  (r1,1) := r0\n          addi r9 := r0,#1\ninit:     sub  r4 := r3,r2\n          bge  r4,init_ende\n          str  (r1,r3) := r9\n          addi r3 := r3,#1\n          bra  init\ninit_ende: addi r3 := r0,#2        ; p = 2\naussen:   sub  r4 := r3,r2\n          bge  r4,fertig\n          ldr  r5 := (r1,r3)\n          beq  r5,naechstes        ; schon gestrichen: keine Primzahl\n          add  r6 := r3,r3         ; erstes Vielfaches 2p\nstreichen: sub r4 := r6,r2\n          bge  r4,naechstes\n          str  (r1,r6) := r0\n          add  r6 := r6,r3         ; naechstes Vielfaches\n          bra  streichen\nnaechstes: addi r3 := r3,#1\n          bra  aussen\nfertig:   jmp  r31"
+      },
+      {
+       "t": "p",
+       "s": "`str (r1,r6) := r0` schreibt die 0 aus `r0` direkt in den Speicher."
+      }
+     ],
+     "loesungMd": "```ikr\n; V13: sieb(r1 = Adresse, r2 = N): Sieb des Eratosthenes, danach Mem[Adresse + i] = 1 genau fuer Primzahlen i < N\n; ohne Multiplikation: Vielfache durch fortgesetztes Addieren\n\nsieb:     addi r3 := r0,#2         ; zuerst alle ab 2 als \"prim\" markieren\n          std  (r1,0) := r0\n          std  (r1,1) := r0\n          addi r9 := r0,#1\ninit:     sub  r4 := r3,r2\n          bge  r4,init_ende\n          str  (r1,r3) := r9\n          addi r3 := r3,#1\n          bra  init\ninit_ende: addi r3 := r0,#2        ; p = 2\naussen:   sub  r4 := r3,r2\n          bge  r4,fertig\n          ldr  r5 := (r1,r3)\n          beq  r5,naechstes        ; schon gestrichen: keine Primzahl\n          add  r6 := r3,r3         ; erstes Vielfaches 2p\nstreichen: sub r4 := r6,r2\n          bge  r4,naechstes\n          str  (r1,r6) := r0\n          add  r6 := r6,r3         ; naechstes Vielfaches\n          bra  streichen\nnaechstes: addi r3 := r3,#1\n          bra  aussen\nfertig:   jmp  r31\n```\n`str (r1,r6) := r0` schreibt die 0 aus `r0` direkt in den Speicher.",
+     "klausur": [
+      {
+       "t": "p",
+       "s": "Schleifen und indizierte Zugriffe (B01, B06)."
+      }
+     ]
+    },
+    {
+     "id": "W16",
+     "block": "W",
+     "title": "Matrixmultiplikation",
+     "min": 25,
+     "mode": "code",
+     "starter": ".reg r30 = $1000\n.mem $100: 1, 2, 3,  4, 5, 6,  7, 8, 9\n.mem $110: 9, 8, 7,  6, 5, 4,  3, 2, 1",
+     "solutionCode": "; V14: matmul(r1 = A, r2 = B, r3 = C): C = A * B fuer 3 x 3-Matrizen (zeilenweise, ein Wort pro Element)\n; nutzt mulu als Unterprogramm, Zaehler und Zeiger in callee-save Registern\n.reg r30 = $1000\n.mem $100: 1, 2, 3,  4, 5, 6,  7, 8, 9\n.mem $110: 9, 8, 7,  6, 5, 4,  3, 2, 1\n\nmatmul:   addi r30 := r30,#-9\n          std  (r30,0) := r31\n          std  (r30,1) := r10\n          std  (r30,2) := r11\n          std  (r30,3) := r12\n          std  (r30,4) := r13\n          std  (r30,5) := r14\n          std  (r30,6) := r15\n          std  (r30,7) := r16\n          std  (r30,8) := r17\n          add  r10 := r1,r0        ; Zeilenanfang in A\n          add  r11 := r2,r0        ; B\n          add  r12 := r3,r0        ; naechstes Element von C\n          addi r13 := r0,#3        ; Zeilen\nzeile:    beq  r13,fertig\n          addi r14 := r0,#0        ; Spalte j\nspalte:   cmpsi r4 := r14,#3\n          bge  r4,zeile_ende\n          add  r15 := r0,r0        ; Summe\n          addi r16 := r0,#0        ; k\nskalar:   cmpsi r4 := r16,#3\n          bge  r4,skalar_ende\n          ldr  r1 := (r10,r16)     ; A[i][k]\n          add  r17 := r16,r16\n          add  r17 := r17,r16      ; 3 * k\n          add  r17 := r17,r14      ; 3 * k + j\n          ldr  r2 := (r11,r17)     ; B[k][j]\n          bsr  mulu\n          add  r15 := r15,r1\n          addi r16 := r16,#1\n          bra  skalar\nskalar_ende: std (r12,0) := r15    ; C[i][j]\n          addi r12 := r12,#1\n          addi r14 := r14,#1\n          bra  spalte\nzeile_ende: addi r10 := r10,#3     ; naechste Zeile von A\n          addi r13 := r13,#-1\n          bra  zeile\nfertig:   ldd  r31 := (r30,0)\n          ldd  r10 := (r30,1)\n          ldd  r11 := (r30,2)\n          ldd  r12 := (r30,3)\n          ldd  r13 := (r30,4)\n          ldd  r14 := (r30,5)\n          ldd  r15 := (r30,6)\n          ldd  r16 := (r30,7)\n          ldd  r17 := (r30,8)\n          addi r30 := r30,#9\n          jmp  r31\n\nmulu:     add  r3 := r0,r0\nm_loop:   beq  r2,m_fertig\n          and0i r4 := r2,#1\n          beq  r4,m_schieben\n          add  r3 := r3,r1\nm_schieben: lsl r1 := r1\n          lsr  r2 := r2\n          bra  m_loop\nm_fertig: add  r1 := r3,r0\n          jmp  r31",
+     "ziel": [
+      {
+       "t": "p",
+       "s": "Ein größeres Programm mit drei verschachtelten Schleifen und Unterprogrammaufruf schreiben."
+      }
+     ],
+     "erklaerung": [
+      {
+       "t": "p",
+       "s": "`matmul(r1 = A, r2 = B, r3 = C)` berechnet C = A · B für 3 × 3-Matrizen (zeilenweise, ein Wort pro Element):"
+      },
+      {
+       "t": "p",
+       "s": "C[i][j] = Σ A[i][k] · B[k][j], k = 0 … 2"
+      },
+      {
+       "t": "ul",
+       "items": [
+        "A[i][k] liegt bei `A + 3i + k`, B[k][j] bei `B + 3k + j`.",
+        "Für das Produkt `mulu` aus W06 aufrufen.",
+        "Alle Zähler und Zeiger, die den Aufruf überleben müssen, in callee-save Register (viele!) und diese zu Beginn sichern."
+       ]
+      }
+     ],
+     "aufgabe": [
+      {
+       "t": "p",
+       "s": "Schreibe `matmul`. `mulu` hängst du an."
+      },
+      {
+       "t": "p",
+       "s": "Startdaten zum Testen (im Editor schon eingetragen, dein Code kommt darunter):"
+      },
+      {
+       "t": "code",
+       "lang": "ikr",
+       "s": ".reg r30 = $1000\n.mem $100: 1, 2, 3,  4, 5, 6,  7, 8, 9\n.mem $110: 9, 8, 7,  6, 5, 4,  3, 2, 1"
+      }
+     ],
+     "aufgabeMd": "Schreibe `matmul`. `mulu` hängst du an.\n\nStartdaten zum Testen (im Editor schon eingetragen, dein Code kommt darunter):\n```ikr\n.reg r30 = $1000\n.mem $100: 1, 2, 3,  4, 5, 6,  7, 8, 9\n.mem $110: 9, 8, 7,  6, 5, 4,  3, 2, 1\n```",
+     "loesung": [
+      {
+       "t": "code",
+       "lang": "ikr",
+       "s": "; V14: matmul(r1 = A, r2 = B, r3 = C): C = A * B fuer 3 x 3-Matrizen (zeilenweise, ein Wort pro Element)\n; nutzt mulu als Unterprogramm, Zaehler und Zeiger in callee-save Registern\n.reg r30 = $1000\n.mem $100: 1, 2, 3,  4, 5, 6,  7, 8, 9\n.mem $110: 9, 8, 7,  6, 5, 4,  3, 2, 1\n\nmatmul:   addi r30 := r30,#-9\n          std  (r30,0) := r31\n          std  (r30,1) := r10\n          std  (r30,2) := r11\n          std  (r30,3) := r12\n          std  (r30,4) := r13\n          std  (r30,5) := r14\n          std  (r30,6) := r15\n          std  (r30,7) := r16\n          std  (r30,8) := r17\n          add  r10 := r1,r0        ; Zeilenanfang in A\n          add  r11 := r2,r0        ; B\n          add  r12 := r3,r0        ; naechstes Element von C\n          addi r13 := r0,#3        ; Zeilen\nzeile:    beq  r13,fertig\n          addi r14 := r0,#0        ; Spalte j\nspalte:   cmpsi r4 := r14,#3\n          bge  r4,zeile_ende\n          add  r15 := r0,r0        ; Summe\n          addi r16 := r0,#0        ; k\nskalar:   cmpsi r4 := r16,#3\n          bge  r4,skalar_ende\n          ldr  r1 := (r10,r16)     ; A[i][k]\n          add  r17 := r16,r16\n          add  r17 := r17,r16      ; 3 * k\n          add  r17 := r17,r14      ; 3 * k + j\n          ldr  r2 := (r11,r17)     ; B[k][j]\n          bsr  mulu\n          add  r15 := r15,r1\n          addi r16 := r16,#1\n          bra  skalar\nskalar_ende: std (r12,0) := r15    ; C[i][j]\n          addi r12 := r12,#1\n          addi r14 := r14,#1\n          bra  spalte\nzeile_ende: addi r10 := r10,#3     ; naechste Zeile von A\n          addi r13 := r13,#-1\n          bra  zeile\nfertig:   ldd  r31 := (r30,0)\n          ldd  r10 := (r30,1)\n          ldd  r11 := (r30,2)\n          ldd  r12 := (r30,3)\n          ldd  r13 := (r30,4)\n          ldd  r14 := (r30,5)\n          ldd  r15 := (r30,6)\n          ldd  r16 := (r30,7)\n          ldd  r17 := (r30,8)\n          addi r30 := r30,#9\n          jmp  r31\n\nmulu:     add  r3 := r0,r0\nm_loop:   beq  r2,m_fertig\n          and0i r4 := r2,#1\n          beq  r4,m_schieben\n          add  r3 := r3,r1\nm_schieben: lsl r1 := r1\n          lsr  r2 := r2\n          bra  m_loop\nm_fertig: add  r1 := r3,r0\n          jmp  r31"
+      },
+      {
+       "t": "p",
+       "s": "Neun Register auf dem Stapel: `r31` und `r10`–`r17`. C wird einfach fortlaufend beschrieben, weil die Schleifen in derselben Reihenfolge laufen, in der C im Speicher liegt."
+      }
+     ],
+     "loesungMd": "```ikr\n; V14: matmul(r1 = A, r2 = B, r3 = C): C = A * B fuer 3 x 3-Matrizen (zeilenweise, ein Wort pro Element)\n; nutzt mulu als Unterprogramm, Zaehler und Zeiger in callee-save Registern\n.reg r30 = $1000\n.mem $100: 1, 2, 3,  4, 5, 6,  7, 8, 9\n.mem $110: 9, 8, 7,  6, 5, 4,  3, 2, 1\n\nmatmul:   addi r30 := r30,#-9\n          std  (r30,0) := r31\n          std  (r30,1) := r10\n          std  (r30,2) := r11\n          std  (r30,3) := r12\n          std  (r30,4) := r13\n          std  (r30,5) := r14\n          std  (r30,6) := r15\n          std  (r30,7) := r16\n          std  (r30,8) := r17\n          add  r10 := r1,r0        ; Zeilenanfang in A\n          add  r11 := r2,r0        ; B\n          add  r12 := r3,r0        ; naechstes Element von C\n          addi r13 := r0,#3        ; Zeilen\nzeile:    beq  r13,fertig\n          addi r14 := r0,#0        ; Spalte j\nspalte:   cmpsi r4 := r14,#3\n          bge  r4,zeile_ende\n          add  r15 := r0,r0        ; Summe\n          addi r16 := r0,#0        ; k\nskalar:   cmpsi r4 := r16,#3\n          bge  r4,skalar_ende\n          ldr  r1 := (r10,r16)     ; A[i][k]\n          add  r17 := r16,r16\n          add  r17 := r17,r16      ; 3 * k\n          add  r17 := r17,r14      ; 3 * k + j\n          ldr  r2 := (r11,r17)     ; B[k][j]\n          bsr  mulu\n          add  r15 := r15,r1\n          addi r16 := r16,#1\n          bra  skalar\nskalar_ende: std (r12,0) := r15    ; C[i][j]\n          addi r12 := r12,#1\n          addi r14 := r14,#1\n          bra  spalte\nzeile_ende: addi r10 := r10,#3     ; naechste Zeile von A\n          addi r13 := r13,#-1\n          bra  zeile\nfertig:   ldd  r31 := (r30,0)\n          ldd  r10 := (r30,1)\n          ldd  r11 := (r30,2)\n          ldd  r12 := (r30,3)\n          ldd  r13 := (r30,4)\n          ldd  r14 := (r30,5)\n          ldd  r15 := (r30,6)\n          ldd  r16 := (r30,7)\n          ldd  r17 := (r30,8)\n          addi r30 := r30,#9\n          jmp  r31\n\nmulu:     add  r3 := r0,r0\nm_loop:   beq  r2,m_fertig\n          and0i r4 := r2,#1\n          beq  r4,m_schieben\n          add  r3 := r3,r1\nm_schieben: lsl r1 := r1\n          lsr  r2 := r2\n          bra  m_loop\nm_fertig: add  r1 := r3,r0\n          jmp  r31\n```\nNeun Register auf dem Stapel: `r31` und `r10`–`r17`. C wird einfach fortlaufend beschrieben, weil die Schleifen in derselben Reihenfolge laufen, in der C im Speicher liegt.",
+     "klausur": [
+      {
+       "t": "p",
+       "s": "Alles zusammen: Schleifen, Adressrechnung, Konvention."
       }
      ]
     }

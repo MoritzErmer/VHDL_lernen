@@ -198,6 +198,12 @@ def build(ra_path: str, revision: int) -> str:
             print(f"Hinweis: Fach '{name}' übersprungen, Repo nicht gefunden unter {root}", file=sys.stderr)
             continue
         blocks = readme_blocks(root)
+        # Extra lessons for Rechnerarchitektur that live in this repository (folder ra/), shown after the
+        # blocks of the Rechnerarchitektur repository.
+        extra = os.path.join(ROOT, "ra")
+        if cid == "ra" and os.path.exists(os.path.join(extra, "README.md")):
+            known = {b for b, _, _ in blocks}
+            blocks += [b for b in readme_blocks(extra) if b[0] not in known]
         items = [parse(f, lang) for _, _, files in blocks for f in files]
         courses.append({
             "id": cid, "name": name, "exam": exam, "lang": lang,
