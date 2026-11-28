@@ -227,6 +227,27 @@ Das Merkspiel Senso komplett in VHDL, Komponente für Komponente (nach Übung 2 
 | S19 | [Senso: Hauptsteuerung programmieren](haeppchen/S19_steuerung_code.md) | 14 min |
 | S20 | [Senso: alles verbinden und das Spiel testen](haeppchen/S20_senso_gesamt.md) | 12 min |
 
+## Block W – Werkstatt: komplett selbst programmieren
+Nur eine Spezifikation, kein Lückentext: Entity und Architecture schreibst du ganz selbst, vom Lauflicht bis zum Mini-Prozessor.
+
+| | Häppchen | Dauer |
+|---|---|---|
+| W01 | [Werkstatt: so programmierst du ganze Bausteine](haeppchen/W01_werkstatt_start.md) | 6 min |
+| W02 | [Lauflicht hin und her](haeppchen/W02_lauflicht.md) | 12 min |
+| W03 | [Parkhaus mit zwei Lichtschranken](haeppchen/W03_parkhaus.md) | 18 min |
+| W04 | [Stoppuhr](haeppchen/W04_stoppuhr.md) | 15 min |
+| W05 | [Fußgängerampel mit Anforderung](haeppchen/W05_fussgaengerampel.md) | 20 min |
+| W06 | [Aufzug mit drei Etagen](haeppchen/W06_aufzug.md) | 25 min |
+| W07 | [Reaktionstester](haeppchen/W07_reaktionstester.md) | 25 min |
+| W08 | [UART-Empfänger mit Parität](haeppchen/W08_uart_rx.md) | 25 min |
+| W09 | [SPI-Master](haeppchen/W09_spi_master.md) | 20 min |
+| W10 | [ggT als Steuer- und Rechenwerk](haeppchen/W10_ggt.md) | 20 min |
+| W11 | [Multiplizierer mit Schieben und Addieren](haeppchen/W11_multiplizierer.md) | 15 min |
+| W12 | [Frequenzzähler](haeppchen/W12_frequenzzaehler.md) | 12 min |
+| W13 | [Round-Robin-Arbiter](haeppchen/W13_arbiter.md) | 15 min |
+| W14 | [Mini-Prozessor](haeppchen/W14_mini_cpu.md) | 30 min |
+| W15 | [Testbench komplett selbst: ggT gegen Referenz](haeppchen/W15_testbench_ggt.md) | 20 min |
+
 ---
 
 **Am Rechner üben:** siehe [am_rechner/](am_rechner/README.md) –

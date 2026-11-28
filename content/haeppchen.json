@@ -1,6 +1,6 @@
 {
  "schema": 1,
- "version": "b27a64d2469d",
+ "version": "3b664b17ff8d",
  "revision": 0,
  "courses": [
   {
@@ -68,6 +68,10 @@
     {
      "id": "S",
      "name": "Projekt Senso"
+    },
+    {
+     "id": "W",
+     "name": "Werkstatt: komplett selbst programmieren"
     }
    ],
    "items": [
@@ -31641,6 +31645,1060 @@
       {
        "t": "p",
        "s": "Top-Level verdrahten (G01, P10, L10). Das ganze Spiel simulierst du mit `./sim.sh tb_senso am_rechner/L13/senso.vhd am_rechner/L13/tb_senso.vhd`."
+      }
+     ]
+    },
+    {
+     "id": "W01",
+     "block": "W",
+     "title": "Werkstatt: so programmierst du ganze Bausteine",
+     "min": 6,
+     "mode": "text",
+     "starter": "",
+     "solutionCode": "",
+     "ziel": [
+      {
+       "t": "p",
+       "s": "Wissen, wie du in Block W arbeitest: Aus einem Text wird ein **kompletter**, lauffähiger Baustein – Entity und Architecture, ohne Vorlage."
+      }
+     ],
+     "erklaerung": [
+      {
+       "t": "p",
+       "s": "In den Blöcken davor hast du oft Teile ergänzt oder Fragen beantwortet. In Block W bekommst du nur eine **Spezifikation**: was der Baustein tun soll, welche Ports er hat. Den Code schreibst du vollständig selbst."
+      },
+      {
+       "t": "p",
+       "s": "So gehst du vor (wie in P01):"
+      },
+      {
+       "t": "ol",
+       "items": [
+        "**Ports** aus der Liste in eine `entity` übertragen. Generics für alles, was eine Zahl ist, die man ändern will (Zeiten, Breiten).",
+        "**Was muss gespeichert werden?** Jede Antwort wird ein Signal im getakteten Prozess (Zustand, Zähler, Register).",
+        "**Steuerung:** Gibt es klar getrennte Phasen? Dann ein Automat. Sonst reicht oft ein einzelner getakteter Prozess.",
+        "**Code schreiben**, dabei immer das Skript-Muster: `process(clk, res_n)`, `if res_n = '0' then … else if clk'event and clk = '1' then …`.",
+        "**Abgleichen**: Die App zeigt dir, was fehlt und was anders ist. Andere Namen oder eine andere Aufteilung können trotzdem richtig sein.",
+        "**Am Rechner testen**: Zu jeder Aufgabe gibt es in `am_rechner/L14` eine Testbench. Tippe deine Lösung ab und simuliere sie."
+       ]
+      },
+      {
+       "t": "p",
+       "s": "Die Aufgaben werden größer: vom Lauflicht (ein Prozess) bis zum Mini-Prozessor mit eigenem Befehlssatz. Plane für die großen ruhig 20–30 Minuten ein und teile sie dir auf."
+      }
+     ],
+     "aufgabe": [
+      {
+       "t": "p",
+       "s": "Lies die Spezifikation von W02 (Lauflicht) und notiere nur: Welche Signale braucht der getaktete Prozess?"
+      }
+     ],
+     "aufgabeMd": "Lies die Spezifikation von W02 (Lauflicht) und notiere nur: Welche Signale braucht der getaktete Prozess?",
+     "loesung": [
+      {
+       "t": "ul",
+       "items": [
+        "einen **Teiler** (zählt Takte bis zum nächsten Schritt),",
+        "die **Position** der leuchtenden LED,",
+        "die **Richtung** (hoch oder runter)."
+       ]
+      },
+      {
+       "t": "p",
+       "s": "Die LEDs selbst sind keine eigenen Register: Sie werden kombinatorisch aus der Position berechnet."
+      }
+     ],
+     "loesungMd": "- einen **Teiler** (zählt Takte bis zum nächsten Schritt),\n- die **Position** der leuchtenden LED,\n- die **Richtung** (hoch oder runter).\n\nDie LEDs selbst sind keine eigenen Register: Sie werden kombinatorisch aus der Position berechnet.",
+     "klausur": [
+      {
+       "t": "p",
+       "s": "In der Klausur schreibst du ganze Architectures auf Papier, z.B. Steuerwerk und ROM in F24 A1 (K02, K06) oder den Stack in F24 A2 (P17)."
+      }
+     ]
+    },
+    {
+     "id": "W02",
+     "block": "W",
+     "title": "Lauflicht hin und her",
+     "min": 12,
+     "mode": "code",
+     "starter": "",
+     "solutionCode": "library ieee; use ieee.std_logic_1164.all;\nentity lauflicht is\n  generic(N : positive := 8; T_SCHRITT : positive := 5_000_000);\n  port(\n    clk, res_n : in  std_logic;\n    en         : in  std_logic;\n    leds       : out std_logic_vector(N-1 downto 0)\n    );\nend entity lauflicht;\n\narchitecture behav of lauflicht is\n  signal teiler : integer range 0 to T_SCHRITT - 1;\n  signal pos    : integer range 0 to N - 1;\n  signal hoch   : boolean;\nbegin\n  process(clk, res_n) is\n  begin\n    if res_n = '0' then\n      teiler <= 0;\n      pos <= 0;\n      hoch <= true;\n    else\n      if clk'event and clk = '1' then\n        if en = '1' then\n          if teiler = T_SCHRITT - 1 then\n            teiler <= 0;\n            if hoch then\n              if pos = N - 1 then\n                hoch <= false;\n                pos <= pos - 1;\n              else\n                pos <= pos + 1;\n              end if;\n            else\n              if pos = 0 then\n                hoch <= true;\n                pos <= pos + 1;\n              else\n                pos <= pos - 1;\n              end if;\n            end if;\n          else\n            teiler <= teiler + 1;\n          end if;\n        end if;\n      end if;\n    end if;\n  end process;\n\n  process(pos) is\n  begin\n    leds <= (others => '0');\n    leds(pos) <= '1';\n  end process;\nend architecture behav;",
+     "ziel": [
+      {
+       "t": "p",
+       "s": "Einen getakteten Baustein mit Teiler, Position und Richtung komplett selbst schreiben."
+      }
+     ],
+     "erklaerung": [
+      {
+       "t": "p",
+       "s": "Eine einzelne LED wandert von rechts nach links und wieder zurück: Position 0, 1, …, N-1, N-2, …, 0, 1, …"
+      },
+      {
+       "t": "p",
+       "s": "Ports und Generics:"
+      },
+      {
+       "t": "ul",
+       "items": [
+        "Generic `N : positive := 8` (Anzahl LEDs, mindestens 2), `T_SCHRITT : positive := 5_000_000` (Takte pro Schritt, bei 50 MHz 0,1 s)",
+        "`clk`, `res_n` (wie immer)",
+        "`en : in std_logic` – nur wenn `'1'`, läuft das Licht weiter",
+        "`leds : out std_logic_vector(N-1 downto 0)` – genau ein Bit ist `'1'`"
+       ]
+      },
+      {
+       "t": "p",
+       "s": "Nach dem Reset leuchtet `leds(0)`, Richtung nach oben."
+      }
+     ],
+     "aufgabe": [
+      {
+       "t": "p",
+       "s": "Schreibe Entity `lauflicht` und Architecture `behav` komplett."
+      }
+     ],
+     "aufgabeMd": "Schreibe Entity `lauflicht` und Architecture `behav` komplett.",
+     "loesung": [
+      {
+       "t": "code",
+       "lang": "vhdl",
+       "s": "library ieee; use ieee.std_logic_1164.all;\nentity lauflicht is\n  generic(N : positive := 8; T_SCHRITT : positive := 5_000_000);\n  port(\n    clk, res_n : in  std_logic;\n    en         : in  std_logic;\n    leds       : out std_logic_vector(N-1 downto 0)\n    );\nend entity lauflicht;\n\narchitecture behav of lauflicht is\n  signal teiler : integer range 0 to T_SCHRITT - 1;\n  signal pos    : integer range 0 to N - 1;\n  signal hoch   : boolean;\nbegin\n  process(clk, res_n) is\n  begin\n    if res_n = '0' then\n      teiler <= 0;\n      pos <= 0;\n      hoch <= true;\n    else\n      if clk'event and clk = '1' then\n        if en = '1' then\n          if teiler = T_SCHRITT - 1 then\n            teiler <= 0;\n            if hoch then\n              if pos = N - 1 then\n                hoch <= false;\n                pos <= pos - 1;\n              else\n                pos <= pos + 1;\n              end if;\n            else\n              if pos = 0 then\n                hoch <= true;\n                pos <= pos + 1;\n              else\n                pos <= pos - 1;\n              end if;\n            end if;\n          else\n            teiler <= teiler + 1;\n          end if;\n        end if;\n      end if;\n    end if;\n  end process;\n\n  process(pos) is\n  begin\n    leds <= (others => '0');\n    leds(pos) <= '1';\n  end process;\nend architecture behav;"
+      },
+      {
+       "t": "p",
+       "s": "Die Richtung wechselt **an den Enden**: Steht die LED bei N-1, geht sie im selben Schritt schon auf N-2. So leuchtet das Ende nicht doppelt lang."
+      }
+     ],
+     "loesungMd": "```vhdl\nlibrary ieee; use ieee.std_logic_1164.all;\nentity lauflicht is\n  generic(N : positive := 8; T_SCHRITT : positive := 5_000_000);\n  port(\n    clk, res_n : in  std_logic;\n    en         : in  std_logic;\n    leds       : out std_logic_vector(N-1 downto 0)\n    );\nend entity lauflicht;\n\narchitecture behav of lauflicht is\n  signal teiler : integer range 0 to T_SCHRITT - 1;\n  signal pos    : integer range 0 to N - 1;\n  signal hoch   : boolean;\nbegin\n  process(clk, res_n) is\n  begin\n    if res_n = '0' then\n      teiler <= 0;\n      pos <= 0;\n      hoch <= true;\n    else\n      if clk'event and clk = '1' then\n        if en = '1' then\n          if teiler = T_SCHRITT - 1 then\n            teiler <= 0;\n            if hoch then\n              if pos = N - 1 then\n                hoch <= false;\n                pos <= pos - 1;\n              else\n                pos <= pos + 1;\n              end if;\n            else\n              if pos = 0 then\n                hoch <= true;\n                pos <= pos + 1;\n              else\n                pos <= pos - 1;\n              end if;\n            end if;\n          else\n            teiler <= teiler + 1;\n          end if;\n        end if;\n      end if;\n    end if;\n  end process;\n\n  process(pos) is\n  begin\n    leds <= (others => '0');\n    leds(pos) <= '1';\n  end process;\nend architecture behav;\n```\nDie Richtung wechselt **an den Enden**: Steht die LED bei N-1, geht sie im selben Schritt schon auf N-2. So leuchtet das Ende nicht doppelt lang.",
+     "klausur": [
+      {
+       "t": "p",
+       "s": "Zähler und Teiler (M03, M04), Index mit Integer (P07)."
+      }
+     ]
+    },
+    {
+     "id": "W03",
+     "block": "W",
+     "title": "Parkhaus mit zwei Lichtschranken",
+     "min": 18,
+     "mode": "code",
+     "starter": "",
+     "solutionCode": "library ieee; use ieee.std_logic_1164.all;\nentity parkhaus is\n  generic(PLAETZE : positive := 50);\n  port(\n    clk, res_n : in  std_logic;\n    a, b       : in  std_logic;     -- a aussen, b innen, '1' = unterbrochen\n    belegt     : out natural range 0 to PLAETZE;\n    voll       : out std_logic\n    );\nend entity parkhaus;\n\narchitecture behav of parkhaus is\n  type state_type is (frei, e1, e2, e3, a1, a2, a3);\n  signal current_state, next_state : state_type;\n  signal rein, raus : std_logic;\n  signal anzahl : natural range 0 to PLAETZE;\nbegin\n  transition_function: process(current_state, a, b) is\n  begin\n    next_state <= current_state;\n    rein <= '0';\n    raus <= '0';\n    case current_state is\n      when frei =>\n        if a = '1' and b = '0' then next_state <= e1;\n        elsif a = '0' and b = '1' then next_state <= a1;\n        end if;\n      when e1 =>\n        if a = '1' and b = '1' then next_state <= e2;\n        elsif a = '0' and b = '0' then next_state <= frei;\n        end if;\n      when e2 =>\n        if a = '0' and b = '1' then next_state <= e3;\n        elsif a = '1' and b = '0' then next_state <= e1;\n        end if;\n      when e3 =>\n        if a = '0' and b = '0' then next_state <= frei; rein <= '1';\n        elsif a = '1' and b = '1' then next_state <= e2;\n        end if;\n      when a1 =>\n        if a = '1' and b = '1' then next_state <= a2;\n        elsif a = '0' and b = '0' then next_state <= frei;\n        end if;\n      when a2 =>\n        if a = '1' and b = '0' then next_state <= a3;\n        elsif a = '0' and b = '1' then next_state <= a1;\n        end if;\n      when a3 =>\n        if a = '0' and b = '0' then next_state <= frei; raus <= '1';\n        elsif a = '1' and b = '1' then next_state <= a2;\n        end if;\n    end case;\n  end process transition_function;\n\n  state: process(clk, res_n) is\n  begin\n    if res_n = '0' then\n      current_state <= frei;\n      anzahl <= 0;\n    else\n      if clk'event and clk = '1' then\n        current_state <= next_state;\n        if rein = '1' and anzahl < PLAETZE then\n          anzahl <= anzahl + 1;\n        elsif raus = '1' and anzahl > 0 then\n          anzahl <= anzahl - 1;\n        end if;\n      end if;\n    end if;\n  end process state;\n\n  belegt <= anzahl;\n  voll <= '1' when anzahl = PLAETZE else '0';\nend architecture behav;",
+     "ziel": [
+      {
+       "t": "p",
+       "s": "Einen Automaten entwerfen, der eine Richtung aus einer Signalfolge erkennt, und damit einen Zähler steuern."
+      }
+     ],
+     "erklaerung": [
+      {
+       "t": "p",
+       "s": "An der Einfahrt eines Parkhauses liegen zwei Lichtschranken hintereinander: `a` außen, `b` innen (`'1'` = unterbrochen). Ein Auto, das **hineinfährt**, erzeugt die Folge"
+      },
+      {
+       "t": "p",
+       "s": "`a` → `a` und `b` → `b` → keine"
+      },
+      {
+       "t": "p",
+       "s": "Ein Auto, das **herausfährt**, die umgekehrte Folge. Erst wenn die Folge vollständig ist, zählt das Auto. Dreht ein Fahrer mittendrin um, darf nichts gezählt werden."
+      },
+      {
+       "t": "p",
+       "s": "Ports und Generics:"
+      },
+      {
+       "t": "ul",
+       "items": [
+        "Generic `PLAETZE : positive := 50`",
+        "`clk`, `res_n`, `a`, `b : in std_logic` (schon synchronisiert)",
+        "`belegt : out natural range 0 to PLAETZE`",
+        "`voll : out std_logic` – `'1'`, wenn alle Plätze belegt sind"
+       ]
+      },
+      {
+       "t": "p",
+       "s": "Tipp: Sieben Zustände genügen: `frei`, drei für die Einfahrt, drei für die Ausfahrt. Die Zählimpulse `rein` und `raus` entstehen beim Übergang vom letzten Zustand nach `frei` (Mealy)."
+      }
+     ],
+     "aufgabe": [
+      {
+       "t": "p",
+       "s": "Schreibe Entity `parkhaus` und Architecture `behav` mit `transition_function` (erzeugt auch `rein`/`raus`) und `state` (Zustand und Zähler)."
+      }
+     ],
+     "aufgabeMd": "Schreibe Entity `parkhaus` und Architecture `behav` mit `transition_function` (erzeugt auch `rein`/`raus`) und `state` (Zustand und Zähler).",
+     "loesung": [
+      {
+       "t": "code",
+       "lang": "vhdl",
+       "s": "library ieee; use ieee.std_logic_1164.all;\nentity parkhaus is\n  generic(PLAETZE : positive := 50);\n  port(\n    clk, res_n : in  std_logic;\n    a, b       : in  std_logic;     -- a aussen, b innen, '1' = unterbrochen\n    belegt     : out natural range 0 to PLAETZE;\n    voll       : out std_logic\n    );\nend entity parkhaus;\n\narchitecture behav of parkhaus is\n  type state_type is (frei, e1, e2, e3, a1, a2, a3);\n  signal current_state, next_state : state_type;\n  signal rein, raus : std_logic;\n  signal anzahl : natural range 0 to PLAETZE;\nbegin\n  transition_function: process(current_state, a, b) is\n  begin\n    next_state <= current_state;\n    rein <= '0';\n    raus <= '0';\n    case current_state is\n      when frei =>\n        if a = '1' and b = '0' then next_state <= e1;\n        elsif a = '0' and b = '1' then next_state <= a1;\n        end if;\n      when e1 =>\n        if a = '1' and b = '1' then next_state <= e2;\n        elsif a = '0' and b = '0' then next_state <= frei;\n        end if;\n      when e2 =>\n        if a = '0' and b = '1' then next_state <= e3;\n        elsif a = '1' and b = '0' then next_state <= e1;\n        end if;\n      when e3 =>\n        if a = '0' and b = '0' then next_state <= frei; rein <= '1';\n        elsif a = '1' and b = '1' then next_state <= e2;\n        end if;\n      when a1 =>\n        if a = '1' and b = '1' then next_state <= a2;\n        elsif a = '0' and b = '0' then next_state <= frei;\n        end if;\n      when a2 =>\n        if a = '1' and b = '0' then next_state <= a3;\n        elsif a = '0' and b = '1' then next_state <= a1;\n        end if;\n      when a3 =>\n        if a = '0' and b = '0' then next_state <= frei; raus <= '1';\n        elsif a = '1' and b = '1' then next_state <= a2;\n        end if;\n    end case;\n  end process transition_function;\n\n  state: process(clk, res_n) is\n  begin\n    if res_n = '0' then\n      current_state <= frei;\n      anzahl <= 0;\n    else\n      if clk'event and clk = '1' then\n        current_state <= next_state;\n        if rein = '1' and anzahl < PLAETZE then\n          anzahl <= anzahl + 1;\n        elsif raus = '1' and anzahl > 0 then\n          anzahl <= anzahl - 1;\n        end if;\n      end if;\n    end if;\n  end process state;\n\n  belegt <= anzahl;\n  voll <= '1' when anzahl = PLAETZE else '0';\nend architecture behav;"
+      },
+      {
+       "t": "p",
+       "s": "Bei voll besetztem Parkhaus wird nicht weiter gezählt, bei 0 nicht weiter heruntergezählt – der Zählerbereich bleibt sicher."
+      }
+     ],
+     "loesungMd": "```vhdl\nlibrary ieee; use ieee.std_logic_1164.all;\nentity parkhaus is\n  generic(PLAETZE : positive := 50);\n  port(\n    clk, res_n : in  std_logic;\n    a, b       : in  std_logic;     -- a aussen, b innen, '1' = unterbrochen\n    belegt     : out natural range 0 to PLAETZE;\n    voll       : out std_logic\n    );\nend entity parkhaus;\n\narchitecture behav of parkhaus is\n  type state_type is (frei, e1, e2, e3, a1, a2, a3);\n  signal current_state, next_state : state_type;\n  signal rein, raus : std_logic;\n  signal anzahl : natural range 0 to PLAETZE;\nbegin\n  transition_function: process(current_state, a, b) is\n  begin\n    next_state <= current_state;\n    rein <= '0';\n    raus <= '0';\n    case current_state is\n      when frei =>\n        if a = '1' and b = '0' then next_state <= e1;\n        elsif a = '0' and b = '1' then next_state <= a1;\n        end if;\n      when e1 =>\n        if a = '1' and b = '1' then next_state <= e2;\n        elsif a = '0' and b = '0' then next_state <= frei;\n        end if;\n      when e2 =>\n        if a = '0' and b = '1' then next_state <= e3;\n        elsif a = '1' and b = '0' then next_state <= e1;\n        end if;\n      when e3 =>\n        if a = '0' and b = '0' then next_state <= frei; rein <= '1';\n        elsif a = '1' and b = '1' then next_state <= e2;\n        end if;\n      when a1 =>\n        if a = '1' and b = '1' then next_state <= a2;\n        elsif a = '0' and b = '0' then next_state <= frei;\n        end if;\n      when a2 =>\n        if a = '1' and b = '0' then next_state <= a3;\n        elsif a = '0' and b = '1' then next_state <= a1;\n        end if;\n      when a3 =>\n        if a = '0' and b = '0' then next_state <= frei; raus <= '1';\n        elsif a = '1' and b = '1' then next_state <= a2;\n        end if;\n    end case;\n  end process transition_function;\n\n  state: process(clk, res_n) is\n  begin\n    if res_n = '0' then\n      current_state <= frei;\n      anzahl <= 0;\n    else\n      if clk'event and clk = '1' then\n        current_state <= next_state;\n        if rein = '1' and anzahl < PLAETZE then\n          anzahl <= anzahl + 1;\n        elsif raus = '1' and anzahl > 0 then\n          anzahl <= anzahl - 1;\n        end if;\n      end if;\n    end if;\n  end process state;\n\n  belegt <= anzahl;\n  voll <= '1' when anzahl = PLAETZE else '0';\nend architecture behav;\n```\nBei voll besetztem Parkhaus wird nicht weiter gezählt, bei 0 nicht weiter heruntergezählt – der Zählerbereich bleibt sicher.",
+     "klausur": [
+      {
+       "t": "p",
+       "s": "Automat mit Zähler (P05, F06), Mealy-Ausgänge (F03)."
+      }
+     ]
+    },
+    {
+     "id": "W04",
+     "block": "W",
+     "title": "Stoppuhr",
+     "min": 15,
+     "mode": "code",
+     "starter": "",
+     "solutionCode": "library ieee; use ieee.std_logic_1164.all;\nentity stoppuhr is\n  generic(TAKTE_PRO_ZEHNTEL : positive := 5_000_000);\n  port(\n    clk, res_n  : in  std_logic;\n    start_stop  : in  std_logic;     -- Impuls: startet bzw. haelt an\n    nullen      : in  std_logic;     -- Impuls: Zeit auf 0, Uhr steht\n    zehntel     : out natural range 0 to 9;\n    sekunden    : out natural range 0 to 59;\n    minuten     : out natural range 0 to 9\n    );\nend entity stoppuhr;\n\narchitecture behav of stoppuhr is\n  signal teiler : natural range 0 to TAKTE_PRO_ZEHNTEL - 1;\n  signal laeuft : std_logic;\n  signal z : natural range 0 to 9;\n  signal s : natural range 0 to 59;\n  signal m : natural range 0 to 9;\nbegin\n  process(clk, res_n) is\n  begin\n    if res_n = '0' then\n      teiler <= 0; laeuft <= '0'; z <= 0; s <= 0; m <= 0;\n    else\n      if clk'event and clk = '1' then\n        if nullen = '1' then\n          teiler <= 0; laeuft <= '0'; z <= 0; s <= 0; m <= 0;\n        else\n          if start_stop = '1' then\n            laeuft <= not laeuft;\n          end if;\n          if laeuft = '1' then\n            if teiler = TAKTE_PRO_ZEHNTEL - 1 then\n              teiler <= 0;\n              if z = 9 then\n                z <= 0;\n                if s = 59 then\n                  s <= 0;\n                  if m = 9 then m <= 0; else m <= m + 1; end if;\n                else\n                  s <= s + 1;\n                end if;\n              else\n                z <= z + 1;\n              end if;\n            else\n              teiler <= teiler + 1;\n            end if;\n          end if;\n        end if;\n      end if;\n    end if;\n  end process;\n  zehntel <= z;\n  sekunden <= s;\n  minuten <= m;\nend architecture behav;",
+     "ziel": [
+      {
+       "t": "p",
+       "s": "Kaskadierte Zähler (Zehntel, Sekunden, Minuten) mit Start/Stopp und Nullstellen bauen."
+      }
+     ],
+     "erklaerung": [
+      {
+       "t": "p",
+       "s": "Eine Stoppuhr zählt Zehntelsekunden, Sekunden und Minuten."
+      },
+      {
+       "t": "p",
+       "s": "Ports und Generics:"
+      },
+      {
+       "t": "ul",
+       "items": [
+        "Generic `TAKTE_PRO_ZEHNTEL : positive := 5_000_000`",
+        "`clk`, `res_n`",
+        "`start_stop : in std_logic` – Impuls: startet die Uhr, wenn sie steht, hält sie an, wenn sie läuft",
+        "`nullen : in std_logic` – Impuls: Zeit auf 0, Uhr steht (hat Vorrang)",
+        "`zehntel : out natural range 0 to 9`",
+        "`sekunden : out natural range 0 to 59`",
+        "`minuten : out natural range 0 to 9`"
+       ]
+      },
+      {
+       "t": "p",
+       "s": "Kaskade: Ein Teiler erzeugt alle `TAKTE_PRO_ZEHNTEL` Takte einen Schritt. Läuft `zehntel` von 9 auf 0 über, zählt `sekunden` eins weiter, usw."
+      }
+     ],
+     "aufgabe": [
+      {
+       "t": "p",
+       "s": "Schreibe Entity `stoppuhr` und Architecture `behav` mit einem einzigen getakteten Prozess."
+      }
+     ],
+     "aufgabeMd": "Schreibe Entity `stoppuhr` und Architecture `behav` mit einem einzigen getakteten Prozess.",
+     "loesung": [
+      {
+       "t": "code",
+       "lang": "vhdl",
+       "s": "library ieee; use ieee.std_logic_1164.all;\nentity stoppuhr is\n  generic(TAKTE_PRO_ZEHNTEL : positive := 5_000_000);\n  port(\n    clk, res_n  : in  std_logic;\n    start_stop  : in  std_logic;     -- Impuls: startet bzw. haelt an\n    nullen      : in  std_logic;     -- Impuls: Zeit auf 0, Uhr steht\n    zehntel     : out natural range 0 to 9;\n    sekunden    : out natural range 0 to 59;\n    minuten     : out natural range 0 to 9\n    );\nend entity stoppuhr;\n\narchitecture behav of stoppuhr is\n  signal teiler : natural range 0 to TAKTE_PRO_ZEHNTEL - 1;\n  signal laeuft : std_logic;\n  signal z : natural range 0 to 9;\n  signal s : natural range 0 to 59;\n  signal m : natural range 0 to 9;\nbegin\n  process(clk, res_n) is\n  begin\n    if res_n = '0' then\n      teiler <= 0; laeuft <= '0'; z <= 0; s <= 0; m <= 0;\n    else\n      if clk'event and clk = '1' then\n        if nullen = '1' then\n          teiler <= 0; laeuft <= '0'; z <= 0; s <= 0; m <= 0;\n        else\n          if start_stop = '1' then\n            laeuft <= not laeuft;\n          end if;\n          if laeuft = '1' then\n            if teiler = TAKTE_PRO_ZEHNTEL - 1 then\n              teiler <= 0;\n              if z = 9 then\n                z <= 0;\n                if s = 59 then\n                  s <= 0;\n                  if m = 9 then m <= 0; else m <= m + 1; end if;\n                else\n                  s <= s + 1;\n                end if;\n              else\n                z <= z + 1;\n              end if;\n            else\n              teiler <= teiler + 1;\n            end if;\n          end if;\n        end if;\n      end if;\n    end if;\n  end process;\n  zehntel <= z;\n  sekunden <= s;\n  minuten <= m;\nend architecture behav;"
+      },
+      {
+       "t": "p",
+       "s": "Die Ausgänge können keine eigenen Zähler sein (ein `out`-Port lässt sich nicht lesen), deshalb laufen interne Signale `z`, `s`, `m`, die am Ende zugewiesen werden."
+      }
+     ],
+     "loesungMd": "```vhdl\nlibrary ieee; use ieee.std_logic_1164.all;\nentity stoppuhr is\n  generic(TAKTE_PRO_ZEHNTEL : positive := 5_000_000);\n  port(\n    clk, res_n  : in  std_logic;\n    start_stop  : in  std_logic;     -- Impuls: startet bzw. haelt an\n    nullen      : in  std_logic;     -- Impuls: Zeit auf 0, Uhr steht\n    zehntel     : out natural range 0 to 9;\n    sekunden    : out natural range 0 to 59;\n    minuten     : out natural range 0 to 9\n    );\nend entity stoppuhr;\n\narchitecture behav of stoppuhr is\n  signal teiler : natural range 0 to TAKTE_PRO_ZEHNTEL - 1;\n  signal laeuft : std_logic;\n  signal z : natural range 0 to 9;\n  signal s : natural range 0 to 59;\n  signal m : natural range 0 to 9;\nbegin\n  process(clk, res_n) is\n  begin\n    if res_n = '0' then\n      teiler <= 0; laeuft <= '0'; z <= 0; s <= 0; m <= 0;\n    else\n      if clk'event and clk = '1' then\n        if nullen = '1' then\n          teiler <= 0; laeuft <= '0'; z <= 0; s <= 0; m <= 0;\n        else\n          if start_stop = '1' then\n            laeuft <= not laeuft;\n          end if;\n          if laeuft = '1' then\n            if teiler = TAKTE_PRO_ZEHNTEL - 1 then\n              teiler <= 0;\n              if z = 9 then\n                z <= 0;\n                if s = 59 then\n                  s <= 0;\n                  if m = 9 then m <= 0; else m <= m + 1; end if;\n                else\n                  s <= s + 1;\n                end if;\n              else\n                z <= z + 1;\n              end if;\n            else\n              teiler <= teiler + 1;\n            end if;\n          end if;\n        end if;\n      end if;\n    end if;\n  end process;\n  zehntel <= z;\n  sekunden <= s;\n  minuten <= m;\nend architecture behav;\n```\nDie Ausgänge können keine eigenen Zähler sein (ein `out`-Port lässt sich nicht lesen), deshalb laufen interne Signale `z`, `s`, `m`, die am Ende zugewiesen werden.",
+     "klausur": [
+      {
+       "t": "p",
+       "s": "Modulo-Zähler mit Übertrag (M03), Taktteiler (M04)."
+      }
+     ]
+    },
+    {
+     "id": "W05",
+     "block": "W",
+     "title": "Fußgängerampel mit Anforderung",
+     "min": 20,
+     "mode": "code",
+     "starter": "",
+     "solutionCode": "library ieee; use ieee.std_logic_1164.all;\nentity fussgaengerampel is\n  generic(\n    T_GRUEN_MIN : positive := 20;\n    T_GELB      : positive := 3;\n    T_FUSS      : positive := 10;\n    T_RAEUMEN   : positive := 4;\n    T_ROTGELB   : positive := 2\n    );\n  port(\n    clk, res_n                     : in  std_logic;\n    taste                          : in  std_logic;   -- Impuls\n    auto_rot, auto_gelb, auto_gruen : out std_logic;\n    fuss_rot, fuss_gruen           : out std_logic;\n    signal_kommt                   : out std_logic\n    );\nend entity fussgaengerampel;\n\narchitecture behav of fussgaengerampel is\n  type state_type is (gruen, gelb, fuss_geht, raeumen, rotgelb);\n  signal current_state, next_state : state_type;\n  signal zeit   : natural range 0 to 255;\n  signal wunsch : std_logic;\nbegin\n  transition_function: process(current_state, zeit, wunsch) is\n  begin\n    next_state <= current_state;\n    case current_state is\n      when gruen =>\n        if zeit >= T_GRUEN_MIN - 1 and wunsch = '1' then next_state <= gelb; end if;\n      when gelb =>\n        if zeit = T_GELB - 1 then next_state <= fuss_geht; end if;\n      when fuss_geht =>\n        if zeit = T_FUSS - 1 then next_state <= raeumen; end if;\n      when raeumen =>\n        if zeit = T_RAEUMEN - 1 then next_state <= rotgelb; end if;\n      when rotgelb =>\n        if zeit = T_ROTGELB - 1 then next_state <= gruen; end if;\n    end case;\n  end process transition_function;\n\n  state: process(clk, res_n) is\n  begin\n    if res_n = '0' then\n      current_state <= gruen;\n      zeit <= 0;\n      wunsch <= '0';\n    else\n      if clk'event and clk = '1' then\n        current_state <= next_state;\n        if next_state /= current_state then\n          zeit <= 0;\n        elsif zeit < 255 then\n          zeit <= zeit + 1;\n        end if;\n        if current_state = fuss_geht then\n          wunsch <= '0';\n        elsif taste = '1' then\n          wunsch <= '1';\n        end if;\n      end if;\n    end if;\n  end process state;\n\n  output_function: process(current_state) is\n  begin\n    auto_rot <= '0'; auto_gelb <= '0'; auto_gruen <= '0';\n    fuss_rot <= '1'; fuss_gruen <= '0';\n    case current_state is\n      when gruen     => auto_gruen <= '1';\n      when gelb      => auto_gelb <= '1';\n      when fuss_geht => auto_rot <= '1'; fuss_rot <= '0'; fuss_gruen <= '1';\n      when raeumen   => auto_rot <= '1';\n      when rotgelb   => auto_rot <= '1'; auto_gelb <= '1';\n    end case;\n  end process output_function;\n\n  signal_kommt <= wunsch;\nend architecture behav;",
+     "ziel": [
+      {
+       "t": "p",
+       "s": "Eine Ampelsteuerung mit Mindestzeiten und gespeicherter Anforderung komplett entwerfen."
+      }
+     ],
+     "erklaerung": [
+      {
+       "t": "p",
+       "s": "Eine Straße mit Fußgängerüberweg. Die Autos haben grün, bis ein Fußgänger die Taste drückt."
+      },
+      {
+       "t": "p",
+       "s": "Ablauf:"
+      },
+      {
+       "t": "ol",
+       "items": [
+        "`gruen`: Autos grün, Fußgänger rot. Bleibt mindestens `T_GRUEN_MIN` Takte, danach nur noch, solange keine Anforderung da ist.",
+        "`gelb`: `T_GELB` Takte.",
+        "`fuss_geht`: Autos rot, Fußgänger grün für `T_FUSS` Takte.",
+        "`raeumen`: beide rot für `T_RAEUMEN` Takte.",
+        "`rotgelb`: Autos rot und gelb für `T_ROTGELB` Takte, dann wieder 1."
+       ]
+      },
+      {
+       "t": "p",
+       "s": "Die Taste ist ein Impuls. Die Anforderung wird gespeichert (`signal_kommt` leuchtet) und erst gelöscht, wenn die Fußgänger grün haben."
+      },
+      {
+       "t": "p",
+       "s": "Ports: `clk`, `res_n`, `taste : in std_logic`, Ausgänge `auto_rot`, `auto_gelb`, `auto_gruen`, `fuss_rot`, `fuss_gruen`, `signal_kommt` (alle `std_logic`). Die fünf Zeiten sind Generics."
+      }
+     ],
+     "aufgabe": [
+      {
+       "t": "p",
+       "s": "Schreibe Entity `fussgaengerampel` und Architecture `behav` mit `transition_function`, `state` (Zustand, Zeitzähler, Anforderung) und `output_function`."
+      }
+     ],
+     "aufgabeMd": "Schreibe Entity `fussgaengerampel` und Architecture `behav` mit `transition_function`, `state` (Zustand, Zeitzähler, Anforderung) und `output_function`.",
+     "loesung": [
+      {
+       "t": "code",
+       "lang": "vhdl",
+       "s": "library ieee; use ieee.std_logic_1164.all;\nentity fussgaengerampel is\n  generic(\n    T_GRUEN_MIN : positive := 20;\n    T_GELB      : positive := 3;\n    T_FUSS      : positive := 10;\n    T_RAEUMEN   : positive := 4;\n    T_ROTGELB   : positive := 2\n    );\n  port(\n    clk, res_n                     : in  std_logic;\n    taste                          : in  std_logic;   -- Impuls\n    auto_rot, auto_gelb, auto_gruen : out std_logic;\n    fuss_rot, fuss_gruen           : out std_logic;\n    signal_kommt                   : out std_logic\n    );\nend entity fussgaengerampel;\n\narchitecture behav of fussgaengerampel is\n  type state_type is (gruen, gelb, fuss_geht, raeumen, rotgelb);\n  signal current_state, next_state : state_type;\n  signal zeit   : natural range 0 to 255;\n  signal wunsch : std_logic;\nbegin\n  transition_function: process(current_state, zeit, wunsch) is\n  begin\n    next_state <= current_state;\n    case current_state is\n      when gruen =>\n        if zeit >= T_GRUEN_MIN - 1 and wunsch = '1' then next_state <= gelb; end if;\n      when gelb =>\n        if zeit = T_GELB - 1 then next_state <= fuss_geht; end if;\n      when fuss_geht =>\n        if zeit = T_FUSS - 1 then next_state <= raeumen; end if;\n      when raeumen =>\n        if zeit = T_RAEUMEN - 1 then next_state <= rotgelb; end if;\n      when rotgelb =>\n        if zeit = T_ROTGELB - 1 then next_state <= gruen; end if;\n    end case;\n  end process transition_function;\n\n  state: process(clk, res_n) is\n  begin\n    if res_n = '0' then\n      current_state <= gruen;\n      zeit <= 0;\n      wunsch <= '0';\n    else\n      if clk'event and clk = '1' then\n        current_state <= next_state;\n        if next_state /= current_state then\n          zeit <= 0;\n        elsif zeit < 255 then\n          zeit <= zeit + 1;\n        end if;\n        if current_state = fuss_geht then\n          wunsch <= '0';\n        elsif taste = '1' then\n          wunsch <= '1';\n        end if;\n      end if;\n    end if;\n  end process state;\n\n  output_function: process(current_state) is\n  begin\n    auto_rot <= '0'; auto_gelb <= '0'; auto_gruen <= '0';\n    fuss_rot <= '1'; fuss_gruen <= '0';\n    case current_state is\n      when gruen     => auto_gruen <= '1';\n      when gelb      => auto_gelb <= '1';\n      when fuss_geht => auto_rot <= '1'; fuss_rot <= '0'; fuss_gruen <= '1';\n      when raeumen   => auto_rot <= '1';\n      when rotgelb   => auto_rot <= '1'; auto_gelb <= '1';\n    end case;\n  end process output_function;\n\n  signal_kommt <= wunsch;\nend architecture behav;"
+      },
+      {
+       "t": "p",
+       "s": "`zeit < 255` verhindert, dass der Zähler in `gruen` über den Wertebereich läuft, solange niemand drückt. Fußgänger-Rot ist der Default in der `output_function`."
+      }
+     ],
+     "loesungMd": "```vhdl\nlibrary ieee; use ieee.std_logic_1164.all;\nentity fussgaengerampel is\n  generic(\n    T_GRUEN_MIN : positive := 20;\n    T_GELB      : positive := 3;\n    T_FUSS      : positive := 10;\n    T_RAEUMEN   : positive := 4;\n    T_ROTGELB   : positive := 2\n    );\n  port(\n    clk, res_n                     : in  std_logic;\n    taste                          : in  std_logic;   -- Impuls\n    auto_rot, auto_gelb, auto_gruen : out std_logic;\n    fuss_rot, fuss_gruen           : out std_logic;\n    signal_kommt                   : out std_logic\n    );\nend entity fussgaengerampel;\n\narchitecture behav of fussgaengerampel is\n  type state_type is (gruen, gelb, fuss_geht, raeumen, rotgelb);\n  signal current_state, next_state : state_type;\n  signal zeit   : natural range 0 to 255;\n  signal wunsch : std_logic;\nbegin\n  transition_function: process(current_state, zeit, wunsch) is\n  begin\n    next_state <= current_state;\n    case current_state is\n      when gruen =>\n        if zeit >= T_GRUEN_MIN - 1 and wunsch = '1' then next_state <= gelb; end if;\n      when gelb =>\n        if zeit = T_GELB - 1 then next_state <= fuss_geht; end if;\n      when fuss_geht =>\n        if zeit = T_FUSS - 1 then next_state <= raeumen; end if;\n      when raeumen =>\n        if zeit = T_RAEUMEN - 1 then next_state <= rotgelb; end if;\n      when rotgelb =>\n        if zeit = T_ROTGELB - 1 then next_state <= gruen; end if;\n    end case;\n  end process transition_function;\n\n  state: process(clk, res_n) is\n  begin\n    if res_n = '0' then\n      current_state <= gruen;\n      zeit <= 0;\n      wunsch <= '0';\n    else\n      if clk'event and clk = '1' then\n        current_state <= next_state;\n        if next_state /= current_state then\n          zeit <= 0;\n        elsif zeit < 255 then\n          zeit <= zeit + 1;\n        end if;\n        if current_state = fuss_geht then\n          wunsch <= '0';\n        elsif taste = '1' then\n          wunsch <= '1';\n        end if;\n      end if;\n    end if;\n  end process state;\n\n  output_function: process(current_state) is\n  begin\n    auto_rot <= '0'; auto_gelb <= '0'; auto_gruen <= '0';\n    fuss_rot <= '1'; fuss_gruen <= '0';\n    case current_state is\n      when gruen     => auto_gruen <= '1';\n      when gelb      => auto_gelb <= '1';\n      when fuss_geht => auto_rot <= '1'; fuss_rot <= '0'; fuss_gruen <= '1';\n      when raeumen   => auto_rot <= '1';\n      when rotgelb   => auto_rot <= '1'; auto_gelb <= '1';\n    end case;\n  end process output_function;\n\n  signal_kommt <= wunsch;\nend architecture behav;\n```\n`zeit < 255` verhindert, dass der Zähler in `gruen` über den Wertebereich läuft, solange niemand drückt. Fußgänger-Rot ist der Default in der `output_function`.",
+     "klausur": [
+      {
+       "t": "p",
+       "s": "Automat mit Timer (M09), Moore-Ausgänge mit Defaults (F05)."
+      }
+     ]
+    },
+    {
+     "id": "W06",
+     "block": "W",
+     "title": "Aufzug mit drei Etagen",
+     "min": 25,
+     "mode": "code",
+     "starter": "",
+     "solutionCode": "library ieee; use ieee.std_logic_1164.all;\nentity aufzug is\n  generic(T_FAHRT : positive := 10; T_TUER : positive := 8);\n  port(\n    clk, res_n    : in  std_logic;\n    ruf           : in  std_logic_vector(2 downto 0);   -- Impulse, eine Taste pro Etage\n    motor_hoch    : out std_logic;\n    motor_runter  : out std_logic;\n    tuer_auf      : out std_logic;\n    etage         : out natural range 0 to 2\n    );\nend entity aufzug;\n\narchitecture behav of aufzug is\n  type state_type is (steht, hoch, runter, tuer);\n  signal current_state, next_state : state_type;\n  signal e       : natural range 0 to 2;\n  signal auftrag : std_logic_vector(2 downto 0);\n  signal zeit    : natural range 0 to 255;\n  signal oben, unten : std_logic;     -- Auftraege ueber / unter der aktuellen Etage\nbegin\n  process(e, auftrag) is\n  begin\n    oben <= '0';\n    unten <= '0';\n    for i in 0 to 2 loop\n      if auftrag(i) = '1' and i > e then oben <= '1'; end if;\n      if auftrag(i) = '1' and i < e then unten <= '1'; end if;\n    end loop;\n  end process;\n\n  transition_function: process(current_state, auftrag, e, oben, unten, zeit) is\n  begin\n    next_state <= current_state;\n    case current_state is\n      when steht =>\n        if auftrag(e) = '1' then next_state <= tuer;\n        elsif oben = '1' then next_state <= hoch;\n        elsif unten = '1' then next_state <= runter;\n        end if;\n      when hoch | runter =>\n        if zeit = T_FAHRT - 1 then next_state <= steht; end if;\n      when tuer =>\n        if zeit = T_TUER - 1 then next_state <= steht; end if;\n    end case;\n  end process transition_function;\n\n  state: process(clk, res_n) is\n  begin\n    if res_n = '0' then\n      current_state <= steht;\n      e <= 0;\n      auftrag <= (others => '0');\n      zeit <= 0;\n    else\n      if clk'event and clk = '1' then\n        current_state <= next_state;\n        if next_state /= current_state then\n          zeit <= 0;\n        elsif zeit < 255 then\n          zeit <= zeit + 1;\n        end if;\n        -- angekommen: eine Etage weiter\n        if current_state = hoch and next_state = steht then\n          e <= e + 1;\n        elsif current_state = runter and next_state = steht then\n          e <= e - 1;\n        end if;\n        -- Auftraege merken, erledigt, sobald die Tuer aufgeht\n        for i in 0 to 2 loop\n          if current_state = tuer and i = e then\n            auftrag(i) <= '0';\n          elsif ruf(i) = '1' then\n            auftrag(i) <= '1';\n          end if;\n        end loop;\n      end if;\n    end if;\n  end process state;\n\n  motor_hoch   <= '1' when current_state = hoch else '0';\n  motor_runter <= '1' when current_state = runter else '0';\n  tuer_auf     <= '1' when current_state = tuer else '0';\n  etage <= e;\nend architecture behav;",
+     "ziel": [
+      {
+       "t": "p",
+       "s": "Eine Steuerung mit Auftragsspeicher, Position und Fahrtrichtungsentscheidung selbst bauen."
+      }
+     ],
+     "erklaerung": [
+      {
+       "t": "p",
+       "s": "Ein Aufzug fährt zwischen den Etagen 0, 1 und 2."
+      },
+      {
+       "t": "ul",
+       "items": [
+        "`ruf : in std_logic_vector(2 downto 0)` – je Etage eine Taste, Impulse. Ein Ruf wird als **Auftrag** gespeichert.",
+        "Der Aufzug steht. Gibt es einen Auftrag für die aktuelle Etage, geht die Tür `T_TUER` Takte auf, der Auftrag ist erledigt.",
+        "Sonst: Auftrag weiter oben → eine Etage hoch fahren (`T_FAHRT` Takte), Auftrag weiter unten → eine Etage runter. Danach wieder neu entscheiden.",
+        "Ausgänge: `motor_hoch`, `motor_runter`, `tuer_auf` (`std_logic`), `etage : out natural range 0 to 2`.",
+        "Nie gleichzeitig fahren und Tür offen."
+       ]
+      },
+      {
+       "t": "p",
+       "s": "Zustände: `steht`, `hoch`, `runter`, `tuer`. Dazu Register: Etage `e`, Aufträge `auftrag(2 downto 0)`, Zeitzähler `zeit`. Hilfssignale `oben` und `unten` sagen, ob es Aufträge über bzw. unter der aktuellen Etage gibt."
+      }
+     ],
+     "aufgabe": [
+      {
+       "t": "p",
+       "s": "Schreibe Entity `aufzug` und Architecture `behav`. Die Hilfssignale `oben`/`unten` berechnest du in einem kombinatorischen Prozess mit einer Schleife."
+      }
+     ],
+     "aufgabeMd": "Schreibe Entity `aufzug` und Architecture `behav`. Die Hilfssignale `oben`/`unten` berechnest du in einem kombinatorischen Prozess mit einer Schleife.",
+     "loesung": [
+      {
+       "t": "code",
+       "lang": "vhdl",
+       "s": "library ieee; use ieee.std_logic_1164.all;\nentity aufzug is\n  generic(T_FAHRT : positive := 10; T_TUER : positive := 8);\n  port(\n    clk, res_n    : in  std_logic;\n    ruf           : in  std_logic_vector(2 downto 0);   -- Impulse, eine Taste pro Etage\n    motor_hoch    : out std_logic;\n    motor_runter  : out std_logic;\n    tuer_auf      : out std_logic;\n    etage         : out natural range 0 to 2\n    );\nend entity aufzug;\n\narchitecture behav of aufzug is\n  type state_type is (steht, hoch, runter, tuer);\n  signal current_state, next_state : state_type;\n  signal e       : natural range 0 to 2;\n  signal auftrag : std_logic_vector(2 downto 0);\n  signal zeit    : natural range 0 to 255;\n  signal oben, unten : std_logic;     -- Auftraege ueber / unter der aktuellen Etage\nbegin\n  process(e, auftrag) is\n  begin\n    oben <= '0';\n    unten <= '0';\n    for i in 0 to 2 loop\n      if auftrag(i) = '1' and i > e then oben <= '1'; end if;\n      if auftrag(i) = '1' and i < e then unten <= '1'; end if;\n    end loop;\n  end process;\n\n  transition_function: process(current_state, auftrag, e, oben, unten, zeit) is\n  begin\n    next_state <= current_state;\n    case current_state is\n      when steht =>\n        if auftrag(e) = '1' then next_state <= tuer;\n        elsif oben = '1' then next_state <= hoch;\n        elsif unten = '1' then next_state <= runter;\n        end if;\n      when hoch | runter =>\n        if zeit = T_FAHRT - 1 then next_state <= steht; end if;\n      when tuer =>\n        if zeit = T_TUER - 1 then next_state <= steht; end if;\n    end case;\n  end process transition_function;\n\n  state: process(clk, res_n) is\n  begin\n    if res_n = '0' then\n      current_state <= steht;\n      e <= 0;\n      auftrag <= (others => '0');\n      zeit <= 0;\n    else\n      if clk'event and clk = '1' then\n        current_state <= next_state;\n        if next_state /= current_state then\n          zeit <= 0;\n        elsif zeit < 255 then\n          zeit <= zeit + 1;\n        end if;\n        -- angekommen: eine Etage weiter\n        if current_state = hoch and next_state = steht then\n          e <= e + 1;\n        elsif current_state = runter and next_state = steht then\n          e <= e - 1;\n        end if;\n        -- Auftraege merken, erledigt, sobald die Tuer aufgeht\n        for i in 0 to 2 loop\n          if current_state = tuer and i = e then\n            auftrag(i) <= '0';\n          elsif ruf(i) = '1' then\n            auftrag(i) <= '1';\n          end if;\n        end loop;\n      end if;\n    end if;\n  end process state;\n\n  motor_hoch   <= '1' when current_state = hoch else '0';\n  motor_runter <= '1' when current_state = runter else '0';\n  tuer_auf     <= '1' when current_state = tuer else '0';\n  etage <= e;\nend architecture behav;"
+      },
+      {
+       "t": "p",
+       "s": "Die Etage wird beim **Ankommen** geändert (Übergang von `hoch`/`runter` nach `steht`). In der Auftragsschleife hat „erledigt“ Vorrang vor einem neuen Ruf derselben Etage, während die Tür offen ist."
+      }
+     ],
+     "loesungMd": "```vhdl\nlibrary ieee; use ieee.std_logic_1164.all;\nentity aufzug is\n  generic(T_FAHRT : positive := 10; T_TUER : positive := 8);\n  port(\n    clk, res_n    : in  std_logic;\n    ruf           : in  std_logic_vector(2 downto 0);   -- Impulse, eine Taste pro Etage\n    motor_hoch    : out std_logic;\n    motor_runter  : out std_logic;\n    tuer_auf      : out std_logic;\n    etage         : out natural range 0 to 2\n    );\nend entity aufzug;\n\narchitecture behav of aufzug is\n  type state_type is (steht, hoch, runter, tuer);\n  signal current_state, next_state : state_type;\n  signal e       : natural range 0 to 2;\n  signal auftrag : std_logic_vector(2 downto 0);\n  signal zeit    : natural range 0 to 255;\n  signal oben, unten : std_logic;     -- Auftraege ueber / unter der aktuellen Etage\nbegin\n  process(e, auftrag) is\n  begin\n    oben <= '0';\n    unten <= '0';\n    for i in 0 to 2 loop\n      if auftrag(i) = '1' and i > e then oben <= '1'; end if;\n      if auftrag(i) = '1' and i < e then unten <= '1'; end if;\n    end loop;\n  end process;\n\n  transition_function: process(current_state, auftrag, e, oben, unten, zeit) is\n  begin\n    next_state <= current_state;\n    case current_state is\n      when steht =>\n        if auftrag(e) = '1' then next_state <= tuer;\n        elsif oben = '1' then next_state <= hoch;\n        elsif unten = '1' then next_state <= runter;\n        end if;\n      when hoch | runter =>\n        if zeit = T_FAHRT - 1 then next_state <= steht; end if;\n      when tuer =>\n        if zeit = T_TUER - 1 then next_state <= steht; end if;\n    end case;\n  end process transition_function;\n\n  state: process(clk, res_n) is\n  begin\n    if res_n = '0' then\n      current_state <= steht;\n      e <= 0;\n      auftrag <= (others => '0');\n      zeit <= 0;\n    else\n      if clk'event and clk = '1' then\n        current_state <= next_state;\n        if next_state /= current_state then\n          zeit <= 0;\n        elsif zeit < 255 then\n          zeit <= zeit + 1;\n        end if;\n        -- angekommen: eine Etage weiter\n        if current_state = hoch and next_state = steht then\n          e <= e + 1;\n        elsif current_state = runter and next_state = steht then\n          e <= e - 1;\n        end if;\n        -- Auftraege merken, erledigt, sobald die Tuer aufgeht\n        for i in 0 to 2 loop\n          if current_state = tuer and i = e then\n            auftrag(i) <= '0';\n          elsif ruf(i) = '1' then\n            auftrag(i) <= '1';\n          end if;\n        end loop;\n      end if;\n    end if;\n  end process state;\n\n  motor_hoch   <= '1' when current_state = hoch else '0';\n  motor_runter <= '1' when current_state = runter else '0';\n  tuer_auf     <= '1' when current_state = tuer else '0';\n  etage <= e;\nend architecture behav;\n```\nDie Etage wird beim **Ankommen** geändert (Übergang von `hoch`/`runter` nach `steht`). In der Auftragsschleife hat „erledigt“ Vorrang vor einem neuen Ruf derselben Etage, während die Tür offen ist.",
+     "klausur": [
+      {
+       "t": "p",
+       "s": "Automat plus Register (F06, P05), Schleife über einen Vektor (C07)."
+      }
+     ]
+    },
+    {
+     "id": "W07",
+     "block": "W",
+     "title": "Reaktionstester",
+     "min": 25,
+     "mode": "code",
+     "starter": "",
+     "solutionCode": "library ieee; use ieee.std_logic_1164.all; use ieee.numeric_std.all;\nentity reaktionstester is\n  generic(\n    TAKTE_PRO_MS : positive := 50_000;\n    WARTE_MIN_MS : positive := 1000;   -- mindestens so lange warten\n    WARTE_SCHRITT_MS : positive := 200 -- plus zufaellig 0..15 Schritte\n    );\n  port(\n    clk, res_n : in  std_logic;\n    start      : in  std_logic;        -- Impuls\n    taste      : in  std_logic;        -- Impuls\n    led        : out std_logic;        -- jetzt druecken!\n    fruehstart : out std_logic;\n    ergebnis   : out natural range 0 to 999;   -- Reaktionszeit in ms\n    gueltig    : out std_logic\n    );\nend entity reaktionstester;\n\narchitecture behav of reaktionstester is\n  type state_type is (bereit, warten, messen, fertig, zu_frueh);\n  signal state : state_type;\n  signal lfsr  : std_logic_vector(7 downto 0);\n  signal ms_teiler : natural range 0 to TAKTE_PRO_MS - 1;\n  signal ms_tick   : std_logic;\n  signal rest  : natural range 0 to WARTE_MIN_MS + 15 * WARTE_SCHRITT_MS;\n  signal zeit  : natural range 0 to 999;\nbegin\n  -- Zufall: laeuft immer, der Zeitpunkt des Starts bestimmt den Wert\n  zufall: process(clk, res_n) is\n  begin\n    if res_n = '0' then\n      lfsr <= \"00000001\";\n    else\n      if clk'event and clk = '1' then\n        if lfsr(7) = '1' then\n          lfsr <= (lfsr(6 downto 0) xor \"0001110\") & lfsr(7);\n        else\n          lfsr <= lfsr(6 downto 0) & lfsr(7);\n        end if;\n      end if;\n    end if;\n  end process zufall;\n\n  -- Millisekunden-Takt\n  teiler: process(clk, res_n) is\n  begin\n    if res_n = '0' then\n      ms_teiler <= 0;\n      ms_tick <= '0';\n    else\n      if clk'event and clk = '1' then\n        ms_tick <= '0';\n        if state = bereit then\n          ms_teiler <= 0;\n        elsif ms_teiler = TAKTE_PRO_MS - 1 then\n          ms_teiler <= 0;\n          ms_tick <= '1';\n        else\n          ms_teiler <= ms_teiler + 1;\n        end if;\n      end if;\n    end if;\n  end process teiler;\n\n  ablauf: process(clk, res_n) is\n  begin\n    if res_n = '0' then\n      state <= bereit;\n      rest <= 0;\n      zeit <= 0;\n    else\n      if clk'event and clk = '1' then\n        case state is\n          when bereit | fertig | zu_frueh =>\n            if start = '1' then\n              state <= warten;\n              rest <= WARTE_MIN_MS + to_integer(unsigned(lfsr(3 downto 0))) * WARTE_SCHRITT_MS;\n              zeit <= 0;\n            end if;\n          when warten =>\n            if taste = '1' then\n              state <= zu_frueh;\n            elsif ms_tick = '1' then\n              if rest = 0 then\n                state <= messen;\n              else\n                rest <= rest - 1;\n              end if;\n            end if;\n          when messen =>\n            if taste = '1' then\n              state <= fertig;\n            elsif ms_tick = '1' and zeit < 999 then\n              zeit <= zeit + 1;\n            end if;\n        end case;\n      end if;\n    end if;\n  end process ablauf;\n\n  led        <= '1' when state = messen else '0';\n  fruehstart <= '1' when state = zu_frueh else '0';\n  gueltig    <= '1' when state = fertig else '0';\n  ergebnis   <= zeit;\nend architecture behav;",
+     "ziel": [
+      {
+       "t": "p",
+       "s": "Mehrere Prozesse (Zufall, Teiler, Ablauf) zu einem Gerät zusammensetzen."
+      }
+     ],
+     "erklaerung": [
+      {
+       "t": "p",
+       "s": "Ein Reaktionstester:"
+      },
+      {
+       "t": "ol",
+       "items": [
+        "`start` (Impuls): Eine zufällige Zeit warten: `WARTE_MIN_MS` plus 0 bis 15 mal `WARTE_SCHRITT_MS` Millisekunden.",
+        "Dann leuchtet `led`, und die Zeit läuft in Millisekunden.",
+        "`taste` (Impuls): Die Zeit bleibt stehen, `gueltig = '1'`, `ergebnis` zeigt die Millisekunden (höchstens 999).",
+        "Wer in der Wartezeit drückt, bekommt `fruehstart = '1'`.",
+        "Mit `start` geht es jederzeit wieder von vorn los."
+       ]
+      },
+      {
+       "t": "p",
+       "s": "Ports und Generics:"
+      },
+      {
+       "t": "ul",
+       "items": [
+        "Generics `TAKTE_PRO_MS := 50_000`, `WARTE_MIN_MS := 1000`, `WARTE_SCHRITT_MS := 200`",
+        "`clk`, `res_n`, `start`, `taste : in std_logic`",
+        "`led`, `fruehstart`, `gueltig : out std_logic`, `ergebnis : out natural range 0 to 999`"
+       ]
+      },
+      {
+       "t": "p",
+       "s": "Zufall: ein 8-Bit-LFSR (S09) läuft in jedem Takt. Die unteren 4 Bit beim Start ergeben die Zufallszahl."
+      }
+     ],
+     "aufgabe": [
+      {
+       "t": "p",
+       "s": "Schreibe Entity `reaktionstester` und Architecture `behav` mit drei Prozessen: `zufall`, `teiler` (Millisekunden-Impuls `ms_tick`) und `ablauf` (Zustand, Restzeit, Messzeit)."
+      }
+     ],
+     "aufgabeMd": "Schreibe Entity `reaktionstester` und Architecture `behav` mit drei Prozessen: `zufall`, `teiler` (Millisekunden-Impuls `ms_tick`) und `ablauf` (Zustand, Restzeit, Messzeit).",
+     "loesung": [
+      {
+       "t": "code",
+       "lang": "vhdl",
+       "s": "library ieee; use ieee.std_logic_1164.all; use ieee.numeric_std.all;\nentity reaktionstester is\n  generic(\n    TAKTE_PRO_MS : positive := 50_000;\n    WARTE_MIN_MS : positive := 1000;   -- mindestens so lange warten\n    WARTE_SCHRITT_MS : positive := 200 -- plus zufaellig 0..15 Schritte\n    );\n  port(\n    clk, res_n : in  std_logic;\n    start      : in  std_logic;        -- Impuls\n    taste      : in  std_logic;        -- Impuls\n    led        : out std_logic;        -- jetzt druecken!\n    fruehstart : out std_logic;\n    ergebnis   : out natural range 0 to 999;   -- Reaktionszeit in ms\n    gueltig    : out std_logic\n    );\nend entity reaktionstester;\n\narchitecture behav of reaktionstester is\n  type state_type is (bereit, warten, messen, fertig, zu_frueh);\n  signal state : state_type;\n  signal lfsr  : std_logic_vector(7 downto 0);\n  signal ms_teiler : natural range 0 to TAKTE_PRO_MS - 1;\n  signal ms_tick   : std_logic;\n  signal rest  : natural range 0 to WARTE_MIN_MS + 15 * WARTE_SCHRITT_MS;\n  signal zeit  : natural range 0 to 999;\nbegin\n  -- Zufall: laeuft immer, der Zeitpunkt des Starts bestimmt den Wert\n  zufall: process(clk, res_n) is\n  begin\n    if res_n = '0' then\n      lfsr <= \"00000001\";\n    else\n      if clk'event and clk = '1' then\n        if lfsr(7) = '1' then\n          lfsr <= (lfsr(6 downto 0) xor \"0001110\") & lfsr(7);\n        else\n          lfsr <= lfsr(6 downto 0) & lfsr(7);\n        end if;\n      end if;\n    end if;\n  end process zufall;\n\n  -- Millisekunden-Takt\n  teiler: process(clk, res_n) is\n  begin\n    if res_n = '0' then\n      ms_teiler <= 0;\n      ms_tick <= '0';\n    else\n      if clk'event and clk = '1' then\n        ms_tick <= '0';\n        if state = bereit then\n          ms_teiler <= 0;\n        elsif ms_teiler = TAKTE_PRO_MS - 1 then\n          ms_teiler <= 0;\n          ms_tick <= '1';\n        else\n          ms_teiler <= ms_teiler + 1;\n        end if;\n      end if;\n    end if;\n  end process teiler;\n\n  ablauf: process(clk, res_n) is\n  begin\n    if res_n = '0' then\n      state <= bereit;\n      rest <= 0;\n      zeit <= 0;\n    else\n      if clk'event and clk = '1' then\n        case state is\n          when bereit | fertig | zu_frueh =>\n            if start = '1' then\n              state <= warten;\n              rest <= WARTE_MIN_MS + to_integer(unsigned(lfsr(3 downto 0))) * WARTE_SCHRITT_MS;\n              zeit <= 0;\n            end if;\n          when warten =>\n            if taste = '1' then\n              state <= zu_frueh;\n            elsif ms_tick = '1' then\n              if rest = 0 then\n                state <= messen;\n              else\n                rest <= rest - 1;\n              end if;\n            end if;\n          when messen =>\n            if taste = '1' then\n              state <= fertig;\n            elsif ms_tick = '1' and zeit < 999 then\n              zeit <= zeit + 1;\n            end if;\n        end case;\n      end if;\n    end if;\n  end process ablauf;\n\n  led        <= '1' when state = messen else '0';\n  fruehstart <= '1' when state = zu_frueh else '0';\n  gueltig    <= '1' when state = fertig else '0';\n  ergebnis   <= zeit;\nend architecture behav;"
+      },
+      {
+       "t": "p",
+       "s": "Der Teiler steht in `bereit` still, damit die erste Millisekunde nach dem Start voll gezählt wird."
+      }
+     ],
+     "loesungMd": "```vhdl\nlibrary ieee; use ieee.std_logic_1164.all; use ieee.numeric_std.all;\nentity reaktionstester is\n  generic(\n    TAKTE_PRO_MS : positive := 50_000;\n    WARTE_MIN_MS : positive := 1000;   -- mindestens so lange warten\n    WARTE_SCHRITT_MS : positive := 200 -- plus zufaellig 0..15 Schritte\n    );\n  port(\n    clk, res_n : in  std_logic;\n    start      : in  std_logic;        -- Impuls\n    taste      : in  std_logic;        -- Impuls\n    led        : out std_logic;        -- jetzt druecken!\n    fruehstart : out std_logic;\n    ergebnis   : out natural range 0 to 999;   -- Reaktionszeit in ms\n    gueltig    : out std_logic\n    );\nend entity reaktionstester;\n\narchitecture behav of reaktionstester is\n  type state_type is (bereit, warten, messen, fertig, zu_frueh);\n  signal state : state_type;\n  signal lfsr  : std_logic_vector(7 downto 0);\n  signal ms_teiler : natural range 0 to TAKTE_PRO_MS - 1;\n  signal ms_tick   : std_logic;\n  signal rest  : natural range 0 to WARTE_MIN_MS + 15 * WARTE_SCHRITT_MS;\n  signal zeit  : natural range 0 to 999;\nbegin\n  -- Zufall: laeuft immer, der Zeitpunkt des Starts bestimmt den Wert\n  zufall: process(clk, res_n) is\n  begin\n    if res_n = '0' then\n      lfsr <= \"00000001\";\n    else\n      if clk'event and clk = '1' then\n        if lfsr(7) = '1' then\n          lfsr <= (lfsr(6 downto 0) xor \"0001110\") & lfsr(7);\n        else\n          lfsr <= lfsr(6 downto 0) & lfsr(7);\n        end if;\n      end if;\n    end if;\n  end process zufall;\n\n  -- Millisekunden-Takt\n  teiler: process(clk, res_n) is\n  begin\n    if res_n = '0' then\n      ms_teiler <= 0;\n      ms_tick <= '0';\n    else\n      if clk'event and clk = '1' then\n        ms_tick <= '0';\n        if state = bereit then\n          ms_teiler <= 0;\n        elsif ms_teiler = TAKTE_PRO_MS - 1 then\n          ms_teiler <= 0;\n          ms_tick <= '1';\n        else\n          ms_teiler <= ms_teiler + 1;\n        end if;\n      end if;\n    end if;\n  end process teiler;\n\n  ablauf: process(clk, res_n) is\n  begin\n    if res_n = '0' then\n      state <= bereit;\n      rest <= 0;\n      zeit <= 0;\n    else\n      if clk'event and clk = '1' then\n        case state is\n          when bereit | fertig | zu_frueh =>\n            if start = '1' then\n              state <= warten;\n              rest <= WARTE_MIN_MS + to_integer(unsigned(lfsr(3 downto 0))) * WARTE_SCHRITT_MS;\n              zeit <= 0;\n            end if;\n          when warten =>\n            if taste = '1' then\n              state <= zu_frueh;\n            elsif ms_tick = '1' then\n              if rest = 0 then\n                state <= messen;\n              else\n                rest <= rest - 1;\n              end if;\n            end if;\n          when messen =>\n            if taste = '1' then\n              state <= fertig;\n            elsif ms_tick = '1' and zeit < 999 then\n              zeit <= zeit + 1;\n            end if;\n        end case;\n      end if;\n    end if;\n  end process ablauf;\n\n  led        <= '1' when state = messen else '0';\n  fruehstart <= '1' when state = zu_frueh else '0';\n  gueltig    <= '1' when state = fertig else '0';\n  ergebnis   <= zeit;\nend architecture behav;\n```\nDer Teiler steht in `bereit` still, damit die erste Millisekunde nach dem Start voll gezählt wird.",
+     "klausur": [
+      {
+       "t": "p",
+       "s": "Taktteiler als Enable (M04), LFSR (S09), Automat mit Zählern (P05)."
+      }
+     ]
+    },
+    {
+     "id": "W08",
+     "block": "W",
+     "title": "UART-Empfänger mit Parität",
+     "min": 25,
+     "mode": "code",
+     "starter": "",
+     "solutionCode": "library ieee; use ieee.std_logic_1164.all;\nentity uart_rx is\n  generic(TAKTE_PRO_BIT : positive := 434);    -- 50 MHz / 115200 Baud\n  port(\n    clk, res_n : in  std_logic;\n    rx         : in  std_logic;    -- Ruhe '1', Start '0', 8 Daten LSB zuerst, gerade Paritaet, Stopp '1'\n    daten      : out std_logic_vector(7 downto 0);\n    gueltig    : out std_logic;    -- ein Takt, wenn ein Byte fertig ist\n    par_fehler : out std_logic;    -- gilt zusammen mit gueltig\n    rahmen_fehler : out std_logic\n    );\nend entity uart_rx;\n\narchitecture behav of uart_rx is\n  type state_type is (ruhe, start, empfang);\n  signal state : state_type;\n  signal rx_d, rx_dd : std_logic;\n  signal teiler : natural range 0 to TAKTE_PRO_BIT - 1;\n  signal bitnr  : natural range 0 to 9;            -- 0..7 Daten, 8 Paritaet, 9 Stopp\n  signal sr     : std_logic_vector(8 downto 0);    -- Paritaet & Daten\nbegin\n  process(clk, res_n) is\n    variable p : std_logic;\n  begin\n    if res_n = '0' then\n      state <= ruhe; rx_d <= '1'; rx_dd <= '1';\n      teiler <= 0; bitnr <= 0; sr <= (others => '0');\n      gueltig <= '0'; par_fehler <= '0'; rahmen_fehler <= '0';\n      daten <= (others => '0');\n    else\n      if clk'event and clk = '1' then\n        rx_d <= rx;\n        rx_dd <= rx_d;\n        gueltig <= '0';\n        case state is\n          when ruhe =>\n            if rx_dd = '0' then\n              state <= start;\n              teiler <= 0;\n            end if;\n          when start =>                         -- bis zur Mitte des Startbits\n            if teiler = TAKTE_PRO_BIT / 2 - 1 then\n              teiler <= 0;\n              if rx_dd = '0' then\n                state <= empfang;\n                bitnr <= 0;\n              else\n                state <= ruhe;                  -- nur ein Stoerimpuls\n              end if;\n            else\n              teiler <= teiler + 1;\n            end if;\n          when empfang =>\n            if teiler = TAKTE_PRO_BIT - 1 then\n              teiler <= 0;\n              if bitnr = 9 then                 -- Stoppbit\n                state <= ruhe;\n                daten <= sr(7 downto 0);\n                p := '0';\n                for i in 0 to 8 loop\n                  p := p xor sr(i);\n                end loop;\n                par_fehler <= p;                -- gerade Paritaet: xor ueber alles = 0\n                rahmen_fehler <= not rx_dd;\n                gueltig <= '1';\n              else\n                sr <= rx_dd & sr(8 downto 1);\n                bitnr <= bitnr + 1;\n              end if;\n            else\n              teiler <= teiler + 1;\n            end if;\n        end case;\n      end if;\n    end if;\n  end process;\nend architecture behav;",
+     "ziel": [
+      {
+       "t": "p",
+       "s": "Einen seriellen Empfänger nach echtem UART-Standard mit Fehlererkennung schreiben."
+      }
+     ],
+     "erklaerung": [
+      {
+       "t": "p",
+       "s": "Standard-UART, wie ihn jeder PC spricht:"
+      },
+      {
+       "t": "ul",
+       "items": [
+        "Ruhe `'1'`, **Startbit `'0'`**, 8 Datenbits LSB zuerst, **Paritätsbit** (gerade Parität: Daten und Paritätsbit haben zusammen eine gerade Anzahl Einsen), **Stoppbit `'1'`**.",
+        "Jedes Bit dauert `TAKTE_PRO_BIT` Takte (Generic, 434 für 115 200 Baud bei 50 MHz)."
+       ]
+      },
+      {
+       "t": "p",
+       "s": "Anforderungen:"
+      },
+      {
+       "t": "ul",
+       "items": [
+        "`rx` synchronisieren (zwei Flipflops).",
+        "Nach der fallenden Flanke bis zur **Mitte** des Startbits warten und prüfen, ob es noch `'0'` ist. Sonst war es eine Störung → zurück in Ruhe.",
+        "Dann jedes Bit in seiner Mitte abtasten.",
+        "Am Ende einen Takt `gueltig = '1'`, dazu `daten`, `par_fehler` (Parität falsch) und `rahmen_fehler` (Stoppbit war `'0'`)."
+       ]
+      },
+      {
+       "t": "p",
+       "s": "Ports: `clk`, `res_n`, `rx : in std_logic`, `daten : out std_logic_vector(7 downto 0)`, `gueltig`, `par_fehler`, `rahmen_fehler : out std_logic`."
+      }
+     ],
+     "aufgabe": [
+      {
+       "t": "p",
+       "s": "Schreibe Entity `uart_rx` und Architecture `behav` mit einem getakteten Prozess und den Zuständen `ruhe`, `start`, `empfang`."
+      }
+     ],
+     "aufgabeMd": "Schreibe Entity `uart_rx` und Architecture `behav` mit einem getakteten Prozess und den Zuständen `ruhe`, `start`, `empfang`.",
+     "loesung": [
+      {
+       "t": "code",
+       "lang": "vhdl",
+       "s": "library ieee; use ieee.std_logic_1164.all;\nentity uart_rx is\n  generic(TAKTE_PRO_BIT : positive := 434);    -- 50 MHz / 115200 Baud\n  port(\n    clk, res_n : in  std_logic;\n    rx         : in  std_logic;    -- Ruhe '1', Start '0', 8 Daten LSB zuerst, gerade Paritaet, Stopp '1'\n    daten      : out std_logic_vector(7 downto 0);\n    gueltig    : out std_logic;    -- ein Takt, wenn ein Byte fertig ist\n    par_fehler : out std_logic;    -- gilt zusammen mit gueltig\n    rahmen_fehler : out std_logic\n    );\nend entity uart_rx;\n\narchitecture behav of uart_rx is\n  type state_type is (ruhe, start, empfang);\n  signal state : state_type;\n  signal rx_d, rx_dd : std_logic;\n  signal teiler : natural range 0 to TAKTE_PRO_BIT - 1;\n  signal bitnr  : natural range 0 to 9;            -- 0..7 Daten, 8 Paritaet, 9 Stopp\n  signal sr     : std_logic_vector(8 downto 0);    -- Paritaet & Daten\nbegin\n  process(clk, res_n) is\n    variable p : std_logic;\n  begin\n    if res_n = '0' then\n      state <= ruhe; rx_d <= '1'; rx_dd <= '1';\n      teiler <= 0; bitnr <= 0; sr <= (others => '0');\n      gueltig <= '0'; par_fehler <= '0'; rahmen_fehler <= '0';\n      daten <= (others => '0');\n    else\n      if clk'event and clk = '1' then\n        rx_d <= rx;\n        rx_dd <= rx_d;\n        gueltig <= '0';\n        case state is\n          when ruhe =>\n            if rx_dd = '0' then\n              state <= start;\n              teiler <= 0;\n            end if;\n          when start =>                         -- bis zur Mitte des Startbits\n            if teiler = TAKTE_PRO_BIT / 2 - 1 then\n              teiler <= 0;\n              if rx_dd = '0' then\n                state <= empfang;\n                bitnr <= 0;\n              else\n                state <= ruhe;                  -- nur ein Stoerimpuls\n              end if;\n            else\n              teiler <= teiler + 1;\n            end if;\n          when empfang =>\n            if teiler = TAKTE_PRO_BIT - 1 then\n              teiler <= 0;\n              if bitnr = 9 then                 -- Stoppbit\n                state <= ruhe;\n                daten <= sr(7 downto 0);\n                p := '0';\n                for i in 0 to 8 loop\n                  p := p xor sr(i);\n                end loop;\n                par_fehler <= p;                -- gerade Paritaet: xor ueber alles = 0\n                rahmen_fehler <= not rx_dd;\n                gueltig <= '1';\n              else\n                sr <= rx_dd & sr(8 downto 1);\n                bitnr <= bitnr + 1;\n              end if;\n            else\n              teiler <= teiler + 1;\n            end if;\n        end case;\n      end if;\n    end if;\n  end process;\nend architecture behav;"
+      },
+      {
+       "t": "p",
+       "s": "Die Parität prüft eine Schleife mit einer Variablen: XOR über alle 9 Bits muss `'0'` ergeben. Vergleiche mit dem Empfänger aus F19 (P12): andere Polarität, dafür Start-Prüfung und Fehlerbits."
+      }
+     ],
+     "loesungMd": "```vhdl\nlibrary ieee; use ieee.std_logic_1164.all;\nentity uart_rx is\n  generic(TAKTE_PRO_BIT : positive := 434);    -- 50 MHz / 115200 Baud\n  port(\n    clk, res_n : in  std_logic;\n    rx         : in  std_logic;    -- Ruhe '1', Start '0', 8 Daten LSB zuerst, gerade Paritaet, Stopp '1'\n    daten      : out std_logic_vector(7 downto 0);\n    gueltig    : out std_logic;    -- ein Takt, wenn ein Byte fertig ist\n    par_fehler : out std_logic;    -- gilt zusammen mit gueltig\n    rahmen_fehler : out std_logic\n    );\nend entity uart_rx;\n\narchitecture behav of uart_rx is\n  type state_type is (ruhe, start, empfang);\n  signal state : state_type;\n  signal rx_d, rx_dd : std_logic;\n  signal teiler : natural range 0 to TAKTE_PRO_BIT - 1;\n  signal bitnr  : natural range 0 to 9;            -- 0..7 Daten, 8 Paritaet, 9 Stopp\n  signal sr     : std_logic_vector(8 downto 0);    -- Paritaet & Daten\nbegin\n  process(clk, res_n) is\n    variable p : std_logic;\n  begin\n    if res_n = '0' then\n      state <= ruhe; rx_d <= '1'; rx_dd <= '1';\n      teiler <= 0; bitnr <= 0; sr <= (others => '0');\n      gueltig <= '0'; par_fehler <= '0'; rahmen_fehler <= '0';\n      daten <= (others => '0');\n    else\n      if clk'event and clk = '1' then\n        rx_d <= rx;\n        rx_dd <= rx_d;\n        gueltig <= '0';\n        case state is\n          when ruhe =>\n            if rx_dd = '0' then\n              state <= start;\n              teiler <= 0;\n            end if;\n          when start =>                         -- bis zur Mitte des Startbits\n            if teiler = TAKTE_PRO_BIT / 2 - 1 then\n              teiler <= 0;\n              if rx_dd = '0' then\n                state <= empfang;\n                bitnr <= 0;\n              else\n                state <= ruhe;                  -- nur ein Stoerimpuls\n              end if;\n            else\n              teiler <= teiler + 1;\n            end if;\n          when empfang =>\n            if teiler = TAKTE_PRO_BIT - 1 then\n              teiler <= 0;\n              if bitnr = 9 then                 -- Stoppbit\n                state <= ruhe;\n                daten <= sr(7 downto 0);\n                p := '0';\n                for i in 0 to 8 loop\n                  p := p xor sr(i);\n                end loop;\n                par_fehler <= p;                -- gerade Paritaet: xor ueber alles = 0\n                rahmen_fehler <= not rx_dd;\n                gueltig <= '1';\n              else\n                sr <= rx_dd & sr(8 downto 1);\n                bitnr <= bitnr + 1;\n              end if;\n            else\n              teiler <= teiler + 1;\n            end if;\n        end case;\n      end if;\n    end if;\n  end process;\nend architecture behav;\n```\nDie Parität prüft eine Schleife mit einer Variablen: XOR über alle 9 Bits muss `'0'` ergeben. Vergleiche mit dem Empfänger aus F19 (P12): andere Polarität, dafür Start-Prüfung und Fehlerbits.",
+     "klausur": [
+      {
+       "t": "p",
+       "s": "Serielle Schnittstellen (F19 A1, P11/P12, M10), XOR-Schleife (C08)."
+      }
+     ]
+    },
+    {
+     "id": "W09",
+     "block": "W",
+     "title": "SPI-Master",
+     "min": 20,
+     "mode": "code",
+     "starter": "",
+     "solutionCode": "library ieee; use ieee.std_logic_1164.all;\nentity spi_master is\n  generic(TEILER : positive := 25);        -- Takte pro halber SCLK-Periode\n  port(\n    clk, res_n : in  std_logic;\n    start      : in  std_logic;\n    tx_daten   : in  std_logic_vector(7 downto 0);\n    rx_daten   : out std_logic_vector(7 downto 0);\n    busy       : out std_logic;\n    sclk, mosi, cs_n : out std_logic;\n    miso       : in  std_logic\n    );\nend entity spi_master;\n\narchitecture behav of spi_master is\n  signal aktiv : std_logic;\n  signal zaehler : natural range 0 to TEILER - 1;\n  signal sclk_i : std_logic;\n  signal bitnr : natural range 0 to 7;\n  signal sr_tx, sr_rx : std_logic_vector(7 downto 0);\nbegin\n  process(clk, res_n) is\n  begin\n    if res_n = '0' then\n      aktiv <= '0'; zaehler <= 0; sclk_i <= '0'; bitnr <= 0;\n      sr_tx <= (others => '0'); sr_rx <= (others => '0');\n      rx_daten <= (others => '0');\n    else\n      if clk'event and clk = '1' then\n        if aktiv = '0' then\n          if start = '1' then\n            aktiv <= '1';\n            sr_tx <= tx_daten;\n            zaehler <= 0;\n            bitnr <= 0;\n            sclk_i <= '0';\n          end if;\n        elsif zaehler = TEILER - 1 then\n          zaehler <= 0;\n          if sclk_i = '0' then                 -- steigende Flanke: einlesen\n            sclk_i <= '1';\n            sr_rx <= sr_rx(6 downto 0) & miso;\n          else                                  -- fallende Flanke: naechstes Bit\n            sclk_i <= '0';\n            if bitnr = 7 then\n              aktiv <= '0';\n              rx_daten <= sr_rx;\n            else\n              bitnr <= bitnr + 1;\n              sr_tx <= sr_tx(6 downto 0) & '0';\n            end if;\n          end if;\n        else\n          zaehler <= zaehler + 1;\n        end if;\n      end if;\n    end if;\n  end process;\n  sclk <= sclk_i;\n  mosi <= sr_tx(7);                             -- MSB zuerst\n  cs_n <= not aktiv;\n  busy <= aktiv;\nend architecture behav;",
+     "ziel": [
+      {
+       "t": "p",
+       "s": "Einen Master für eine synchrone serielle Schnittstelle schreiben, der gleichzeitig sendet und empfängt."
+      }
+     ],
+     "erklaerung": [
+      {
+       "t": "p",
+       "s": "SPI (Modus 0) verbindet z.B. Sensoren:"
+      },
+      {
+       "t": "ul",
+       "items": [
+        "`cs_n` geht während der Übertragung auf `'0'`.",
+        "`sclk` ist in Ruhe `'0'`. 8 Takte lang: `mosi` liegt an, bei der **steigenden** Flanke von `sclk` lesen beide Seiten ein, bei der **fallenden** kommt das nächste Bit.",
+        "MSB zuerst. Gleichzeitig kommt vom Slave ein Byte über `miso` zurück."
+       ]
+      },
+      {
+       "t": "p",
+       "s": "Ports und Generics:"
+      },
+      {
+       "t": "ul",
+       "items": [
+        "Generic `TEILER : positive := 25` (Systemtakte pro **halber** `sclk`-Periode, 1 MHz bei 50 MHz)",
+        "`clk`, `res_n`, `start : in std_logic`, `tx_daten : in std_logic_vector(7 downto 0)`",
+        "`rx_daten : out std_logic_vector(7 downto 0)`, `busy : out std_logic`",
+        "`sclk`, `mosi`, `cs_n : out std_logic`, `miso : in std_logic`"
+       ]
+      },
+      {
+       "t": "p",
+       "s": "Bausteine: Teiler, internes `sclk_i`, Bitzähler, Sende- und Empfangsschieberegister."
+      }
+     ],
+     "aufgabe": [
+      {
+       "t": "p",
+       "s": "Schreibe Entity `spi_master` und Architecture `behav`."
+      }
+     ],
+     "aufgabeMd": "Schreibe Entity `spi_master` und Architecture `behav`.",
+     "loesung": [
+      {
+       "t": "code",
+       "lang": "vhdl",
+       "s": "library ieee; use ieee.std_logic_1164.all;\nentity spi_master is\n  generic(TEILER : positive := 25);        -- Takte pro halber SCLK-Periode\n  port(\n    clk, res_n : in  std_logic;\n    start      : in  std_logic;\n    tx_daten   : in  std_logic_vector(7 downto 0);\n    rx_daten   : out std_logic_vector(7 downto 0);\n    busy       : out std_logic;\n    sclk, mosi, cs_n : out std_logic;\n    miso       : in  std_logic\n    );\nend entity spi_master;\n\narchitecture behav of spi_master is\n  signal aktiv : std_logic;\n  signal zaehler : natural range 0 to TEILER - 1;\n  signal sclk_i : std_logic;\n  signal bitnr : natural range 0 to 7;\n  signal sr_tx, sr_rx : std_logic_vector(7 downto 0);\nbegin\n  process(clk, res_n) is\n  begin\n    if res_n = '0' then\n      aktiv <= '0'; zaehler <= 0; sclk_i <= '0'; bitnr <= 0;\n      sr_tx <= (others => '0'); sr_rx <= (others => '0');\n      rx_daten <= (others => '0');\n    else\n      if clk'event and clk = '1' then\n        if aktiv = '0' then\n          if start = '1' then\n            aktiv <= '1';\n            sr_tx <= tx_daten;\n            zaehler <= 0;\n            bitnr <= 0;\n            sclk_i <= '0';\n          end if;\n        elsif zaehler = TEILER - 1 then\n          zaehler <= 0;\n          if sclk_i = '0' then                 -- steigende Flanke: einlesen\n            sclk_i <= '1';\n            sr_rx <= sr_rx(6 downto 0) & miso;\n          else                                  -- fallende Flanke: naechstes Bit\n            sclk_i <= '0';\n            if bitnr = 7 then\n              aktiv <= '0';\n              rx_daten <= sr_rx;\n            else\n              bitnr <= bitnr + 1;\n              sr_tx <= sr_tx(6 downto 0) & '0';\n            end if;\n          end if;\n        else\n          zaehler <= zaehler + 1;\n        end if;\n      end if;\n    end if;\n  end process;\n  sclk <= sclk_i;\n  mosi <= sr_tx(7);                             -- MSB zuerst\n  cs_n <= not aktiv;\n  busy <= aktiv;\nend architecture behav;"
+      },
+      {
+       "t": "p",
+       "s": "`mosi` ist einfach das oberste Bit des Senderegisters. Geschoben wird nur bei der fallenden Flanke von `sclk`, deshalb ist das Bit bei der steigenden Flanke stabil."
+      }
+     ],
+     "loesungMd": "```vhdl\nlibrary ieee; use ieee.std_logic_1164.all;\nentity spi_master is\n  generic(TEILER : positive := 25);        -- Takte pro halber SCLK-Periode\n  port(\n    clk, res_n : in  std_logic;\n    start      : in  std_logic;\n    tx_daten   : in  std_logic_vector(7 downto 0);\n    rx_daten   : out std_logic_vector(7 downto 0);\n    busy       : out std_logic;\n    sclk, mosi, cs_n : out std_logic;\n    miso       : in  std_logic\n    );\nend entity spi_master;\n\narchitecture behav of spi_master is\n  signal aktiv : std_logic;\n  signal zaehler : natural range 0 to TEILER - 1;\n  signal sclk_i : std_logic;\n  signal bitnr : natural range 0 to 7;\n  signal sr_tx, sr_rx : std_logic_vector(7 downto 0);\nbegin\n  process(clk, res_n) is\n  begin\n    if res_n = '0' then\n      aktiv <= '0'; zaehler <= 0; sclk_i <= '0'; bitnr <= 0;\n      sr_tx <= (others => '0'); sr_rx <= (others => '0');\n      rx_daten <= (others => '0');\n    else\n      if clk'event and clk = '1' then\n        if aktiv = '0' then\n          if start = '1' then\n            aktiv <= '1';\n            sr_tx <= tx_daten;\n            zaehler <= 0;\n            bitnr <= 0;\n            sclk_i <= '0';\n          end if;\n        elsif zaehler = TEILER - 1 then\n          zaehler <= 0;\n          if sclk_i = '0' then                 -- steigende Flanke: einlesen\n            sclk_i <= '1';\n            sr_rx <= sr_rx(6 downto 0) & miso;\n          else                                  -- fallende Flanke: naechstes Bit\n            sclk_i <= '0';\n            if bitnr = 7 then\n              aktiv <= '0';\n              rx_daten <= sr_rx;\n            else\n              bitnr <= bitnr + 1;\n              sr_tx <= sr_tx(6 downto 0) & '0';\n            end if;\n          end if;\n        else\n          zaehler <= zaehler + 1;\n        end if;\n      end if;\n    end if;\n  end process;\n  sclk <= sclk_i;\n  mosi <= sr_tx(7);                             -- MSB zuerst\n  cs_n <= not aktiv;\n  busy <= aktiv;\nend architecture behav;\n```\n`mosi` ist einfach das oberste Bit des Senderegisters. Geschoben wird nur bei der fallenden Flanke von `sclk`, deshalb ist das Bit bei der steigenden Flanke stabil.",
+     "klausur": [
+      {
+       "t": "p",
+       "s": "Schieberegister (M02), Taktteiler (M04), Sender (M10)."
+      }
+     ]
+    },
+    {
+     "id": "W10",
+     "block": "W",
+     "title": "ggT als Steuer- und Rechenwerk",
+     "min": 20,
+     "mode": "code",
+     "starter": "",
+     "solutionCode": "library ieee; use ieee.std_logic_1164.all; use ieee.numeric_std.all;\nentity ggt is\n  port(\n    clk, res_n : in  std_logic;\n    start      : in  std_logic;\n    a, b       : in  std_logic_vector(7 downto 0);   -- beide > 0\n    ergebnis   : out std_logic_vector(7 downto 0);\n    fertig     : out std_logic\n    );\nend entity ggt;\n\narchitecture behav of ggt is\n  type state_type is (idle, rechnen, done);\n  signal current_state, next_state : state_type;\n  signal x, y : unsigned(7 downto 0);\n  signal laden, x_minus_y, y_minus_x : std_logic;   -- Steuersignale\n  signal gleich, x_groesser : std_logic;            -- Statussignale\nbegin\n  -- Rechenwerk\n  rechenwerk: process(clk, res_n) is\n  begin\n    if res_n = '0' then\n      x <= (others => '0');\n      y <= (others => '0');\n    else\n      if clk'event and clk = '1' then\n        if laden = '1' then\n          x <= unsigned(a);\n          y <= unsigned(b);\n        elsif x_minus_y = '1' then\n          x <= x - y;\n        elsif y_minus_x = '1' then\n          y <= y - x;\n        end if;\n      end if;\n    end if;\n  end process rechenwerk;\n  gleich     <= '1' when x = y else '0';\n  x_groesser <= '1' when x > y else '0';\n  ergebnis   <= std_logic_vector(x);\n\n  -- Steuerwerk\n  transition_function: process(current_state, start, gleich) is\n  begin\n    next_state <= current_state;\n    case current_state is\n      when idle | done =>\n        if start = '1' then next_state <= rechnen; end if;\n      when rechnen =>\n        if gleich = '1' then next_state <= done; end if;\n    end case;\n  end process transition_function;\n\n  state: process(clk, res_n) is\n  begin\n    if res_n = '0' then\n      current_state <= idle;\n    else\n      if clk'event and clk = '1' then\n        current_state <= next_state;\n      end if;\n    end if;\n  end process state;\n\n  output_function: process(current_state, start, gleich, x_groesser) is\n  begin\n    laden <= '0'; x_minus_y <= '0'; y_minus_x <= '0';\n    case current_state is\n      when idle | done =>\n        laden <= start;\n      when rechnen =>\n        if gleich = '0' then\n          if x_groesser = '1' then x_minus_y <= '1'; else y_minus_x <= '1'; end if;\n        end if;\n    end case;\n  end process output_function;\n  fertig <= '1' when current_state = done else '0';\nend architecture behav;",
+     "ziel": [
+      {
+       "t": "p",
+       "s": "Einen Algorithmus in Rechenwerk (Datenpfad) und Steuerwerk (Automat) aufteilen."
+      }
+     ],
+     "erklaerung": [
+      {
+       "t": "p",
+       "s": "Der größte gemeinsame Teiler mit dem Subtraktionsverfahren:"
+      },
+      {
+       "t": "code",
+       "lang": "",
+       "s": "solange x /= y:\n  wenn x > y: x := x - y\n  sonst:      y := y - x\nggT = x"
+      },
+      {
+       "t": "p",
+       "s": "Hardware-Aufteilung:"
+      },
+      {
+       "t": "ul",
+       "items": [
+        "**Rechenwerk**: Register `x`, `y` (8 Bit unsigned). Steuersignale `laden`, `x_minus_y`, `y_minus_x`. Statussignale `gleich`, `x_groesser`.",
+        "**Steuerwerk**: Zustände `idle`, `rechnen`, `done`. `start` lädt `a` und `b`, dann wird gerechnet, bis `gleich = '1'`."
+       ]
+      },
+      {
+       "t": "p",
+       "s": "Ports: `clk`, `res_n`, `start : in std_logic`, `a`, `b : in std_logic_vector(7 downto 0)` (beide > 0), `ergebnis : out std_logic_vector(7 downto 0)`, `fertig : out std_logic` (in `done`)."
+      }
+     ],
+     "aufgabe": [
+      {
+       "t": "p",
+       "s": "Schreibe Entity `ggt` und Architecture `behav`: Prozess `rechenwerk`, Statussignale, und das Steuerwerk mit `transition_function`, `state` und `output_function`."
+      }
+     ],
+     "aufgabeMd": "Schreibe Entity `ggt` und Architecture `behav`: Prozess `rechenwerk`, Statussignale, und das Steuerwerk mit `transition_function`, `state` und `output_function`.",
+     "loesung": [
+      {
+       "t": "code",
+       "lang": "vhdl",
+       "s": "library ieee; use ieee.std_logic_1164.all; use ieee.numeric_std.all;\nentity ggt is\n  port(\n    clk, res_n : in  std_logic;\n    start      : in  std_logic;\n    a, b       : in  std_logic_vector(7 downto 0);   -- beide > 0\n    ergebnis   : out std_logic_vector(7 downto 0);\n    fertig     : out std_logic\n    );\nend entity ggt;\n\narchitecture behav of ggt is\n  type state_type is (idle, rechnen, done);\n  signal current_state, next_state : state_type;\n  signal x, y : unsigned(7 downto 0);\n  signal laden, x_minus_y, y_minus_x : std_logic;   -- Steuersignale\n  signal gleich, x_groesser : std_logic;            -- Statussignale\nbegin\n  -- Rechenwerk\n  rechenwerk: process(clk, res_n) is\n  begin\n    if res_n = '0' then\n      x <= (others => '0');\n      y <= (others => '0');\n    else\n      if clk'event and clk = '1' then\n        if laden = '1' then\n          x <= unsigned(a);\n          y <= unsigned(b);\n        elsif x_minus_y = '1' then\n          x <= x - y;\n        elsif y_minus_x = '1' then\n          y <= y - x;\n        end if;\n      end if;\n    end if;\n  end process rechenwerk;\n  gleich     <= '1' when x = y else '0';\n  x_groesser <= '1' when x > y else '0';\n  ergebnis   <= std_logic_vector(x);\n\n  -- Steuerwerk\n  transition_function: process(current_state, start, gleich) is\n  begin\n    next_state <= current_state;\n    case current_state is\n      when idle | done =>\n        if start = '1' then next_state <= rechnen; end if;\n      when rechnen =>\n        if gleich = '1' then next_state <= done; end if;\n    end case;\n  end process transition_function;\n\n  state: process(clk, res_n) is\n  begin\n    if res_n = '0' then\n      current_state <= idle;\n    else\n      if clk'event and clk = '1' then\n        current_state <= next_state;\n      end if;\n    end if;\n  end process state;\n\n  output_function: process(current_state, start, gleich, x_groesser) is\n  begin\n    laden <= '0'; x_minus_y <= '0'; y_minus_x <= '0';\n    case current_state is\n      when idle | done =>\n        laden <= start;\n      when rechnen =>\n        if gleich = '0' then\n          if x_groesser = '1' then x_minus_y <= '1'; else y_minus_x <= '1'; end if;\n        end if;\n    end case;\n  end process output_function;\n  fertig <= '1' when current_state = done else '0';\nend architecture behav;"
+      },
+      {
+       "t": "p",
+       "s": "Die `output_function` hängt auch von `start`, `gleich` und `x_groesser` ab: Die Steuersignale sind Mealy-Ausgänge. So entscheidet das Steuerwerk in jedem Takt neu, welche Subtraktion nötig ist."
+      }
+     ],
+     "loesungMd": "```vhdl\nlibrary ieee; use ieee.std_logic_1164.all; use ieee.numeric_std.all;\nentity ggt is\n  port(\n    clk, res_n : in  std_logic;\n    start      : in  std_logic;\n    a, b       : in  std_logic_vector(7 downto 0);   -- beide > 0\n    ergebnis   : out std_logic_vector(7 downto 0);\n    fertig     : out std_logic\n    );\nend entity ggt;\n\narchitecture behav of ggt is\n  type state_type is (idle, rechnen, done);\n  signal current_state, next_state : state_type;\n  signal x, y : unsigned(7 downto 0);\n  signal laden, x_minus_y, y_minus_x : std_logic;   -- Steuersignale\n  signal gleich, x_groesser : std_logic;            -- Statussignale\nbegin\n  -- Rechenwerk\n  rechenwerk: process(clk, res_n) is\n  begin\n    if res_n = '0' then\n      x <= (others => '0');\n      y <= (others => '0');\n    else\n      if clk'event and clk = '1' then\n        if laden = '1' then\n          x <= unsigned(a);\n          y <= unsigned(b);\n        elsif x_minus_y = '1' then\n          x <= x - y;\n        elsif y_minus_x = '1' then\n          y <= y - x;\n        end if;\n      end if;\n    end if;\n  end process rechenwerk;\n  gleich     <= '1' when x = y else '0';\n  x_groesser <= '1' when x > y else '0';\n  ergebnis   <= std_logic_vector(x);\n\n  -- Steuerwerk\n  transition_function: process(current_state, start, gleich) is\n  begin\n    next_state <= current_state;\n    case current_state is\n      when idle | done =>\n        if start = '1' then next_state <= rechnen; end if;\n      when rechnen =>\n        if gleich = '1' then next_state <= done; end if;\n    end case;\n  end process transition_function;\n\n  state: process(clk, res_n) is\n  begin\n    if res_n = '0' then\n      current_state <= idle;\n    else\n      if clk'event and clk = '1' then\n        current_state <= next_state;\n      end if;\n    end if;\n  end process state;\n\n  output_function: process(current_state, start, gleich, x_groesser) is\n  begin\n    laden <= '0'; x_minus_y <= '0'; y_minus_x <= '0';\n    case current_state is\n      when idle | done =>\n        laden <= start;\n      when rechnen =>\n        if gleich = '0' then\n          if x_groesser = '1' then x_minus_y <= '1'; else y_minus_x <= '1'; end if;\n        end if;\n    end case;\n  end process output_function;\n  fertig <= '1' when current_state = done else '0';\nend architecture behav;\n```\nDie `output_function` hängt auch von `start`, `gleich` und `x_groesser` ab: Die Steuersignale sind Mealy-Ausgänge. So entscheidet das Steuerwerk in jedem Takt neu, welche Subtraktion nötig ist.",
+     "klausur": [
+      {
+       "t": "p",
+       "s": "Steuerwerk + Rechenwerk (F06, K01/K02), Dividierwerk (P14)."
+      }
+     ]
+    },
+    {
+     "id": "W11",
+     "block": "W",
+     "title": "Multiplizierer mit Schieben und Addieren",
+     "min": 15,
+     "mode": "code",
+     "starter": "",
+     "solutionCode": "library ieee; use ieee.std_logic_1164.all; use ieee.numeric_std.all;\nentity mult_seq is\n  generic(N : positive := 8);\n  port(\n    clk, res_n : in  std_logic;\n    start      : in  std_logic;\n    a, b       : in  std_logic_vector(N-1 downto 0);\n    p          : out std_logic_vector(2*N-1 downto 0);\n    fertig     : out std_logic\n    );\nend entity mult_seq;\n\narchitecture behav of mult_seq is\n  signal akku   : unsigned(2*N-1 downto 0);\n  signal mand   : unsigned(2*N-1 downto 0);   -- a, wird nach links geschoben\n  signal mult   : unsigned(N-1 downto 0);     -- b, wird nach rechts geschoben\n  signal schritt : natural range 0 to N;\n  signal aktiv  : std_logic;\nbegin\n  process(clk, res_n) is\n  begin\n    if res_n = '0' then\n      akku <= (others => '0'); mand <= (others => '0'); mult <= (others => '0');\n      schritt <= 0; aktiv <= '0'; fertig <= '0';\n    else\n      if clk'event and clk = '1' then\n        fertig <= '0';\n        if aktiv = '0' then\n          if start = '1' then\n            akku <= (others => '0');\n            mand <= resize(unsigned(a), 2*N);\n            mult <= unsigned(b);\n            schritt <= 0;\n            aktiv <= '1';\n          end if;\n        else\n          if mult(0) = '1' then\n            akku <= akku + mand;\n          end if;\n          mand <= mand(2*N-2 downto 0) & '0';\n          mult <= '0' & mult(N-1 downto 1);\n          if schritt = N - 1 then\n            aktiv <= '0';\n            fertig <= '1';\n          else\n            schritt <= schritt + 1;\n          end if;\n        end if;\n      end if;\n    end if;\n  end process;\n  p <= std_logic_vector(akku);\nend architecture behav;",
+     "ziel": [
+      {
+       "t": "p",
+       "s": "Die Schulmethode der Multiplikation als sequentielle Schaltung schreiben."
+      }
+     ],
+     "erklaerung": [
+      {
+       "t": "p",
+       "s": "Multiplikation wie auf Papier, Bit für Bit von `b`:"
+      },
+      {
+       "t": "ul",
+       "items": [
+        "Ist das unterste Bit von `b` gleich `'1'`, wird `a` zum Akku addiert.",
+        "Dann `a` eine Stelle nach links, `b` eine nach rechts schieben.",
+        "Nach N Schritten steht das Produkt im Akku."
+       ]
+      },
+      {
+       "t": "p",
+       "s": "Ports und Generics:"
+      },
+      {
+       "t": "ul",
+       "items": [
+        "Generic `N : positive := 8`",
+        "`clk`, `res_n`, `start : in std_logic`, `a`, `b : in std_logic_vector(N-1 downto 0)`",
+        "`p : out std_logic_vector(2*N-1 downto 0)`, `fertig : out std_logic` (ein Takt)"
+       ]
+      },
+      {
+       "t": "p",
+       "s": "Register: `akku` (2N Bit), `mand` (a auf 2N Bit erweitert), `mult` (b), Schrittzähler, `aktiv`."
+      }
+     ],
+     "aufgabe": [
+      {
+       "t": "p",
+       "s": "Schreibe Entity `mult_seq` und Architecture `behav` mit einem getakteten Prozess."
+      }
+     ],
+     "aufgabeMd": "Schreibe Entity `mult_seq` und Architecture `behav` mit einem getakteten Prozess.",
+     "loesung": [
+      {
+       "t": "code",
+       "lang": "vhdl",
+       "s": "library ieee; use ieee.std_logic_1164.all; use ieee.numeric_std.all;\nentity mult_seq is\n  generic(N : positive := 8);\n  port(\n    clk, res_n : in  std_logic;\n    start      : in  std_logic;\n    a, b       : in  std_logic_vector(N-1 downto 0);\n    p          : out std_logic_vector(2*N-1 downto 0);\n    fertig     : out std_logic\n    );\nend entity mult_seq;\n\narchitecture behav of mult_seq is\n  signal akku   : unsigned(2*N-1 downto 0);\n  signal mand   : unsigned(2*N-1 downto 0);   -- a, wird nach links geschoben\n  signal mult   : unsigned(N-1 downto 0);     -- b, wird nach rechts geschoben\n  signal schritt : natural range 0 to N;\n  signal aktiv  : std_logic;\nbegin\n  process(clk, res_n) is\n  begin\n    if res_n = '0' then\n      akku <= (others => '0'); mand <= (others => '0'); mult <= (others => '0');\n      schritt <= 0; aktiv <= '0'; fertig <= '0';\n    else\n      if clk'event and clk = '1' then\n        fertig <= '0';\n        if aktiv = '0' then\n          if start = '1' then\n            akku <= (others => '0');\n            mand <= resize(unsigned(a), 2*N);\n            mult <= unsigned(b);\n            schritt <= 0;\n            aktiv <= '1';\n          end if;\n        else\n          if mult(0) = '1' then\n            akku <= akku + mand;\n          end if;\n          mand <= mand(2*N-2 downto 0) & '0';\n          mult <= '0' & mult(N-1 downto 1);\n          if schritt = N - 1 then\n            aktiv <= '0';\n            fertig <= '1';\n          else\n            schritt <= schritt + 1;\n          end if;\n        end if;\n      end if;\n    end if;\n  end process;\n  p <= std_logic_vector(akku);\nend architecture behav;"
+      },
+      {
+       "t": "p",
+       "s": "`resize(unsigned(a), 2*N)` erweitert `a` mit Nullen auf die volle Breite. Ein Addierer und N Takte statt N Addierer in einem Takt – das ist der Tausch Fläche gegen Zeit (J03)."
+      }
+     ],
+     "loesungMd": "```vhdl\nlibrary ieee; use ieee.std_logic_1164.all; use ieee.numeric_std.all;\nentity mult_seq is\n  generic(N : positive := 8);\n  port(\n    clk, res_n : in  std_logic;\n    start      : in  std_logic;\n    a, b       : in  std_logic_vector(N-1 downto 0);\n    p          : out std_logic_vector(2*N-1 downto 0);\n    fertig     : out std_logic\n    );\nend entity mult_seq;\n\narchitecture behav of mult_seq is\n  signal akku   : unsigned(2*N-1 downto 0);\n  signal mand   : unsigned(2*N-1 downto 0);   -- a, wird nach links geschoben\n  signal mult   : unsigned(N-1 downto 0);     -- b, wird nach rechts geschoben\n  signal schritt : natural range 0 to N;\n  signal aktiv  : std_logic;\nbegin\n  process(clk, res_n) is\n  begin\n    if res_n = '0' then\n      akku <= (others => '0'); mand <= (others => '0'); mult <= (others => '0');\n      schritt <= 0; aktiv <= '0'; fertig <= '0';\n    else\n      if clk'event and clk = '1' then\n        fertig <= '0';\n        if aktiv = '0' then\n          if start = '1' then\n            akku <= (others => '0');\n            mand <= resize(unsigned(a), 2*N);\n            mult <= unsigned(b);\n            schritt <= 0;\n            aktiv <= '1';\n          end if;\n        else\n          if mult(0) = '1' then\n            akku <= akku + mand;\n          end if;\n          mand <= mand(2*N-2 downto 0) & '0';\n          mult <= '0' & mult(N-1 downto 1);\n          if schritt = N - 1 then\n            aktiv <= '0';\n            fertig <= '1';\n          else\n            schritt <= schritt + 1;\n          end if;\n        end if;\n      end if;\n    end if;\n  end process;\n  p <= std_logic_vector(akku);\nend architecture behav;\n```\n`resize(unsigned(a), 2*N)` erweitert `a` mit Nullen auf die volle Breite. Ein Addierer und N Takte statt N Addierer in einem Takt – das ist der Tausch Fläche gegen Zeit (J03).",
+     "klausur": [
+      {
+       "t": "p",
+       "s": "Multiplizierer (F20, K04), Hardware-Aufwand (J03)."
+      }
+     ]
+    },
+    {
+     "id": "W12",
+     "block": "W",
+     "title": "Frequenzzähler",
+     "min": 12,
+     "mode": "code",
+     "starter": "",
+     "solutionCode": "library ieee; use ieee.std_logic_1164.all;\nentity frequenzzaehler is\n  generic(TORZEIT : positive := 50_000_000);   -- Takte pro Messung (1 s bei 50 MHz)\n  port(\n    clk, res_n : in  std_logic;\n    sig        : in  std_logic;                -- asynchrones Messsignal\n    frequenz   : out natural range 0 to 2**20 - 1;\n    neu        : out std_logic                 -- ein Takt nach jeder Messung\n    );\nend entity frequenzzaehler;\n\narchitecture behav of frequenzzaehler is\n  signal s1, s2, s3 : std_logic;\n  signal tor : natural range 0 to TORZEIT - 1;\n  signal anzahl : natural range 0 to 2**20 - 1;\nbegin\n  process(clk, res_n) is\n  begin\n    if res_n = '0' then\n      s1 <= '0'; s2 <= '0'; s3 <= '0';\n      tor <= 0; anzahl <= 0; frequenz <= 0; neu <= '0';\n    else\n      if clk'event and clk = '1' then\n        s1 <= sig;                      -- Synchronisierer\n        s2 <= s1;\n        s3 <= s2;                       -- alter Wert fuer die Flankenerkennung\n        neu <= '0';\n        if tor = TORZEIT - 1 then\n          tor <= 0;\n          if s2 = '1' and s3 = '0' then\n            frequenz <= anzahl + 1;\n          else\n            frequenz <= anzahl;\n          end if;\n          anzahl <= 0;\n          neu <= '1';\n        else\n          tor <= tor + 1;\n          if s2 = '1' and s3 = '0' and anzahl < 2**20 - 1 then\n            anzahl <= anzahl + 1;\n          end if;\n        end if;\n      end if;\n    end if;\n  end process;\nend architecture behav;",
+     "ziel": [
+      {
+       "t": "p",
+       "s": "Ein asynchrones Signal sicher einlesen und seine Flanken in einem Zeitfenster zählen."
+      }
+     ],
+     "erklaerung": [
+      {
+       "t": "p",
+       "s": "Ein Frequenzzähler zählt, wie viele steigende Flanken das Signal `sig` innerhalb einer **Torzeit** hat. Bei einer Torzeit von 1 s ist das direkt die Frequenz in Hz."
+      },
+      {
+       "t": "p",
+       "s": "Anforderungen:"
+      },
+      {
+       "t": "ul",
+       "items": [
+        "`sig` ist asynchron: erst synchronisieren (zwei Flipflops), dann ein drittes Flipflop für die Flankenerkennung (D07).",
+        "Ein Torzähler zählt `TORZEIT` Takte. Am Ende des Fensters: Ergebnis nach `frequenz` übernehmen, Zähler auf 0, einen Takt `neu = '1'`.",
+        "Eine Flanke genau im letzten Takt des Fensters zählt noch mit."
+       ]
+      },
+      {
+       "t": "p",
+       "s": "Ports und Generics: Generic `TORZEIT : positive := 50_000_000`, `clk`, `res_n`, `sig : in std_logic`, `frequenz : out natural range 0 to 2**20 - 1`, `neu : out std_logic`."
+      }
+     ],
+     "aufgabe": [
+      {
+       "t": "p",
+       "s": "Schreibe Entity `frequenzzaehler` und Architecture `behav`."
+      }
+     ],
+     "aufgabeMd": "Schreibe Entity `frequenzzaehler` und Architecture `behav`.",
+     "loesung": [
+      {
+       "t": "code",
+       "lang": "vhdl",
+       "s": "library ieee; use ieee.std_logic_1164.all;\nentity frequenzzaehler is\n  generic(TORZEIT : positive := 50_000_000);   -- Takte pro Messung (1 s bei 50 MHz)\n  port(\n    clk, res_n : in  std_logic;\n    sig        : in  std_logic;                -- asynchrones Messsignal\n    frequenz   : out natural range 0 to 2**20 - 1;\n    neu        : out std_logic                 -- ein Takt nach jeder Messung\n    );\nend entity frequenzzaehler;\n\narchitecture behav of frequenzzaehler is\n  signal s1, s2, s3 : std_logic;\n  signal tor : natural range 0 to TORZEIT - 1;\n  signal anzahl : natural range 0 to 2**20 - 1;\nbegin\n  process(clk, res_n) is\n  begin\n    if res_n = '0' then\n      s1 <= '0'; s2 <= '0'; s3 <= '0';\n      tor <= 0; anzahl <= 0; frequenz <= 0; neu <= '0';\n    else\n      if clk'event and clk = '1' then\n        s1 <= sig;                      -- Synchronisierer\n        s2 <= s1;\n        s3 <= s2;                       -- alter Wert fuer die Flankenerkennung\n        neu <= '0';\n        if tor = TORZEIT - 1 then\n          tor <= 0;\n          if s2 = '1' and s3 = '0' then\n            frequenz <= anzahl + 1;\n          else\n            frequenz <= anzahl;\n          end if;\n          anzahl <= 0;\n          neu <= '1';\n        else\n          tor <= tor + 1;\n          if s2 = '1' and s3 = '0' and anzahl < 2**20 - 1 then\n            anzahl <= anzahl + 1;\n          end if;\n        end if;\n      end if;\n    end if;\n  end process;\nend architecture behav;"
+      },
+      {
+       "t": "p",
+       "s": "Ohne Synchronisierer könnte eine Flanke genau an der Taktflanke metastabil werden und doppelt oder gar nicht gezählt werden."
+      }
+     ],
+     "loesungMd": "```vhdl\nlibrary ieee; use ieee.std_logic_1164.all;\nentity frequenzzaehler is\n  generic(TORZEIT : positive := 50_000_000);   -- Takte pro Messung (1 s bei 50 MHz)\n  port(\n    clk, res_n : in  std_logic;\n    sig        : in  std_logic;                -- asynchrones Messsignal\n    frequenz   : out natural range 0 to 2**20 - 1;\n    neu        : out std_logic                 -- ein Takt nach jeder Messung\n    );\nend entity frequenzzaehler;\n\narchitecture behav of frequenzzaehler is\n  signal s1, s2, s3 : std_logic;\n  signal tor : natural range 0 to TORZEIT - 1;\n  signal anzahl : natural range 0 to 2**20 - 1;\nbegin\n  process(clk, res_n) is\n  begin\n    if res_n = '0' then\n      s1 <= '0'; s2 <= '0'; s3 <= '0';\n      tor <= 0; anzahl <= 0; frequenz <= 0; neu <= '0';\n    else\n      if clk'event and clk = '1' then\n        s1 <= sig;                      -- Synchronisierer\n        s2 <= s1;\n        s3 <= s2;                       -- alter Wert fuer die Flankenerkennung\n        neu <= '0';\n        if tor = TORZEIT - 1 then\n          tor <= 0;\n          if s2 = '1' and s3 = '0' then\n            frequenz <= anzahl + 1;\n          else\n            frequenz <= anzahl;\n          end if;\n          anzahl <= 0;\n          neu <= '1';\n        else\n          tor <= tor + 1;\n          if s2 = '1' and s3 = '0' and anzahl < 2**20 - 1 then\n            anzahl <= anzahl + 1;\n          end if;\n        end if;\n      end if;\n    end if;\n  end process;\nend architecture behav;\n```\nOhne Synchronisierer könnte eine Flanke genau an der Taktflanke metastabil werden und doppelt oder gar nicht gezählt werden.",
+     "klausur": [
+      {
+       "t": "p",
+       "s": "Synchronisierer (D05), Flankenerkennung (D07), Torzeit = Taktteiler (M04)."
+      }
+     ]
+    },
+    {
+     "id": "W13",
+     "block": "W",
+     "title": "Round-Robin-Arbiter",
+     "min": 15,
+     "mode": "code",
+     "starter": "",
+     "solutionCode": "library ieee; use ieee.std_logic_1164.all;\nentity arbiter is\n  port(\n    clk, res_n : in  std_logic;\n    req        : in  std_logic_vector(3 downto 0);\n    grant      : out std_logic_vector(3 downto 0)\n    );\nend entity arbiter;\n\narchitecture behav of arbiter is\n  signal g      : std_logic_vector(3 downto 0);\n  signal letzter : natural range 0 to 3;\nbegin\n  process(clk, res_n) is\n    variable idx : natural range 0 to 3;\n    variable gefunden : boolean;\n  begin\n    if res_n = '0' then\n      g <= (others => '0');\n      letzter <= 3;\n    else\n      if clk'event and clk = '1' then\n        if (g and req) /= \"0000\" then\n          null;                               -- Besitzer fragt noch: behalten\n        else\n          g <= (others => '0');\n          gefunden := false;\n          for i in 1 to 4 loop\n            idx := (letzter + i) mod 4;\n            if not gefunden and req(idx) = '1' then\n              g(idx) <= '1';\n              letzter <= idx;\n              gefunden := true;\n            end if;\n          end loop;\n        end if;\n      end if;\n    end if;\n  end process;\n  grant <= g;\nend architecture behav;",
+     "ziel": [
+      {
+       "t": "p",
+       "s": "Mit einer Schleife und Variablen eine faire Zuteilung beschreiben."
+      }
+     ],
+     "erklaerung": [
+      {
+       "t": "p",
+       "s": "Vier Teilnehmer wollen dieselbe Ressource (z.B. einen Bus). Jeder meldet sich mit `req(i) = '1'`. Der Arbiter gibt immer genau einem `grant(i) = '1'`."
+      },
+      {
+       "t": "p",
+       "s": "Regeln:"
+      },
+      {
+       "t": "ul",
+       "items": [
+        "Wer `grant` hat, behält es, solange er `req` hält.",
+        "Gibt er ab, wird der **nächste** Anfragende nach ihm (im Kreis 0 → 1 → 2 → 3 → 0) bedient. So kommt jeder dran, niemand verhungert.",
+        "Fragt niemand, ist `grant = \"0000\"`."
+       ]
+      },
+      {
+       "t": "p",
+       "s": "Ports: `clk`, `res_n`, `req : in std_logic_vector(3 downto 0)`, `grant : out std_logic_vector(3 downto 0)`. Merke dir `letzter` (wer zuletzt dran war)."
+      }
+     ],
+     "aufgabe": [
+      {
+       "t": "p",
+       "s": "Schreibe Entity `arbiter` und Architecture `behav`. Die Suche nach dem Nächsten machst du mit einer `for`-Schleife von 1 bis 4 und `(letzter + i) mod 4`."
+      }
+     ],
+     "aufgabeMd": "Schreibe Entity `arbiter` und Architecture `behav`. Die Suche nach dem Nächsten machst du mit einer `for`-Schleife von 1 bis 4 und `(letzter + i) mod 4`.",
+     "loesung": [
+      {
+       "t": "code",
+       "lang": "vhdl",
+       "s": "library ieee; use ieee.std_logic_1164.all;\nentity arbiter is\n  port(\n    clk, res_n : in  std_logic;\n    req        : in  std_logic_vector(3 downto 0);\n    grant      : out std_logic_vector(3 downto 0)\n    );\nend entity arbiter;\n\narchitecture behav of arbiter is\n  signal g      : std_logic_vector(3 downto 0);\n  signal letzter : natural range 0 to 3;\nbegin\n  process(clk, res_n) is\n    variable idx : natural range 0 to 3;\n    variable gefunden : boolean;\n  begin\n    if res_n = '0' then\n      g <= (others => '0');\n      letzter <= 3;\n    else\n      if clk'event and clk = '1' then\n        if (g and req) /= \"0000\" then\n          null;                               -- Besitzer fragt noch: behalten\n        else\n          g <= (others => '0');\n          gefunden := false;\n          for i in 1 to 4 loop\n            idx := (letzter + i) mod 4;\n            if not gefunden and req(idx) = '1' then\n              g(idx) <= '1';\n              letzter <= idx;\n              gefunden := true;\n            end if;\n          end loop;\n        end if;\n      end if;\n    end if;\n  end process;\n  grant <= g;\nend architecture behav;"
+      },
+      {
+       "t": "p",
+       "s": "Die Variable `gefunden` sorgt dafür, dass nur der **erste** Treffer zählt. In Hardware wird daraus ein Prioritätsencoder, dessen Startpunkt von `letzter` abhängt."
+      }
+     ],
+     "loesungMd": "```vhdl\nlibrary ieee; use ieee.std_logic_1164.all;\nentity arbiter is\n  port(\n    clk, res_n : in  std_logic;\n    req        : in  std_logic_vector(3 downto 0);\n    grant      : out std_logic_vector(3 downto 0)\n    );\nend entity arbiter;\n\narchitecture behav of arbiter is\n  signal g      : std_logic_vector(3 downto 0);\n  signal letzter : natural range 0 to 3;\nbegin\n  process(clk, res_n) is\n    variable idx : natural range 0 to 3;\n    variable gefunden : boolean;\n  begin\n    if res_n = '0' then\n      g <= (others => '0');\n      letzter <= 3;\n    else\n      if clk'event and clk = '1' then\n        if (g and req) /= \"0000\" then\n          null;                               -- Besitzer fragt noch: behalten\n        else\n          g <= (others => '0');\n          gefunden := false;\n          for i in 1 to 4 loop\n            idx := (letzter + i) mod 4;\n            if not gefunden and req(idx) = '1' then\n              g(idx) <= '1';\n              letzter <= idx;\n              gefunden := true;\n            end if;\n          end loop;\n        end if;\n      end if;\n    end if;\n  end process;\n  grant <= g;\nend architecture behav;\n```\nDie Variable `gefunden` sorgt dafür, dass nur der **erste** Treffer zählt. In Hardware wird daraus ein Prioritätsencoder, dessen Startpunkt von `letzter` abhängt.",
+     "klausur": [
+      {
+       "t": "p",
+       "s": "Schleifen mit Variablen (C08), Prioritätsencoder (K03)."
+      }
+     ]
+    },
+    {
+     "id": "W14",
+     "block": "W",
+     "title": "Mini-Prozessor",
+     "min": 30,
+     "mode": "code",
+     "starter": "",
+     "solutionCode": "library ieee; use ieee.std_logic_1164.all; use ieee.numeric_std.all;\nentity mini_cpu is\n  port(\n    clk, res_n : in  std_logic;\n    pc         : out std_logic_vector(3 downto 0);   -- Adresse ins Programm-ROM\n    befehl     : in  std_logic_vector(7 downto 0);   -- opcode(7..4), operand(3..0)\n    ausgabe    : out std_logic_vector(7 downto 0);\n    aus_gueltig : out std_logic;\n    halt       : out std_logic\n    );\nend entity mini_cpu;\n\narchitecture behav of mini_cpu is\n  type ram_type is array (0 to 15) of unsigned(7 downto 0);\n  signal ram  : ram_type;\n  signal akku : unsigned(7 downto 0);\n  signal pc_i : unsigned(3 downto 0);\n  signal gestoppt : std_logic;\n  -- Befehlssatz\n  constant LDI  : std_logic_vector(3 downto 0) := \"0000\";  -- akku := k\n  constant ADDI : std_logic_vector(3 downto 0) := \"0001\";  -- akku := akku + k\n  constant SUBI : std_logic_vector(3 downto 0) := \"0010\";  -- akku := akku - k\n  constant LD   : std_logic_vector(3 downto 0) := \"0011\";  -- akku := ram(k)\n  constant ST   : std_logic_vector(3 downto 0) := \"0100\";  -- ram(k) := akku\n  constant ADD  : std_logic_vector(3 downto 0) := \"0101\";  -- akku := akku + ram(k)\n  constant JMP  : std_logic_vector(3 downto 0) := \"0110\";  -- pc := k\n  constant JZ   : std_logic_vector(3 downto 0) := \"0111\";  -- wenn akku = 0: pc := k\n  constant OUTP : std_logic_vector(3 downto 0) := \"1000\";  -- ausgabe := akku\n  constant HLT  : std_logic_vector(3 downto 0) := \"1111\";  -- anhalten\nbegin\n  process(clk, res_n) is\n    variable op : std_logic_vector(3 downto 0);\n    variable k  : unsigned(3 downto 0);\n  begin\n    if res_n = '0' then\n      akku <= (others => '0');\n      pc_i <= (others => '0');\n      gestoppt <= '0';\n      aus_gueltig <= '0';\n      ausgabe <= (others => '0');\n      ram <= (others => (others => '0'));\n    else\n      if clk'event and clk = '1' then\n        aus_gueltig <= '0';\n        if gestoppt = '0' then\n          op := befehl(7 downto 4);\n          k  := unsigned(befehl(3 downto 0));\n          pc_i <= pc_i + 1;                     -- Standard: naechster Befehl\n          case op is\n            when LDI  => akku <= resize(k, 8);\n            when ADDI => akku <= akku + k;\n            when SUBI => akku <= akku - k;\n            when LD   => akku <= ram(to_integer(k));\n            when ST   => ram(to_integer(k)) <= akku;\n            when ADD  => akku <= akku + ram(to_integer(k));\n            when JMP  => pc_i <= k;\n            when JZ   => if akku = 0 then pc_i <= k; end if;\n            when OUTP => ausgabe <= std_logic_vector(akku); aus_gueltig <= '1';\n            when HLT  => gestoppt <= '1'; pc_i <= pc_i;\n            when others => null;\n          end case;\n        end if;\n      end if;\n    end if;\n  end process;\n  pc <= std_logic_vector(pc_i);\n  halt <= gestoppt;\nend architecture behav;",
+     "ziel": [
+      {
+       "t": "p",
+       "s": "Einen kleinen Prozessor mit Akkumulator, Datenspeicher und Sprungbefehlen komplett selbst bauen."
+      }
+     ],
+     "erklaerung": [
+      {
+       "t": "p",
+       "s": "Ein 8-Bit-Akkumulator-Prozessor. Das Programm steht in einem externen ROM: Der Prozessor gibt die Adresse `pc` aus und bekommt den Befehl `befehl` zurück. Jeder Befehl dauert **einen Takt**."
+      },
+      {
+       "t": "p",
+       "s": "Befehlsformat: `befehl(7 downto 4)` = Opcode, `befehl(3 downto 0)` = Operand `k`."
+      },
+      {
+       "t": "table",
+       "rows": [
+        [
+         "Opcode",
+         "Name",
+         "Wirkung"
+        ],
+        [
+         "0000",
+         "LDI k",
+         "akku := k"
+        ],
+        [
+         "0001",
+         "ADDI k",
+         "akku := akku + k"
+        ],
+        [
+         "0010",
+         "SUBI k",
+         "akku := akku - k"
+        ],
+        [
+         "0011",
+         "LD k",
+         "akku := ram(k)"
+        ],
+        [
+         "0100",
+         "ST k",
+         "ram(k) := akku"
+        ],
+        [
+         "0101",
+         "ADD k",
+         "akku := akku + ram(k)"
+        ],
+        [
+         "0110",
+         "JMP k",
+         "pc := k"
+        ],
+        [
+         "0111",
+         "JZ k",
+         "wenn akku = 0: pc := k"
+        ],
+        [
+         "1000",
+         "OUT",
+         "ausgabe := akku, ein Takt aus_gueltig"
+        ],
+        [
+         "1111",
+         "HLT",
+         "anhalten"
+        ]
+       ]
+      },
+      {
+       "t": "p",
+       "s": "Sonst: `pc := pc + 1`. Der Datenspeicher `ram` hat 16 Wörter à 8 Bit."
+      },
+      {
+       "t": "p",
+       "s": "Ports: `clk`, `res_n`, `pc : out std_logic_vector(3 downto 0)`, `befehl : in std_logic_vector(7 downto 0)`, `ausgabe : out std_logic_vector(7 downto 0)`, `aus_gueltig`, `halt : out std_logic`."
+      }
+     ],
+     "aufgabe": [
+      {
+       "t": "p",
+       "s": "Schreibe Entity `mini_cpu` und Architecture `behav`. Die Opcodes als Konstanten, die Ausführung als `case` in einem getakteten Prozess."
+      }
+     ],
+     "aufgabeMd": "Schreibe Entity `mini_cpu` und Architecture `behav`. Die Opcodes als Konstanten, die Ausführung als `case` in einem getakteten Prozess.",
+     "loesung": [
+      {
+       "t": "code",
+       "lang": "vhdl",
+       "s": "library ieee; use ieee.std_logic_1164.all; use ieee.numeric_std.all;\nentity mini_cpu is\n  port(\n    clk, res_n : in  std_logic;\n    pc         : out std_logic_vector(3 downto 0);   -- Adresse ins Programm-ROM\n    befehl     : in  std_logic_vector(7 downto 0);   -- opcode(7..4), operand(3..0)\n    ausgabe    : out std_logic_vector(7 downto 0);\n    aus_gueltig : out std_logic;\n    halt       : out std_logic\n    );\nend entity mini_cpu;\n\narchitecture behav of mini_cpu is\n  type ram_type is array (0 to 15) of unsigned(7 downto 0);\n  signal ram  : ram_type;\n  signal akku : unsigned(7 downto 0);\n  signal pc_i : unsigned(3 downto 0);\n  signal gestoppt : std_logic;\n  -- Befehlssatz\n  constant LDI  : std_logic_vector(3 downto 0) := \"0000\";  -- akku := k\n  constant ADDI : std_logic_vector(3 downto 0) := \"0001\";  -- akku := akku + k\n  constant SUBI : std_logic_vector(3 downto 0) := \"0010\";  -- akku := akku - k\n  constant LD   : std_logic_vector(3 downto 0) := \"0011\";  -- akku := ram(k)\n  constant ST   : std_logic_vector(3 downto 0) := \"0100\";  -- ram(k) := akku\n  constant ADD  : std_logic_vector(3 downto 0) := \"0101\";  -- akku := akku + ram(k)\n  constant JMP  : std_logic_vector(3 downto 0) := \"0110\";  -- pc := k\n  constant JZ   : std_logic_vector(3 downto 0) := \"0111\";  -- wenn akku = 0: pc := k\n  constant OUTP : std_logic_vector(3 downto 0) := \"1000\";  -- ausgabe := akku\n  constant HLT  : std_logic_vector(3 downto 0) := \"1111\";  -- anhalten\nbegin\n  process(clk, res_n) is\n    variable op : std_logic_vector(3 downto 0);\n    variable k  : unsigned(3 downto 0);\n  begin\n    if res_n = '0' then\n      akku <= (others => '0');\n      pc_i <= (others => '0');\n      gestoppt <= '0';\n      aus_gueltig <= '0';\n      ausgabe <= (others => '0');\n      ram <= (others => (others => '0'));\n    else\n      if clk'event and clk = '1' then\n        aus_gueltig <= '0';\n        if gestoppt = '0' then\n          op := befehl(7 downto 4);\n          k  := unsigned(befehl(3 downto 0));\n          pc_i <= pc_i + 1;                     -- Standard: naechster Befehl\n          case op is\n            when LDI  => akku <= resize(k, 8);\n            when ADDI => akku <= akku + k;\n            when SUBI => akku <= akku - k;\n            when LD   => akku <= ram(to_integer(k));\n            when ST   => ram(to_integer(k)) <= akku;\n            when ADD  => akku <= akku + ram(to_integer(k));\n            when JMP  => pc_i <= k;\n            when JZ   => if akku = 0 then pc_i <= k; end if;\n            when OUTP => ausgabe <= std_logic_vector(akku); aus_gueltig <= '1';\n            when HLT  => gestoppt <= '1'; pc_i <= pc_i;\n            when others => null;\n          end case;\n        end if;\n      end if;\n    end if;\n  end process;\n  pc <= std_logic_vector(pc_i);\n  halt <= gestoppt;\nend architecture behav;"
+      },
+      {
+       "t": "p",
+       "s": "Trick: Zuerst `pc_i <= pc_i + 1;` als Default, Sprünge überschreiben ihn (letzte Zuweisung gewinnt, C02). Das Testprogramm in `am_rechner/L14/tb_werkstatt.vhd` zählt von 5 auf 1 herunter, gibt jede Zahl aus und am Ende die Summe 15."
+      }
+     ],
+     "loesungMd": "```vhdl\nlibrary ieee; use ieee.std_logic_1164.all; use ieee.numeric_std.all;\nentity mini_cpu is\n  port(\n    clk, res_n : in  std_logic;\n    pc         : out std_logic_vector(3 downto 0);   -- Adresse ins Programm-ROM\n    befehl     : in  std_logic_vector(7 downto 0);   -- opcode(7..4), operand(3..0)\n    ausgabe    : out std_logic_vector(7 downto 0);\n    aus_gueltig : out std_logic;\n    halt       : out std_logic\n    );\nend entity mini_cpu;\n\narchitecture behav of mini_cpu is\n  type ram_type is array (0 to 15) of unsigned(7 downto 0);\n  signal ram  : ram_type;\n  signal akku : unsigned(7 downto 0);\n  signal pc_i : unsigned(3 downto 0);\n  signal gestoppt : std_logic;\n  -- Befehlssatz\n  constant LDI  : std_logic_vector(3 downto 0) := \"0000\";  -- akku := k\n  constant ADDI : std_logic_vector(3 downto 0) := \"0001\";  -- akku := akku + k\n  constant SUBI : std_logic_vector(3 downto 0) := \"0010\";  -- akku := akku - k\n  constant LD   : std_logic_vector(3 downto 0) := \"0011\";  -- akku := ram(k)\n  constant ST   : std_logic_vector(3 downto 0) := \"0100\";  -- ram(k) := akku\n  constant ADD  : std_logic_vector(3 downto 0) := \"0101\";  -- akku := akku + ram(k)\n  constant JMP  : std_logic_vector(3 downto 0) := \"0110\";  -- pc := k\n  constant JZ   : std_logic_vector(3 downto 0) := \"0111\";  -- wenn akku = 0: pc := k\n  constant OUTP : std_logic_vector(3 downto 0) := \"1000\";  -- ausgabe := akku\n  constant HLT  : std_logic_vector(3 downto 0) := \"1111\";  -- anhalten\nbegin\n  process(clk, res_n) is\n    variable op : std_logic_vector(3 downto 0);\n    variable k  : unsigned(3 downto 0);\n  begin\n    if res_n = '0' then\n      akku <= (others => '0');\n      pc_i <= (others => '0');\n      gestoppt <= '0';\n      aus_gueltig <= '0';\n      ausgabe <= (others => '0');\n      ram <= (others => (others => '0'));\n    else\n      if clk'event and clk = '1' then\n        aus_gueltig <= '0';\n        if gestoppt = '0' then\n          op := befehl(7 downto 4);\n          k  := unsigned(befehl(3 downto 0));\n          pc_i <= pc_i + 1;                     -- Standard: naechster Befehl\n          case op is\n            when LDI  => akku <= resize(k, 8);\n            when ADDI => akku <= akku + k;\n            when SUBI => akku <= akku - k;\n            when LD   => akku <= ram(to_integer(k));\n            when ST   => ram(to_integer(k)) <= akku;\n            when ADD  => akku <= akku + ram(to_integer(k));\n            when JMP  => pc_i <= k;\n            when JZ   => if akku = 0 then pc_i <= k; end if;\n            when OUTP => ausgabe <= std_logic_vector(akku); aus_gueltig <= '1';\n            when HLT  => gestoppt <= '1'; pc_i <= pc_i;\n            when others => null;\n          end case;\n        end if;\n      end if;\n    end if;\n  end process;\n  pc <= std_logic_vector(pc_i);\n  halt <= gestoppt;\nend architecture behav;\n```\nTrick: Zuerst `pc_i <= pc_i + 1;` als Default, Sprünge überschreiben ihn (letzte Zuweisung gewinnt, C02). Das Testprogramm in `am_rechner/L14/tb_werkstatt.vhd` zählt von 5 auf 1 herunter, gibt jede Zahl aus und am Ende die Summe 15.",
+     "klausur": [
+      {
+       "t": "p",
+       "s": "ROM und RAM (E05, M08), großer `case` (C05), Rechnerarchitektur: Akkumulator-Maschine."
+      }
+     ]
+    },
+    {
+     "id": "W15",
+     "block": "W",
+     "title": "Testbench komplett selbst: ggT gegen Referenz",
+     "min": 20,
+     "mode": "code",
+     "starter": "",
+     "solutionCode": "library ieee; use ieee.std_logic_1164.all; use ieee.numeric_std.all;\nentity tb_ggt is\nend entity tb_ggt;\n\narchitecture sim of tb_ggt is\n  constant T : time := 10 ns;\n  signal clk : std_logic := '0';\n  signal res_n : std_logic := '0';\n  signal ende : boolean := false;\n  signal start, fertig : std_logic := '0';\n  signal a, b, ergebnis : std_logic_vector(7 downto 0) := x\"01\";\n\n  -- Referenz: Euklid mit Rest, ganz anders gerechnet als die Hardware\n  function ggt_ref(x0, y0 : positive) return positive is\n    variable x : natural := x0;\n    variable y : natural := y0;\n    variable r : natural;\n  begin\n    while y /= 0 loop\n      r := x mod y;\n      x := y;\n      y := r;\n    end loop;\n    return x;\n  end function ggt_ref;\nbegin\n  clk <= not clk after T/2 when not ende;\n\n  dut: entity work.ggt\n    port map(clk => clk, res_n => res_n, start => start, a => a, b => b,\n             ergebnis => ergebnis, fertig => fertig);\n\n  stimuli: process is\n    variable fehler : natural := 0;\n    variable takte : natural;\n  begin\n    wait for 2 * T;\n    res_n <= '1';\n    for x in 1 to 30 loop\n      for y in 1 to 30 loop\n        wait until clk'event and clk = '0';     -- Stimuli in der Taktmitte\n        a <= std_logic_vector(to_unsigned(x, 8));\n        b <= std_logic_vector(to_unsigned(y, 8));\n        start <= '1';\n        wait until clk'event and clk = '0';\n        start <= '0';\n        takte := 0;\n        while fertig = '0' loop\n          wait until clk'event and clk = '0';\n          takte := takte + 1;\n          assert takte < 300 report \"ggT haengt\" severity failure;\n        end loop;\n        if to_integer(unsigned(ergebnis)) /= ggt_ref(x, y) then\n          fehler := fehler + 1;\n          report \"ggT(\" & integer'image(x) & \", \" & integer'image(y) & \") = \" &\n                 integer'image(to_integer(unsigned(ergebnis))) & \" statt \" &\n                 integer'image(ggt_ref(x, y)) severity error;\n        end if;\n      end loop;\n    end loop;\n    report \"tb_ggt fertig, \" & integer'image(fehler) & \" Fehler\";\n    ende <= true;\n    wait;\n  end process stimuli;\nend architecture sim;",
+     "ziel": [
+      {
+       "t": "p",
+       "s": "Eine Testbench schreiben, die einen Baustein **erschöpfend** gegen eine unabhängige Referenz prüft."
+      }
+     ],
+     "erklaerung": [
+      {
+       "t": "p",
+       "s": "Für den ggT aus W10 gibt es viele Eingaben. Statt einzelne Fälle von Hand auszurechnen, rechnet die Testbench selbst – mit einem **anderen** Verfahren als die Hardware, sonst würde ein Denkfehler doppelt gemacht:"
+      },
+      {
+       "t": "ul",
+       "items": [
+        "Hardware: Subtraktionsverfahren.",
+        "Referenz in der Testbench: Euklid mit Rest (`mod`), als `function` im Deklarationsteil der Architecture."
+       ]
+      },
+      {
+       "t": "p",
+       "s": "Aufbau:"
+      },
+      {
+       "t": "ul",
+       "items": [
+        "Taktgenerator mit Abbruch: `clk <= not clk after T/2 when not ende;`",
+        "DUT mit Named Association.",
+        "Stimuli in der **Taktmitte** (`wait until clk'event and clk = '0';`), damit nichts auf der Flanke liegt (I05).",
+        "Zwei Schleifen über `a` und `b` von 1 bis 30, jeweils starten, auf `fertig` warten (mit Schutz gegen Endlosschleife), vergleichen, Fehler zählen.",
+        "Am Ende eine Zusammenfassung ausgeben und `ende <= true`."
+       ]
+      }
+     ],
+     "aufgabe": [
+      {
+       "t": "p",
+       "s": "Schreibe Entity `tb_ggt` und Architecture `sim` komplett."
+      }
+     ],
+     "aufgabeMd": "Schreibe Entity `tb_ggt` und Architecture `sim` komplett.",
+     "loesung": [
+      {
+       "t": "code",
+       "lang": "vhdl",
+       "s": "library ieee; use ieee.std_logic_1164.all; use ieee.numeric_std.all;\nentity tb_ggt is\nend entity tb_ggt;\n\narchitecture sim of tb_ggt is\n  constant T : time := 10 ns;\n  signal clk : std_logic := '0';\n  signal res_n : std_logic := '0';\n  signal ende : boolean := false;\n  signal start, fertig : std_logic := '0';\n  signal a, b, ergebnis : std_logic_vector(7 downto 0) := x\"01\";\n\n  -- Referenz: Euklid mit Rest, ganz anders gerechnet als die Hardware\n  function ggt_ref(x0, y0 : positive) return positive is\n    variable x : natural := x0;\n    variable y : natural := y0;\n    variable r : natural;\n  begin\n    while y /= 0 loop\n      r := x mod y;\n      x := y;\n      y := r;\n    end loop;\n    return x;\n  end function ggt_ref;\nbegin\n  clk <= not clk after T/2 when not ende;\n\n  dut: entity work.ggt\n    port map(clk => clk, res_n => res_n, start => start, a => a, b => b,\n             ergebnis => ergebnis, fertig => fertig);\n\n  stimuli: process is\n    variable fehler : natural := 0;\n    variable takte : natural;\n  begin\n    wait for 2 * T;\n    res_n <= '1';\n    for x in 1 to 30 loop\n      for y in 1 to 30 loop\n        wait until clk'event and clk = '0';     -- Stimuli in der Taktmitte\n        a <= std_logic_vector(to_unsigned(x, 8));\n        b <= std_logic_vector(to_unsigned(y, 8));\n        start <= '1';\n        wait until clk'event and clk = '0';\n        start <= '0';\n        takte := 0;\n        while fertig = '0' loop\n          wait until clk'event and clk = '0';\n          takte := takte + 1;\n          assert takte < 300 report \"ggT haengt\" severity failure;\n        end loop;\n        if to_integer(unsigned(ergebnis)) /= ggt_ref(x, y) then\n          fehler := fehler + 1;\n          report \"ggT(\" & integer'image(x) & \", \" & integer'image(y) & \") = \" &\n                 integer'image(to_integer(unsigned(ergebnis))) & \" statt \" &\n                 integer'image(ggt_ref(x, y)) severity error;\n        end if;\n      end loop;\n    end loop;\n    report \"tb_ggt fertig, \" & integer'image(fehler) & \" Fehler\";\n    ende <= true;\n    wait;\n  end process stimuli;\nend architecture sim;"
+      },
+      {
+       "t": "p",
+       "s": "Ergebnis der Simulation: 900 Fälle, 0 Fehler. Baue zur Probe einen Fehler in den ggT ein (z.B. `x >= y` statt `x > y`) und sieh nach, ob die Testbench ihn findet."
+      }
+     ],
+     "loesungMd": "```vhdl\nlibrary ieee; use ieee.std_logic_1164.all; use ieee.numeric_std.all;\nentity tb_ggt is\nend entity tb_ggt;\n\narchitecture sim of tb_ggt is\n  constant T : time := 10 ns;\n  signal clk : std_logic := '0';\n  signal res_n : std_logic := '0';\n  signal ende : boolean := false;\n  signal start, fertig : std_logic := '0';\n  signal a, b, ergebnis : std_logic_vector(7 downto 0) := x\"01\";\n\n  -- Referenz: Euklid mit Rest, ganz anders gerechnet als die Hardware\n  function ggt_ref(x0, y0 : positive) return positive is\n    variable x : natural := x0;\n    variable y : natural := y0;\n    variable r : natural;\n  begin\n    while y /= 0 loop\n      r := x mod y;\n      x := y;\n      y := r;\n    end loop;\n    return x;\n  end function ggt_ref;\nbegin\n  clk <= not clk after T/2 when not ende;\n\n  dut: entity work.ggt\n    port map(clk => clk, res_n => res_n, start => start, a => a, b => b,\n             ergebnis => ergebnis, fertig => fertig);\n\n  stimuli: process is\n    variable fehler : natural := 0;\n    variable takte : natural;\n  begin\n    wait for 2 * T;\n    res_n <= '1';\n    for x in 1 to 30 loop\n      for y in 1 to 30 loop\n        wait until clk'event and clk = '0';     -- Stimuli in der Taktmitte\n        a <= std_logic_vector(to_unsigned(x, 8));\n        b <= std_logic_vector(to_unsigned(y, 8));\n        start <= '1';\n        wait until clk'event and clk = '0';\n        start <= '0';\n        takte := 0;\n        while fertig = '0' loop\n          wait until clk'event and clk = '0';\n          takte := takte + 1;\n          assert takte < 300 report \"ggT haengt\" severity failure;\n        end loop;\n        if to_integer(unsigned(ergebnis)) /= ggt_ref(x, y) then\n          fehler := fehler + 1;\n          report \"ggT(\" & integer'image(x) & \", \" & integer'image(y) & \") = \" &\n                 integer'image(to_integer(unsigned(ergebnis))) & \" statt \" &\n                 integer'image(ggt_ref(x, y)) severity error;\n        end if;\n      end loop;\n    end loop;\n    report \"tb_ggt fertig, \" & integer'image(fehler) & \" Fehler\";\n    ende <= true;\n    wait;\n  end process stimuli;\nend architecture sim;\n```\nErgebnis der Simulation: 900 Fälle, 0 Fehler. Baue zur Probe einen Fehler in den ggT ein (z.B. `x >= y` statt `x > y`) und sieh nach, ob die Testbench ihn findet.",
+     "klausur": [
+      {
+       "t": "p",
+       "s": "Testbenches mit Schleifen, `assert`/`report` und Prozeduren (I01–I05, P04, S12). Simulierbar: `STOP=1ms ./sim.sh tb_ggt am_rechner/L14/werkstatt.vhd am_rechner/L14/tb_ggt.vhd`."
       }
      ]
     }

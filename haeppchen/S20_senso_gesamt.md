@@ -1,6 +1,6 @@
 # S20 · Senso: alles verbinden und das Spiel testen
 
-12 min · zurück: [S19](S19_steuerung_code.md) · weiter: [Übersicht](../README.md)
+12 min · zurück: [S19](S19_steuerung_code.md) · weiter: [W01](W01_werkstatt_start.md)
 
 ## Ziel
 Ein komplettes System verdrahten und mit einer Testbench „spielen“.
