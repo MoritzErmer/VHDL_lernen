@@ -57,7 +57,7 @@ fun DiagramView(d: Node.Diagram, modifier: Modifier = Modifier) {
     val measurer = rememberTextMeasurer()
     val fontScale = LocalDensity.current.fontScale
     BoxWithConstraints(
-        modifier.fillMaxWidth().background(p.surface, Corner).border(1.dp, p.line, Corner)
+        modifier.fillMaxWidth().background(p.surface, CardShape)
             .semantics { contentDescription = d.alt }
     ) {
         val inner = maxWidth - 16.dp

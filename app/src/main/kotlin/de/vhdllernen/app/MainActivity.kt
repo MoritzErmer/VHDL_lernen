@@ -45,7 +45,7 @@ class MainActivity : ComponentActivity() {
 fun VhdlApp(state: AppState) {
     LaunchedEffect(Unit) { state.autoUpdate() }
     val progress by state.progress.state.collectAsState()
-    VhdlTheme(state.settings.theme) {
+    VhdlTheme(state.settings.theme, state.settings.dynamicColor) {
         BackHandler(enabled = state.stack.size > 1) { state.back() }
         Box(Modifier.fillMaxSize().background(LocalPalette.current.bg)) {
             AnimatedContent(

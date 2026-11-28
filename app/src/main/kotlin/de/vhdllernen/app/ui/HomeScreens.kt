@@ -29,6 +29,8 @@ import androidx.compose.material.icons.filled.ExpandMore
 import androidx.compose.material.icons.outlined.IosShare
 import androidx.compose.material.icons.outlined.Settings
 import androidx.compose.material3.Icon
+import androidx.compose.material.icons.filled.PlayArrow
+import androidx.compose.ui.draw.clip
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -52,25 +54,24 @@ fun TopBar(title: String, onBack: (() -> Unit)?, actions: @Composable RowScope.(
     val p = LocalPalette.current
     Column(Modifier.background(p.bg).statusBarsPadding()) {
         Row(
-            Modifier.fillMaxWidth().height(56.dp).padding(horizontal = 4.dp),
+            Modifier.fillMaxWidth().height(64.dp).padding(horizontal = 4.dp),
             verticalAlignment = Alignment.CenterVertically,
         ) {
             if (onBack != null) IconAction(Icons.AutoMirrored.Filled.ArrowBack, "Zurück", onBack)
             else Spacer(Modifier.width(12.dp))
             Text(
-                title, style = Type.body.copy(fontWeight = FontWeight.SemiBold), color = p.ink,
+                title, style = Type.topBar, color = p.ink,
                 maxLines = 1, overflow = TextOverflow.Ellipsis, modifier = Modifier.weight(1f).padding(start = 4.dp),
             )
             actions()
         }
-        Box(Modifier.fillMaxWidth().height(1.dp).background(p.line))
     }
 }
 
 @Composable
 fun IconAction(icon: ImageVector, label: String, onClick: () -> Unit) {
-    Box(Modifier.size(48.dp).clickable(onClick = onClick), contentAlignment = Alignment.Center) {
-        Icon(icon, contentDescription = label, tint = LocalPalette.current.ink)
+    Box(Modifier.size(48.dp).clip(Pill).clickable(onClick = onClick), contentAlignment = Alignment.Center) {
+        Icon(icon, contentDescription = label, tint = LocalPalette.current.muted)
     }
 }
 
@@ -83,25 +84,25 @@ fun UpdateBanner(state: AppState) {
     if (status is UpdateStatus.Done || status is UpdateStatus.Error) {
         val error = status is UpdateStatus.Error
         Row(
-            Modifier.fillMaxWidth().background(if (error) p.bad.copy(alpha = 0.12f) else p.accentSoft, Corner)
+            Modifier.fillMaxWidth().background(if (error) p.bad.copy(alpha = 0.14f) else p.secondarySoft, CardShape)
                 .clickable { state.dismissUpdateMessage() }.padding(14.dp),
             verticalAlignment = Alignment.CenterVertically,
         ) {
             Text(
                 if (status is UpdateStatus.Done) status.message else (status as UpdateStatus.Error).message,
-                style = Type.small, color = if (error) p.bad else p.ink, modifier = Modifier.weight(1f),
+                style = Type.small, color = if (error) p.bad else p.onSecondarySoft, modifier = Modifier.weight(1f),
             )
             Text("OK", style = Type.small.copy(fontWeight = FontWeight.SemiBold), color = p.accent)
         }
     }
     if (state.appUpdateAvailable) {
         Row(
-            Modifier.fillMaxWidth().border(1.dp, p.accent, Corner)
+            Modifier.fillMaxWidth().background(p.tertiarySoft, CardShape)
                 .clickable { uri.openUri(state.content.app?.url ?: ContentRepository.RELEASES_URL) }.padding(14.dp),
         ) {
             Text(
                 "Neue App-Version ${state.content.app?.versionName ?: ""} verfügbar · auf GitHub laden",
-                style = Type.small.copy(fontWeight = FontWeight.Medium), color = p.accent,
+                style = Type.small.copy(fontWeight = FontWeight.Medium), color = p.onTertiarySoft,
             )
         }
     }
@@ -156,25 +157,31 @@ private fun CourseCard(state: AppState, course: Course, progress: Map<String, Pr
     val done = course.lessons.count { (progress[course.key(it.id)]?.rating ?: Rating.U) == Rating.ONE }
     val next = nextLesson(course, progress)
     Column(
-        Modifier.fillMaxWidth().background(p.surface, Corner).border(1.dp, p.line, Corner)
-            .clickable { state.open(Screen.Home(course.id)) }.padding(16.dp),
+        Modifier.fillMaxWidth().clip(CardShape).background(p.accentSoft)
+            .clickable { state.open(Screen.Home(course.id)) }.padding(20.dp),
         verticalArrangement = Arrangement.spacedBy(12.dp),
     ) {
         Row(verticalAlignment = Alignment.CenterVertically) {
-            Box(Modifier.size(10.dp).background(p.accent, Corner))
-            Text(
-                course.name, style = Type.title.copy(fontSize = Type.title.fontSize * 0.85f), color = p.ink,
-                modifier = Modifier.padding(start = 10.dp).weight(1f),
-            )
-            Text("$done/${course.lessons.size}", style = Type.label, color = p.muted)
+            Text(course.name, style = Type.title, color = p.onAccentSoft, modifier = Modifier.weight(1f))
+            Box(Modifier.clip(Pill).background(p.accent).padding(horizontal = 10.dp, vertical = 4.dp)) {
+                Text("$done/${course.lessons.size}", style = Type.label, color = p.onAccent)
+            }
         }
-        Text(course.exam, style = Type.small, color = p.muted)
-        ProgressVector(course, progress, cell = 11)
+        Text(course.exam, style = Type.small, color = p.onAccentSoft.copy(alpha = 0.8f))
+        Box(Modifier.fillMaxWidth().clip(Corner).background(p.surface).padding(10.dp)) {
+            ProgressVector(course, progress, cell = 11)
+        }
         if (next != null) {
-            Text(
-                "Weiter mit ${next.id} · ${next.title}", style = Type.small.copy(fontWeight = FontWeight.Medium),
-                color = p.accent, maxLines = 1, overflow = TextOverflow.Ellipsis,
-            )
+            Row(
+                Modifier.clip(Pill).background(p.accent).padding(horizontal = 16.dp, vertical = 10.dp),
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                Icon(Icons.Filled.PlayArrow, null, tint = p.onAccent, modifier = Modifier.size(18.dp))
+                Text(
+                    "Weiter mit ${next.id} · ${next.title}", style = Type.small.copy(fontWeight = FontWeight.SemiBold),
+                    color = p.onAccent, maxLines = 1, overflow = TextOverflow.Ellipsis, modifier = Modifier.padding(start = 6.dp),
+                )
+            }
         }
     }
 }
@@ -199,12 +206,12 @@ fun HomeScreen(state: AppState, courseId: String, progress: Map<String, Progress
             item { UpdateBanner(state) }
             if (next != null) item {
                 Column(
-                    Modifier.fillMaxWidth().background(p.accent, Corner)
-                        .clickable { state.open(Screen.Lesson(course.id, next.id)) }.padding(16.dp),
+                    Modifier.fillMaxWidth().clip(CardShape).background(p.accent)
+                        .clickable { state.open(Screen.Lesson(course.id, next.id)) }.padding(20.dp),
                     verticalArrangement = Arrangement.spacedBy(4.dp),
                 ) {
                     Text(
-                        if (rating(next) == Rating.U) "WEITER MIT" else "NOCHMAL ÜBEN",
+                        if (rating(next) == Rating.U) "Weiter mit" else "Nochmal üben",
                         style = Type.section, color = p.onAccent.copy(alpha = 0.8f),
                     )
                     Text("${next.id} · ${next.title}", style = Type.body.copy(fontWeight = FontWeight.SemiBold), color = p.onAccent)
@@ -240,7 +247,7 @@ private fun Summary(course: Course, progress: Map<String, Progress>) {
     val p = LocalPalette.current
     val counts = Rating.entries.associateWith { r -> course.lessons.count { (progress[course.key(it.id)]?.rating ?: Rating.U) == r } }
     Column(
-        Modifier.fillMaxWidth().background(p.surface, Corner).border(1.dp, p.line, Corner).padding(14.dp),
+        Modifier.fillMaxWidth().background(p.container, CardShape).padding(16.dp),
         verticalArrangement = Arrangement.spacedBy(12.dp),
     ) {
         ProgressVector(course, progress)
@@ -259,12 +266,12 @@ private fun Summary(course: Course, progress: Map<String, Progress>) {
 private fun BlockHeader(id: String, name: String, done: Int, total: Int, open: Boolean, onClick: () -> Unit) {
     val p = LocalPalette.current
     Row(
-        Modifier.fillMaxWidth().background(p.surface, Corner).border(1.dp, p.line, Corner).clickable(onClick = onClick)
+        Modifier.fillMaxWidth().clip(CardShape).background(if (open) p.accentSoft else p.container).clickable(onClick = onClick)
             .padding(horizontal = 12.dp, vertical = 12.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
-        Box(Modifier.size(30.dp).background(p.accentSoft, Corner), contentAlignment = Alignment.Center) {
-            Text(id, style = Type.label.copy(fontWeight = FontWeight.Bold), color = p.accent)
+        Box(Modifier.size(36.dp).background(p.accent, Pill), contentAlignment = Alignment.Center) {
+            Text(id, style = Type.label.copy(fontWeight = FontWeight.Bold, fontSize = Type.body.fontSize), color = p.onAccent)
         }
         Text(name, style = Type.body.copy(fontWeight = FontWeight.Medium), color = p.ink, modifier = Modifier.weight(1f).padding(start = 12.dp))
         Text("$done/$total", style = Type.label, color = p.muted, modifier = Modifier.padding(end = 6.dp))
@@ -276,7 +283,7 @@ private fun BlockHeader(id: String, name: String, done: Int, total: Int, open: B
 fun LessonRow(l: Lesson, rating: Rating, onClick: () -> Unit) {
     val p = LocalPalette.current
     Row(
-        Modifier.fillMaxWidth().clickable(onClick = onClick).padding(horizontal = 6.dp, vertical = 10.dp),
+        Modifier.fillMaxWidth().clip(Corner).clickable(onClick = onClick).padding(horizontal = 8.dp, vertical = 10.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
         RatingCell(rating, size = 20)

@@ -3,6 +3,7 @@ package de.vhdllernen.app.ui
 import android.content.Intent
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.ui.draw.clip
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -77,10 +78,11 @@ fun ExportScreen(state: AppState, courseId: String, progress: Map<String, Progre
                 style = Type.body, color = p.muted,
             )
             SectionLabel("Was soll rein?")
-            Column(Modifier.border(1.dp, p.line, Corner)) {
+            Column(Modifier.clip(CardShape).background(p.container)) {
                 ExportScope.entries.forEach { s ->
                     Row(
-                        Modifier.fillMaxWidth().clickable { options = options.copy(scope = s) }.padding(14.dp),
+                        Modifier.fillMaxWidth().background(if (options.scope == s) p.accentSoft else p.container)
+                            .clickable { options = options.copy(scope = s) }.padding(16.dp),
                         verticalAlignment = Alignment.CenterVertically,
                     ) {
                         Box(
@@ -117,7 +119,7 @@ fun ExportScreen(state: AppState, courseId: String, progress: Map<String, Progre
                 Text(
                     text, style = Type.code, color = p.ink,
                     modifier = Modifier.fillMaxWidth().heightIn(max = 420.dp).background(p.sunken, Corner)
-                        .border(1.dp, p.line, Corner).verticalScroll(rememberScrollState()).padding(12.dp),
+                        .verticalScroll(rememberScrollState()).padding(12.dp),
                 )
             }
             Spacer(Modifier.navigationBarsPadding())
@@ -154,10 +156,17 @@ fun InfoScreen(state: AppState) {
             SectionLabel("Darstellung")
             Segmented(ThemeMode.entries, state.settings.theme, { it.label }, { m -> state.changeSettings { it.copy(theme = m) } },
                 Modifier.fillMaxWidth())
+            if (dynamicColorAvailable) {
+                Column(Modifier.fillMaxWidth().background(p.container, CardShape).padding(16.dp)) {
+                    ToggleRow("Farben vom Hintergrundbild (Material You)", state.settings.dynamicColor) { on ->
+                        state.changeSettings { it.copy(dynamicColor = on) }
+                    }
+                }
+            }
 
             SectionLabel("Inhalte", Modifier.padding(top = 10.dp))
             Column(
-                Modifier.fillMaxWidth().background(p.surface, Corner).border(1.dp, p.line, Corner).padding(14.dp),
+                Modifier.fillMaxWidth().background(p.container, CardShape).padding(16.dp),
                 verticalArrangement = Arrangement.spacedBy(10.dp),
             ) {
                 val c = state.content
@@ -190,7 +199,7 @@ fun InfoScreen(state: AppState) {
 
             SectionLabel("App", Modifier.padding(top = 10.dp))
             Column(
-                Modifier.fillMaxWidth().background(p.surface, Corner).border(1.dp, p.line, Corner).padding(14.dp),
+                Modifier.fillMaxWidth().background(p.container, CardShape).padding(16.dp),
                 verticalArrangement = Arrangement.spacedBy(8.dp),
             ) {
                 Text("Version ${BuildConfig.VERSION_NAME}", style = Type.body, color = p.ink)

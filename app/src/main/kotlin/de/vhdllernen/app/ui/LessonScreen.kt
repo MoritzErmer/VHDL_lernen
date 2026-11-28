@@ -2,6 +2,7 @@ package de.vhdllernen.app.ui
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.ui.draw.clip
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -67,13 +68,19 @@ fun LessonScreen(state: AppState, courseId: String, id: String, progress: Map<St
             verticalArrangement = Arrangement.spacedBy(18.dp),
         ) {
             Column(verticalArrangement = Arrangement.spacedBy(6.dp)) {
-                Text("${lesson.minutes} MIN · ${course.name.uppercase()}", style = Type.section, color = p.accent)
+                Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                    Text(course.name, style = Type.label, color = p.onAccentSoft,
+                        modifier = Modifier.clip(Pill).background(p.accentSoft).padding(horizontal = 10.dp, vertical = 4.dp))
+                    Text("${lesson.minutes} min", style = Type.label, color = p.onSecondarySoft,
+                        modifier = Modifier.clip(Pill).background(p.secondarySoft).padding(horizontal = 10.dp, vertical = 4.dp))
+                }
                 Text(lesson.title, style = Type.title, color = p.ink)
             }
             if (lesson.ziel.isNotEmpty()) {
-                Row(Modifier.fillMaxWidth().background(p.accentSoft, Corner).padding(14.dp)) {
-                    Box(Modifier.width(3.dp).height(20.dp).background(p.accent))
-                    Nodes(lesson.ziel, openLesson, Modifier.padding(start = 12.dp), course.lang)
+                Column(Modifier.fillMaxWidth().background(p.accentSoft, CardShape).padding(16.dp),
+                    verticalArrangement = Arrangement.spacedBy(4.dp)) {
+                    Text("Ziel", style = Type.section, color = p.onAccentSoft)
+                    Nodes(lesson.ziel, openLesson, lang = course.lang)
                 }
             }
             Nodes(lesson.erklaerung, openLesson, lang = course.lang)
@@ -86,10 +93,10 @@ fun LessonScreen(state: AppState, courseId: String, id: String, progress: Map<St
 
             if (lesson.klausur.isNotEmpty()) {
                 Column(
-                    Modifier.fillMaxWidth().border(1.dp, p.line, Corner).padding(14.dp),
+                    Modifier.fillMaxWidth().background(p.tertiarySoft, CardShape).padding(16.dp),
                     verticalArrangement = Arrangement.spacedBy(8.dp),
                 ) {
-                    SectionLabel("Klausur")
+                    Text("Klausur", style = Type.section, color = p.onTertiarySoft)
                     Nodes(lesson.klausur, openLesson, lang = course.lang)
                 }
             }
@@ -141,9 +148,9 @@ private fun AnswerArea(state: AppState, course: Course, lesson: Lesson, key: Str
             Row(verticalAlignment = Alignment.CenterVertically) {
                 SectionLabel("Lösung", Modifier.weight(1f))
                 Text(
-                    "Ausblenden", style = Type.small.copy(fontWeight = FontWeight.SemiBold), color = p.accent,
-                    modifier = Modifier.border(1.dp, p.line, Corner).clickable { hide() }
-                        .padding(horizontal = 12.dp, vertical = 7.dp),
+                    "Ausblenden", style = Type.small.copy(fontWeight = FontWeight.SemiBold), color = p.onSecondarySoft,
+                    modifier = Modifier.clip(Pill).background(p.secondarySoft).clickable { hide() }
+                        .padding(horizontal = 16.dp, vertical = 8.dp),
                 )
             }
             if (code && lesson.solutionCode.isNotBlank()) {
@@ -171,9 +178,9 @@ private fun AnswerArea(state: AppState, course: Course, lesson: Lesson, key: Str
                 val on = prog.rating == r
                 val c = p.rating(r)
                 Row(
-                    Modifier.weight(1f)
-                        .background(if (on) c.copy(alpha = if (p.dark) 0.22f else 0.12f) else p.surface, Corner)
-                        .border(1.dp, if (on) c else p.line, Corner)
+                    Modifier.weight(1f).clip(Pill)
+                        .background(c.copy(alpha = if (on) (if (p.dark) 0.34f else 0.22f) else (if (p.dark) 0.12f else 0.08f)))
+                        .then(if (on) Modifier.border(2.dp, c, Pill) else Modifier)
                         .clickable { state.progress.update(key) { it.copy(rating = if (on) Rating.U else r) } }
                         .padding(vertical = 10.dp, horizontal = 8.dp),
                     verticalAlignment = Alignment.CenterVertically,
@@ -293,11 +300,11 @@ private fun PrevNext(course: Course, lesson: Lesson, open: (String) -> Unit) {
     Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(10.dp)) {
         listOf(course.previous(lesson.id) to "Zurück", course.next(lesson.id) to "Weiter").forEach { (l, label) ->
             Column(
-                Modifier.weight(1f).border(1.dp, p.line, Corner)
-                    .then(if (l != null) Modifier.clickable { open(l.id) } else Modifier).padding(12.dp),
+                Modifier.weight(1f).clip(CardShape).background(if (label == "Weiter" && l != null) p.accentSoft else p.container)
+                    .then(if (l != null) Modifier.clickable { open(l.id) } else Modifier).padding(14.dp),
                 verticalArrangement = Arrangement.spacedBy(2.dp),
             ) {
-                Text(label.uppercase(), style = Type.section, color = p.muted)
+                Text(label, style = Type.section, color = p.accent)
                 Text(l?.let { "${it.id} · ${it.title}" } ?: "–", style = Type.small, color = if (l != null) p.ink else p.muted,
                     maxLines = 2, overflow = TextOverflow.Ellipsis)
             }

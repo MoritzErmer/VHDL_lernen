@@ -115,10 +115,10 @@ private fun KeyBar(value: TextFieldValue, onChange: (TextFieldValue) -> Unit, la
     ) {
         (if (lang == "ikr") ikrKeys else vhdlKeys).forEach { (label, insert) ->
             Box(
-                Modifier.background(p.surface, Corner).border(1.dp, p.line, Corner)
+                Modifier.clip(Pill).background(p.secondarySoft)
                     .clickable { onChange(insertAt(value, insert)) }
-                    .padding(horizontal = 12.dp, vertical = 8.dp)
-            ) { Text(label, style = Type.code, color = p.ink) }
+                    .padding(horizontal = 14.dp, vertical = 8.dp)
+            ) { Text(label, style = Type.code, color = p.onSecondarySoft) }
         }
     }
 }
@@ -138,7 +138,7 @@ private fun EditorField(
 ) {
     val p = LocalPalette.current
     BoxWithConstraints(
-        modifier.clip(Corner).background(if (code) p.sunken else p.surface).border(1.dp, p.line, Corner)
+        modifier.clip(Corner).background(if (code) p.sunken else p.container).border(1.dp, p.line, Corner)
     ) {
         val minW = maxWidth
         val minH = minHeight
@@ -176,10 +176,12 @@ private fun EditorField(
 private fun EditorButton(icon: ImageVector, description: String, enabled: Boolean, onClick: () -> Unit) {
     val p = LocalPalette.current
     Box(
-        Modifier.padding(start = 6.dp).size(38.dp).border(1.dp, p.line, Corner)
+        Modifier.padding(start = 6.dp).size(40.dp).clip(Pill).background(if (enabled) p.accentSoft else p.container)
             .clickable(enabled = enabled, onClick = onClick),
         contentAlignment = Alignment.Center,
-    ) { Icon(icon, contentDescription = description, tint = if (enabled) p.ink else p.line, modifier = Modifier.size(18.dp)) }
+    ) {
+        Icon(icon, contentDescription = description, tint = if (enabled) p.onAccentSoft else p.line, modifier = Modifier.size(20.dp))
+    }
 }
 
 /** Undo and redo buttons; [version] only forces a recomposition after each step. */

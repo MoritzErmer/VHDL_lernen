@@ -15,6 +15,14 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
+import androidx.compose.material.icons.filled.Check
+import androidx.compose.material.icons.Icons
+import androidx.compose.material3.Icon
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.draw.clip
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -37,7 +45,11 @@ import de.vhdllernen.app.logic.InlineParser
 import de.vhdllernen.app.logic.Highlighter
 import androidx.compose.ui.layout.Layout
 
-val Corner = RoundedCornerShape(6.dp)
+val Corner = RoundedCornerShape(12.dp)
+
+/** Material 3 shapes: cards are rounder than small elements, buttons and chips are pills. */
+val CardShape = RoundedCornerShape(20.dp)
+val Pill = RoundedCornerShape(percent = 50)
 
 /** Source code (VHDL or IKR assembler) as coloured text. */
 fun highlight(code: String, p: Palette, lang: String = "vhdl"): AnnotatedString = buildAnnotatedString {
@@ -105,7 +117,7 @@ fun CodeBlock(code: AnnotatedString, modifier: Modifier = Modifier) {
     val p = LocalPalette.current
     val h = rememberScrollState()
     Box(
-        modifier.fillMaxWidth().background(p.sunken, Corner).border(1.dp, p.line, Corner)
+        modifier.fillMaxWidth().background(p.sunken, Corner)
             .scrollbars(h, null, p.line.copy(alpha = 0.5f), p.muted)
             .horizontalScroll(h).padding(start = 12.dp, end = 12.dp, top = 10.dp, bottom = 14.dp)
     ) {
@@ -124,18 +136,18 @@ private fun TableBlock(rows: List<List<String>>, onLesson: (String) -> Unit) {
     val cols = rows.maxOf { it.size }
     val h = rememberScrollState()
     Box(
-        Modifier.fillMaxWidth().border(1.dp, p.line, Corner)
+        Modifier.fillMaxWidth().clip(Corner).border(1.dp, p.line, Corner)
             .scrollbars(h, null, p.line.copy(alpha = 0.5f), p.muted)
             .horizontalScroll(h).padding(bottom = if (h.maxValue > 0) 8.dp else 0.dp)
     ) {
         Layout(content = {
             rows.forEachIndexed { r, row ->
                 for (c in 0 until cols) {
-                    Box(Modifier.background(if (r == 0) p.sunken else p.surface).padding(horizontal = 10.dp, vertical = 8.dp)) {
+                    Box(Modifier.background(if (r == 0) p.accentSoft else p.surface).padding(horizontal = 10.dp, vertical = 8.dp)) {
                         Text(
                             inlineText(row.getOrElse(c) { "" }, p, onLesson),
                             style = Type.small.copy(fontWeight = if (r == 0) FontWeight.SemiBold else FontWeight.Normal),
-                            color = p.ink, softWrap = false,
+                            color = if (r == 0) p.onAccentSoft else p.ink, softWrap = false,
                         )
                     }
                 }
@@ -166,10 +178,10 @@ private fun TableBlock(rows: List<List<String>>, onLesson: (String) -> Unit) {
     }
 }
 
-/** Uppercase section label, e.g. "AUFGABE". */
+/** Section label in the accent colour, e.g. "Aufgabe". */
 @Composable
 fun SectionLabel(text: String, modifier: Modifier = Modifier) {
-    Text(text.uppercase(), style = Type.section, color = LocalPalette.current.muted, modifier = modifier)
+    Text(text, style = Type.section, color = LocalPalette.current.accent, modifier = modifier)
 }
 
 /** A std_logic cell showing the self assessment (U, 1, X, 0). */
@@ -190,45 +202,50 @@ fun RatingCell(r: Rating, size: Int = 18, modifier: Modifier = Modifier) {
     }
 }
 
+/** Filled Material 3 button (pill). */
 @Composable
 fun PrimaryButton(text: String, onClick: () -> Unit, modifier: Modifier = Modifier, enabled: Boolean = true) {
     val p = LocalPalette.current
     Box(
-        modifier.background(if (enabled) p.accent else p.line, Corner)
+        modifier.heightIn(min = 48.dp).clip(Pill).background(if (enabled) p.accent else p.line)
             .clickable(enabled = enabled, onClick = onClick)
-            .padding(horizontal = 18.dp, vertical = 12.dp),
+            .padding(horizontal = 24.dp, vertical = 12.dp),
         contentAlignment = Alignment.Center,
     ) {
         Text(text, color = if (enabled) p.onAccent else p.muted, style = Type.body.copy(fontWeight = FontWeight.SemiBold))
     }
 }
 
+/** Tonal Material 3 button (pill in the secondary container colour). */
 @Composable
 fun SecondaryButton(text: String, onClick: () -> Unit, modifier: Modifier = Modifier) {
     val p = LocalPalette.current
     Box(
-        modifier.border(1.dp, p.line, Corner).background(p.surface, Corner).clickable(onClick = onClick)
-            .padding(horizontal = 16.dp, vertical = 11.dp),
+        modifier.heightIn(min = 44.dp).clip(Pill).background(p.secondarySoft).clickable(onClick = onClick)
+            .padding(horizontal = 20.dp, vertical = 10.dp),
         contentAlignment = Alignment.Center,
     ) {
-        Text(text, color = p.ink, style = Type.body.copy(fontWeight = FontWeight.Medium))
+        Text(text, color = p.onSecondarySoft, style = Type.body.copy(fontWeight = FontWeight.Medium))
     }
 }
 
-/** A row of mutually exclusive options. */
+/** Material 3 segmented button: outlined pill, the selected segment filled and marked with a check. */
 @Composable
 fun <T> Segmented(options: List<T>, selected: T, label: (T) -> String, onSelect: (T) -> Unit, modifier: Modifier = Modifier) {
     val p = LocalPalette.current
-    Row(modifier.border(1.dp, p.line, Corner).background(p.surface, Corner).padding(3.dp)) {
-        options.forEach { o ->
+    Row(modifier.height(44.dp).clip(Pill).border(1.dp, p.outline, Pill)) {
+        options.forEachIndexed { i, o ->
             val on = o == selected
-            Box(
-                Modifier.weight(1f).background(if (on) p.accentSoft else p.surface, RoundedCornerShape(4.dp))
-                    .clickable { onSelect(o) }.padding(vertical = 9.dp),
-                contentAlignment = Alignment.Center,
+            if (i > 0) Box(Modifier.width(1.dp).fillMaxHeight().background(p.outline))
+            Row(
+                Modifier.weight(1f).fillMaxHeight().background(if (on) p.secondarySoft else Color.Transparent)
+                    .clickable { onSelect(o) },
+                horizontalArrangement = Arrangement.Center,
+                verticalAlignment = Alignment.CenterVertically,
             ) {
-                Text(label(o), style = Type.small.copy(fontWeight = if (on) FontWeight.SemiBold else FontWeight.Normal),
-                    color = if (on) p.accent else p.ink)
+                if (on) Icon(Icons.Filled.Check, null, tint = p.onSecondarySoft, modifier = Modifier.size(18.dp).padding(end = 4.dp))
+                Text(label(o), style = Type.small.copy(fontWeight = FontWeight.Medium),
+                    color = if (on) p.onSecondarySoft else p.ink, maxLines = 1)
             }
         }
     }
