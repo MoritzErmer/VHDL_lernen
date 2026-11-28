@@ -46,6 +46,9 @@ class ScreenshotTest {
                 rating = Rating.X, question = "Darf ich d(1) auch in einen Prozess schreiben?", revealed = true,
             )
         }
+        state.progress.update("vhdl:A05") {
+            Progress(answer = "1. 11111101\n2. 1111101000, 10 Bit", revealed = true)
+        }
         compose.setContent { VhdlApp(state) }
 
         fun shot(name: String, theme: ThemeMode, vararg screens: Screen) {
@@ -68,6 +71,8 @@ class ScreenshotTest {
         shot("5-ra-haeppchen", ThemeMode.LIGHT, Screen.Courses, Screen.Lesson("ra", "B06"))
         shot("6-export", ThemeMode.DARK, Screen.Courses, Screen.Export("vhdl"))
         shot("7-einstellungen", ThemeMode.LIGHT, Screen.Courses, Screen.Info)
+        shot("8-tabelle-dunkel", ThemeMode.DARK, Screen.Courses, Screen.Lesson("vhdl", "A05"))
+        shot("9-senso-diagramm", ThemeMode.LIGHT, Screen.Courses, Screen.Lesson("vhdl", "S18"))
         state.progress.reset()
     }
 }
