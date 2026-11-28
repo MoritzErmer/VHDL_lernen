@@ -1,0 +1,20 @@
+// Keyboard controller (after F20 A2): counters, decoder, mux, state memory
+digraph tastatur {
+  rankdir=TB; graph [bgcolor="transparent", fontname="Helvetica", fontsize=13, fontcolor="#000001", nodesep=0.5, ranksep=0.45, pad=0];
+  node [fontname="Helvetica", fontsize=13, color="#000001", fontcolor="#000001", penwidth=1.3, shape=box];
+  edge [fontname="Helvetica", fontsize=12, color="#000002", fontcolor="#000001", penwidth=1.2, arrowsize=0.8];
+  lc [label="line_counter\n(2 Bit)"];
+  cc [label="column_counter\n(3 Bit)"];
+  dec [label="column_decoder\n3 auf 8"];
+  matrix [label="Tastenmatrix\n8 x 4", style="dashed"];
+  mx [label="line_mux\n4 auf 1"];
+  ks [label="keyboard_state\n8 x 4 Speicher", color="#000003", fontcolor="#000003"];
+  lc -> cc [label="last_line"];
+  cc -> dec [label="c"];
+  dec -> matrix [label="columns"];
+  matrix -> mx [label="lines"];
+  lc -> mx [label="l"];
+  mx -> ks [label="selected_line"];
+  cc -> ks [label="c"];
+  lc -> ks [label="l"];
+}

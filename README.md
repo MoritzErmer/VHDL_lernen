@@ -177,6 +177,30 @@ Erklärung** – Wiederholung ist der eigentliche Lerneffekt.
 | K05 | [Klausur F20: Volladdierer mit „+“](haeppchen/K05_volladdierer_unsigned.md) | 5 min |
 | K06 | [Klausur F24: CRC per ROM](haeppchen/K06_crc_rom.md) | 10 min |
 
+## Block P – Projekte im Klausurstil
+Komplett selbst programmieren: Automaten, Steuer- und Rechenwerke, nach Altklausuren (F19, F20, F22, F23, F24) aufgebaut.
+
+| | Häppchen | Dauer |
+|---|---|---|
+| P01 | [Vom Aufgabentext zum fertigen Automaten](haeppchen/P01_projekt_rezept.md) | 6 min |
+| P02 | [Getränkeautomat: Zustandsdiagramm und Entity](haeppchen/P02_getraenk_entwurf.md) | 7 min |
+| P03 | [Getränkeautomat: Architecture komplett](haeppchen/P03_getraenk_code.md) | 10 min |
+| P04 | [Getränkeautomat: Testbench selbst schreiben](haeppchen/P04_getraenk_testbench.md) | 8 min |
+| P05 | [Codeschloss: Entwurf mit Zählern](haeppchen/P05_codeschloss_entwurf.md) | 8 min |
+| P06 | [Codeschloss: Architecture komplett](haeppchen/P06_codeschloss_code.md) | 12 min |
+| P07 | [Klausur F20: Tastatur-Controller – Decoder und Multiplexer](haeppchen/P07_tastatur_decoder_mux.md) | 8 min |
+| P08 | [Klausur F20: Binärzähler mit Freigabe](haeppchen/P08_tastatur_zaehler.md) | 6 min |
+| P09 | [Klausur F20: Tastenspeicher mit 2D-Array](haeppchen/P09_tastatur_speicher.md) | 8 min |
+| P10 | [Klausur F20: Tastatur-Controller verdrahten](haeppchen/P10_tastatur_top.md) | 9 min |
+| P11 | [Klausur F19: Serieller Rahmen und Sende-Prozedur](haeppchen/P11_empfaenger_rahmen.md) | 8 min |
+| P12 | [Klausur F19: Serieller Empfänger](haeppchen/P12_empfaenger_code.md) | 12 min |
+| P13 | [Klausur F22: Ein Divisionsschritt als Prozedur](haeppchen/P13_divstep.md) | 10 min |
+| P14 | [Klausur F22: N-schrittiges Dividierwerk mit valid](haeppchen/P14_dividierwerk.md) | 10 min |
+| P15 | [Klausur F23: Ton-Oszillator](haeppchen/P15_oszillator.md) | 9 min |
+| P16 | [Klausur F23: Perioden-ROM und Synthesizer verdrahten](haeppchen/P16_perioden_rom.md) | 8 min |
+| P17 | [Klausur F24: Stapelspeicher (Stack)](haeppchen/P17_stack.md) | 10 min |
+| P18 | [Klausur F24: Kellerautomat für Klammerausdrücke](haeppchen/P18_kellerautomat.md) | 14 min |
+
 ---
 
 **Am Rechner üben:** siehe [am_rechner/](am_rechner/README.md) –

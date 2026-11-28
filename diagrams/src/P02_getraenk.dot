@@ -1,0 +1,19 @@
+// Vending machine (Moore): price 3, coins 1 and 2
+digraph getraenk {
+  rankdir=LR; graph [bgcolor="transparent", fontname="Helvetica", fontsize=13, fontcolor="#000001", nodesep=0.5, ranksep=0.6, pad=0];
+  node [fontname="Helvetica", fontsize=13, color="#000001", fontcolor="#000001", penwidth=1.3];
+  edge [fontname="Helvetica", fontsize=12, color="#000002", fontcolor="#000001", penwidth=1.2, arrowsize=0.8];
+  node [shape=box, style="rounded", width=0.9];
+  init [shape=point, width=0.08, color="#000002"];
+  init -> g0 [label="res_n"];
+  aus [label="aus\nausgabe=1", color="#000003", fontcolor="#000003"];
+  aus_r [label="aus_r\nausgabe=1\nrueckgeld=1", color="#000003", fontcolor="#000003"];
+  g0 -> g1 [label="m1"];
+  g0 -> g2 [label="m2"];
+  g1 -> g2 [label="m1"];
+  g1 -> aus [label="m2"];
+  g2 -> aus [label="m1"];
+  g2 -> aus_r [label="m2"];
+  aus -> g0 [label="immer", constraint=false];
+  aus_r -> g0 [label="immer", constraint=false];
+}

@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 343.0 453.0" width="343.0" height="453.0" role="img" aria-label="P07_tastatur">
+<style>.s-ink{stroke:#151A22}.f-ink{fill:#151A22}.s-line{stroke:#5A6474}.f-line{fill:#5A6474}.s-accent{stroke:#1F45C4}.f-accent{fill:#1F45C4}.s-soft{stroke:#E3E9FB}.f-soft{fill:#E3E9FB}.s-surface{stroke:#FFFFFF}.f-surface{fill:#FFFFFF}.s-grid{stroke:#D9DEE7}.f-grid{fill:#D9DEE7}@media (prefers-color-scheme: dark){.s-ink{stroke:#E5E9F0}.f-ink{fill:#E5E9F0}.s-line{stroke:#97A1B0}.f-line{fill:#97A1B0}.s-accent{stroke:#8CA6FF}.f-accent{fill:#8CA6FF}.s-soft{stroke:#1E2848}.f-soft{fill:#1E2848}.s-surface{stroke:#161A21}.f-surface{fill:#161A21}.s-grid{stroke:#283040}.f-grid{fill:#283040}}text{font-family:Helvetica,Arial,sans-serif}.m{font-family:Menlo,Consolas,monospace}</style>
+<rect width="100%" height="100%" class="f-surface"/>
+<polygon points="308.0,6.0 210.0,6.0 210.0,42.0 308.0,42.0" stroke-width="1.4" class="s-ink" fill="none"/>
+<text x="259.0" y="20.4" font-size="13.0" text-anchor="middle" class="f-ink">line_counter</text>
+<text x="259.0" y="34.4" font-size="13.0" text-anchor="middle" class="f-ink">(2 Bit)</text>
+<polygon points="185.5,87.0 62.5,87.0 62.5,123.0 185.5,123.0" stroke-width="1.4" class="s-ink" fill="none"/>
+<text x="124.0" y="101.4" font-size="13.0" text-anchor="middle" class="f-ink">column_counter</text>
+<text x="124.0" y="115.4" font-size="13.0" text-anchor="middle" class="f-ink">(3 Bit)</text>
+<polygon points="187.0,168.0 61.0,168.0 61.0,204.0 187.0,204.0" stroke-width="1.4" class="s-ink" fill="none"/>
+<text x="124.0" y="182.4" font-size="13.0" text-anchor="middle" class="f-ink">column_decoder</text>
+<text x="124.0" y="196.4" font-size="13.0" text-anchor="middle" class="f-ink">3 auf 8</text>
+<polygon points="196.0,249.0 94.0,249.0 94.0,285.0 196.0,285.0" stroke-width="1.4" class="s-ink" fill="none"/>
+<text x="145.0" y="263.4" font-size="13.0" text-anchor="middle" class="f-ink">Tastenmatrix</text>
+<text x="145.0" y="277.4" font-size="13.0" text-anchor="middle" class="f-ink">8 x 4</text>
+<polygon points="252.0,330.0 176.0,330.0 176.0,366.0 252.0,366.0" stroke-width="1.4" class="s-ink" fill="none"/>
+<text x="214.0" y="344.4" font-size="13.0" text-anchor="middle" class="f-ink">line_mux</text>
+<text x="214.0" y="358.4" font-size="13.0" text-anchor="middle" class="f-ink">4 auf 1</text>
+<polygon points="273.0,411.0 155.0,411.0 155.0,447.0 273.0,447.0" stroke-width="1.4" class="s-accent" fill="none"/>
+<text x="214.0" y="425.4" font-size="13.0" text-anchor="middle" class="f-accent">keyboard_state</text>
+<text x="214.0" y="439.4" font-size="13.0" text-anchor="middle" class="f-accent">8 x 4 Speicher</text>
+<path d="M213.6,42.1 C203.0,46.7 191.9,52.1 182.0,58.0 C170.6,64.8 158.9,73.6 149.1,81.7" stroke-width="1.4" class="s-line" fill="none"/>
+<polygon points="150.8,83.9 142.9,86.9 147.2,79.6" stroke-width="1.4" class="s-line f-line"/>
+<text x="206.5" y="67.6" font-size="12.0" text-anchor="middle" class="f-ink">last_line</text>
+<path d="M259.0,42.3 C259.0,58.3 259.0,82.7 259.0,104.0 C259.0,104.0 259.0,104.0 259.0,268.0 C259.0,288.5 247.4,308.6 235.9,323.4" stroke-width="1.4" class="s-line" fill="none"/>
+<polygon points="238.0,325.3 230.8,329.8 233.6,321.8" stroke-width="1.4" class="s-line f-line"/>
+<text x="261.0" y="189.1" font-size="12.0" text-anchor="middle" class="f-ink">l</text>
+<path d="M289.9,42.2 C310.2,55.9 333.0,77.3 333.0,104.0 C333.0,104.0 333.0,104.0 333.0,349.0 C333.0,378.1 307.9,397.2 280.8,409.2" stroke-width="1.4" class="s-line" fill="none"/>
+<polygon points="281.6,411.9 273.1,412.4 279.4,406.8" stroke-width="1.4" class="s-line f-line"/>
+<text x="335.0" y="229.6" font-size="12.0" text-anchor="middle" class="f-ink">l</text>
+<path d="M124.0,123.1 C124.0,133.8 124.0,147.7 124.0,159.6" stroke-width="1.4" class="s-line" fill="none"/>
+<polygon points="126.8,159.9 124.0,167.9 121.2,159.9" stroke-width="1.4" class="s-line f-line"/>
+<text x="127.5" y="148.6" font-size="12.0" text-anchor="middle" class="f-ink">c</text>
+<path d="M62.2,123.0 C33.7,134.9 6.0,154.4 6.0,185.0 C6.0,185.0 6.0,185.0 6.0,349.0 C6.0,379.7 86.1,402.7 146.9,415.8" stroke-width="1.4" class="s-line" fill="none"/>
+<polygon points="147.7,413.1 154.9,417.5 146.6,418.6" stroke-width="1.4" class="s-line f-line"/>
+<text x="9.5" y="270.1" font-size="12.0" text-anchor="middle" class="f-ink">c</text>
+<path d="M128.6,204.1 C131.4,214.9 135.2,229.0 138.3,241.0" stroke-width="1.4" class="s-line" fill="none"/>
+<polygon points="141.1,240.4 140.4,248.9 135.7,241.9" stroke-width="1.4" class="s-line f-line"/>
+<text x="161.5" y="229.6" font-size="12.0" text-anchor="middle" class="f-ink">columns</text>
+<path d="M160.0,285.1 C169.8,296.4 182.8,311.3 193.7,323.7" stroke-width="1.4" class="s-line" fill="none"/>
+<polygon points="195.9,322.0 199.1,329.9 191.7,325.7" stroke-width="1.4" class="s-line f-line"/>
+<text x="198.0" y="310.6" font-size="12.0" text-anchor="middle" class="f-ink">lines</text>
+<path d="M214.0,366.1 C214.0,376.8 214.0,390.7 214.0,402.6" stroke-width="1.4" class="s-line" fill="none"/>
+<polygon points="216.8,402.9 214.0,410.9 211.2,402.9" stroke-width="1.4" class="s-line f-line"/>
+<text x="253.0" y="391.6" font-size="12.0" text-anchor="middle" class="f-ink">selected_line</text>
+</svg>

@@ -1,0 +1,3 @@
+@title Rahmen nach F19 A1, Byte x"A5": Ruhe 0, Start 1, Daten LSB zuerst 1 0 1 0 0 1 0 1, Stopp 0 (ein Zeichen = eine Bitzeit)
+ser:         011010010100
+par_out_ena: 000000000010

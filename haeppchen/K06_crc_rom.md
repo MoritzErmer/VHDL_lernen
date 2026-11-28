@@ -1,6 +1,6 @@
 # K06 · Klausur F24: CRC per ROM
 
-10 min · zurück: [K05](K05_volladdierer_unsigned.md) · weiter: [Übersicht](../README.md)
+10 min · zurück: [K05](K05_volladdierer_unsigned.md) · weiter: [P01](P01_projekt_rezept.md)
 
 ## Ziel
 Die größte Programmieraufgabe aus F24 lösen: Funktion

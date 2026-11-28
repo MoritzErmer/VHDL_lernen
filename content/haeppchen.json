@@ -1,6 +1,6 @@
 {
  "schema": 1,
- "version": "4268d402762d",
+ "version": "e7083d768edf",
  "revision": 0,
  "courses": [
   {
@@ -60,6 +60,10 @@
     {
      "id": "K",
      "name": "Klausurtraining"
+    },
+    {
+     "id": "P",
+     "name": "Projekte im Klausurstil"
     }
    ],
    "items": [
@@ -20285,6 +20289,4372 @@
       {
        "t": "p",
        "s": "**F24 A1 F11/F12**."
+      }
+     ]
+    },
+    {
+     "id": "P01",
+     "block": "P",
+     "title": "Vom Aufgabentext zum fertigen Automaten",
+     "min": 6,
+     "mode": "text",
+     "starter": "",
+     "solutionCode": "",
+     "ziel": [
+      {
+       "t": "p",
+       "s": "Ein festes Vorgehen kennen, mit dem du jede Automaten-Aufgabe von leerem Blatt bis zum fertigen Code löst."
+      }
+     ],
+     "erklaerung": [
+      {
+       "t": "p",
+       "s": "In Block P programmierst du alles **selbst**: keine Lückentexte, sondern ganze Entities und Architectures – so wie in der Klausur. Jede Aufgabe löst du in diesen Schritten:"
+      },
+      {
+       "t": "ol",
+       "items": [
+        "**Schnittstelle**: Welche Eingänge, welche Ausgänge, welche Breiten? Daraus die `entity` (mit `clk`, `res_n`).",
+        "**Zustände**: Was muss sich der Automat merken? Jede unterscheidbare „Situation“ wird ein Zustand. Namen sprechend wählen (`g1` = 1 Euro eingeworfen).",
+        "**Übergänge**: Für jeden Zustand: Bei welcher Eingabe geht es wohin? Fehlt eine Angabe, **bleibt** er im Zustand.",
+        "**Ausgänge**: Hängen sie nur vom Zustand ab (**Moore**) oder auch von den Eingängen (**Mealy**)?",
+        "**Zusatzspeicher**: Zähler, Register, Timer – alles, was mehr als „wo bin ich“ ist, als eigenes Signal im getakteten Prozess.",
+        "**Code** nach Schema: `transition_function`, `state`, `output_function`.",
+        "**Testbench**: jede Kante im Zustandsdiagramm mindestens einmal durchlaufen."
+       ]
+      },
+      {
+       "t": "p",
+       "s": "Typische Fehler, die Punkte kosten:"
+      },
+      {
+       "t": "ul",
+       "items": [
+        "Vergessene Signale in der Sensitivitätsliste der kombinatorischen Prozesse.",
+        "Kein Default (`next_state <= current_state;`, Ausgänge auf `'0'`) → Latches.",
+        "Zustand im kombinatorischen Prozess „hochzählen“ – Zähler gehören in den getakteten Prozess."
+       ]
+      }
+     ],
+     "aufgabe": [
+      {
+       "t": "p",
+       "s": "Ein Getränkeautomat verkauft ein Getränk für **3 Euro**. Er nimmt 1- und 2-Euro-Münzen an (Eingänge `m1`, `m2`, je einen Takt lang `'1'`). Sind 3 Euro erreicht, gibt er einen Takt lang `ausgabe = '1'` aus; bei 4 Euro zusätzlich `rueckgeld = '1'` (1 Euro zurück)."
+      },
+      {
+       "t": "p",
+       "s": "Schritt 1–4 auf Papier: Welche Zustände brauchst du? Ist das Moore oder Mealy?"
+      }
+     ],
+     "aufgabeMd": "Ein Getränkeautomat verkauft ein Getränk für **3 Euro**. Er nimmt 1- und 2-Euro-Münzen an (Eingänge `m1`, `m2`, je einen Takt lang `'1'`). Sind 3 Euro erreicht, gibt er einen Takt lang `ausgabe = '1'` aus; bei 4 Euro zusätzlich `rueckgeld = '1'` (1 Euro zurück).\n\nSchritt 1–4 auf Papier: Welche Zustände brauchst du? Ist das Moore oder Mealy?",
+     "loesung": [
+      {
+       "t": "p",
+       "s": "Zustände nach eingeworfenem Betrag:"
+      },
+      {
+       "t": "ul",
+       "items": [
+        "`g0`: 0 Euro, `g1`: 1 Euro, `g2`: 2 Euro",
+        "`aus`: Getränk wird ausgegeben (3 Euro)",
+        "`aus_r`: Getränk und Rückgeld (4 Euro)"
+       ]
+      },
+      {
+       "t": "p",
+       "s": "Fünf Zustände. Die Ausgänge hängen nur vom Zustand ab (`ausgabe = '1'` in `aus` und `aus_r`) → **Moore**. Nach `aus`/`aus_r` geht es im nächsten Takt zurück nach `g0`."
+      }
+     ],
+     "loesungMd": "Zustände nach eingeworfenem Betrag:\n- `g0`: 0 Euro, `g1`: 1 Euro, `g2`: 2 Euro\n- `aus`: Getränk wird ausgegeben (3 Euro)\n- `aus_r`: Getränk und Rückgeld (4 Euro)\n\nFünf Zustände. Die Ausgänge hängen nur vom Zustand ab (`ausgabe = '1'` in `aus` und `aus_r`) → **Moore**. Nach `aus`/`aus_r` geht es im nächsten Takt zurück nach `g0`.",
+     "klausur": [
+      {
+       "t": "p",
+       "s": "Fast jede Klausur hat eine Automaten- oder Steuerwerksaufgabe, z.B. F24 A1 (Steuerwerk, siehe K02) und F19 A1 (serieller Empfänger, ab P11)."
+      }
+     ]
+    },
+    {
+     "id": "P02",
+     "block": "P",
+     "title": "Getränkeautomat: Zustandsdiagramm und Entity",
+     "min": 7,
+     "mode": "code",
+     "starter": "",
+     "solutionCode": "library ieee;\nuse ieee.std_logic_1164.all;\n\nentity getraenk is\n  port(\n    clk, res_n         : in  std_logic;\n    m1, m2             : in  std_logic;\n    ausgabe, rueckgeld : out std_logic\n    );\nend entity getraenk;",
+     "ziel": [
+      {
+       "t": "p",
+       "s": "Aus dem Entwurf ein vollständiges Zustandsdiagramm und die Entity ableiten."
+      }
+     ],
+     "erklaerung": [
+      {
+       "t": "diagram",
+       "id": "P02_getraenk",
+       "alt": "Getränkeautomat als Moore-Automat",
+       "w": 601.8,
+       "h": 265.2,
+       "prims": [
+        {
+         "k": "E",
+         "x": 8.9,
+         "y": 85.0,
+         "rx": 2.9,
+         "ry": 2.9,
+         "s": "line",
+         "f": "line"
+        },
+        {
+         "k": "B",
+         "pts": [
+          140.8,
+          67.0,
+          140.8,
+          67.0,
+          99.8,
+          67.0,
+          99.8,
+          67.0,
+          93.8,
+          67.0,
+          87.8,
+          73.0,
+          87.8,
+          79.0,
+          87.8,
+          79.0,
+          87.8,
+          91.0,
+          87.8,
+          91.0,
+          87.8,
+          97.0,
+          93.8,
+          103.0,
+          99.8,
+          103.0,
+          99.8,
+          103.0,
+          140.8,
+          103.0,
+          140.8,
+          103.0,
+          146.8,
+          103.0,
+          152.8,
+          97.0,
+          152.8,
+          91.0,
+          152.8,
+          91.0,
+          152.8,
+          79.0,
+          152.8,
+          79.0,
+          152.8,
+          73.0,
+          146.8,
+          67.0,
+          140.8,
+          67.0
+         ],
+         "s": "ink"
+        },
+        {
+         "k": "T",
+         "x": 120.3,
+         "y": 88.4,
+         "s": "g0",
+         "a": "c",
+         "z": 13.0,
+         "c": "ink"
+        },
+        {
+         "k": "B",
+         "pts": [
+          579.3,
+          6.0,
+          579.3,
+          6.0,
+          511.3,
+          6.0,
+          511.3,
+          6.0,
+          505.3,
+          6.0,
+          499.3,
+          12.0,
+          499.3,
+          18.0,
+          499.3,
+          18.0,
+          499.3,
+          30.0,
+          499.3,
+          30.0,
+          499.3,
+          36.0,
+          505.3,
+          42.0,
+          511.3,
+          42.0,
+          511.3,
+          42.0,
+          579.3,
+          42.0,
+          579.3,
+          42.0,
+          585.3,
+          42.0,
+          591.3,
+          36.0,
+          591.3,
+          30.0,
+          591.3,
+          30.0,
+          591.3,
+          18.0,
+          591.3,
+          18.0,
+          591.3,
+          12.0,
+          585.3,
+          6.0,
+          579.3,
+          6.0
+         ],
+         "s": "accent"
+        },
+        {
+         "k": "T",
+         "x": 545.3,
+         "y": 20.4,
+         "s": "aus",
+         "a": "c",
+         "z": 13.0,
+         "c": "accent"
+        },
+        {
+         "k": "T",
+         "x": 545.3,
+         "y": 34.4,
+         "s": "ausgabe=1",
+         "a": "c",
+         "z": 13.0,
+         "c": "accent"
+        },
+        {
+         "k": "B",
+         "pts": [
+          583.8,
+          84.0,
+          583.8,
+          84.0,
+          506.8,
+          84.0,
+          506.8,
+          84.0,
+          500.8,
+          84.0,
+          494.8,
+          90.0,
+          494.8,
+          96.0,
+          494.8,
+          96.0,
+          494.8,
+          122.0,
+          494.8,
+          122.0,
+          494.8,
+          128.0,
+          500.8,
+          134.0,
+          506.8,
+          134.0,
+          506.8,
+          134.0,
+          583.8,
+          134.0,
+          583.8,
+          134.0,
+          589.8,
+          134.0,
+          595.8,
+          128.0,
+          595.8,
+          122.0,
+          595.8,
+          122.0,
+          595.8,
+          96.0,
+          595.8,
+          96.0,
+          595.8,
+          90.0,
+          589.8,
+          84.0,
+          583.8,
+          84.0
+         ],
+         "s": "accent"
+        },
+        {
+         "k": "T",
+         "x": 545.3,
+         "y": 98.4,
+         "s": "aus_r",
+         "a": "c",
+         "z": 13.0,
+         "c": "accent"
+        },
+        {
+         "k": "T",
+         "x": 545.3,
+         "y": 112.4,
+         "s": "ausgabe=1",
+         "a": "c",
+         "z": 13.0,
+         "c": "accent"
+        },
+        {
+         "k": "T",
+         "x": 545.3,
+         "y": 126.4,
+         "s": "rueckgeld=1",
+         "a": "c",
+         "z": 13.0,
+         "c": "accent"
+        },
+        {
+         "k": "B",
+         "pts": [
+          269.8,
+          30.0,
+          269.8,
+          30.0,
+          228.8,
+          30.0,
+          228.8,
+          30.0,
+          222.8,
+          30.0,
+          216.8,
+          36.0,
+          216.8,
+          42.0,
+          216.8,
+          42.0,
+          216.8,
+          54.0,
+          216.8,
+          54.0,
+          216.8,
+          60.0,
+          222.8,
+          66.0,
+          228.8,
+          66.0,
+          228.8,
+          66.0,
+          269.8,
+          66.0,
+          269.8,
+          66.0,
+          275.8,
+          66.0,
+          281.8,
+          60.0,
+          281.8,
+          54.0,
+          281.8,
+          54.0,
+          281.8,
+          42.0,
+          281.8,
+          42.0,
+          281.8,
+          36.0,
+          275.8,
+          30.0,
+          269.8,
+          30.0
+         ],
+         "s": "ink"
+        },
+        {
+         "k": "T",
+         "x": 249.3,
+         "y": 51.4,
+         "s": "g1",
+         "a": "c",
+         "z": 13.0,
+         "c": "ink"
+        },
+        {
+         "k": "B",
+         "pts": [
+          418.8,
+          90.0,
+          418.8,
+          90.0,
+          377.8,
+          90.0,
+          377.8,
+          90.0,
+          371.8,
+          90.0,
+          365.8,
+          96.0,
+          365.8,
+          102.0,
+          365.8,
+          102.0,
+          365.8,
+          114.0,
+          365.8,
+          114.0,
+          365.8,
+          120.0,
+          371.8,
+          126.0,
+          377.8,
+          126.0,
+          377.8,
+          126.0,
+          418.8,
+          126.0,
+          418.8,
+          126.0,
+          424.8,
+          126.0,
+          430.8,
+          120.0,
+          430.8,
+          114.0,
+          430.8,
+          114.0,
+          430.8,
+          102.0,
+          430.8,
+          102.0,
+          430.8,
+          96.0,
+          424.8,
+          90.0,
+          418.8,
+          90.0
+         ],
+         "s": "ink"
+        },
+        {
+         "k": "T",
+         "x": 398.3,
+         "y": 111.4,
+         "s": "g2",
+         "a": "c",
+         "z": 13.0,
+         "c": "ink"
+        },
+        {
+         "k": "B",
+         "pts": [
+          11.8,
+          85.0,
+          19.9,
+          85.0,
+          52.4,
+          85.0,
+          79.5,
+          85.0
+         ],
+         "s": "line"
+        },
+        {
+         "k": "P",
+         "pts": [
+          79.7,
+          82.2,
+          87.7,
+          85.0,
+          79.7,
+          87.8
+         ],
+         "s": "line",
+         "f": "line"
+        },
+        {
+         "k": "T",
+         "x": 49.8,
+         "y": 81.6,
+         "s": "res_n",
+         "a": "c",
+         "z": 12.0,
+         "c": "ink"
+        },
+        {
+         "k": "B",
+         "pts": [
+          153.0,
+          75.8,
+          169.8,
+          70.9,
+          190.6,
+          64.8,
+          208.5,
+          59.6
+         ],
+         "s": "line"
+        },
+        {
+         "k": "P",
+         "pts": [
+          208.0,
+          56.8,
+          216.5,
+          57.2,
+          209.6,
+          62.2
+         ],
+         "s": "line",
+         "f": "line"
+        },
+        {
+         "k": "T",
+         "x": 184.8,
+         "y": 61.6,
+         "s": "m1",
+         "a": "c",
+         "z": 12.0,
+         "c": "ink"
+        },
+        {
+         "k": "B",
+         "pts": [
+          153.0,
+          89.5,
+          171.6,
+          92.0,
+          195.5,
+          95.0,
+          216.8,
+          97.0,
+          264.9,
+          101.5,
+          320.5,
+          104.6,
+          357.2,
+          106.3
+         ],
+         "s": "line"
+        },
+        {
+         "k": "P",
+         "pts": [
+          357.7,
+          103.5,
+          365.6,
+          106.7,
+          357.5,
+          109.1
+         ],
+         "s": "line",
+         "f": "line"
+        },
+        {
+         "k": "T",
+         "x": 249.3,
+         "y": 93.6,
+         "s": "m2",
+         "a": "c",
+         "z": 12.0,
+         "c": "ink"
+        },
+        {
+         "k": "B",
+         "pts": [
+          518.0,
+          42.2,
+          509.8,
+          48.9,
+          501.1,
+          57.1,
+          494.8,
+          66.0,
+          479.2,
+          87.8,
+          490.6,
+          102.1,
+          472.8,
+          122.0,
+          458.7,
+          137.7,
+          451.2,
+          139.0,
+          430.8,
+          144.0,
+          334.7,
+          167.6,
+          219.9,
+          128.4,
+          160.8,
+          103.4
+         ],
+         "s": "line"
+        },
+        {
+         "k": "P",
+         "pts": [
+          159.4,
+          105.8,
+          153.1,
+          100.1,
+          161.6,
+          100.7
+         ],
+         "s": "line",
+         "f": "line"
+        },
+        {
+         "k": "T",
+         "x": 323.8,
+         "y": 143.6,
+         "s": "immer",
+         "a": "c",
+         "z": 12.0,
+         "c": "ink"
+        },
+        {
+         "k": "B",
+         "pts": [
+          532.5,
+          134.1,
+          520.6,
+          156.9,
+          500.0,
+          189.8,
+          472.8,
+          209.0,
+          379.3,
+          274.9,
+          326.2,
+          267.1,
+          216.8,
+          234.0,
+          163.3,
+          217.8,
+          137.6,
+          149.5,
+          127.2,
+          111.2
+         ],
+         "s": "line"
+        },
+        {
+         "k": "P",
+         "pts": [
+          124.4,
+          111.6,
+          125.1,
+          103.1,
+          129.8,
+          110.2
+         ],
+         "s": "line",
+         "f": "line"
+        },
+        {
+         "k": "T",
+         "x": 323.8,
+         "y": 251.6,
+         "s": "immer",
+         "a": "c",
+         "z": 12.0,
+         "c": "ink"
+        },
+        {
+         "k": "B",
+         "pts": [
+          282.0,
+          45.4,
+          332.2,
+          41.3,
+          430.3,
+          33.3,
+          491.3,
+          28.3
+         ],
+         "s": "line"
+        },
+        {
+         "k": "P",
+         "pts": [
+          491.1,
+          25.5,
+          499.3,
+          27.7,
+          491.5,
+          31.1
+         ],
+         "s": "line",
+         "f": "line"
+        },
+        {
+         "k": "T",
+         "x": 398.3,
+         "y": 30.6,
+         "s": "m2",
+         "a": "c",
+         "z": 12.0,
+         "c": "ink"
+        },
+        {
+         "k": "B",
+         "pts": [
+          281.8,
+          60.9,
+          304.1,
+          70.0,
+          334.2,
+          82.2,
+          358.0,
+          92.0
+         ],
+         "s": "line"
+        },
+        {
+         "k": "P",
+         "pts": [
+          359.2,
+          89.4,
+          365.5,
+          95.0,
+          357.1,
+          94.6
+         ],
+         "s": "line",
+         "f": "line"
+        },
+        {
+         "k": "T",
+         "x": 323.8,
+         "y": 67.6,
+         "s": "m1",
+         "a": "c",
+         "z": 12.0,
+         "c": "ink"
+        },
+        {
+         "k": "B",
+         "pts": [
+          430.4,
+          90.0,
+          452.5,
+          77.2,
+          482.3,
+          59.9,
+          505.9,
+          46.2
+         ],
+         "s": "line"
+        },
+        {
+         "k": "P",
+         "pts": [
+          504.6,
+          43.7,
+          513.0,
+          42.1,
+          507.4,
+          48.6
+         ],
+         "s": "line",
+         "f": "line"
+        },
+        {
+         "k": "T",
+         "x": 462.8,
+         "y": 62.6,
+         "s": "m1",
+         "a": "c",
+         "z": 12.0,
+         "c": "ink"
+        },
+        {
+         "k": "B",
+         "pts": [
+          430.9,
+          110.8,
+          438.1,
+          111.3,
+          445.7,
+          111.7,
+          452.8,
+          112.0,
+          463.6,
+          112.4,
+          475.2,
+          112.4,
+          486.4,
+          112.1
+         ],
+         "s": "line"
+        },
+        {
+         "k": "P",
+         "pts": [
+          486.3,
+          109.3,
+          494.4,
+          111.9,
+          486.5,
+          114.9
+         ],
+         "s": "line",
+         "f": "line"
+        },
+        {
+         "k": "T",
+         "x": 462.8,
+         "y": 108.6,
+         "s": "m2",
+         "a": "c",
+         "z": 12.0,
+         "c": "ink"
+        }
+       ]
+      },
+      {
+       "t": "p",
+       "s": "So liest du das Diagramm:"
+      },
+      {
+       "t": "ul",
+       "items": [
+        "Kanten sind mit der **Eingabe** beschriftet, die den Übergang auslöst.",
+        "Gibt es für eine Eingabe keine Kante (z.B. keine Münze), bleibt der Automat im Zustand.",
+        "Die Ausgänge stehen **im Zustand** (Moore).",
+        "`aus` und `aus_r` verlassen den Zustand **unbedingt** im nächsten Takt."
+       ]
+      },
+      {
+       "t": "p",
+       "s": "Vereinbarung: Kommen `m1` und `m2` gleichzeitig, gewinnt `m1` (Priorität im `if … elsif`). In der Klausur steht so etwas oft im Text – lies genau, sonst festlegen und hinschreiben."
+      }
+     ],
+     "aufgabe": [
+      {
+       "t": "ol",
+       "items": [
+        "Schreibe die **Übergangstabelle** (Zustand, `m1`, `m2` → Folgezustand) für `g1` und `g2`.",
+        "Schreibe die **Entity** `getraenk` mit `clk`, `res_n`, `m1`, `m2`, `ausgabe`, `rueckgeld` (alle `std_logic`)."
+       ]
+      }
+     ],
+     "aufgabeMd": "1. Schreibe die **Übergangstabelle** (Zustand, `m1`, `m2` → Folgezustand) für `g1` und `g2`.\n2. Schreibe die **Entity** `getraenk` mit `clk`, `res_n`, `m1`, `m2`, `ausgabe`, `rueckgeld` (alle `std_logic`).",
+     "loesung": [
+      {
+       "t": "table",
+       "rows": [
+        [
+         "Zustand",
+         "m1",
+         "m2",
+         "Folgezustand"
+        ],
+        [
+         "g1",
+         "0",
+         "0",
+         "g1"
+        ],
+        [
+         "g1",
+         "1",
+         "–",
+         "g2"
+        ],
+        [
+         "g1",
+         "0",
+         "1",
+         "aus"
+        ],
+        [
+         "g2",
+         "0",
+         "0",
+         "g2"
+        ],
+        [
+         "g2",
+         "1",
+         "–",
+         "aus"
+        ],
+        [
+         "g2",
+         "0",
+         "1",
+         "aus_r"
+        ]
+       ]
+      },
+      {
+       "t": "code",
+       "lang": "vhdl",
+       "s": "library ieee;\nuse ieee.std_logic_1164.all;\n\nentity getraenk is\n  port(\n    clk, res_n         : in  std_logic;\n    m1, m2             : in  std_logic;\n    ausgabe, rueckgeld : out std_logic\n    );\nend entity getraenk;"
+      }
+     ],
+     "loesungMd": "| Zustand | m1 | m2 | Folgezustand |\n|---|---|---|---|\n| g1 | 0 | 0 | g1 |\n| g1 | 1 | – | g2 |\n| g1 | 0 | 1 | aus |\n| g2 | 0 | 0 | g2 |\n| g2 | 1 | – | aus |\n| g2 | 0 | 1 | aus_r |\n\n```vhdl\nlibrary ieee;\nuse ieee.std_logic_1164.all;\n\nentity getraenk is\n  port(\n    clk, res_n         : in  std_logic;\n    m1, m2             : in  std_logic;\n    ausgabe, rueckgeld : out std_logic\n    );\nend entity getraenk;\n```",
+     "klausur": [
+      {
+       "t": "p",
+       "s": "Zustandsdiagramme aus Text oder Code ableiten gehört zu fast jeder Automatenaufgabe (siehe auch F08)."
+      }
+     ]
+    },
+    {
+     "id": "P03",
+     "block": "P",
+     "title": "Getränkeautomat: Architecture komplett",
+     "min": 10,
+     "mode": "code",
+     "starter": "",
+     "solutionCode": "architecture behav of getraenk is\n  type state_type is (g0, g1, g2, aus, aus_r);\n  signal current_state, next_state : state_type;\nbegin\n  transition_function: process(current_state, m1, m2) is\n  begin\n    next_state <= current_state;\n    case current_state is\n      when g0 =>\n        if m1 = '1' then next_state <= g1;\n        elsif m2 = '1' then next_state <= g2;\n        end if;\n      when g1 =>\n        if m1 = '1' then next_state <= g2;\n        elsif m2 = '1' then next_state <= aus;\n        end if;\n      when g2 =>\n        if m1 = '1' then next_state <= aus;\n        elsif m2 = '1' then next_state <= aus_r;\n        end if;\n      when aus | aus_r =>\n        next_state <= g0;\n    end case;\n  end process transition_function;\n\n  state: process(clk, res_n) is\n  begin\n    if res_n = '0' then\n      current_state <= g0;\n    else\n      if clk'event and clk = '1' then\n        current_state <= next_state;\n      end if;\n    end if;\n  end process state;\n\n  output_function: process(current_state) is\n  begin\n    ausgabe   <= '0';\n    rueckgeld <= '0';\n    case current_state is\n      when aus    => ausgabe <= '1';\n      when aus_r  => ausgabe <= '1';\n                     rueckgeld <= '1';\n      when others => null;\n    end case;\n  end process output_function;\nend architecture behav;",
+     "ziel": [
+      {
+       "t": "p",
+       "s": "Einen Moore-Automaten komplett ohne Vorlage programmieren."
+      }
+     ],
+     "erklaerung": [
+      {
+       "t": "p",
+       "s": "Das Schema aus Block F, diesmal schreibst du alles selbst:"
+      },
+      {
+       "t": "ul",
+       "items": [
+        "Aufzählungstyp `state_type` mit den Zuständen, zwei Signale `current_state`, `next_state`.",
+        "`transition_function`: kombinatorisch, Sensitivität **alle** gelesenen Signale, Default `next_state <= current_state;`.",
+        "`state`: getaktet mit asynchronem Reset auf `g0`.",
+        "`output_function`: nur `current_state` in der Liste (Moore), Defaults `'0'`."
+       ]
+      },
+      {
+       "t": "diagram",
+       "id": "P02_getraenk",
+       "alt": "Getränkeautomat als Moore-Automat",
+       "w": 601.8,
+       "h": 265.2,
+       "prims": [
+        {
+         "k": "E",
+         "x": 8.9,
+         "y": 85.0,
+         "rx": 2.9,
+         "ry": 2.9,
+         "s": "line",
+         "f": "line"
+        },
+        {
+         "k": "B",
+         "pts": [
+          140.8,
+          67.0,
+          140.8,
+          67.0,
+          99.8,
+          67.0,
+          99.8,
+          67.0,
+          93.8,
+          67.0,
+          87.8,
+          73.0,
+          87.8,
+          79.0,
+          87.8,
+          79.0,
+          87.8,
+          91.0,
+          87.8,
+          91.0,
+          87.8,
+          97.0,
+          93.8,
+          103.0,
+          99.8,
+          103.0,
+          99.8,
+          103.0,
+          140.8,
+          103.0,
+          140.8,
+          103.0,
+          146.8,
+          103.0,
+          152.8,
+          97.0,
+          152.8,
+          91.0,
+          152.8,
+          91.0,
+          152.8,
+          79.0,
+          152.8,
+          79.0,
+          152.8,
+          73.0,
+          146.8,
+          67.0,
+          140.8,
+          67.0
+         ],
+         "s": "ink"
+        },
+        {
+         "k": "T",
+         "x": 120.3,
+         "y": 88.4,
+         "s": "g0",
+         "a": "c",
+         "z": 13.0,
+         "c": "ink"
+        },
+        {
+         "k": "B",
+         "pts": [
+          579.3,
+          6.0,
+          579.3,
+          6.0,
+          511.3,
+          6.0,
+          511.3,
+          6.0,
+          505.3,
+          6.0,
+          499.3,
+          12.0,
+          499.3,
+          18.0,
+          499.3,
+          18.0,
+          499.3,
+          30.0,
+          499.3,
+          30.0,
+          499.3,
+          36.0,
+          505.3,
+          42.0,
+          511.3,
+          42.0,
+          511.3,
+          42.0,
+          579.3,
+          42.0,
+          579.3,
+          42.0,
+          585.3,
+          42.0,
+          591.3,
+          36.0,
+          591.3,
+          30.0,
+          591.3,
+          30.0,
+          591.3,
+          18.0,
+          591.3,
+          18.0,
+          591.3,
+          12.0,
+          585.3,
+          6.0,
+          579.3,
+          6.0
+         ],
+         "s": "accent"
+        },
+        {
+         "k": "T",
+         "x": 545.3,
+         "y": 20.4,
+         "s": "aus",
+         "a": "c",
+         "z": 13.0,
+         "c": "accent"
+        },
+        {
+         "k": "T",
+         "x": 545.3,
+         "y": 34.4,
+         "s": "ausgabe=1",
+         "a": "c",
+         "z": 13.0,
+         "c": "accent"
+        },
+        {
+         "k": "B",
+         "pts": [
+          583.8,
+          84.0,
+          583.8,
+          84.0,
+          506.8,
+          84.0,
+          506.8,
+          84.0,
+          500.8,
+          84.0,
+          494.8,
+          90.0,
+          494.8,
+          96.0,
+          494.8,
+          96.0,
+          494.8,
+          122.0,
+          494.8,
+          122.0,
+          494.8,
+          128.0,
+          500.8,
+          134.0,
+          506.8,
+          134.0,
+          506.8,
+          134.0,
+          583.8,
+          134.0,
+          583.8,
+          134.0,
+          589.8,
+          134.0,
+          595.8,
+          128.0,
+          595.8,
+          122.0,
+          595.8,
+          122.0,
+          595.8,
+          96.0,
+          595.8,
+          96.0,
+          595.8,
+          90.0,
+          589.8,
+          84.0,
+          583.8,
+          84.0
+         ],
+         "s": "accent"
+        },
+        {
+         "k": "T",
+         "x": 545.3,
+         "y": 98.4,
+         "s": "aus_r",
+         "a": "c",
+         "z": 13.0,
+         "c": "accent"
+        },
+        {
+         "k": "T",
+         "x": 545.3,
+         "y": 112.4,
+         "s": "ausgabe=1",
+         "a": "c",
+         "z": 13.0,
+         "c": "accent"
+        },
+        {
+         "k": "T",
+         "x": 545.3,
+         "y": 126.4,
+         "s": "rueckgeld=1",
+         "a": "c",
+         "z": 13.0,
+         "c": "accent"
+        },
+        {
+         "k": "B",
+         "pts": [
+          269.8,
+          30.0,
+          269.8,
+          30.0,
+          228.8,
+          30.0,
+          228.8,
+          30.0,
+          222.8,
+          30.0,
+          216.8,
+          36.0,
+          216.8,
+          42.0,
+          216.8,
+          42.0,
+          216.8,
+          54.0,
+          216.8,
+          54.0,
+          216.8,
+          60.0,
+          222.8,
+          66.0,
+          228.8,
+          66.0,
+          228.8,
+          66.0,
+          269.8,
+          66.0,
+          269.8,
+          66.0,
+          275.8,
+          66.0,
+          281.8,
+          60.0,
+          281.8,
+          54.0,
+          281.8,
+          54.0,
+          281.8,
+          42.0,
+          281.8,
+          42.0,
+          281.8,
+          36.0,
+          275.8,
+          30.0,
+          269.8,
+          30.0
+         ],
+         "s": "ink"
+        },
+        {
+         "k": "T",
+         "x": 249.3,
+         "y": 51.4,
+         "s": "g1",
+         "a": "c",
+         "z": 13.0,
+         "c": "ink"
+        },
+        {
+         "k": "B",
+         "pts": [
+          418.8,
+          90.0,
+          418.8,
+          90.0,
+          377.8,
+          90.0,
+          377.8,
+          90.0,
+          371.8,
+          90.0,
+          365.8,
+          96.0,
+          365.8,
+          102.0,
+          365.8,
+          102.0,
+          365.8,
+          114.0,
+          365.8,
+          114.0,
+          365.8,
+          120.0,
+          371.8,
+          126.0,
+          377.8,
+          126.0,
+          377.8,
+          126.0,
+          418.8,
+          126.0,
+          418.8,
+          126.0,
+          424.8,
+          126.0,
+          430.8,
+          120.0,
+          430.8,
+          114.0,
+          430.8,
+          114.0,
+          430.8,
+          102.0,
+          430.8,
+          102.0,
+          430.8,
+          96.0,
+          424.8,
+          90.0,
+          418.8,
+          90.0
+         ],
+         "s": "ink"
+        },
+        {
+         "k": "T",
+         "x": 398.3,
+         "y": 111.4,
+         "s": "g2",
+         "a": "c",
+         "z": 13.0,
+         "c": "ink"
+        },
+        {
+         "k": "B",
+         "pts": [
+          11.8,
+          85.0,
+          19.9,
+          85.0,
+          52.4,
+          85.0,
+          79.5,
+          85.0
+         ],
+         "s": "line"
+        },
+        {
+         "k": "P",
+         "pts": [
+          79.7,
+          82.2,
+          87.7,
+          85.0,
+          79.7,
+          87.8
+         ],
+         "s": "line",
+         "f": "line"
+        },
+        {
+         "k": "T",
+         "x": 49.8,
+         "y": 81.6,
+         "s": "res_n",
+         "a": "c",
+         "z": 12.0,
+         "c": "ink"
+        },
+        {
+         "k": "B",
+         "pts": [
+          153.0,
+          75.8,
+          169.8,
+          70.9,
+          190.6,
+          64.8,
+          208.5,
+          59.6
+         ],
+         "s": "line"
+        },
+        {
+         "k": "P",
+         "pts": [
+          208.0,
+          56.8,
+          216.5,
+          57.2,
+          209.6,
+          62.2
+         ],
+         "s": "line",
+         "f": "line"
+        },
+        {
+         "k": "T",
+         "x": 184.8,
+         "y": 61.6,
+         "s": "m1",
+         "a": "c",
+         "z": 12.0,
+         "c": "ink"
+        },
+        {
+         "k": "B",
+         "pts": [
+          153.0,
+          89.5,
+          171.6,
+          92.0,
+          195.5,
+          95.0,
+          216.8,
+          97.0,
+          264.9,
+          101.5,
+          320.5,
+          104.6,
+          357.2,
+          106.3
+         ],
+         "s": "line"
+        },
+        {
+         "k": "P",
+         "pts": [
+          357.7,
+          103.5,
+          365.6,
+          106.7,
+          357.5,
+          109.1
+         ],
+         "s": "line",
+         "f": "line"
+        },
+        {
+         "k": "T",
+         "x": 249.3,
+         "y": 93.6,
+         "s": "m2",
+         "a": "c",
+         "z": 12.0,
+         "c": "ink"
+        },
+        {
+         "k": "B",
+         "pts": [
+          518.0,
+          42.2,
+          509.8,
+          48.9,
+          501.1,
+          57.1,
+          494.8,
+          66.0,
+          479.2,
+          87.8,
+          490.6,
+          102.1,
+          472.8,
+          122.0,
+          458.7,
+          137.7,
+          451.2,
+          139.0,
+          430.8,
+          144.0,
+          334.7,
+          167.6,
+          219.9,
+          128.4,
+          160.8,
+          103.4
+         ],
+         "s": "line"
+        },
+        {
+         "k": "P",
+         "pts": [
+          159.4,
+          105.8,
+          153.1,
+          100.1,
+          161.6,
+          100.7
+         ],
+         "s": "line",
+         "f": "line"
+        },
+        {
+         "k": "T",
+         "x": 323.8,
+         "y": 143.6,
+         "s": "immer",
+         "a": "c",
+         "z": 12.0,
+         "c": "ink"
+        },
+        {
+         "k": "B",
+         "pts": [
+          532.5,
+          134.1,
+          520.6,
+          156.9,
+          500.0,
+          189.8,
+          472.8,
+          209.0,
+          379.3,
+          274.9,
+          326.2,
+          267.1,
+          216.8,
+          234.0,
+          163.3,
+          217.8,
+          137.6,
+          149.5,
+          127.2,
+          111.2
+         ],
+         "s": "line"
+        },
+        {
+         "k": "P",
+         "pts": [
+          124.4,
+          111.6,
+          125.1,
+          103.1,
+          129.8,
+          110.2
+         ],
+         "s": "line",
+         "f": "line"
+        },
+        {
+         "k": "T",
+         "x": 323.8,
+         "y": 251.6,
+         "s": "immer",
+         "a": "c",
+         "z": 12.0,
+         "c": "ink"
+        },
+        {
+         "k": "B",
+         "pts": [
+          282.0,
+          45.4,
+          332.2,
+          41.3,
+          430.3,
+          33.3,
+          491.3,
+          28.3
+         ],
+         "s": "line"
+        },
+        {
+         "k": "P",
+         "pts": [
+          491.1,
+          25.5,
+          499.3,
+          27.7,
+          491.5,
+          31.1
+         ],
+         "s": "line",
+         "f": "line"
+        },
+        {
+         "k": "T",
+         "x": 398.3,
+         "y": 30.6,
+         "s": "m2",
+         "a": "c",
+         "z": 12.0,
+         "c": "ink"
+        },
+        {
+         "k": "B",
+         "pts": [
+          281.8,
+          60.9,
+          304.1,
+          70.0,
+          334.2,
+          82.2,
+          358.0,
+          92.0
+         ],
+         "s": "line"
+        },
+        {
+         "k": "P",
+         "pts": [
+          359.2,
+          89.4,
+          365.5,
+          95.0,
+          357.1,
+          94.6
+         ],
+         "s": "line",
+         "f": "line"
+        },
+        {
+         "k": "T",
+         "x": 323.8,
+         "y": 67.6,
+         "s": "m1",
+         "a": "c",
+         "z": 12.0,
+         "c": "ink"
+        },
+        {
+         "k": "B",
+         "pts": [
+          430.4,
+          90.0,
+          452.5,
+          77.2,
+          482.3,
+          59.9,
+          505.9,
+          46.2
+         ],
+         "s": "line"
+        },
+        {
+         "k": "P",
+         "pts": [
+          504.6,
+          43.7,
+          513.0,
+          42.1,
+          507.4,
+          48.6
+         ],
+         "s": "line",
+         "f": "line"
+        },
+        {
+         "k": "T",
+         "x": 462.8,
+         "y": 62.6,
+         "s": "m1",
+         "a": "c",
+         "z": 12.0,
+         "c": "ink"
+        },
+        {
+         "k": "B",
+         "pts": [
+          430.9,
+          110.8,
+          438.1,
+          111.3,
+          445.7,
+          111.7,
+          452.8,
+          112.0,
+          463.6,
+          112.4,
+          475.2,
+          112.4,
+          486.4,
+          112.1
+         ],
+         "s": "line"
+        },
+        {
+         "k": "P",
+         "pts": [
+          486.3,
+          109.3,
+          494.4,
+          111.9,
+          486.5,
+          114.9
+         ],
+         "s": "line",
+         "f": "line"
+        },
+        {
+         "k": "T",
+         "x": 462.8,
+         "y": 108.6,
+         "s": "m2",
+         "a": "c",
+         "z": 12.0,
+         "c": "ink"
+        }
+       ]
+      }
+     ],
+     "aufgabe": [
+      {
+       "t": "p",
+       "s": "Schreibe `architecture behav of getraenk` vollständig."
+      }
+     ],
+     "aufgabeMd": "Schreibe `architecture behav of getraenk` vollständig.",
+     "loesung": [
+      {
+       "t": "code",
+       "lang": "vhdl",
+       "s": "architecture behav of getraenk is\n  type state_type is (g0, g1, g2, aus, aus_r);\n  signal current_state, next_state : state_type;\nbegin\n  transition_function: process(current_state, m1, m2) is\n  begin\n    next_state <= current_state;\n    case current_state is\n      when g0 =>\n        if m1 = '1' then next_state <= g1;\n        elsif m2 = '1' then next_state <= g2;\n        end if;\n      when g1 =>\n        if m1 = '1' then next_state <= g2;\n        elsif m2 = '1' then next_state <= aus;\n        end if;\n      when g2 =>\n        if m1 = '1' then next_state <= aus;\n        elsif m2 = '1' then next_state <= aus_r;\n        end if;\n      when aus | aus_r =>\n        next_state <= g0;\n    end case;\n  end process transition_function;\n\n  state: process(clk, res_n) is\n  begin\n    if res_n = '0' then\n      current_state <= g0;\n    else\n      if clk'event and clk = '1' then\n        current_state <= next_state;\n      end if;\n    end if;\n  end process state;\n\n  output_function: process(current_state) is\n  begin\n    ausgabe   <= '0';\n    rueckgeld <= '0';\n    case current_state is\n      when aus    => ausgabe <= '1';\n      when aus_r  => ausgabe <= '1';\n                     rueckgeld <= '1';\n      when others => null;\n    end case;\n  end process output_function;\nend architecture behav;"
+      },
+      {
+       "t": "p",
+       "s": "Prüfe dich: Fehlt bei dir `m1` oder `m2` in der Sensitivitätsliste? Fehlt der Default für `next_state`? Beides kostet in der Klausur Punkte."
+      }
+     ],
+     "loesungMd": "```vhdl\narchitecture behav of getraenk is\n  type state_type is (g0, g1, g2, aus, aus_r);\n  signal current_state, next_state : state_type;\nbegin\n  transition_function: process(current_state, m1, m2) is\n  begin\n    next_state <= current_state;\n    case current_state is\n      when g0 =>\n        if m1 = '1' then next_state <= g1;\n        elsif m2 = '1' then next_state <= g2;\n        end if;\n      when g1 =>\n        if m1 = '1' then next_state <= g2;\n        elsif m2 = '1' then next_state <= aus;\n        end if;\n      when g2 =>\n        if m1 = '1' then next_state <= aus;\n        elsif m2 = '1' then next_state <= aus_r;\n        end if;\n      when aus | aus_r =>\n        next_state <= g0;\n    end case;\n  end process transition_function;\n\n  state: process(clk, res_n) is\n  begin\n    if res_n = '0' then\n      current_state <= g0;\n    else\n      if clk'event and clk = '1' then\n        current_state <= next_state;\n      end if;\n    end if;\n  end process state;\n\n  output_function: process(current_state) is\n  begin\n    ausgabe   <= '0';\n    rueckgeld <= '0';\n    case current_state is\n      when aus    => ausgabe <= '1';\n      when aus_r  => ausgabe <= '1';\n                     rueckgeld <= '1';\n      when others => null;\n    end case;\n  end process output_function;\nend architecture behav;\n```\nPrüfe dich: Fehlt bei dir `m1` oder `m2` in der Sensitivitätsliste? Fehlt der Default für `next_state`? Beides kostet in der Klausur Punkte.",
+     "klausur": [
+      {
+       "t": "p",
+       "s": "Automat nach Schema programmieren: wie im Steuerwerk aus F24 A1 (K02). Simulierbar in `am_rechner/L12/projekte_fsm.vhd`."
+      }
+     ]
+    },
+    {
+     "id": "P04",
+     "block": "P",
+     "title": "Getränkeautomat: Testbench selbst schreiben",
+     "min": 8,
+     "mode": "code",
+     "starter": "",
+     "solutionCode": "stimuli: process is\n  procedure takt is\n  begin\n    wait until clk'event and clk = '1';\n    wait for 1 ns;\n  end procedure;\n\n  procedure muenze(signal m : out std_logic) is\n  begin\n    m <= '1'; takt; m <= '0';\n  end procedure;\nbegin\n  res_n <= '0';\n  wait for 25 ns;\n  res_n <= '1';\n  takt;\n  muenze(m1);\n  muenze(m2);\n  assert ausgabe = '1' and rueckgeld = '0'\n    report \"1 + 2 Euro falsch\" severity error;\n  takt;\n  assert ausgabe = '0'\n    report \"Ausgabe zu lang\" severity error;\n  wait;\nend process stimuli;",
+     "ziel": [
+      {
+       "t": "p",
+       "s": "Eine Testbench mit Prozedur schreiben, die den Automaten systematisch prüft."
+      }
+     ],
+     "erklaerung": [
+      {
+       "t": "p",
+       "s": "Bausteine einer guten Testbench (Block I):"
+      },
+      {
+       "t": "ul",
+       "items": [
+        "Takt: `clk <= not clk after T/2;`",
+        "Reset am Anfang, Stimuli **nicht** auf die Flanke legen (I05): nach der Flanke 1 ns warten.",
+        "Wiederkehrende Abläufe als **Prozedur** im Prozess. Eine Prozedur, die ein Signal treibt, bekommt es als `signal`-Parameter:"
+       ]
+      },
+      {
+       "t": "code",
+       "lang": "vhdl",
+       "s": "procedure muenze(signal m : out std_logic) is\nbegin\n  m <= '1'; takt; m <= '0';\nend procedure;"
+      },
+      {
+       "t": "ul",
+       "items": [
+        "Prüfen mit `assert … report … severity error;`"
+       ]
+      }
+     ],
+     "aufgabe": [
+      {
+       "t": "p",
+       "s": "Schreibe den Stimulus-Prozess der Testbench. Er soll:"
+      },
+      {
+       "t": "ol",
+       "items": [
+        "eine Prozedur `takt` haben (auf steigende Flanke warten, dann 1 ns),",
+        "die Prozedur `muenze` von oben nutzen,",
+        "„1 Euro, dann 2 Euro“ einwerfen und prüfen, dass danach `ausgabe = '1'` und `rueckgeld = '0'` ist."
+       ]
+      },
+      {
+       "t": "p",
+       "s": "Signale `clk`, `res_n`, `m1`, `m2`, `ausgabe`, `rueckgeld` existieren bereits, der Automat ist instanziiert."
+      }
+     ],
+     "aufgabeMd": "Schreibe den Stimulus-Prozess der Testbench. Er soll:\n1. eine Prozedur `takt` haben (auf steigende Flanke warten, dann 1 ns),\n2. die Prozedur `muenze` von oben nutzen,\n3. „1 Euro, dann 2 Euro“ einwerfen und prüfen, dass danach `ausgabe = '1'` und `rueckgeld = '0'` ist.\n\nSignale `clk`, `res_n`, `m1`, `m2`, `ausgabe`, `rueckgeld` existieren bereits, der Automat ist instanziiert.",
+     "loesung": [
+      {
+       "t": "code",
+       "lang": "vhdl",
+       "s": "stimuli: process is\n  procedure takt is\n  begin\n    wait until clk'event and clk = '1';\n    wait for 1 ns;\n  end procedure;\n\n  procedure muenze(signal m : out std_logic) is\n  begin\n    m <= '1'; takt; m <= '0';\n  end procedure;\nbegin\n  res_n <= '0';\n  wait for 25 ns;\n  res_n <= '1';\n  takt;\n  muenze(m1);\n  muenze(m2);\n  assert ausgabe = '1' and rueckgeld = '0'\n    report \"1 + 2 Euro falsch\" severity error;\n  takt;\n  assert ausgabe = '0'\n    report \"Ausgabe zu lang\" severity error;\n  wait;\nend process stimuli;"
+      },
+      {
+       "t": "p",
+       "s": "Nach `muenze(m2)` steht der Automat schon in `aus`: Die Flanke in `takt` hat ihn dorthin geschaltet. Weitere Fälle: 2 + 2 (Rückgeld), 1 + 1 + 1."
+      }
+     ],
+     "loesungMd": "```vhdl\nstimuli: process is\n  procedure takt is\n  begin\n    wait until clk'event and clk = '1';\n    wait for 1 ns;\n  end procedure;\n\n  procedure muenze(signal m : out std_logic) is\n  begin\n    m <= '1'; takt; m <= '0';\n  end procedure;\nbegin\n  res_n <= '0';\n  wait for 25 ns;\n  res_n <= '1';\n  takt;\n  muenze(m1);\n  muenze(m2);\n  assert ausgabe = '1' and rueckgeld = '0'\n    report \"1 + 2 Euro falsch\" severity error;\n  takt;\n  assert ausgabe = '0'\n    report \"Ausgabe zu lang\" severity error;\n  wait;\nend process stimuli;\n```\nNach `muenze(m2)` steht der Automat schon in `aus`: Die Flanke in `takt` hat ihn dorthin geschaltet. Weitere Fälle: 2 + 2 (Rückgeld), 1 + 1 + 1.",
+     "klausur": [
+      {
+       "t": "p",
+       "s": "Testbench-Prozeduren: F19 A1 (`send_byte`, siehe P11). Komplette Testbench in `am_rechner/L12/tb_projekte.vhd`."
+      }
+     ]
+    },
+    {
+     "id": "P05",
+     "block": "P",
+     "title": "Codeschloss: Entwurf mit Zählern",
+     "min": 8,
+     "mode": "code",
+     "starter": "",
+     "solutionCode": "library ieee;\nuse ieee.std_logic_1164.all;\nuse ieee.numeric_std.all;\n\nentity codeschloss is\n  generic(\n    C1 : natural range 0 to 9 := 3;\n    C2 : natural range 0 to 9 := 5;\n    C3 : natural range 0 to 9 := 1;\n    T_OFFEN  : positive := 4;\n    T_SPERRE : positive := 8\n    );\n  port(\n    clk, res_n      : in  std_logic;\n    taste           : in  std_logic;\n    ziffer          : in  std_logic_vector(3 downto 0);\n    offen, gesperrt : out std_logic\n    );\nend entity codeschloss;",
+     "ziel": [
+      {
+       "t": "p",
+       "s": "Einen Automaten entwerfen, der neben dem Zustand noch **Zähler** braucht – und entscheiden, was Zustand und was Zähler wird."
+      }
+     ],
+     "erklaerung": [
+      {
+       "t": "p",
+       "s": "Aufgabe: Ein Türschloss öffnet sich nach der Zifferfolge `C1 C2 C3` (Generics, Standard 3-5-1)."
+      },
+      {
+       "t": "ul",
+       "items": [
+        "Eingänge: `taste` (ein Takt `'1'` pro Ziffer), `ziffer(3 downto 0)`.",
+        "Richtige Folge → `offen = '1'` für `T_OFFEN` Takte, danach wieder zu.",
+        "Jede falsche Ziffer → von vorn beginnen. Nach **drei** Fehlversuchen hintereinander → `gesperrt = '1'` für `T_SPERRE` Takte, Eingaben werden ignoriert."
+       ]
+      },
+      {
+       "t": "p",
+       "s": "Entwurfsfrage: Zustand oder Zähler?"
+      },
+      {
+       "t": "ul",
+       "items": [
+        "„Wie viele Ziffern sind schon richtig?“ – nur 0, 1, 2 → **Zustände** `z0`, `z1`, `z2`.",
+        "„Wie viele Fehler?“ – könnte man auch als Zustände bauen, aber dann verdreifacht sich alles (`z0_f0`, `z0_f1`, …). Besser: **Zähler** `fehler`.",
+        "„Wie lange schon offen?“ – Zahl bis `T_OFFEN` → **Zähler** `zeit` (Muster aus M09)."
+       ]
+      },
+      {
+       "t": "p",
+       "s": "Faustregel: Zählt etwas bis zu einer Zahl, die ein Generic ist oder größer als etwa 3 sein kann, wird es ein Zähler."
+      }
+     ],
+     "aufgabe": [
+      {
+       "t": "ol",
+       "items": [
+        "Zeichne das Zustandsdiagramm mit den Zuständen `z0`, `z1`, `z2`, `s_offen`, `s_gesperrt`. Beschrifte die Kanten mit Bedingungen wie `richtig`, `falsch and fehler = 2`, `zeit = T_OFFEN - 1`.",
+        "Schreibe die Entity `codeschloss` mit den Generics `C1`, `C2`, `C3` (`natural range 0 to 9`), `T_OFFEN`, `T_SPERRE` (`positive`)."
+       ]
+      }
+     ],
+     "aufgabeMd": "1. Zeichne das Zustandsdiagramm mit den Zuständen `z0`, `z1`, `z2`, `s_offen`, `s_gesperrt`. Beschrifte die Kanten mit Bedingungen wie `richtig`, `falsch and fehler = 2`, `zeit = T_OFFEN - 1`.\n2. Schreibe die Entity `codeschloss` mit den Generics `C1`, `C2`, `C3` (`natural range 0 to 9`), `T_OFFEN`, `T_SPERRE` (`positive`).",
+     "loesung": [
+      {
+       "t": "p",
+       "s": "Übergänge (`richtig`/`falsch` heißt: `taste = '1'` und Ziffer passt/passt nicht):"
+      },
+      {
+       "t": "ul",
+       "items": [
+        "`z0 --richtig--> z1 --richtig--> z2 --richtig--> s_offen`",
+        "`z0/z1/z2 --falsch, fehler < 2--> z0`",
+        "`z0/z1/z2 --falsch, fehler = 2--> s_gesperrt`",
+        "`s_offen --zeit = T_OFFEN-1--> z0`",
+        "`s_gesperrt --zeit = T_SPERRE-1--> z0`"
+       ]
+      },
+      {
+       "t": "code",
+       "lang": "vhdl",
+       "s": "library ieee;\nuse ieee.std_logic_1164.all;\nuse ieee.numeric_std.all;\n\nentity codeschloss is\n  generic(\n    C1 : natural range 0 to 9 := 3;\n    C2 : natural range 0 to 9 := 5;\n    C3 : natural range 0 to 9 := 1;\n    T_OFFEN  : positive := 4;\n    T_SPERRE : positive := 8\n    );\n  port(\n    clk, res_n      : in  std_logic;\n    taste           : in  std_logic;\n    ziffer          : in  std_logic_vector(3 downto 0);\n    offen, gesperrt : out std_logic\n    );\nend entity codeschloss;"
+      }
+     ],
+     "loesungMd": "Übergänge (`richtig`/`falsch` heißt: `taste = '1'` und Ziffer passt/passt nicht):\n- `z0 --richtig--> z1 --richtig--> z2 --richtig--> s_offen`\n- `z0/z1/z2 --falsch, fehler < 2--> z0`\n- `z0/z1/z2 --falsch, fehler = 2--> s_gesperrt`\n- `s_offen --zeit = T_OFFEN-1--> z0`\n- `s_gesperrt --zeit = T_SPERRE-1--> z0`\n\n```vhdl\nlibrary ieee;\nuse ieee.std_logic_1164.all;\nuse ieee.numeric_std.all;\n\nentity codeschloss is\n  generic(\n    C1 : natural range 0 to 9 := 3;\n    C2 : natural range 0 to 9 := 5;\n    C3 : natural range 0 to 9 := 1;\n    T_OFFEN  : positive := 4;\n    T_SPERRE : positive := 8\n    );\n  port(\n    clk, res_n      : in  std_logic;\n    taste           : in  std_logic;\n    ziffer          : in  std_logic_vector(3 downto 0);\n    offen, gesperrt : out std_logic\n    );\nend entity codeschloss;\n```",
+     "klausur": [
+      {
+       "t": "p",
+       "s": "Automat plus Zähler/Register ist das Grundmuster vieler Klausuraufgaben, z.B. das CRC-Steuerwerk in F24 A1 (K02) oder der Empfänger in F19 A1 (P11)."
+      }
+     ]
+    },
+    {
+     "id": "P06",
+     "block": "P",
+     "title": "Codeschloss: Architecture komplett",
+     "min": 12,
+     "mode": "code",
+     "starter": "",
+     "solutionCode": "architecture behav of codeschloss is\n  type state_type is (z0, z1, z2, s_offen, s_gesperrt);\n  signal current_state, next_state : state_type;\n  signal fehler : integer range 0 to 2;\n  signal zeit   : integer range 0 to 255;\n  signal richtig, falsch : std_logic;\nbegin\n  pruefen: process(current_state, taste, ziffer) is\n    variable erwartet : natural range 0 to 9;\n  begin\n    case current_state is\n      when z0     => erwartet := C1;\n      when z1     => erwartet := C2;\n      when others => erwartet := C3;\n    end case;\n    richtig <= '0';\n    falsch  <= '0';\n    if taste = '1' and (current_state = z0 or\n       current_state = z1 or current_state = z2) then\n      if to_integer(unsigned(ziffer)) = erwartet then\n        richtig <= '1';\n      else\n        falsch <= '1';\n      end if;\n    end if;\n  end process pruefen;\n\n  transition_function: process(current_state, richtig,\n                               falsch, fehler, zeit) is\n  begin\n    next_state <= current_state;\n    case current_state is\n      when z0 | z1 | z2 =>\n        if falsch = '1' then\n          if fehler = 2 then\n            next_state <= s_gesperrt;\n          else\n            next_state <= z0;\n          end if;\n        elsif richtig = '1' then\n          case current_state is\n            when z0     => next_state <= z1;\n            when z1     => next_state <= z2;\n            when others => next_state <= s_offen;\n          end case;\n        end if;\n      when s_offen =>\n        if zeit = T_OFFEN - 1 then next_state <= z0; end if;\n      when s_gesperrt =>\n        if zeit = T_SPERRE - 1 then next_state <= z0; end if;\n    end case;\n  end process transition_function;\n\n  state: process(clk, res_n) is\n  begin\n    if res_n = '0' then\n      current_state <= z0;\n      fehler <= 0;\n      zeit   <= 0;\n    else\n      if clk'event and clk = '1' then\n        current_state <= next_state;\n        if next_state /= current_state then\n          zeit <= 0;\n        elsif current_state = s_offen or\n              current_state = s_gesperrt then\n          zeit <= zeit + 1;\n        end if;\n        if next_state = s_offen or\n           next_state = s_gesperrt then\n          fehler <= 0;\n        elsif falsch = '1' then\n          fehler <= fehler + 1;\n        end if;\n      end if;\n    end if;\n  end process state;\n\n  offen    <= '1' when current_state = s_offen else '0';\n  gesperrt <= '1' when current_state = s_gesperrt else '0';\nend architecture behav;",
+     "ziel": [
+      {
+       "t": "p",
+       "s": "Automat und Zähler sauber trennen: kombinatorische Übergangsfunktion, Zähler im getakteten Prozess."
+      }
+     ],
+     "erklaerung": [
+      {
+       "t": "p",
+       "s": "Aufteilung:"
+      },
+      {
+       "t": "ul",
+       "items": [
+        "Prozess `pruefen` (kombinatorisch): erzeugt `richtig` und `falsch`. Welche Ziffer erwartet wird, hängt vom Zustand ab – dafür eine **Variable** `erwartet`.",
+        "`transition_function`: nutzt `richtig`, `falsch`, `fehler`, `zeit`.",
+        "`state` (getaktet): Zustand **und** beide Zähler. - `zeit`: bei Zustandswechsel auf 0, sonst nur in `s_offen`/`s_gesperrt` hochzählen (sonst läuft der Zähler im Ruhezustand über den Wertebereich hinaus – die Simulation bricht dann ab). - `fehler`: beim Öffnen oder Sperren auf 0, bei `falsch` + 1.",
+        "Ausgänge nebenläufig (Moore)."
+       ]
+      }
+     ],
+     "aufgabe": [
+      {
+       "t": "p",
+       "s": "Schreibe `architecture behav of codeschloss` (Entity aus P05). Signale: `current_state`, `next_state`, `fehler : integer range 0 to 2`, `zeit : integer range 0 to 255`, `richtig`, `falsch`."
+      }
+     ],
+     "aufgabeMd": "Schreibe `architecture behav of codeschloss` (Entity aus P05). Signale: `current_state`, `next_state`, `fehler : integer range 0 to 2`, `zeit : integer range 0 to 255`, `richtig`, `falsch`.",
+     "loesung": [
+      {
+       "t": "code",
+       "lang": "vhdl",
+       "s": "architecture behav of codeschloss is\n  type state_type is (z0, z1, z2, s_offen, s_gesperrt);\n  signal current_state, next_state : state_type;\n  signal fehler : integer range 0 to 2;\n  signal zeit   : integer range 0 to 255;\n  signal richtig, falsch : std_logic;\nbegin\n  pruefen: process(current_state, taste, ziffer) is\n    variable erwartet : natural range 0 to 9;\n  begin\n    case current_state is\n      when z0     => erwartet := C1;\n      when z1     => erwartet := C2;\n      when others => erwartet := C3;\n    end case;\n    richtig <= '0';\n    falsch  <= '0';\n    if taste = '1' and (current_state = z0 or\n       current_state = z1 or current_state = z2) then\n      if to_integer(unsigned(ziffer)) = erwartet then\n        richtig <= '1';\n      else\n        falsch <= '1';\n      end if;\n    end if;\n  end process pruefen;\n\n  transition_function: process(current_state, richtig,\n                               falsch, fehler, zeit) is\n  begin\n    next_state <= current_state;\n    case current_state is\n      when z0 | z1 | z2 =>\n        if falsch = '1' then\n          if fehler = 2 then\n            next_state <= s_gesperrt;\n          else\n            next_state <= z0;\n          end if;\n        elsif richtig = '1' then\n          case current_state is\n            when z0     => next_state <= z1;\n            when z1     => next_state <= z2;\n            when others => next_state <= s_offen;\n          end case;\n        end if;\n      when s_offen =>\n        if zeit = T_OFFEN - 1 then next_state <= z0; end if;\n      when s_gesperrt =>\n        if zeit = T_SPERRE - 1 then next_state <= z0; end if;\n    end case;\n  end process transition_function;\n\n  state: process(clk, res_n) is\n  begin\n    if res_n = '0' then\n      current_state <= z0;\n      fehler <= 0;\n      zeit   <= 0;\n    else\n      if clk'event and clk = '1' then\n        current_state <= next_state;\n        if next_state /= current_state then\n          zeit <= 0;\n        elsif current_state = s_offen or\n              current_state = s_gesperrt then\n          zeit <= zeit + 1;\n        end if;\n        if next_state = s_offen or\n           next_state = s_gesperrt then\n          fehler <= 0;\n        elsif falsch = '1' then\n          fehler <= fehler + 1;\n        end if;\n      end if;\n    end if;\n  end process state;\n\n  offen    <= '1' when current_state = s_offen else '0';\n  gesperrt <= '1' when current_state = s_gesperrt else '0';\nend architecture behav;"
+      },
+      {
+       "t": "p",
+       "s": "Feinheit: In `s_gesperrt` erzeugt `pruefen` kein `falsch`, deshalb werden Eingaben dort ignoriert."
+      }
+     ],
+     "loesungMd": "```vhdl\narchitecture behav of codeschloss is\n  type state_type is (z0, z1, z2, s_offen, s_gesperrt);\n  signal current_state, next_state : state_type;\n  signal fehler : integer range 0 to 2;\n  signal zeit   : integer range 0 to 255;\n  signal richtig, falsch : std_logic;\nbegin\n  pruefen: process(current_state, taste, ziffer) is\n    variable erwartet : natural range 0 to 9;\n  begin\n    case current_state is\n      when z0     => erwartet := C1;\n      when z1     => erwartet := C2;\n      when others => erwartet := C3;\n    end case;\n    richtig <= '0';\n    falsch  <= '0';\n    if taste = '1' and (current_state = z0 or\n       current_state = z1 or current_state = z2) then\n      if to_integer(unsigned(ziffer)) = erwartet then\n        richtig <= '1';\n      else\n        falsch <= '1';\n      end if;\n    end if;\n  end process pruefen;\n\n  transition_function: process(current_state, richtig,\n                               falsch, fehler, zeit) is\n  begin\n    next_state <= current_state;\n    case current_state is\n      when z0 | z1 | z2 =>\n        if falsch = '1' then\n          if fehler = 2 then\n            next_state <= s_gesperrt;\n          else\n            next_state <= z0;\n          end if;\n        elsif richtig = '1' then\n          case current_state is\n            when z0     => next_state <= z1;\n            when z1     => next_state <= z2;\n            when others => next_state <= s_offen;\n          end case;\n        end if;\n      when s_offen =>\n        if zeit = T_OFFEN - 1 then next_state <= z0; end if;\n      when s_gesperrt =>\n        if zeit = T_SPERRE - 1 then next_state <= z0; end if;\n    end case;\n  end process transition_function;\n\n  state: process(clk, res_n) is\n  begin\n    if res_n = '0' then\n      current_state <= z0;\n      fehler <= 0;\n      zeit   <= 0;\n    else\n      if clk'event and clk = '1' then\n        current_state <= next_state;\n        if next_state /= current_state then\n          zeit <= 0;\n        elsif current_state = s_offen or\n              current_state = s_gesperrt then\n          zeit <= zeit + 1;\n        end if;\n        if next_state = s_offen or\n           next_state = s_gesperrt then\n          fehler <= 0;\n        elsif falsch = '1' then\n          fehler <= fehler + 1;\n        end if;\n      end if;\n    end if;\n  end process state;\n\n  offen    <= '1' when current_state = s_offen else '0';\n  gesperrt <= '1' when current_state = s_gesperrt else '0';\nend architecture behav;\n```\nFeinheit: In `s_gesperrt` erzeugt `pruefen` kein `falsch`, deshalb werden Eingaben dort ignoriert.",
+     "klausur": [
+      {
+       "t": "p",
+       "s": "Zähler im Zustandsprozess wie im Steuerwerk aus F24 A1 (K02). Simulierbar in `am_rechner/L12/projekte_fsm.vhd`."
+      }
+     ]
+    },
+    {
+     "id": "P07",
+     "block": "P",
+     "title": "Klausur F20: Tastatur-Controller – Decoder und Multiplexer",
+     "min": 8,
+     "mode": "code",
+     "starter": "",
+     "solutionCode": "library ieee;\nuse ieee.std_logic_1164.all;\n\nentity decoder is\n  generic(N : positive);\n  port(\n    s : in  std_logic_vector(N-1 downto 0);\n    o : out std_logic_vector(2**N - 1 downto 0)\n    );\nend entity decoder;\n\nlibrary ieee;\nuse ieee.numeric_std.all;\n\narchitecture behav of decoder is\nbegin\n  process(s) is\n  begin\n    o <= (others => '0');\n    o(to_integer(unsigned(s))) <= '1';\n  end process;\nend architecture behav;\n\nlibrary ieee;\nuse ieee.std_logic_1164.all;\n\nentity mux is\n  generic(N : positive);\n  port(\n    x : in  std_logic_vector(2**N - 1 downto 0);\n    s : in  std_logic_vector(N-1 downto 0);\n    y : out std_logic\n    );\nend entity mux;\n\nlibrary ieee;\nuse ieee.numeric_std.all;\n\narchitecture behav of mux is\nbegin\n  y <= x(to_integer(unsigned(s)));\nend architecture behav;",
+     "ziel": [
+      {
+       "t": "p",
+       "s": "Die kombinatorischen Grundbausteine eines größeren Systems generisch schreiben."
+      }
+     ],
+     "erklaerung": [
+      {
+       "t": "p",
+       "s": "Nach **F20 A2** (sinngemäß): Eine Tastenmatrix mit 8 Spalten und 4 Zeilen wird abgefragt. Der Controller legt nacheinander **eine** Spalte auf `'1'` (Spalten-Decoder) und liest dann jede Zeile einzeln (Zeilen-Multiplexer). Ist eine Taste gedrückt, verbindet sie ihre Spalte mit ihrer Zeile."
+      },
+      {
+       "t": "diagram",
+       "id": "P07_tastatur",
+       "alt": "Tastatur-Controller als Blockschaltbild",
+       "w": 343.0,
+       "h": 453.0,
+       "prims": [
+        {
+         "k": "P",
+         "pts": [
+          308.0,
+          6.0,
+          210.0,
+          6.0,
+          210.0,
+          42.0,
+          308.0,
+          42.0
+         ],
+         "s": "ink"
+        },
+        {
+         "k": "T",
+         "x": 259.0,
+         "y": 20.4,
+         "s": "line_counter",
+         "a": "c",
+         "z": 13.0,
+         "c": "ink"
+        },
+        {
+         "k": "T",
+         "x": 259.0,
+         "y": 34.4,
+         "s": "(2 Bit)",
+         "a": "c",
+         "z": 13.0,
+         "c": "ink"
+        },
+        {
+         "k": "P",
+         "pts": [
+          185.5,
+          87.0,
+          62.5,
+          87.0,
+          62.5,
+          123.0,
+          185.5,
+          123.0
+         ],
+         "s": "ink"
+        },
+        {
+         "k": "T",
+         "x": 124.0,
+         "y": 101.4,
+         "s": "column_counter",
+         "a": "c",
+         "z": 13.0,
+         "c": "ink"
+        },
+        {
+         "k": "T",
+         "x": 124.0,
+         "y": 115.4,
+         "s": "(3 Bit)",
+         "a": "c",
+         "z": 13.0,
+         "c": "ink"
+        },
+        {
+         "k": "P",
+         "pts": [
+          187.0,
+          168.0,
+          61.0,
+          168.0,
+          61.0,
+          204.0,
+          187.0,
+          204.0
+         ],
+         "s": "ink"
+        },
+        {
+         "k": "T",
+         "x": 124.0,
+         "y": 182.4,
+         "s": "column_decoder",
+         "a": "c",
+         "z": 13.0,
+         "c": "ink"
+        },
+        {
+         "k": "T",
+         "x": 124.0,
+         "y": 196.4,
+         "s": "3 auf 8",
+         "a": "c",
+         "z": 13.0,
+         "c": "ink"
+        },
+        {
+         "k": "P",
+         "pts": [
+          196.0,
+          249.0,
+          94.0,
+          249.0,
+          94.0,
+          285.0,
+          196.0,
+          285.0
+         ],
+         "s": "ink"
+        },
+        {
+         "k": "T",
+         "x": 145.0,
+         "y": 263.4,
+         "s": "Tastenmatrix",
+         "a": "c",
+         "z": 13.0,
+         "c": "ink"
+        },
+        {
+         "k": "T",
+         "x": 145.0,
+         "y": 277.4,
+         "s": "8 x 4",
+         "a": "c",
+         "z": 13.0,
+         "c": "ink"
+        },
+        {
+         "k": "P",
+         "pts": [
+          252.0,
+          330.0,
+          176.0,
+          330.0,
+          176.0,
+          366.0,
+          252.0,
+          366.0
+         ],
+         "s": "ink"
+        },
+        {
+         "k": "T",
+         "x": 214.0,
+         "y": 344.4,
+         "s": "line_mux",
+         "a": "c",
+         "z": 13.0,
+         "c": "ink"
+        },
+        {
+         "k": "T",
+         "x": 214.0,
+         "y": 358.4,
+         "s": "4 auf 1",
+         "a": "c",
+         "z": 13.0,
+         "c": "ink"
+        },
+        {
+         "k": "P",
+         "pts": [
+          273.0,
+          411.0,
+          155.0,
+          411.0,
+          155.0,
+          447.0,
+          273.0,
+          447.0
+         ],
+         "s": "accent"
+        },
+        {
+         "k": "T",
+         "x": 214.0,
+         "y": 425.4,
+         "s": "keyboard_state",
+         "a": "c",
+         "z": 13.0,
+         "c": "accent"
+        },
+        {
+         "k": "T",
+         "x": 214.0,
+         "y": 439.4,
+         "s": "8 x 4 Speicher",
+         "a": "c",
+         "z": 13.0,
+         "c": "accent"
+        },
+        {
+         "k": "B",
+         "pts": [
+          213.6,
+          42.1,
+          203.0,
+          46.7,
+          191.9,
+          52.1,
+          182.0,
+          58.0,
+          170.6,
+          64.8,
+          158.9,
+          73.6,
+          149.1,
+          81.7
+         ],
+         "s": "line"
+        },
+        {
+         "k": "P",
+         "pts": [
+          150.8,
+          83.9,
+          142.9,
+          86.9,
+          147.2,
+          79.6
+         ],
+         "s": "line",
+         "f": "line"
+        },
+        {
+         "k": "T",
+         "x": 206.5,
+         "y": 67.6,
+         "s": "last_line",
+         "a": "c",
+         "z": 12.0,
+         "c": "ink"
+        },
+        {
+         "k": "B",
+         "pts": [
+          259.0,
+          42.3,
+          259.0,
+          58.3,
+          259.0,
+          82.7,
+          259.0,
+          104.0,
+          259.0,
+          104.0,
+          259.0,
+          104.0,
+          259.0,
+          268.0,
+          259.0,
+          288.5,
+          247.4,
+          308.6,
+          235.9,
+          323.4
+         ],
+         "s": "line"
+        },
+        {
+         "k": "P",
+         "pts": [
+          238.0,
+          325.3,
+          230.8,
+          329.8,
+          233.6,
+          321.8
+         ],
+         "s": "line",
+         "f": "line"
+        },
+        {
+         "k": "T",
+         "x": 261.0,
+         "y": 189.1,
+         "s": "l",
+         "a": "c",
+         "z": 12.0,
+         "c": "ink"
+        },
+        {
+         "k": "B",
+         "pts": [
+          289.9,
+          42.2,
+          310.2,
+          55.9,
+          333.0,
+          77.3,
+          333.0,
+          104.0,
+          333.0,
+          104.0,
+          333.0,
+          104.0,
+          333.0,
+          349.0,
+          333.0,
+          378.1,
+          307.9,
+          397.2,
+          280.8,
+          409.2
+         ],
+         "s": "line"
+        },
+        {
+         "k": "P",
+         "pts": [
+          281.6,
+          411.9,
+          273.1,
+          412.4,
+          279.4,
+          406.8
+         ],
+         "s": "line",
+         "f": "line"
+        },
+        {
+         "k": "T",
+         "x": 335.0,
+         "y": 229.6,
+         "s": "l",
+         "a": "c",
+         "z": 12.0,
+         "c": "ink"
+        },
+        {
+         "k": "B",
+         "pts": [
+          124.0,
+          123.1,
+          124.0,
+          133.8,
+          124.0,
+          147.7,
+          124.0,
+          159.6
+         ],
+         "s": "line"
+        },
+        {
+         "k": "P",
+         "pts": [
+          126.8,
+          159.9,
+          124.0,
+          167.9,
+          121.2,
+          159.9
+         ],
+         "s": "line",
+         "f": "line"
+        },
+        {
+         "k": "T",
+         "x": 127.5,
+         "y": 148.6,
+         "s": "c",
+         "a": "c",
+         "z": 12.0,
+         "c": "ink"
+        },
+        {
+         "k": "B",
+         "pts": [
+          62.2,
+          123.0,
+          33.7,
+          134.9,
+          6.0,
+          154.4,
+          6.0,
+          185.0,
+          6.0,
+          185.0,
+          6.0,
+          185.0,
+          6.0,
+          349.0,
+          6.0,
+          379.7,
+          86.1,
+          402.7,
+          146.9,
+          415.8
+         ],
+         "s": "line"
+        },
+        {
+         "k": "P",
+         "pts": [
+          147.7,
+          413.1,
+          154.9,
+          417.5,
+          146.6,
+          418.6
+         ],
+         "s": "line",
+         "f": "line"
+        },
+        {
+         "k": "T",
+         "x": 9.5,
+         "y": 270.1,
+         "s": "c",
+         "a": "c",
+         "z": 12.0,
+         "c": "ink"
+        },
+        {
+         "k": "B",
+         "pts": [
+          128.6,
+          204.1,
+          131.4,
+          214.9,
+          135.2,
+          229.0,
+          138.3,
+          241.0
+         ],
+         "s": "line"
+        },
+        {
+         "k": "P",
+         "pts": [
+          141.1,
+          240.4,
+          140.4,
+          248.9,
+          135.7,
+          241.9
+         ],
+         "s": "line",
+         "f": "line"
+        },
+        {
+         "k": "T",
+         "x": 161.5,
+         "y": 229.6,
+         "s": "columns",
+         "a": "c",
+         "z": 12.0,
+         "c": "ink"
+        },
+        {
+         "k": "B",
+         "pts": [
+          160.0,
+          285.1,
+          169.8,
+          296.4,
+          182.8,
+          311.3,
+          193.7,
+          323.7
+         ],
+         "s": "line"
+        },
+        {
+         "k": "P",
+         "pts": [
+          195.9,
+          322.0,
+          199.1,
+          329.9,
+          191.7,
+          325.7
+         ],
+         "s": "line",
+         "f": "line"
+        },
+        {
+         "k": "T",
+         "x": 198.0,
+         "y": 310.6,
+         "s": "lines",
+         "a": "c",
+         "z": 12.0,
+         "c": "ink"
+        },
+        {
+         "k": "B",
+         "pts": [
+          214.0,
+          366.1,
+          214.0,
+          376.8,
+          214.0,
+          390.7,
+          214.0,
+          402.6
+         ],
+         "s": "line"
+        },
+        {
+         "k": "P",
+         "pts": [
+          216.8,
+          402.9,
+          214.0,
+          410.9,
+          211.2,
+          402.9
+         ],
+         "s": "line",
+         "f": "line"
+        },
+        {
+         "k": "T",
+         "x": 253.0,
+         "y": 391.6,
+         "s": "selected_line",
+         "a": "c",
+         "z": 12.0,
+         "c": "ink"
+        }
+       ]
+      },
+      {
+       "t": "p",
+       "s": "Bausteine:"
+      },
+      {
+       "t": "ul",
+       "items": [
+        "`decoder` mit Generic `N`: Eingang `s(N-1 downto 0)`, Ausgang `o(2**N - 1 downto 0)`, genau das Bit mit der Nummer `s` ist `'1'` (One-hot).",
+        "`mux` mit Generic `N`: Eingang `x(2**N - 1 downto 0)`, Auswahl `s(N-1 downto 0)`, Ausgang `y`."
+       ]
+      },
+      {
+       "t": "p",
+       "s": "Trick für beide: Index mit `to_integer(unsigned(s))`."
+      }
+     ],
+     "aufgabe": [
+      {
+       "t": "p",
+       "s": "Schreibe Entity und Architecture `behav` für `decoder` und `mux`. Der Decoder braucht einen Prozess, der Multiplexer kommt mit einer Zeile aus."
+      }
+     ],
+     "aufgabeMd": "Schreibe Entity und Architecture `behav` für `decoder` und `mux`. Der Decoder braucht einen Prozess, der Multiplexer kommt mit einer Zeile aus.",
+     "loesung": [
+      {
+       "t": "code",
+       "lang": "vhdl",
+       "s": "library ieee;\nuse ieee.std_logic_1164.all;\n\nentity decoder is\n  generic(N : positive);\n  port(\n    s : in  std_logic_vector(N-1 downto 0);\n    o : out std_logic_vector(2**N - 1 downto 0)\n    );\nend entity decoder;\n\nlibrary ieee;\nuse ieee.numeric_std.all;\n\narchitecture behav of decoder is\nbegin\n  process(s) is\n  begin\n    o <= (others => '0');\n    o(to_integer(unsigned(s))) <= '1';\n  end process;\nend architecture behav;\n\nlibrary ieee;\nuse ieee.std_logic_1164.all;\n\nentity mux is\n  generic(N : positive);\n  port(\n    x : in  std_logic_vector(2**N - 1 downto 0);\n    s : in  std_logic_vector(N-1 downto 0);\n    y : out std_logic\n    );\nend entity mux;\n\nlibrary ieee;\nuse ieee.numeric_std.all;\n\narchitecture behav of mux is\nbegin\n  y <= x(to_integer(unsigned(s)));\nend architecture behav;"
+      },
+      {
+       "t": "p",
+       "s": "Beim Decoder überschreibt die zweite Zuweisung im Prozess das eine Bit – die letzte Zuweisung gewinnt (C02)."
+      }
+     ],
+     "loesungMd": "```vhdl\nlibrary ieee;\nuse ieee.std_logic_1164.all;\n\nentity decoder is\n  generic(N : positive);\n  port(\n    s : in  std_logic_vector(N-1 downto 0);\n    o : out std_logic_vector(2**N - 1 downto 0)\n    );\nend entity decoder;\n\nlibrary ieee;\nuse ieee.numeric_std.all;\n\narchitecture behav of decoder is\nbegin\n  process(s) is\n  begin\n    o <= (others => '0');\n    o(to_integer(unsigned(s))) <= '1';\n  end process;\nend architecture behav;\n\nlibrary ieee;\nuse ieee.std_logic_1164.all;\n\nentity mux is\n  generic(N : positive);\n  port(\n    x : in  std_logic_vector(2**N - 1 downto 0);\n    s : in  std_logic_vector(N-1 downto 0);\n    y : out std_logic\n    );\nend entity mux;\n\nlibrary ieee;\nuse ieee.numeric_std.all;\n\narchitecture behav of mux is\nbegin\n  y <= x(to_integer(unsigned(s)));\nend architecture behav;\n```\nBeim Decoder überschreibt die zweite Zuweisung im Prozess das eine Bit – die letzte Zuweisung gewinnt (C02).",
+     "klausur": [
+      {
+       "t": "p",
+       "s": "**F20 A2** (Tastatur, Decoder und Multiplexer). Simulierbar in `am_rechner/L12/projekte_klausur.vhd`."
+      }
+     ]
+    },
+    {
+     "id": "P08",
+     "block": "P",
+     "title": "Klausur F20: Binärzähler mit Freigabe",
+     "min": 6,
+     "mode": "code",
+     "starter": "",
+     "solutionCode": "library ieee;\nuse ieee.std_logic_1164.all;\n\nentity binary_counter is\n  generic(N : positive);\n  port(\n    clk, res_n : in  std_logic;\n    inc        : in  std_logic := '1';\n    q          : out std_logic_vector(N-1 downto 0);\n    max        : out std_logic\n    );\nend entity binary_counter;\n\nlibrary ieee;\nuse ieee.numeric_std.all;\n\narchitecture behav of binary_counter is\n  signal cnt : unsigned(N-1 downto 0);\nbegin\n  process(clk, res_n) is\n  begin\n    if res_n = '0' then\n      cnt <= (others => '0');\n    else\n      if clk'event and clk = '1' then\n        if inc = '1' then\n          cnt <= cnt + 1;\n        end if;\n      end if;\n    end if;\n  end process;\n  q   <= std_logic_vector(cnt);\n  max <= '1' when cnt = 2**N - 1 else '0';\nend architecture behav;",
+     "ziel": [
+      {
+       "t": "p",
+       "s": "Einen generischen Zähler schreiben, der sich zu einer Zählerkette verbinden lässt."
+      }
+     ],
+     "erklaerung": [
+      {
+       "t": "p",
+       "s": "Der Tastatur-Controller braucht zwei Zähler:"
+      },
+      {
+       "t": "ul",
+       "items": [
+        "**Zeilenzähler** (2 Bit) zählt in jedem Takt.",
+        "**Spaltenzähler** (3 Bit) zählt nur, wenn der Zeilenzähler gerade bei 3 steht – also einmal pro vollem Zeilendurchlauf."
+       ]
+      },
+      {
+       "t": "p",
+       "s": "Dafür bekommt `binary_counter` einen Freigabe-Eingang `inc` und einen Ausgang `max` (`'1'`, wenn der Zähler auf dem größten Wert steht). Verbindet man `max` des einen mit `inc` des anderen, entsteht ein Zähler mit 5 Bit."
+      },
+      {
+       "t": "p",
+       "s": "Tipp: `inc : in std_logic := '1'` – ein **Defaultwert** am Port. Bleibt der Port in der Instanz unbeschaltet, gilt `'1'`."
+      }
+     ],
+     "aufgabe": [
+      {
+       "t": "p",
+       "s": "Schreibe Entity und Architecture `behav` für `binary_counter` mit Generic `N`, Ports `clk`, `res_n`, `inc` (Default `'1'`), `q(N-1 downto 0)` und `max`."
+      }
+     ],
+     "aufgabeMd": "Schreibe Entity und Architecture `behav` für `binary_counter` mit Generic `N`, Ports `clk`, `res_n`, `inc` (Default `'1'`), `q(N-1 downto 0)` und `max`.",
+     "loesung": [
+      {
+       "t": "code",
+       "lang": "vhdl",
+       "s": "library ieee;\nuse ieee.std_logic_1164.all;\n\nentity binary_counter is\n  generic(N : positive);\n  port(\n    clk, res_n : in  std_logic;\n    inc        : in  std_logic := '1';\n    q          : out std_logic_vector(N-1 downto 0);\n    max        : out std_logic\n    );\nend entity binary_counter;\n\nlibrary ieee;\nuse ieee.numeric_std.all;\n\narchitecture behav of binary_counter is\n  signal cnt : unsigned(N-1 downto 0);\nbegin\n  process(clk, res_n) is\n  begin\n    if res_n = '0' then\n      cnt <= (others => '0');\n    else\n      if clk'event and clk = '1' then\n        if inc = '1' then\n          cnt <= cnt + 1;\n        end if;\n      end if;\n    end if;\n  end process;\n  q   <= std_logic_vector(cnt);\n  max <= '1' when cnt = 2**N - 1 else '0';\nend architecture behav;"
+      },
+      {
+       "t": "p",
+       "s": "Ein Ausgangsport kann nicht gelesen werden (in VHDL-93), deshalb zählt das interne Signal `cnt`. Der Überlauf von `unsigned` geht von selbst wieder auf 0."
+      }
+     ],
+     "loesungMd": "```vhdl\nlibrary ieee;\nuse ieee.std_logic_1164.all;\n\nentity binary_counter is\n  generic(N : positive);\n  port(\n    clk, res_n : in  std_logic;\n    inc        : in  std_logic := '1';\n    q          : out std_logic_vector(N-1 downto 0);\n    max        : out std_logic\n    );\nend entity binary_counter;\n\nlibrary ieee;\nuse ieee.numeric_std.all;\n\narchitecture behav of binary_counter is\n  signal cnt : unsigned(N-1 downto 0);\nbegin\n  process(clk, res_n) is\n  begin\n    if res_n = '0' then\n      cnt <= (others => '0');\n    else\n      if clk'event and clk = '1' then\n        if inc = '1' then\n          cnt <= cnt + 1;\n        end if;\n      end if;\n    end if;\n  end process;\n  q   <= std_logic_vector(cnt);\n  max <= '1' when cnt = 2**N - 1 else '0';\nend architecture behav;\n```\nEin Ausgangsport kann nicht gelesen werden (in VHDL-93), deshalb zählt das interne Signal `cnt`. Der Überlauf von `unsigned` geht von selbst wieder auf 0.",
+     "klausur": [
+      {
+       "t": "p",
+       "s": "**F20 A2** (Line Counter, Column Counter)."
+      }
+     ]
+    },
+    {
+     "id": "P09",
+     "block": "P",
+     "title": "Klausur F20: Tastenspeicher mit 2D-Array",
+     "min": 8,
+     "mode": "code",
+     "starter": "",
+     "solutionCode": "library ieee;\nuse ieee.std_logic_1164.all;\n\nentity keyboard_state is\n  port(\n    clk, res_n    : in  std_logic;\n    column_number : in  std_logic_vector(2 downto 0);\n    line_number   : in  std_logic_vector(1 downto 0);\n    key_in        : in  std_logic;\n    key_changed   : out std_logic;\n    key_state     : out std_logic\n    );\nend entity keyboard_state;\n\nlibrary ieee;\nuse ieee.numeric_std.all;\n\narchitecture behav of keyboard_state is\n  subtype c_type is integer range 0 to 7;\n  subtype l_type is integer range 0 to 3;\n  type matrix_type is array (c_type, l_type) of std_logic;\n  signal matrix : matrix_type;\n  signal c : c_type;\n  signal l : l_type;\nbegin\n  c <= to_integer(unsigned(column_number));\n  l <= to_integer(unsigned(line_number));\n\n  process(clk, res_n) is\n  begin\n    if res_n = '0' then\n      matrix <= (others => (others => '0'));\n    else\n      if clk'event and clk = '1' then\n        matrix(c, l) <= key_in;\n      end if;\n    end if;\n  end process;\n\n  key_changed <= key_in xor matrix(c, l);\n  key_state   <= key_in;\nend architecture behav;",
+     "ziel": [
+      {
+       "t": "p",
+       "s": "Ein zweidimensionales Array als Speicher nutzen und Änderungen erkennen."
+      }
+     ],
+     "erklaerung": [
+      {
+       "t": "p",
+       "s": "`keyboard_state` merkt sich für jede der 8 × 4 Tasten den zuletzt gelesenen Zustand. Kommt die Abfrage wieder bei derselben Taste an, vergleicht er:"
+      },
+      {
+       "t": "ul",
+       "items": [
+        "`key_changed = '1'`, wenn sich der Zustand gegenüber dem gespeicherten geändert hat (gedrückt **oder** losgelassen),",
+        "`key_state` = aktueller Zustand der Taste."
+       ]
+      },
+      {
+       "t": "p",
+       "s": "Zweidimensionaler Array-Typ (E05):"
+      },
+      {
+       "t": "code",
+       "lang": "vhdl",
+       "s": "subtype c_type is integer range 0 to 7;\nsubtype l_type is integer range 0 to 3;\ntype matrix_type is array (c_type, l_type) of std_logic;\nsignal matrix : matrix_type;"
+      },
+      {
+       "t": "p",
+       "s": "Zugriff mit zwei Indizes: `matrix(c, l)`. Alles löschen: `(others => (others => '0'))`."
+      },
+      {
+       "t": "p",
+       "s": "Ports: `clk`, `res_n`, `column_number(2 downto 0)`, `line_number(1 downto 0)`, `key_in`, `key_changed`, `key_state`."
+      }
+     ],
+     "aufgabe": [
+      {
+       "t": "p",
+       "s": "Schreibe Entity und Architecture `behav` für `keyboard_state`. Der Speicher übernimmt mit jeder Taktflanke `key_in` an der aktuellen Stelle, `key_changed` ist kombinatorisch."
+      }
+     ],
+     "aufgabeMd": "Schreibe Entity und Architecture `behav` für `keyboard_state`. Der Speicher übernimmt mit jeder Taktflanke `key_in` an der aktuellen Stelle, `key_changed` ist kombinatorisch.",
+     "loesung": [
+      {
+       "t": "code",
+       "lang": "vhdl",
+       "s": "library ieee;\nuse ieee.std_logic_1164.all;\n\nentity keyboard_state is\n  port(\n    clk, res_n    : in  std_logic;\n    column_number : in  std_logic_vector(2 downto 0);\n    line_number   : in  std_logic_vector(1 downto 0);\n    key_in        : in  std_logic;\n    key_changed   : out std_logic;\n    key_state     : out std_logic\n    );\nend entity keyboard_state;\n\nlibrary ieee;\nuse ieee.numeric_std.all;\n\narchitecture behav of keyboard_state is\n  subtype c_type is integer range 0 to 7;\n  subtype l_type is integer range 0 to 3;\n  type matrix_type is array (c_type, l_type) of std_logic;\n  signal matrix : matrix_type;\n  signal c : c_type;\n  signal l : l_type;\nbegin\n  c <= to_integer(unsigned(column_number));\n  l <= to_integer(unsigned(line_number));\n\n  process(clk, res_n) is\n  begin\n    if res_n = '0' then\n      matrix <= (others => (others => '0'));\n    else\n      if clk'event and clk = '1' then\n        matrix(c, l) <= key_in;\n      end if;\n    end if;\n  end process;\n\n  key_changed <= key_in xor matrix(c, l);\n  key_state   <= key_in;\nend architecture behav;"
+      },
+      {
+       "t": "p",
+       "s": "`xor` ist genau dann `'1'`, wenn alter und neuer Wert verschieden sind."
+      }
+     ],
+     "loesungMd": "```vhdl\nlibrary ieee;\nuse ieee.std_logic_1164.all;\n\nentity keyboard_state is\n  port(\n    clk, res_n    : in  std_logic;\n    column_number : in  std_logic_vector(2 downto 0);\n    line_number   : in  std_logic_vector(1 downto 0);\n    key_in        : in  std_logic;\n    key_changed   : out std_logic;\n    key_state     : out std_logic\n    );\nend entity keyboard_state;\n\nlibrary ieee;\nuse ieee.numeric_std.all;\n\narchitecture behav of keyboard_state is\n  subtype c_type is integer range 0 to 7;\n  subtype l_type is integer range 0 to 3;\n  type matrix_type is array (c_type, l_type) of std_logic;\n  signal matrix : matrix_type;\n  signal c : c_type;\n  signal l : l_type;\nbegin\n  c <= to_integer(unsigned(column_number));\n  l <= to_integer(unsigned(line_number));\n\n  process(clk, res_n) is\n  begin\n    if res_n = '0' then\n      matrix <= (others => (others => '0'));\n    else\n      if clk'event and clk = '1' then\n        matrix(c, l) <= key_in;\n      end if;\n    end if;\n  end process;\n\n  key_changed <= key_in xor matrix(c, l);\n  key_state   <= key_in;\nend architecture behav;\n```\n`xor` ist genau dann `'1'`, wenn alter und neuer Wert verschieden sind.",
+     "klausur": [
+      {
+       "t": "p",
+       "s": "**F20 A2** (Keyboard State)."
+      }
+     ]
+    },
+    {
+     "id": "P10",
+     "block": "P",
+     "title": "Klausur F20: Tastatur-Controller verdrahten",
+     "min": 9,
+     "mode": "code",
+     "starter": "",
+     "solutionCode": "architecture struct of keyboard_controller is\n  signal last_line, selected_line : std_logic;\n  signal c : std_logic_vector(2 downto 0);\n  signal l : std_logic_vector(1 downto 0);\nbegin\n  line_counter: entity work.binary_counter\n    generic map(N => 2)\n    port map(clk => clk, res_n => res_n,\n             q => l, max => last_line);\n  column_counter: entity work.binary_counter\n    generic map(N => 3)\n    port map(clk => clk, res_n => res_n,\n             inc => last_line, q => c, max => open);\n  column_decoder: entity work.decoder\n    generic map(N => 3)\n    port map(s => c, o => columns);\n  line_mux: entity work.mux\n    generic map(N => 2)\n    port map(x => lines, s => l, y => selected_line);\n  state: entity work.keyboard_state\n    port map(clk => clk, res_n => res_n,\n             column_number => c, line_number => l,\n             key_in => selected_line,\n             key_changed => key_changed,\n             key_state => key_state);\n  c_num <= c;\n  l_num <= l;\nend architecture struct;",
+     "ziel": [
+      {
+       "t": "p",
+       "s": "Fünf Bausteine in einer `struct`-Architecture zu einem System verbinden."
+      }
+     ],
+     "erklaerung": [
+      {
+       "t": "diagram",
+       "id": "P07_tastatur",
+       "alt": "Tastatur-Controller als Blockschaltbild",
+       "w": 343.0,
+       "h": 453.0,
+       "prims": [
+        {
+         "k": "P",
+         "pts": [
+          308.0,
+          6.0,
+          210.0,
+          6.0,
+          210.0,
+          42.0,
+          308.0,
+          42.0
+         ],
+         "s": "ink"
+        },
+        {
+         "k": "T",
+         "x": 259.0,
+         "y": 20.4,
+         "s": "line_counter",
+         "a": "c",
+         "z": 13.0,
+         "c": "ink"
+        },
+        {
+         "k": "T",
+         "x": 259.0,
+         "y": 34.4,
+         "s": "(2 Bit)",
+         "a": "c",
+         "z": 13.0,
+         "c": "ink"
+        },
+        {
+         "k": "P",
+         "pts": [
+          185.5,
+          87.0,
+          62.5,
+          87.0,
+          62.5,
+          123.0,
+          185.5,
+          123.0
+         ],
+         "s": "ink"
+        },
+        {
+         "k": "T",
+         "x": 124.0,
+         "y": 101.4,
+         "s": "column_counter",
+         "a": "c",
+         "z": 13.0,
+         "c": "ink"
+        },
+        {
+         "k": "T",
+         "x": 124.0,
+         "y": 115.4,
+         "s": "(3 Bit)",
+         "a": "c",
+         "z": 13.0,
+         "c": "ink"
+        },
+        {
+         "k": "P",
+         "pts": [
+          187.0,
+          168.0,
+          61.0,
+          168.0,
+          61.0,
+          204.0,
+          187.0,
+          204.0
+         ],
+         "s": "ink"
+        },
+        {
+         "k": "T",
+         "x": 124.0,
+         "y": 182.4,
+         "s": "column_decoder",
+         "a": "c",
+         "z": 13.0,
+         "c": "ink"
+        },
+        {
+         "k": "T",
+         "x": 124.0,
+         "y": 196.4,
+         "s": "3 auf 8",
+         "a": "c",
+         "z": 13.0,
+         "c": "ink"
+        },
+        {
+         "k": "P",
+         "pts": [
+          196.0,
+          249.0,
+          94.0,
+          249.0,
+          94.0,
+          285.0,
+          196.0,
+          285.0
+         ],
+         "s": "ink"
+        },
+        {
+         "k": "T",
+         "x": 145.0,
+         "y": 263.4,
+         "s": "Tastenmatrix",
+         "a": "c",
+         "z": 13.0,
+         "c": "ink"
+        },
+        {
+         "k": "T",
+         "x": 145.0,
+         "y": 277.4,
+         "s": "8 x 4",
+         "a": "c",
+         "z": 13.0,
+         "c": "ink"
+        },
+        {
+         "k": "P",
+         "pts": [
+          252.0,
+          330.0,
+          176.0,
+          330.0,
+          176.0,
+          366.0,
+          252.0,
+          366.0
+         ],
+         "s": "ink"
+        },
+        {
+         "k": "T",
+         "x": 214.0,
+         "y": 344.4,
+         "s": "line_mux",
+         "a": "c",
+         "z": 13.0,
+         "c": "ink"
+        },
+        {
+         "k": "T",
+         "x": 214.0,
+         "y": 358.4,
+         "s": "4 auf 1",
+         "a": "c",
+         "z": 13.0,
+         "c": "ink"
+        },
+        {
+         "k": "P",
+         "pts": [
+          273.0,
+          411.0,
+          155.0,
+          411.0,
+          155.0,
+          447.0,
+          273.0,
+          447.0
+         ],
+         "s": "accent"
+        },
+        {
+         "k": "T",
+         "x": 214.0,
+         "y": 425.4,
+         "s": "keyboard_state",
+         "a": "c",
+         "z": 13.0,
+         "c": "accent"
+        },
+        {
+         "k": "T",
+         "x": 214.0,
+         "y": 439.4,
+         "s": "8 x 4 Speicher",
+         "a": "c",
+         "z": 13.0,
+         "c": "accent"
+        },
+        {
+         "k": "B",
+         "pts": [
+          213.6,
+          42.1,
+          203.0,
+          46.7,
+          191.9,
+          52.1,
+          182.0,
+          58.0,
+          170.6,
+          64.8,
+          158.9,
+          73.6,
+          149.1,
+          81.7
+         ],
+         "s": "line"
+        },
+        {
+         "k": "P",
+         "pts": [
+          150.8,
+          83.9,
+          142.9,
+          86.9,
+          147.2,
+          79.6
+         ],
+         "s": "line",
+         "f": "line"
+        },
+        {
+         "k": "T",
+         "x": 206.5,
+         "y": 67.6,
+         "s": "last_line",
+         "a": "c",
+         "z": 12.0,
+         "c": "ink"
+        },
+        {
+         "k": "B",
+         "pts": [
+          259.0,
+          42.3,
+          259.0,
+          58.3,
+          259.0,
+          82.7,
+          259.0,
+          104.0,
+          259.0,
+          104.0,
+          259.0,
+          104.0,
+          259.0,
+          268.0,
+          259.0,
+          288.5,
+          247.4,
+          308.6,
+          235.9,
+          323.4
+         ],
+         "s": "line"
+        },
+        {
+         "k": "P",
+         "pts": [
+          238.0,
+          325.3,
+          230.8,
+          329.8,
+          233.6,
+          321.8
+         ],
+         "s": "line",
+         "f": "line"
+        },
+        {
+         "k": "T",
+         "x": 261.0,
+         "y": 189.1,
+         "s": "l",
+         "a": "c",
+         "z": 12.0,
+         "c": "ink"
+        },
+        {
+         "k": "B",
+         "pts": [
+          289.9,
+          42.2,
+          310.2,
+          55.9,
+          333.0,
+          77.3,
+          333.0,
+          104.0,
+          333.0,
+          104.0,
+          333.0,
+          104.0,
+          333.0,
+          349.0,
+          333.0,
+          378.1,
+          307.9,
+          397.2,
+          280.8,
+          409.2
+         ],
+         "s": "line"
+        },
+        {
+         "k": "P",
+         "pts": [
+          281.6,
+          411.9,
+          273.1,
+          412.4,
+          279.4,
+          406.8
+         ],
+         "s": "line",
+         "f": "line"
+        },
+        {
+         "k": "T",
+         "x": 335.0,
+         "y": 229.6,
+         "s": "l",
+         "a": "c",
+         "z": 12.0,
+         "c": "ink"
+        },
+        {
+         "k": "B",
+         "pts": [
+          124.0,
+          123.1,
+          124.0,
+          133.8,
+          124.0,
+          147.7,
+          124.0,
+          159.6
+         ],
+         "s": "line"
+        },
+        {
+         "k": "P",
+         "pts": [
+          126.8,
+          159.9,
+          124.0,
+          167.9,
+          121.2,
+          159.9
+         ],
+         "s": "line",
+         "f": "line"
+        },
+        {
+         "k": "T",
+         "x": 127.5,
+         "y": 148.6,
+         "s": "c",
+         "a": "c",
+         "z": 12.0,
+         "c": "ink"
+        },
+        {
+         "k": "B",
+         "pts": [
+          62.2,
+          123.0,
+          33.7,
+          134.9,
+          6.0,
+          154.4,
+          6.0,
+          185.0,
+          6.0,
+          185.0,
+          6.0,
+          185.0,
+          6.0,
+          349.0,
+          6.0,
+          379.7,
+          86.1,
+          402.7,
+          146.9,
+          415.8
+         ],
+         "s": "line"
+        },
+        {
+         "k": "P",
+         "pts": [
+          147.7,
+          413.1,
+          154.9,
+          417.5,
+          146.6,
+          418.6
+         ],
+         "s": "line",
+         "f": "line"
+        },
+        {
+         "k": "T",
+         "x": 9.5,
+         "y": 270.1,
+         "s": "c",
+         "a": "c",
+         "z": 12.0,
+         "c": "ink"
+        },
+        {
+         "k": "B",
+         "pts": [
+          128.6,
+          204.1,
+          131.4,
+          214.9,
+          135.2,
+          229.0,
+          138.3,
+          241.0
+         ],
+         "s": "line"
+        },
+        {
+         "k": "P",
+         "pts": [
+          141.1,
+          240.4,
+          140.4,
+          248.9,
+          135.7,
+          241.9
+         ],
+         "s": "line",
+         "f": "line"
+        },
+        {
+         "k": "T",
+         "x": 161.5,
+         "y": 229.6,
+         "s": "columns",
+         "a": "c",
+         "z": 12.0,
+         "c": "ink"
+        },
+        {
+         "k": "B",
+         "pts": [
+          160.0,
+          285.1,
+          169.8,
+          296.4,
+          182.8,
+          311.3,
+          193.7,
+          323.7
+         ],
+         "s": "line"
+        },
+        {
+         "k": "P",
+         "pts": [
+          195.9,
+          322.0,
+          199.1,
+          329.9,
+          191.7,
+          325.7
+         ],
+         "s": "line",
+         "f": "line"
+        },
+        {
+         "k": "T",
+         "x": 198.0,
+         "y": 310.6,
+         "s": "lines",
+         "a": "c",
+         "z": 12.0,
+         "c": "ink"
+        },
+        {
+         "k": "B",
+         "pts": [
+          214.0,
+          366.1,
+          214.0,
+          376.8,
+          214.0,
+          390.7,
+          214.0,
+          402.6
+         ],
+         "s": "line"
+        },
+        {
+         "k": "P",
+         "pts": [
+          216.8,
+          402.9,
+          214.0,
+          410.9,
+          211.2,
+          402.9
+         ],
+         "s": "line",
+         "f": "line"
+        },
+        {
+         "k": "T",
+         "x": 253.0,
+         "y": 391.6,
+         "s": "selected_line",
+         "a": "c",
+         "z": 12.0,
+         "c": "ink"
+        }
+       ]
+      },
+      {
+       "t": "p",
+       "s": "Vorgehen beim Verdrahten (L-Block):"
+      },
+      {
+       "t": "ol",
+       "items": [
+        "Für jede **Verbindung zwischen zwei Instanzen** ein internes Signal deklarieren: `l`, `c`, `last_line`, `selected_line`.",
+        "Jede Instanz mit `entity work.… generic map(…) port map(…)` und Named Association.",
+        "Nicht benutzte Ausgänge: `=> open`. Nicht beschaltete Eingänge mit Default: einfach weglassen.",
+        "Ausgänge, die auch intern gebraucht werden, über ein Signal führen und am Ende zuweisen (`c_num <= c;`)."
+       ]
+      },
+      {
+       "t": "p",
+       "s": "Entity:"
+      },
+      {
+       "t": "code",
+       "lang": "vhdl",
+       "s": "entity keyboard_controller is\n  port(\n    clk, res_n  : in  std_logic;\n    lines       : in  std_logic_vector(3 downto 0);\n    columns     : out std_logic_vector(7 downto 0);\n    c_num       : out std_logic_vector(2 downto 0);\n    l_num       : out std_logic_vector(1 downto 0);\n    key_changed : out std_logic;\n    key_state   : out std_logic\n    );\nend entity keyboard_controller;"
+      }
+     ],
+     "aufgabe": [
+      {
+       "t": "ol",
+       "items": [
+        "Schreibe `architecture struct of keyboard_controller` mit den Instanzen `line_counter`, `column_counter`, `column_decoder`, `line_mux`, `state`.",
+        "Die Tasten sind mechanische Schalter und die Leitungen `lines` kommen asynchron zum Takt herein. Was fehlt, und welchen Nachteil hat die Abhilfe?"
+       ]
+      }
+     ],
+     "aufgabeMd": "1. Schreibe `architecture struct of keyboard_controller` mit den Instanzen `line_counter`, `column_counter`, `column_decoder`, `line_mux`, `state`.\n2. Die Tasten sind mechanische Schalter und die Leitungen `lines` kommen asynchron zum Takt herein. Was fehlt, und welchen Nachteil hat die Abhilfe?",
+     "loesung": [
+      {
+       "t": "code",
+       "lang": "vhdl",
+       "s": "architecture struct of keyboard_controller is\n  signal last_line, selected_line : std_logic;\n  signal c : std_logic_vector(2 downto 0);\n  signal l : std_logic_vector(1 downto 0);\nbegin\n  line_counter: entity work.binary_counter\n    generic map(N => 2)\n    port map(clk => clk, res_n => res_n,\n             q => l, max => last_line);\n  column_counter: entity work.binary_counter\n    generic map(N => 3)\n    port map(clk => clk, res_n => res_n,\n             inc => last_line, q => c, max => open);\n  column_decoder: entity work.decoder\n    generic map(N => 3)\n    port map(s => c, o => columns);\n  line_mux: entity work.mux\n    generic map(N => 2)\n    port map(x => lines, s => l, y => selected_line);\n  state: entity work.keyboard_state\n    port map(clk => clk, res_n => res_n,\n             column_number => c, line_number => l,\n             key_in => selected_line,\n             key_changed => key_changed,\n             key_state => key_state);\n  c_num <= c;\n  l_num <= l;\nend architecture struct;"
+      },
+      {
+       "t": "ol",
+       "items": [
+        "Es fehlt ein **Synchronisierer** (zwei Flipflops hintereinander, D05) für `lines`, sonst droht Metastabilität. Nachteil: Der Wert kommt zwei Takte später an – dann passt er nicht mehr zur gerade gewählten Zeile `l`. Lösungen: die Zählerstände `l`/`c` genauso um zwei Takte verzögert an Multiplexer und `keyboard_state` geben, oder die Spalte um die Verzögerung früher umschalten."
+       ]
+      }
+     ],
+     "loesungMd": "```vhdl\narchitecture struct of keyboard_controller is\n  signal last_line, selected_line : std_logic;\n  signal c : std_logic_vector(2 downto 0);\n  signal l : std_logic_vector(1 downto 0);\nbegin\n  line_counter: entity work.binary_counter\n    generic map(N => 2)\n    port map(clk => clk, res_n => res_n,\n             q => l, max => last_line);\n  column_counter: entity work.binary_counter\n    generic map(N => 3)\n    port map(clk => clk, res_n => res_n,\n             inc => last_line, q => c, max => open);\n  column_decoder: entity work.decoder\n    generic map(N => 3)\n    port map(s => c, o => columns);\n  line_mux: entity work.mux\n    generic map(N => 2)\n    port map(x => lines, s => l, y => selected_line);\n  state: entity work.keyboard_state\n    port map(clk => clk, res_n => res_n,\n             column_number => c, line_number => l,\n             key_in => selected_line,\n             key_changed => key_changed,\n             key_state => key_state);\n  c_num <= c;\n  l_num <= l;\nend architecture struct;\n```\n2. Es fehlt ein **Synchronisierer** (zwei Flipflops hintereinander, D05) für `lines`, sonst droht Metastabilität. Nachteil: Der Wert kommt zwei Takte später an – dann passt er nicht mehr zur gerade gewählten Zeile `l`. Lösungen: die Zählerstände `l`/`c` genauso um zwei Takte verzögert an Multiplexer und `keyboard_state` geben, oder die Spalte um die Verzögerung früher umschalten.",
+     "klausur": [
+      {
+       "t": "p",
+       "s": "**F20 A2** (Top-Level und Frage nach dem Synchronisierer). Simulierbar mit `am_rechner/L12/tb_projekte.vhd`."
+      }
+     ]
+    },
+    {
+     "id": "P11",
+     "block": "P",
+     "title": "Klausur F19: Serieller Rahmen und Sende-Prozedur",
+     "min": 8,
+     "mode": "code",
+     "starter": "",
+     "solutionCode": "procedure send_byte(d : std_logic_vector(7 downto 0)) is\nbegin\n  ser <= '1';               -- Startbit\n  wait for 8 * T;\n  for i in 0 to 7 loop      -- LSB zuerst\n    ser <= d(i);\n    wait for 8 * T;\n  end loop;\n  ser <= '0';               -- Stoppbit\n  wait for 8 * T;\nend procedure send_byte;",
+     "ziel": [
+      {
+       "t": "p",
+       "s": "Ein serielles Protokoll verstehen und es in der Testbench mit einer Prozedur erzeugen."
+      }
+     ],
+     "erklaerung": [
+      {
+       "t": "p",
+       "s": "Nach **F19 A1** (sinngemäß): Bytes werden einzeln über eine Leitung `ser` übertragen. Jedes Byte steckt in einem Rahmen:"
+      },
+      {
+       "t": "ul",
+       "items": [
+        "Ruhepegel `'0'`",
+        "**Startbit** `'1'`",
+        "8 Datenbits, **niederwertigstes Bit zuerst**",
+        "**Stoppbit** `'0'`"
+       ]
+      },
+      {
+       "t": "p",
+       "s": "Achtung: Die Polarität ist umgekehrt wie beim UART aus M10 (dort Ruhe `'1'`, Start `'0'`). In der Klausur steht die Festlegung immer im Text – genau lesen."
+      },
+      {
+       "t": "diagram",
+       "id": "P11_rahmen",
+       "alt": "Rahmen für das Byte A5: Start, Daten LSB zuerst, Stopp",
+       "w": 444,
+       "h": 88,
+       "prims": [
+        {
+         "k": "L",
+         "pts": [
+          78,
+          4,
+          78,
+          80
+         ],
+         "s": "grid"
+        },
+        {
+         "k": "L",
+         "pts": [
+          108,
+          4,
+          108,
+          80
+         ],
+         "s": "grid"
+        },
+        {
+         "k": "L",
+         "pts": [
+          138,
+          4,
+          138,
+          80
+         ],
+         "s": "grid"
+        },
+        {
+         "k": "L",
+         "pts": [
+          168,
+          4,
+          168,
+          80
+         ],
+         "s": "grid"
+        },
+        {
+         "k": "L",
+         "pts": [
+          198,
+          4,
+          198,
+          80
+         ],
+         "s": "grid"
+        },
+        {
+         "k": "L",
+         "pts": [
+          228,
+          4,
+          228,
+          80
+         ],
+         "s": "grid"
+        },
+        {
+         "k": "L",
+         "pts": [
+          258,
+          4,
+          258,
+          80
+         ],
+         "s": "grid"
+        },
+        {
+         "k": "L",
+         "pts": [
+          288,
+          4,
+          288,
+          80
+         ],
+         "s": "grid"
+        },
+        {
+         "k": "L",
+         "pts": [
+          318,
+          4,
+          318,
+          80
+         ],
+         "s": "grid"
+        },
+        {
+         "k": "L",
+         "pts": [
+          348,
+          4,
+          348,
+          80
+         ],
+         "s": "grid"
+        },
+        {
+         "k": "L",
+         "pts": [
+          378,
+          4,
+          378,
+          80
+         ],
+         "s": "grid"
+        },
+        {
+         "k": "L",
+         "pts": [
+          408,
+          4,
+          408,
+          80
+         ],
+         "s": "grid"
+        },
+        {
+         "k": "L",
+         "pts": [
+          438,
+          4,
+          438,
+          80
+         ],
+         "s": "grid"
+        },
+        {
+         "k": "T",
+         "x": 4,
+         "y": 27,
+         "s": "ser",
+         "a": "l",
+         "z": 13,
+         "c": "ink",
+         "m": true
+        },
+        {
+         "k": "L",
+         "pts": [
+          78,
+          34,
+          108,
+          34,
+          108,
+          12,
+          138,
+          12,
+          168,
+          12,
+          168,
+          34,
+          198,
+          34,
+          198,
+          12,
+          228,
+          12,
+          228,
+          34,
+          258,
+          34,
+          288,
+          34,
+          288,
+          12,
+          318,
+          12,
+          318,
+          34,
+          348,
+          34,
+          348,
+          12,
+          378,
+          12,
+          378,
+          34,
+          408,
+          34,
+          438,
+          34
+         ],
+         "s": "accent",
+         "w": 2
+        },
+        {
+         "k": "T",
+         "x": 4,
+         "y": 67,
+         "s": "par_out_ena",
+         "a": "l",
+         "z": 13,
+         "c": "ink",
+         "m": true
+        },
+        {
+         "k": "L",
+         "pts": [
+          78,
+          74,
+          108,
+          74,
+          138,
+          74,
+          168,
+          74,
+          198,
+          74,
+          228,
+          74,
+          258,
+          74,
+          288,
+          74,
+          318,
+          74,
+          348,
+          74,
+          378,
+          74,
+          378,
+          52,
+          408,
+          52,
+          408,
+          74,
+          438,
+          74
+         ],
+         "s": "accent",
+         "w": 2
+        }
+       ]
+      },
+      {
+       "t": "p",
+       "s": "Jedes Bit dauert `BIT_TAKTE` Taktperioden. Die Testbench braucht eine Prozedur, die einen kompletten Rahmen sendet. Weil sie ein Signal treibt, steht sie im Deklarationsteil des **Prozesses** (dort darf sie `ser` direkt zuweisen)."
+      }
+     ],
+     "aufgabe": [
+      {
+       "t": "p",
+       "s": "Schreibe `procedure send_byte(d : std_logic_vector(7 downto 0))` für den Testbench-Prozess. Die Konstante `T` (Taktperiode) und das Signal `ser` sind sichtbar, ein Bit dauert `8 * T`."
+      }
+     ],
+     "aufgabeMd": "Schreibe `procedure send_byte(d : std_logic_vector(7 downto 0))` für den Testbench-Prozess. Die Konstante `T` (Taktperiode) und das Signal `ser` sind sichtbar, ein Bit dauert `8 * T`.",
+     "loesung": [
+      {
+       "t": "code",
+       "lang": "vhdl",
+       "s": "procedure send_byte(d : std_logic_vector(7 downto 0)) is\nbegin\n  ser <= '1';               -- Startbit\n  wait for 8 * T;\n  for i in 0 to 7 loop      -- LSB zuerst\n    ser <= d(i);\n    wait for 8 * T;\n  end loop;\n  ser <= '0';               -- Stoppbit\n  wait for 8 * T;\nend procedure send_byte;"
+      },
+      {
+       "t": "p",
+       "s": "Aufruf: `send_byte(x\"A5\");` – danach bleibt `ser = '0'`, das ist zugleich der Ruhepegel."
+      }
+     ],
+     "loesungMd": "```vhdl\nprocedure send_byte(d : std_logic_vector(7 downto 0)) is\nbegin\n  ser <= '1';               -- Startbit\n  wait for 8 * T;\n  for i in 0 to 7 loop      -- LSB zuerst\n    ser <= d(i);\n    wait for 8 * T;\n  end loop;\n  ser <= '0';               -- Stoppbit\n  wait for 8 * T;\nend procedure send_byte;\n```\nAufruf: `send_byte(x\"A5\");` – danach bleibt `ser = '0'`, das ist zugleich der Ruhepegel.",
+     "klausur": [
+      {
+       "t": "p",
+       "s": "**F19 A1** (Rahmenformat, Testbench mit Sende-Prozedur)."
+      }
+     ]
+    },
+    {
+     "id": "P12",
+     "block": "P",
+     "title": "Klausur F19: Serieller Empfänger",
+     "min": 12,
+     "mode": "code",
+     "starter": "",
+     "solutionCode": "architecture behav of receiver is\n  type state_type is (ruhe, empfang);\n  signal state : state_type;\n  signal ser_in_d, ser_in_dd : std_logic;\n  signal teiler : integer range 0 to BIT_TAKTE - 1;\n  signal bitnr  : integer range 0 to 9;\n  signal data   : std_logic_vector(9 downto 0);\nbegin\n  process(clk, res_n) is\n  begin\n    if res_n = '0' then\n      state <= ruhe;\n      ser_in_d <= '0';\n      ser_in_dd <= '0';\n      teiler <= 0;\n      bitnr <= 0;\n      data <= (others => '0');\n      par_out_ena <= '0';\n    else\n      if clk'event and clk = '1' then\n        ser_in_d  <= ser_in;\n        ser_in_dd <= ser_in_d;\n        par_out_ena <= '0';\n        case state is\n          when ruhe =>\n            if ser_in_dd = '1' then\n              state  <= empfang;\n              teiler <= BIT_TAKTE / 2;\n              bitnr  <= 0;\n            end if;\n          when empfang =>\n            if teiler = BIT_TAKTE - 1 then\n              teiler <= 0;\n              data <= ser_in_dd & data(9 downto 1);\n              if bitnr = 9 then\n                state <= ruhe;\n                par_out_ena <= '1';\n              else\n                bitnr <= bitnr + 1;\n              end if;\n            else\n              teiler <= teiler + 1;\n            end if;\n        end case;\n      end if;\n    end if;\n  end process;\n  par_out <= data(8 downto 1);\nend architecture behav;",
+     "ziel": [
+      {
+       "t": "p",
+       "s": "Einen Empfänger mit Synchronisierer, Taktteiler und Bitzähler in **einem** getakteten Prozess schreiben."
+      }
+     ],
+     "erklaerung": [
+      {
+       "t": "diagram",
+       "id": "P11_rahmen",
+       "alt": "Rahmen für das Byte A5: Start, Daten LSB zuerst, Stopp",
+       "w": 444,
+       "h": 88,
+       "prims": [
+        {
+         "k": "L",
+         "pts": [
+          78,
+          4,
+          78,
+          80
+         ],
+         "s": "grid"
+        },
+        {
+         "k": "L",
+         "pts": [
+          108,
+          4,
+          108,
+          80
+         ],
+         "s": "grid"
+        },
+        {
+         "k": "L",
+         "pts": [
+          138,
+          4,
+          138,
+          80
+         ],
+         "s": "grid"
+        },
+        {
+         "k": "L",
+         "pts": [
+          168,
+          4,
+          168,
+          80
+         ],
+         "s": "grid"
+        },
+        {
+         "k": "L",
+         "pts": [
+          198,
+          4,
+          198,
+          80
+         ],
+         "s": "grid"
+        },
+        {
+         "k": "L",
+         "pts": [
+          228,
+          4,
+          228,
+          80
+         ],
+         "s": "grid"
+        },
+        {
+         "k": "L",
+         "pts": [
+          258,
+          4,
+          258,
+          80
+         ],
+         "s": "grid"
+        },
+        {
+         "k": "L",
+         "pts": [
+          288,
+          4,
+          288,
+          80
+         ],
+         "s": "grid"
+        },
+        {
+         "k": "L",
+         "pts": [
+          318,
+          4,
+          318,
+          80
+         ],
+         "s": "grid"
+        },
+        {
+         "k": "L",
+         "pts": [
+          348,
+          4,
+          348,
+          80
+         ],
+         "s": "grid"
+        },
+        {
+         "k": "L",
+         "pts": [
+          378,
+          4,
+          378,
+          80
+         ],
+         "s": "grid"
+        },
+        {
+         "k": "L",
+         "pts": [
+          408,
+          4,
+          408,
+          80
+         ],
+         "s": "grid"
+        },
+        {
+         "k": "L",
+         "pts": [
+          438,
+          4,
+          438,
+          80
+         ],
+         "s": "grid"
+        },
+        {
+         "k": "T",
+         "x": 4,
+         "y": 27,
+         "s": "ser",
+         "a": "l",
+         "z": 13,
+         "c": "ink",
+         "m": true
+        },
+        {
+         "k": "L",
+         "pts": [
+          78,
+          34,
+          108,
+          34,
+          108,
+          12,
+          138,
+          12,
+          168,
+          12,
+          168,
+          34,
+          198,
+          34,
+          198,
+          12,
+          228,
+          12,
+          228,
+          34,
+          258,
+          34,
+          288,
+          34,
+          288,
+          12,
+          318,
+          12,
+          318,
+          34,
+          348,
+          34,
+          348,
+          12,
+          378,
+          12,
+          378,
+          34,
+          408,
+          34,
+          438,
+          34
+         ],
+         "s": "accent",
+         "w": 2
+        },
+        {
+         "k": "T",
+         "x": 4,
+         "y": 67,
+         "s": "par_out_ena",
+         "a": "l",
+         "z": 13,
+         "c": "ink",
+         "m": true
+        },
+        {
+         "k": "L",
+         "pts": [
+          78,
+          74,
+          108,
+          74,
+          138,
+          74,
+          168,
+          74,
+          198,
+          74,
+          228,
+          74,
+          258,
+          74,
+          288,
+          74,
+          318,
+          74,
+          348,
+          74,
+          378,
+          74,
+          378,
+          52,
+          408,
+          52,
+          408,
+          74,
+          438,
+          74
+         ],
+         "s": "accent",
+         "w": 2
+        }
+       ]
+      },
+      {
+       "t": "p",
+       "s": "Bausteine im Prozess:"
+      },
+      {
+       "t": "ul",
+       "items": [
+        "**Synchronisierer**: `ser_in_d <= ser_in; ser_in_dd <= ser_in_d;` – nur `ser_in_dd` wird ausgewertet.",
+        "Zustand `ruhe`: wartet auf die steigende Kante des Startbits.",
+        "Taktteiler `teiler`: Wird beim Start auf `BIT_TAKTE / 2` gesetzt. Dann liegt jede Abtastung **in der Bitmitte** – dort ist das Signal am stabilsten, auch wenn Sender und Empfänger leicht verschiedene Takte haben.",
+        "Bitzähler `bitnr` 0 … 9: Start, 8 Daten, Stopp. Jedes abgetastete Bit wird von links in ein Schieberegister `data(9 downto 0)` geschoben; nach 10 Bits liegt das Byte in `data(8 downto 1)`.",
+        "`par_out_ena` ist einen Takt lang `'1'`, wenn das Byte fertig ist."
+       ]
+      },
+      {
+       "t": "code",
+       "lang": "vhdl",
+       "s": "entity receiver is\n  generic(BIT_TAKTE : positive := 8);\n  port(\n    clk, res_n  : in  std_logic;\n    ser_in      : in  std_logic;\n    par_out     : out std_logic_vector(7 downto 0);\n    par_out_ena : out std_logic\n    );\nend entity receiver;"
+      }
+     ],
+     "aufgabe": [
+      {
+       "t": "ol",
+       "items": [
+        "Schreibe `architecture behav of receiver`.",
+        "Warum wird das Byte von **links** in `data` geschoben?",
+        "Was passiert, wenn das Startbit nur einen Takt lang `'1'` ist (Störimpuls)?"
+       ]
+      }
+     ],
+     "aufgabeMd": "1. Schreibe `architecture behav of receiver`.\n2. Warum wird das Byte von **links** in `data` geschoben?\n3. Was passiert, wenn das Startbit nur einen Takt lang `'1'` ist (Störimpuls)?",
+     "loesung": [
+      {
+       "t": "code",
+       "lang": "vhdl",
+       "s": "architecture behav of receiver is\n  type state_type is (ruhe, empfang);\n  signal state : state_type;\n  signal ser_in_d, ser_in_dd : std_logic;\n  signal teiler : integer range 0 to BIT_TAKTE - 1;\n  signal bitnr  : integer range 0 to 9;\n  signal data   : std_logic_vector(9 downto 0);\nbegin\n  process(clk, res_n) is\n  begin\n    if res_n = '0' then\n      state <= ruhe;\n      ser_in_d <= '0';\n      ser_in_dd <= '0';\n      teiler <= 0;\n      bitnr <= 0;\n      data <= (others => '0');\n      par_out_ena <= '0';\n    else\n      if clk'event and clk = '1' then\n        ser_in_d  <= ser_in;\n        ser_in_dd <= ser_in_d;\n        par_out_ena <= '0';\n        case state is\n          when ruhe =>\n            if ser_in_dd = '1' then\n              state  <= empfang;\n              teiler <= BIT_TAKTE / 2;\n              bitnr  <= 0;\n            end if;\n          when empfang =>\n            if teiler = BIT_TAKTE - 1 then\n              teiler <= 0;\n              data <= ser_in_dd & data(9 downto 1);\n              if bitnr = 9 then\n                state <= ruhe;\n                par_out_ena <= '1';\n              else\n                bitnr <= bitnr + 1;\n              end if;\n            else\n              teiler <= teiler + 1;\n            end if;\n        end case;\n      end if;\n    end if;\n  end process;\n  par_out <= data(8 downto 1);\nend architecture behav;"
+      },
+      {
+       "t": "ol",
+       "items": [
+        "Das LSB kommt zuerst. Schiebt man von links nach rechts, ist es nach 10 Schritten ganz rechts angekommen – die Bits stehen dann in der richtigen Wertigkeit.",
+        "Der Empfänger startet trotzdem und liest Unsinn. Abhilfe: In der Bitmitte prüfen, ob das Startbit noch `'1'` ist, sonst zurück nach `ruhe`."
+       ]
+      }
+     ],
+     "loesungMd": "```vhdl\narchitecture behav of receiver is\n  type state_type is (ruhe, empfang);\n  signal state : state_type;\n  signal ser_in_d, ser_in_dd : std_logic;\n  signal teiler : integer range 0 to BIT_TAKTE - 1;\n  signal bitnr  : integer range 0 to 9;\n  signal data   : std_logic_vector(9 downto 0);\nbegin\n  process(clk, res_n) is\n  begin\n    if res_n = '0' then\n      state <= ruhe;\n      ser_in_d <= '0';\n      ser_in_dd <= '0';\n      teiler <= 0;\n      bitnr <= 0;\n      data <= (others => '0');\n      par_out_ena <= '0';\n    else\n      if clk'event and clk = '1' then\n        ser_in_d  <= ser_in;\n        ser_in_dd <= ser_in_d;\n        par_out_ena <= '0';\n        case state is\n          when ruhe =>\n            if ser_in_dd = '1' then\n              state  <= empfang;\n              teiler <= BIT_TAKTE / 2;\n              bitnr  <= 0;\n            end if;\n          when empfang =>\n            if teiler = BIT_TAKTE - 1 then\n              teiler <= 0;\n              data <= ser_in_dd & data(9 downto 1);\n              if bitnr = 9 then\n                state <= ruhe;\n                par_out_ena <= '1';\n              else\n                bitnr <= bitnr + 1;\n              end if;\n            else\n              teiler <= teiler + 1;\n            end if;\n        end case;\n      end if;\n    end if;\n  end process;\n  par_out <= data(8 downto 1);\nend architecture behav;\n```\n2. Das LSB kommt zuerst. Schiebt man von links nach rechts, ist es nach 10 Schritten ganz rechts angekommen – die Bits stehen dann in der richtigen Wertigkeit.\n3. Der Empfänger startet trotzdem und liest Unsinn. Abhilfe: In der Bitmitte prüfen, ob das Startbit noch `'1'` ist, sonst zurück nach `ruhe`.",
+     "klausur": [
+      {
+       "t": "p",
+       "s": "**F19 A1** (Empfänger-Prozess, Synchronisierer, Abtastzeitpunkt). Simulierbar in `am_rechner/L12/projekte_klausur.vhd`."
+      }
+     ]
+    },
+    {
+     "id": "P13",
+     "block": "P",
+     "title": "Klausur F22: Ein Divisionsschritt als Prozedur",
+     "min": 10,
+     "mode": "code",
+     "starter": "",
+     "solutionCode": "procedure divstep(f : inout unsigned(M+N-1 downto 0);\n                  d_b : in  unsigned(M-1 downto 0)) is\n  variable d : unsigned(M downto 0);\nbegin\n  d := f(M+N-1 downto N-1) - ('0' & d_b);\n  if d(M) = '0' then\n    f := d(M-1 downto 0) & f(N-2 downto 0) & '1';\n  else\n    f := f(M+N-2 downto 0) & '0';\n  end if;\nend procedure divstep;",
+     "ziel": [
+      {
+       "t": "p",
+       "s": "Die Schulmethode der Division als Hardware-Schritt verstehen und als Prozedur schreiben."
+      }
+     ],
+     "erklaerung": [
+      {
+       "t": "p",
+       "s": "Nach **F22 A1** (sinngemäß): Dividiert wird `a` (N Bit) durch `b` (M Bit). Alles steckt in **einem** Vektor `f` mit M + N Bit:"
+      },
+      {
+       "t": "p",
+       "s": "`f = Rest (M Bit) & Dividend (N Bit)`"
+      },
+      {
+       "t": "p",
+       "s": "Am Anfang ist der Rest 0. Ein Schritt:"
+      },
+      {
+       "t": "ol",
+       "items": [
+        "Die obersten **M + 1** Bits von `f` sind der aktuelle „Teil-Dividend“. Davon `b` abziehen (mit einer führenden `'0'` auf M + 1 Bit erweitert).",
+        "Kein Unterlauf (oberstes Bit der Differenz `'0'`): `b` passt hinein → Quotientenbit `'1'`, Differenz wird der neue Rest.",
+        "Sonst: Quotientenbit `'0'`, Rest bleibt.",
+        "`f` um eins nach links schieben, Quotientenbit rechts einfügen."
+       ]
+      },
+      {
+       "t": "p",
+       "s": "Nach N Schritten steht in den unteren N Bits der **Quotient**, in den oberen M Bits der **Rest**."
+      },
+      {
+       "t": "p",
+       "s": "Beispiel N = M = 4, a = 14, b = 3, `f` nach jedem Schritt:"
+      },
+      {
+       "t": "code",
+       "lang": "",
+       "s": "start   0000 1110\n1       0001 1100   00001 < 3\n2       0000 1001   00011 - 3 = 0\n3       0001 0010   00001 < 3\n4       0010 0100   00010 < 3"
+      },
+      {
+       "t": "p",
+       "s": "Ergebnis: q = 0100 = 4, r = 0010 = 2."
+      }
+     ],
+     "aufgabe": [
+      {
+       "t": "p",
+       "s": "Schreibe die Prozedur für den Deklarationsteil einer Architecture mit den Generics `N` und `M`:"
+      },
+      {
+       "t": "code",
+       "lang": "vhdl",
+       "s": "procedure divstep(f : inout unsigned(M+N-1 downto 0);\n                  d_b : in  unsigned(M-1 downto 0)) is"
+      },
+      {
+       "t": "p",
+       "s": "Rechne danach im Kopf: a = 13, b = 5. Welcher Quotient und Rest kommen heraus?"
+      }
+     ],
+     "aufgabeMd": "Schreibe die Prozedur für den Deklarationsteil einer Architecture mit den Generics `N` und `M`:\n```vhdl\nprocedure divstep(f : inout unsigned(M+N-1 downto 0);\n                  d_b : in  unsigned(M-1 downto 0)) is\n```\nRechne danach im Kopf: a = 13, b = 5. Welcher Quotient und Rest kommen heraus?",
+     "loesung": [
+      {
+       "t": "code",
+       "lang": "vhdl",
+       "s": "procedure divstep(f : inout unsigned(M+N-1 downto 0);\n                  d_b : in  unsigned(M-1 downto 0)) is\n  variable d : unsigned(M downto 0);\nbegin\n  d := f(M+N-1 downto N-1) - ('0' & d_b);\n  if d(M) = '0' then\n    f := d(M-1 downto 0) & f(N-2 downto 0) & '1';\n  else\n    f := f(M+N-2 downto 0) & '0';\n  end if;\nend procedure divstep;"
+      },
+      {
+       "t": "p",
+       "s": "Beim Fall „passt“ setzt sich das neue `f` zusammen aus: neuer Rest, die restlichen Dividendenbits eins nach links, Quotientenbit `'1'`."
+      },
+      {
+       "t": "p",
+       "s": "13 / 5 = 2 Rest 3."
+      }
+     ],
+     "loesungMd": "```vhdl\nprocedure divstep(f : inout unsigned(M+N-1 downto 0);\n                  d_b : in  unsigned(M-1 downto 0)) is\n  variable d : unsigned(M downto 0);\nbegin\n  d := f(M+N-1 downto N-1) - ('0' & d_b);\n  if d(M) = '0' then\n    f := d(M-1 downto 0) & f(N-2 downto 0) & '1';\n  else\n    f := f(M+N-2 downto 0) & '0';\n  end if;\nend procedure divstep;\n```\nBeim Fall „passt“ setzt sich das neue `f` zusammen aus: neuer Rest, die restlichen Dividendenbits eins nach links, Quotientenbit `'1'`.\n\n13 / 5 = 2 Rest 3.",
+     "klausur": [
+      {
+       "t": "p",
+       "s": "**F22 A1 F1–F7** (Prozedur `divstep` analysieren, Werte von `f` angeben). Prozeduren: H02."
+      }
+     ]
+    },
+    {
+     "id": "P14",
+     "block": "P",
+     "title": "Klausur F22: N-schrittiges Dividierwerk mit valid",
+     "min": 10,
+     "mode": "code",
+     "starter": "",
+     "solutionCode": "architecture behav of div_seq is\n  -- procedure divstep(...) aus P13\n\n  signal f_reg : unsigned(M+N-1 downto 0);\n  signal b_reg : unsigned(M-1 downto 0);\n  signal sr    : std_logic_vector(0 to N-1);\nbegin\n  process(clk, res_n) is\n    variable f : unsigned(M+N-1 downto 0);\n  begin\n    if res_n = '0' then\n      f_reg <= (others => '0');\n      b_reg <= (others => '0');\n      sr    <= (others => '0');\n      valid <= '0';\n    else\n      if clk'event and clk = '1' then\n        if init = '1' then\n          f_reg <= unsigned(std_logic_vector'(\n                     (M-1 downto 0 => '0') & a));\n          b_reg <= unsigned(b);\n        else\n          f := f_reg;\n          divstep(f, b_reg);\n          f_reg <= f;\n        end if;\n        sr    <= init & sr(0 to N-2);\n        valid <= sr(N-1);\n      end if;\n    end if;\n  end process;\n  q <= std_logic_vector(f_reg(N-1 downto 0));\n  r <= std_logic_vector(f_reg(M+N-1 downto N));\nend architecture behav;",
+     "ziel": [
+      {
+       "t": "p",
+       "s": "Eine Prozedur in einem getakteten Prozess einsetzen und mit einem Schieberegister ein Fertig-Signal erzeugen."
+      }
+     ],
+     "erklaerung": [
+      {
+       "t": "p",
+       "s": "Nach **F22 A1 F9** (sinngemäß): Das Dividierwerk soll **einen** `divstep` pro Takt ausführen."
+      },
+      {
+       "t": "ul",
+       "items": [
+        "`init = '1'` bei einer Taktflanke: `a` und `b` übernehmen (Rest = 0).",
+        "Danach in jedem Takt ein `divstep`.",
+        "Genau **N Takte** nach `init` liegen `q` und `r` an; `valid` ist dann einen Takt lang `'1'`."
+       ]
+      },
+      {
+       "t": "p",
+       "s": "`valid` per Schieberegister: `init` wandert durch `sr(0 to N-1)`, `valid` ist die letzte Stufe:"
+      },
+      {
+       "t": "code",
+       "lang": "vhdl",
+       "s": "sr    <= init & sr(0 to N-2);\nvalid <= sr(N-1);"
+      },
+      {
+       "t": "p",
+       "s": "Nach der `init`-Flanke steht die `'1'` in `sr(0)`, nach N - 1 weiteren Flanken in `sr(N-1)`, nach der N-ten in `valid`."
+      },
+      {
+       "t": "p",
+       "s": "Weil `divstep` einen `inout`-Parameter hat, braucht der Prozess eine **Variable** `f`: Register in die Variable kopieren, Prozedur aufrufen, zurückschreiben."
+      },
+      {
+       "t": "code",
+       "lang": "vhdl",
+       "s": "entity div_seq is\n  generic(N : positive := 4; M : positive := 4);\n  port(\n    clk, res_n : in  std_logic;\n    init       : in  std_logic;\n    a          : in  std_logic_vector(N-1 downto 0);\n    b          : in  std_logic_vector(M-1 downto 0);\n    q          : out std_logic_vector(N-1 downto 0);\n    r          : out std_logic_vector(M-1 downto 0);\n    valid      : out std_logic\n    );\nend entity div_seq;"
+      }
+     ],
+     "aufgabe": [
+      {
+       "t": "p",
+       "s": "Schreibe `architecture behav of div_seq`. `divstep` aus P13 steht im Deklarationsteil (darfst du abkürzen). Signale: `f_reg`, `b_reg`, `sr`."
+      }
+     ],
+     "aufgabeMd": "Schreibe `architecture behav of div_seq`. `divstep` aus P13 steht im Deklarationsteil (darfst du abkürzen). Signale: `f_reg`, `b_reg`, `sr`.",
+     "loesung": [
+      {
+       "t": "code",
+       "lang": "vhdl",
+       "s": "architecture behav of div_seq is\n  -- procedure divstep(...) aus P13\n\n  signal f_reg : unsigned(M+N-1 downto 0);\n  signal b_reg : unsigned(M-1 downto 0);\n  signal sr    : std_logic_vector(0 to N-1);\nbegin\n  process(clk, res_n) is\n    variable f : unsigned(M+N-1 downto 0);\n  begin\n    if res_n = '0' then\n      f_reg <= (others => '0');\n      b_reg <= (others => '0');\n      sr    <= (others => '0');\n      valid <= '0';\n    else\n      if clk'event and clk = '1' then\n        if init = '1' then\n          f_reg <= unsigned(std_logic_vector'(\n                     (M-1 downto 0 => '0') & a));\n          b_reg <= unsigned(b);\n        else\n          f := f_reg;\n          divstep(f, b_reg);\n          f_reg <= f;\n        end if;\n        sr    <= init & sr(0 to N-2);\n        valid <= sr(N-1);\n      end if;\n    end if;\n  end process;\n  q <= std_logic_vector(f_reg(N-1 downto 0));\n  r <= std_logic_vector(f_reg(M+N-1 downto N));\nend architecture behav;"
+      },
+      {
+       "t": "p",
+       "s": "Das Werk rechnet nach dem Ergebnis einfach weiter – `q` und `r` sind nur gültig, solange `valid = '1'` ist. Wer das nicht will, hält das Register mit einem Schrittzähler an."
+      },
+      {
+       "t": "p",
+       "s": "Hardware: M + N Flipflops für `f_reg`, M für `b_reg`, N + 1 für `sr` und `valid`, aber nur **ein** Subtrahierer – das ist der Vorteil gegenüber dem rein kombinatorischen Werk mit N Subtrahierern."
+      }
+     ],
+     "loesungMd": "```vhdl\narchitecture behav of div_seq is\n  -- procedure divstep(...) aus P13\n\n  signal f_reg : unsigned(M+N-1 downto 0);\n  signal b_reg : unsigned(M-1 downto 0);\n  signal sr    : std_logic_vector(0 to N-1);\nbegin\n  process(clk, res_n) is\n    variable f : unsigned(M+N-1 downto 0);\n  begin\n    if res_n = '0' then\n      f_reg <= (others => '0');\n      b_reg <= (others => '0');\n      sr    <= (others => '0');\n      valid <= '0';\n    else\n      if clk'event and clk = '1' then\n        if init = '1' then\n          f_reg <= unsigned(std_logic_vector'(\n                     (M-1 downto 0 => '0') & a));\n          b_reg <= unsigned(b);\n        else\n          f := f_reg;\n          divstep(f, b_reg);\n          f_reg <= f;\n        end if;\n        sr    <= init & sr(0 to N-2);\n        valid <= sr(N-1);\n      end if;\n    end if;\n  end process;\n  q <= std_logic_vector(f_reg(N-1 downto 0));\n  r <= std_logic_vector(f_reg(M+N-1 downto N));\nend architecture behav;\n```\nDas Werk rechnet nach dem Ergebnis einfach weiter – `q` und `r` sind nur gültig, solange `valid = '1'` ist. Wer das nicht will, hält das Register mit einem Schrittzähler an.\n\nHardware: M + N Flipflops für `f_reg`, M für `b_reg`, N + 1 für `sr` und `valid`, aber nur **ein** Subtrahierer – das ist der Vorteil gegenüber dem rein kombinatorischen Werk mit N Subtrahierern.",
+     "klausur": [
+      {
+       "t": "p",
+       "s": "**F22 A1 F9/F10** (N- und K-schrittiges Dividierwerk). Simulierbar in `am_rechner/L12/projekte_klausur.vhd`."
+      }
+     ]
+    },
+    {
+     "id": "P15",
+     "block": "P",
+     "title": "Klausur F23: Ton-Oszillator",
+     "min": 9,
+     "mode": "code",
+     "starter": "",
+     "solutionCode": "library ieee;\nuse ieee.numeric_std.all;\n\narchitecture behav of osc is\n  signal period_reg : unsigned(N-1 downto 0);\n  signal counter    : unsigned(N-1 downto 0);\nbegin\n  process(clk, res_n) is\n  begin\n    if res_n = '0' then\n      period_reg <= (others => '0');\n      counter <= (others => '0');\n      wave <= '0';\n    else\n      if clk'event and clk = '1' then\n        if counter + 1 >= period_reg then\n          counter <= (others => '0');\n          period_reg <= unsigned(period);\n          wave <= '0';\n        else\n          counter <= counter + 1;\n          if counter + 1 >= period_reg / 2 then\n            wave <= '1';\n          end if;\n        end if;\n      end if;\n    end if;\n  end process;\nend architecture behav;",
+     "ziel": [
+      {
+       "t": "p",
+       "s": "Einen Rechteckgenerator mit einstellbarer Periode schreiben und Frequenzen ausrechnen."
+      }
+     ],
+     "erklaerung": [
+      {
+       "t": "p",
+       "s": "Nach **F23 A2** (sinngemäß): Ein Synthesizer erzeugt Töne als Rechtecksignale. Der Oszillator `osc` bekommt die **Periodendauer in Takten** als Zahl `period`:"
+      },
+      {
+       "t": "ul",
+       "items": [
+        "`counter` zählt von 0 bis `period_reg - 1`, dann wieder 0.",
+        "Erste Hälfte der Periode `wave = '0'`, zweite Hälfte `'1'`.",
+        "Der neue Wert von `period` wird erst am **Ende einer Periode** in `period_reg` übernommen – so entstehen beim Tonwechsel keine verstümmelten Halbwellen.",
+        "`wave` wird im getakteten Prozess zugewiesen, ist also selbst ein Flipflop."
+       ]
+      },
+      {
+       "t": "p",
+       "s": "Frequenz: f_wave = f_clk / period. Bei 50 MHz und `period` = 50 000 entsteht 1 kHz."
+      },
+      {
+       "t": "code",
+       "lang": "vhdl",
+       "s": "entity osc is\n  generic(N : positive);\n  port(\n    clk, res_n : in  std_logic;\n    period     : in  std_logic_vector(N-1 downto 0);\n    wave       : out std_logic\n    );\nend entity osc;"
+      }
+     ],
+     "aufgabe": [
+      {
+       "t": "ol",
+       "items": [
+        "Schreibe `architecture behav of osc` mit den Signalen `period_reg` und `counter` (`unsigned(N-1 downto 0)`).",
+        "Welcher Automatentyp ist das (Mealy, Moore, Medwedew)?",
+        "Welches `period` ergibt 250 Hz bei 50 MHz? Wie groß muss `N` mindestens sein?"
+       ]
+      }
+     ],
+     "aufgabeMd": "1. Schreibe `architecture behav of osc` mit den Signalen `period_reg` und `counter` (`unsigned(N-1 downto 0)`).\n2. Welcher Automatentyp ist das (Mealy, Moore, Medwedew)?\n3. Welches `period` ergibt 250 Hz bei 50 MHz? Wie groß muss `N` mindestens sein?",
+     "loesung": [
+      {
+       "t": "code",
+       "lang": "vhdl",
+       "s": "library ieee;\nuse ieee.numeric_std.all;\n\narchitecture behav of osc is\n  signal period_reg : unsigned(N-1 downto 0);\n  signal counter    : unsigned(N-1 downto 0);\nbegin\n  process(clk, res_n) is\n  begin\n    if res_n = '0' then\n      period_reg <= (others => '0');\n      counter <= (others => '0');\n      wave <= '0';\n    else\n      if clk'event and clk = '1' then\n        if counter + 1 >= period_reg then\n          counter <= (others => '0');\n          period_reg <= unsigned(period);\n          wave <= '0';\n        else\n          counter <= counter + 1;\n          if counter + 1 >= period_reg / 2 then\n            wave <= '1';\n          end if;\n        end if;\n      end if;\n    end if;\n  end process;\nend architecture behav;"
+      },
+      {
+       "t": "ol",
+       "items": [
+        "**Medwedew**: Der Ausgang `wave` ist direkt ein Flipflop des Zustands, ohne Logik dahinter.",
+        "period = 50 000 000 / 250 = **200 000**. 2¹⁷ = 131 072 reicht nicht, 2¹⁸ = 262 144 reicht → **N = 18**. Flipflops: 2 · N + 1 = 37."
+       ]
+      }
+     ],
+     "loesungMd": "```vhdl\nlibrary ieee;\nuse ieee.numeric_std.all;\n\narchitecture behav of osc is\n  signal period_reg : unsigned(N-1 downto 0);\n  signal counter    : unsigned(N-1 downto 0);\nbegin\n  process(clk, res_n) is\n  begin\n    if res_n = '0' then\n      period_reg <= (others => '0');\n      counter <= (others => '0');\n      wave <= '0';\n    else\n      if clk'event and clk = '1' then\n        if counter + 1 >= period_reg then\n          counter <= (others => '0');\n          period_reg <= unsigned(period);\n          wave <= '0';\n        else\n          counter <= counter + 1;\n          if counter + 1 >= period_reg / 2 then\n            wave <= '1';\n          end if;\n        end if;\n      end if;\n    end if;\n  end process;\nend architecture behav;\n```\n2. **Medwedew**: Der Ausgang `wave` ist direkt ein Flipflop des Zustands, ohne Logik dahinter.\n3. period = 50 000 000 / 250 = **200 000**. 2¹⁷ = 131 072 reicht nicht, 2¹⁸ = 262 144 reicht → **N = 18**. Flipflops: 2 · N + 1 = 37.",
+     "klausur": [
+      {
+       "t": "p",
+       "s": "**F23 A2 F1–F4** (Automatentyp, Flipflops, Frequenz und Breite). Automatentypen: F01."
+      }
+     ]
+    },
+    {
+     "id": "P16",
+     "block": "P",
+     "title": "Klausur F23: Perioden-ROM und Synthesizer verdrahten",
+     "min": 8,
+     "mode": "code",
+     "starter": "",
+     "solutionCode": "library ieee;\nuse ieee.std_logic_1164.all;\n\nentity period_rom is\n  port(\n    key_num : in  std_logic_vector(3 downto 0);\n    period  : out std_logic_vector(17 downto 0)\n    );\nend entity period_rom;\n\nlibrary ieee;\nuse ieee.numeric_std.all;\n\narchitecture behav of period_rom is\n  type rom_type is array (0 to 15)\n    of natural range 0 to 2**18 - 1;\n  constant ROM : rom_type := (\n    0, 191131, 180375, 170242, 160720, 151699, 143184,\n    135135, 127551, 120395, 113636, 107250, 101235,\n    0, 0, 0);\nbegin\n  period <= std_logic_vector(to_unsigned(\n              ROM(to_integer(unsigned(key_num))), 18));\nend architecture behav;\n\narchitecture struct of tongenerator is\n  signal period : std_logic_vector(17 downto 0);\nbegin\n  rom: entity work.period_rom\n    port map(key_num => key_num, period => period);\n  o: entity work.osc\n    generic map(N => 18)\n    port map(clk => clk, res_n => res_n,\n             period => period, wave => wave);\nend architecture struct;",
+     "ziel": [
+      {
+       "t": "p",
+       "s": "Ein ROM als konstantes Array schreiben und mit dem Oszillator verbinden."
+      }
+     ],
+     "erklaerung": [
+      {
+       "t": "p",
+       "s": "Jede Taste einer Oktave hat eine Nummer `key_num` (1 = C … 12 = H, 4 Bit). Das ROM liefert dazu die Periode für `osc`: period = 50 MHz / f, gerundet."
+      },
+      {
+       "t": "table",
+       "rows": [
+        [
+         "Note",
+         "C",
+         "D",
+         "E",
+         "A",
+         "H"
+        ],
+        [
+         "f / Hz",
+         "261,6",
+         "293,7",
+         "329,6",
+         "440,0",
+         "493,9"
+        ],
+        [
+         "period",
+         "191 131",
+         "170 242",
+         "151 699",
+         "113 636",
+         "101 235"
+        ]
+       ]
+      },
+      {
+       "t": "p",
+       "s": "(C# 180 375, D# 160 720, F 143 184, F# 135 135, G 127 551, G# 120 395, A# 107 250.)"
+      },
+      {
+       "t": "p",
+       "s": "Nummern 0, 13, 14, 15 bekommen 0 → Stille."
+      },
+      {
+       "t": "p",
+       "s": "ROM-Muster (E04): konstantes Array, Lesen mit `to_integer(unsigned(...))`:"
+      },
+      {
+       "t": "code",
+       "lang": "vhdl",
+       "s": "type rom_type is array (0 to 15) of natural range 0 to 2**18 - 1;\nconstant ROM : rom_type := (...);"
+      }
+     ],
+     "aufgabe": [
+      {
+       "t": "ol",
+       "items": [
+        "Schreibe Entity und Architecture `behav` für `period_rom` (Eingang `key_num(3 downto 0)`, Ausgang `period(17 downto 0)`).",
+        "Schreibe `architecture struct of tongenerator` (Ports `clk`, `res_n`, `key_num(3 downto 0)`, `wave`), die ROM und `osc` (N = 18) verbindet."
+       ]
+      }
+     ],
+     "aufgabeMd": "1. Schreibe Entity und Architecture `behav` für `period_rom` (Eingang `key_num(3 downto 0)`, Ausgang `period(17 downto 0)`).\n2. Schreibe `architecture struct of tongenerator` (Ports `clk`, `res_n`, `key_num(3 downto 0)`, `wave`), die ROM und `osc` (N = 18) verbindet.",
+     "loesung": [
+      {
+       "t": "code",
+       "lang": "vhdl",
+       "s": "library ieee;\nuse ieee.std_logic_1164.all;\n\nentity period_rom is\n  port(\n    key_num : in  std_logic_vector(3 downto 0);\n    period  : out std_logic_vector(17 downto 0)\n    );\nend entity period_rom;\n\nlibrary ieee;\nuse ieee.numeric_std.all;\n\narchitecture behav of period_rom is\n  type rom_type is array (0 to 15)\n    of natural range 0 to 2**18 - 1;\n  constant ROM : rom_type := (\n    0, 191131, 180375, 170242, 160720, 151699, 143184,\n    135135, 127551, 120395, 113636, 107250, 101235,\n    0, 0, 0);\nbegin\n  period <= std_logic_vector(to_unsigned(\n              ROM(to_integer(unsigned(key_num))), 18));\nend architecture behav;\n\narchitecture struct of tongenerator is\n  signal period : std_logic_vector(17 downto 0);\nbegin\n  rom: entity work.period_rom\n    port map(key_num => key_num, period => period);\n  o: entity work.osc\n    generic map(N => 18)\n    port map(clk => clk, res_n => res_n,\n             period => period, wave => wave);\nend architecture struct;"
+      },
+      {
+       "t": "p",
+       "s": "Ist `period = 0`, gilt in `osc` immer `counter + 1 >= 0`: `wave` bleibt `'0'`."
+      }
+     ],
+     "loesungMd": "```vhdl\nlibrary ieee;\nuse ieee.std_logic_1164.all;\n\nentity period_rom is\n  port(\n    key_num : in  std_logic_vector(3 downto 0);\n    period  : out std_logic_vector(17 downto 0)\n    );\nend entity period_rom;\n\nlibrary ieee;\nuse ieee.numeric_std.all;\n\narchitecture behav of period_rom is\n  type rom_type is array (0 to 15)\n    of natural range 0 to 2**18 - 1;\n  constant ROM : rom_type := (\n    0, 191131, 180375, 170242, 160720, 151699, 143184,\n    135135, 127551, 120395, 113636, 107250, 101235,\n    0, 0, 0);\nbegin\n  period <= std_logic_vector(to_unsigned(\n              ROM(to_integer(unsigned(key_num))), 18));\nend architecture behav;\n\narchitecture struct of tongenerator is\n  signal period : std_logic_vector(17 downto 0);\nbegin\n  rom: entity work.period_rom\n    port map(key_num => key_num, period => period);\n  o: entity work.osc\n    generic map(N => 18)\n    port map(clk => clk, res_n => res_n,\n             period => period, wave => wave);\nend architecture struct;\n```\nIst `period = 0`, gilt in `osc` immer `counter + 1 >= 0`: `wave` bleibt `'0'`.",
+     "klausur": [
+      {
+       "t": "p",
+       "s": "**F23 A2 F5** (Entity und Architecture `period_rom`). Simulierbar in `am_rechner/L12/projekte_klausur.vhd`."
+      }
+     ]
+    },
+    {
+     "id": "P17",
+     "block": "P",
+     "title": "Klausur F24: Stapelspeicher (Stack)",
+     "min": 10,
+     "mode": "code",
+     "starter": "",
+     "solutionCode": "library ieee;\nuse ieee.std_logic_1164.all;\nuse work.keller_types.all;\n\nentity stack is\n  generic(N : positive := 8);\n  port(\n    clk, res_n : in  std_logic;\n    push       : in  stack_input_type;\n    pop, clr   : in  boolean;\n    tos        : out stack_output_type\n    );\nend entity stack;\n\narchitecture behav of stack is\n  type mem_type is array (1 to N) of stack_element_type;\n  signal mem : mem_type;\n  signal sp  : integer range 0 to N;\nbegin\n  process(clk, res_n) is\n  begin\n    if res_n = '0' then\n      sp <= 0;\n    else\n      if clk'event and clk = '1' then\n        assert not ((push /= epsilon and pop) or\n                    (push /= epsilon and clr) or\n                    (pop and clr))\n          report \"mehr als eine Operation\" severity error;\n        assert not (push /= epsilon and sp = N)\n          report \"Ueberlauf\" severity error;\n        if clr then\n          sp <= 0;\n        elsif push /= epsilon and sp < N then\n          mem(sp + 1) <= push;\n          sp <= sp + 1;\n        elsif pop and sp > 0 then\n          sp <= sp - 1;\n        end if;\n      end if;\n    end if;\n  end process;\n  tos <= mem(sp) when sp > 0 else eos;\nend architecture behav;",
+     "ziel": [
+      {
+       "t": "p",
+       "s": "Einen generischen Stack mit eigenen Aufzählungstypen und Prüf-Asserts schreiben."
+      }
+     ],
+     "erklaerung": [
+      {
+       "t": "p",
+       "s": "Nach **F24 A2** (sinngemäß): Ein Stapel (LIFO) merkt sich offene Klammern. Typen im Package:"
+      },
+      {
+       "t": "code",
+       "lang": "vhdl",
+       "s": "type stack_character_type is (epsilon, '[', '(', eos);\nsubtype stack_input_type   is stack_character_type\n  range epsilon to '(';\nsubtype stack_output_type  is stack_character_type\n  range '[' to eos;\nsubtype stack_element_type is stack_character_type\n  range '[' to '(';"
+      },
+      {
+       "t": "ul",
+       "items": [
+        "`push : stack_input_type`: bei jeder Flanke wird das Zeichen abgelegt; `epsilon` heißt „nichts ablegen“.",
+        "`pop : boolean`: oberstes Element entfernen (wenn nicht leer).",
+        "`clr : boolean`: Stapel leeren.",
+        "`tos : stack_output_type` („top of stack“): oberstes Element, `eos` = leer.",
+        "Pro Takt darf **nur eine** Operation angefragt werden → `assert`."
+       ]
+      },
+      {
+       "t": "p",
+       "s": "Umsetzung: Array `mem(1 to N)` und Zähler `sp` (Anzahl Elemente). Das oberste Element ist `mem(sp)`."
+      },
+      {
+       "t": "p",
+       "s": "Wohin mit dem `assert`? In den **getakteten Teil**: Nur zur Taktflanke zählt die Anfrage. Nebenläufig würde es auch bei kurzen Zwischenwerten im Delta-Zyklus anschlagen."
+      }
+     ],
+     "aufgabe": [
+      {
+       "t": "p",
+       "s": "Schreibe Entity `stack` (Generic `N`, Ports `clk`, `res_n`, `push`, `pop`, `clr`, `tos`) und Architecture `behav`. Das Package heißt `keller_types` in `work`."
+      }
+     ],
+     "aufgabeMd": "Schreibe Entity `stack` (Generic `N`, Ports `clk`, `res_n`, `push`, `pop`, `clr`, `tos`) und Architecture `behav`. Das Package heißt `keller_types` in `work`.",
+     "loesung": [
+      {
+       "t": "code",
+       "lang": "vhdl",
+       "s": "library ieee;\nuse ieee.std_logic_1164.all;\nuse work.keller_types.all;\n\nentity stack is\n  generic(N : positive := 8);\n  port(\n    clk, res_n : in  std_logic;\n    push       : in  stack_input_type;\n    pop, clr   : in  boolean;\n    tos        : out stack_output_type\n    );\nend entity stack;\n\narchitecture behav of stack is\n  type mem_type is array (1 to N) of stack_element_type;\n  signal mem : mem_type;\n  signal sp  : integer range 0 to N;\nbegin\n  process(clk, res_n) is\n  begin\n    if res_n = '0' then\n      sp <= 0;\n    else\n      if clk'event and clk = '1' then\n        assert not ((push /= epsilon and pop) or\n                    (push /= epsilon and clr) or\n                    (pop and clr))\n          report \"mehr als eine Operation\" severity error;\n        assert not (push /= epsilon and sp = N)\n          report \"Ueberlauf\" severity error;\n        if clr then\n          sp <= 0;\n        elsif push /= epsilon and sp < N then\n          mem(sp + 1) <= push;\n          sp <= sp + 1;\n        elsif pop and sp > 0 then\n          sp <= sp - 1;\n        end if;\n      end if;\n    end if;\n  end process;\n  tos <= mem(sp) when sp > 0 else eos;\nend architecture behav;"
+      },
+      {
+       "t": "p",
+       "s": "`mem(sp + 1) <= push` geht, weil `push` an dieser Stelle nur `'['` oder `'('` sein kann – die Subtypen haben denselben Grundtyp."
+      }
+     ],
+     "loesungMd": "```vhdl\nlibrary ieee;\nuse ieee.std_logic_1164.all;\nuse work.keller_types.all;\n\nentity stack is\n  generic(N : positive := 8);\n  port(\n    clk, res_n : in  std_logic;\n    push       : in  stack_input_type;\n    pop, clr   : in  boolean;\n    tos        : out stack_output_type\n    );\nend entity stack;\n\narchitecture behav of stack is\n  type mem_type is array (1 to N) of stack_element_type;\n  signal mem : mem_type;\n  signal sp  : integer range 0 to N;\nbegin\n  process(clk, res_n) is\n  begin\n    if res_n = '0' then\n      sp <= 0;\n    else\n      if clk'event and clk = '1' then\n        assert not ((push /= epsilon and pop) or\n                    (push /= epsilon and clr) or\n                    (pop and clr))\n          report \"mehr als eine Operation\" severity error;\n        assert not (push /= epsilon and sp = N)\n          report \"Ueberlauf\" severity error;\n        if clr then\n          sp <= 0;\n        elsif push /= epsilon and sp < N then\n          mem(sp + 1) <= push;\n          sp <= sp + 1;\n        elsif pop and sp > 0 then\n          sp <= sp - 1;\n        end if;\n      end if;\n    end if;\n  end process;\n  tos <= mem(sp) when sp > 0 else eos;\nend architecture behav;\n```\n`mem(sp + 1) <= push` geht, weil `push` an dieser Stelle nur `'['` oder `'('` sein kann – die Subtypen haben denselben Grundtyp.",
+     "klausur": [
+      {
+       "t": "p",
+       "s": "**F24 A2 F10** (Entity und Architecture `stack` mit Asserts)."
+      }
+     ]
+    },
+    {
+     "id": "P18",
+     "block": "P",
+     "title": "Klausur F24: Kellerautomat für Klammerausdrücke",
+     "min": 14,
+     "mode": "code",
+     "starter": "",
+     "solutionCode": "architecture behav of fsm is\n  type state_type is (operand, operator, fehler);\n  signal current_state, next_state : state_type;\nbegin\n  transition_function: process(current_state, x, tos) is\n  begin\n    next_state <= current_state;\n    y <= '*'; push <= epsilon; pop <= false; clr <= false;\n    if x = '!' then\n      clr <= true;\n      next_state <= operand;\n      if current_state = operator and tos = eos then\n        y <= '1';\n      else\n        y <= '0';\n      end if;\n    else\n      case current_state is\n        when operand =>\n          case x is\n            when 'x'    => next_state <= operator;\n            when '('    => push <= '(';\n            when '['    => push <= '[';\n            when others => next_state <= fehler;\n          end case;\n        when operator =>\n          case x is\n            when '-' =>\n              if tos = '[' then\n                next_state <= fehler;\n              else\n                next_state <= operand;\n              end if;\n            when ')' =>\n              if tos = '(' then pop <= true;\n              else next_state <= fehler; end if;\n            when ']' =>\n              if tos = '[' then pop <= true;\n              else next_state <= fehler; end if;\n            when others =>\n              next_state <= fehler;\n          end case;\n        when fehler =>\n          null;\n      end case;\n    end if;\n  end process transition_function;\n\n  state: process(clk, res_n) is\n  begin\n    if res_n = '0' then\n      current_state <= operand;\n    else\n      if clk'event and clk = '1' then\n        current_state <= next_state;\n      end if;\n    end if;\n  end process state;\nend architecture behav;",
+     "ziel": [
+      {
+       "t": "p",
+       "s": "Einen Mealy-Automaten schreiben, der zusammen mit dem Stack verschachtelte Ausdrücke prüft."
+      }
+     ],
+     "erklaerung": [
+      {
+       "t": "p",
+       "s": "Nach **F24 A2** (sinngemäß). Regeln:"
+      },
+      {
+       "t": "ul",
+       "items": [
+        "Ein **Ausdruck A** ist ein Operand B oder zwei Ausdrücke, getrennt durch `'-'`.",
+        "Ein **Operand B** ist `'x'`, `(A)` oder `[B]`.",
+        "`'!'` beendet die Zeichenkette."
+       ]
+      },
+      {
+       "t": "p",
+       "s": "Gültig: `x-x`, `(x-x)-[x]`, `[(((x-[x])-x))]`. Ungültig: `xx`, `x--x`, `[x-x]` (in eckigen Klammern steht nur ein Operand), `(x-x]`."
+      },
+      {
+       "t": "p",
+       "s": "Typen: `input_type is ('x', '-', '(', ')', '[', ']', '!')`, `output_type is ('0', '1', '*')`."
+      },
+      {
+       "t": "p",
+       "s": "Drei Zustände genügen:"
+      },
+      {
+       "t": "ul",
+       "items": [
+        "`operand`: ein Operand wird erwartet (am Anfang, nach `'-'`, `'('`, `'['`).",
+        "`operator`: ein Operand ist fertig, erlaubt sind `'-'`, `')'`, `']'`.",
+        "`fehler`: wartet auf `'!'`."
+       ]
+      },
+      {
+       "t": "p",
+       "s": "Der Stack merkt sich, welche Klammer offen ist; `tos` geht in die Übergangsbedingungen ein. Mealy: `y`, `push`, `pop`, `clr` hängen von Zustand **und** Eingang ab. Für jedes Zeichen außer `'!'` ist `y = '*'`."
+      },
+      {
+       "t": "code",
+       "lang": "vhdl",
+       "s": "entity fsm is\n  port(\n    clk, res_n : in  std_logic;\n    x          : in  input_type;\n    tos        : in  stack_output_type;\n    y          : out output_type;\n    push       : out stack_input_type;\n    pop, clr   : out boolean\n    );\nend entity fsm;"
+      }
+     ],
+     "aufgabe": [
+      {
+       "t": "ol",
+       "items": [
+        "Überlege für jeden Zustand: Welche Zeichen sind erlaubt, was passiert mit dem Stack?",
+        "Schreibe `architecture behav of fsm` mit `transition_function` (erzeugt auch alle Ausgänge) und `state`."
+       ]
+      }
+     ],
+     "aufgabeMd": "1. Überlege für jeden Zustand: Welche Zeichen sind erlaubt, was passiert mit dem Stack?\n2. Schreibe `architecture behav of fsm` mit `transition_function` (erzeugt auch alle Ausgänge) und `state`.",
+     "loesung": [
+      {
+       "t": "code",
+       "lang": "vhdl",
+       "s": "architecture behav of fsm is\n  type state_type is (operand, operator, fehler);\n  signal current_state, next_state : state_type;\nbegin\n  transition_function: process(current_state, x, tos) is\n  begin\n    next_state <= current_state;\n    y <= '*'; push <= epsilon; pop <= false; clr <= false;\n    if x = '!' then\n      clr <= true;\n      next_state <= operand;\n      if current_state = operator and tos = eos then\n        y <= '1';\n      else\n        y <= '0';\n      end if;\n    else\n      case current_state is\n        when operand =>\n          case x is\n            when 'x'    => next_state <= operator;\n            when '('    => push <= '(';\n            when '['    => push <= '[';\n            when others => next_state <= fehler;\n          end case;\n        when operator =>\n          case x is\n            when '-' =>\n              if tos = '[' then\n                next_state <= fehler;\n              else\n                next_state <= operand;\n              end if;\n            when ')' =>\n              if tos = '(' then pop <= true;\n              else next_state <= fehler; end if;\n            when ']' =>\n              if tos = '[' then pop <= true;\n              else next_state <= fehler; end if;\n            when others =>\n              next_state <= fehler;\n          end case;\n        when fehler =>\n          null;\n      end case;\n    end if;\n  end process transition_function;\n\n  state: process(clk, res_n) is\n  begin\n    if res_n = '0' then\n      current_state <= operand;\n    else\n      if clk'event and clk = '1' then\n        current_state <= next_state;\n      end if;\n    end if;\n  end process state;\nend architecture behav;"
+      },
+      {
+       "t": "p",
+       "s": "Prüfe mit `(x-[x]-x)-[[x]])`: Nach dem letzten `]` ist der Stapel leer, das zusätzliche `)` findet `tos = eos` → `fehler` → `y = '0'`."
+      }
+     ],
+     "loesungMd": "```vhdl\narchitecture behav of fsm is\n  type state_type is (operand, operator, fehler);\n  signal current_state, next_state : state_type;\nbegin\n  transition_function: process(current_state, x, tos) is\n  begin\n    next_state <= current_state;\n    y <= '*'; push <= epsilon; pop <= false; clr <= false;\n    if x = '!' then\n      clr <= true;\n      next_state <= operand;\n      if current_state = operator and tos = eos then\n        y <= '1';\n      else\n        y <= '0';\n      end if;\n    else\n      case current_state is\n        when operand =>\n          case x is\n            when 'x'    => next_state <= operator;\n            when '('    => push <= '(';\n            when '['    => push <= '[';\n            when others => next_state <= fehler;\n          end case;\n        when operator =>\n          case x is\n            when '-' =>\n              if tos = '[' then\n                next_state <= fehler;\n              else\n                next_state <= operand;\n              end if;\n            when ')' =>\n              if tos = '(' then pop <= true;\n              else next_state <= fehler; end if;\n            when ']' =>\n              if tos = '[' then pop <= true;\n              else next_state <= fehler; end if;\n            when others =>\n              next_state <= fehler;\n          end case;\n        when fehler =>\n          null;\n      end case;\n    end if;\n  end process transition_function;\n\n  state: process(clk, res_n) is\n  begin\n    if res_n = '0' then\n      current_state <= operand;\n    else\n      if clk'event and clk = '1' then\n        current_state <= next_state;\n      end if;\n    end if;\n  end process state;\nend architecture behav;\n```\nPrüfe mit `(x-[x]-x)-[[x]])`: Nach dem letzten `]` ist der Stapel leer, das zusätzliche `)` findet `tos = eos` → `fehler` → `y = '0'`.",
+     "klausur": [
+      {
+       "t": "p",
+       "s": "**F24 A2 F11** (Architecture `fsm`, Mealy, drei Zustände). Simulierbar in `am_rechner/L12/projekte_klausur.vhd` mit elf Testfolgen in `tb_projekte.vhd`."
       }
      ]
     }
